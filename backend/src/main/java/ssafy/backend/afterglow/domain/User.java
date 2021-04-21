@@ -2,12 +2,17 @@ package ssafy.backend.afterglow.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.springframework.data.annotation.Id;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Map;
 
 // 유저
+@Entity(name="User")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,9 +21,9 @@ import javax.persistence.GenerationType;
 public class User {
 
     // 일련번호
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("usr_id")
+    @Id
     private Integer usrId;
 
     // 이메일
@@ -37,3 +42,4 @@ public class User {
     @JsonProperty("usr_traveling_state")
     private Integer usrTravelingState;
 }
+
