@@ -15,9 +15,8 @@ import javax.persistence.GenerationType;
 @AllArgsConstructor
 @Builder
 public class User {
-
-    // 일련번호
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("usr_id")
     private Integer usrId;
 

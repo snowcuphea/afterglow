@@ -18,8 +18,8 @@ public class RouteRecord {
     private Integer routeRecId;
 
     @ManyToOne
-    @JoinColumn(name = "dayrecord")
-    private DailyRecord dayRecId;
+    @JoinColumn(name = "dayRec")
+    private DailyRecord day;
 
     private Double latitude;
     private Double longitude;

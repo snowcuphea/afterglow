@@ -18,8 +18,8 @@ public class ConsumptionRecord {
     private Integer conRecId;
 
     @ManyToOne
-    @JoinColumn(name = "dayrecord")
-    private DailyRecord dayRecId;
+    @JoinColumn(name = "dayRec")
+    private DailyRecord day;
 
     private String name;
     private Integer money;

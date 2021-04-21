@@ -18,8 +18,8 @@ public class PinRecord {
     private Integer pinId;
 
     @ManyToOne
-    @JoinColumn(name = "routerecord")
-    private RouteRecord routeId;
+    @JoinColumn(name = "routeRec")
+    private RouteRecord route;
 
     private String name;
     private String memo;

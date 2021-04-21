@@ -7,6 +7,7 @@ import ssafy.backend.afterglow.vo.ImageVo;
 import javax.persistence.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.Blob;
 
 @Entity
 @Getter
@@ -20,8 +21,9 @@ public class ImageRecord {
     private Integer imgId;
 
     @ManyToOne
-    @JoinColumn(name = "routerecord")
-    private RouteRecord routeId;
+    @JoinColumn(name = "routeRec")
+    private RouteRecord route;
 
-    //private ImageVo imgFile;
+    @Lob
+    private Blob imgFile;
 }

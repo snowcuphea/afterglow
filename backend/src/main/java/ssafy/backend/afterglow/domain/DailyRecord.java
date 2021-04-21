@@ -19,7 +19,7 @@ public class DailyRecord {
 
     @ManyToOne
     @JoinColumn(name = "record")
-    private Record recId;
+    private Record rec;
 
     private String recName;
     private LocalDate recDay;
