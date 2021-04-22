@@ -1,26 +1,29 @@
 package ssafy.backend.afterglow.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name="PinRecord")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class PinRecord {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("pr_id")
+    @Id
     private Integer pinId;
 
+    @JsonProperty("rr")
     @ManyToOne
-    @JoinColumn(name = "routeRec")
-    private RouteRecord route;
+    @JoinColumn(name = "rrId")
+    private RouteRecord rr;
 
-    private String name;
-    private String memo;
+    @JsonProperty("pr_name")
+    private String prName;
+    @JsonProperty("pr_memo")
+    private String prMemo;
 }

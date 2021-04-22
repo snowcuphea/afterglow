@@ -1,28 +1,32 @@
 package ssafy.backend.afterglow.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name="RouteRecord")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class RouteRecord {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer routeRecId;
+    @JsonProperty("rr_id")
+    @Id
+    private Integer rrId;
 
+    @JsonProperty("dr")
     @ManyToOne
-    @JoinColumn(name = "dayRec")
-    private DailyRecord day;
+    @JoinColumn(name = "drId")
+    private DailyRecord dr;
 
-    private Double latitude;
-    private Double longitude;
-    private LocalDateTime time;
+    @JsonProperty("rr_latitude")
+    private Double rrLatitude;
+    @JsonProperty("rr_longitude")
+    private Double rrLongitude;
+    @JsonProperty("rr_time")
+    private LocalDateTime rrTime;
 
 }

@@ -1,21 +1,25 @@
 package ssafy.backend.afterglow.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name="TourDestination")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class TourDestination {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer imgId;
-    private String name;
-    private String latitude;
-    private String longitude;
+    @JsonProperty("td_id")
+    @Id
+    private Integer tdId;
+
+    @JsonProperty("td_name")
+    private String tdName;
+    @JsonProperty("td_latitude")
+    private String tdLatitude;
+    @JsonProperty("td_longitude")
+    private String tdLongitude;
 
 }

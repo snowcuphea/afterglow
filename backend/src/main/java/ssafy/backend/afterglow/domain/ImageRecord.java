@@ -1,29 +1,28 @@
 package ssafy.backend.afterglow.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
-import ssafy.backend.afterglow.vo.ImageVo;
 
 import javax.persistence.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.sql.Blob;
 
-@Entity
+@Entity(name="ImageRecord")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ImageRecord {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("pr_id")
+    @Id
     private Integer imgId;
 
+    @JsonProperty("rr")
     @ManyToOne
-    @JoinColumn(name = "routeRec")
-    private RouteRecord route;
+    @JoinColumn(name = "rrId")
+    private RouteRecord rr;
 
+    @JsonProperty("ir_image")
     @Lob
-    private Blob imgFile;
+    private Blob irImage;
+
 }

@@ -1,28 +1,33 @@
 package ssafy.backend.afterglow.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name="ConsumptionRecord")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ConsumptionRecord {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer conRecId;
+    @JsonProperty("cr_id")
+    @Id
+    private Integer crId;
 
+    @JsonProperty("dr")
     @ManyToOne
-    @JoinColumn(name = "dayRec")
-    private DailyRecord day;
+    @JoinColumn(name = "drId")
+    private DailyRecord dr;
 
-    private String name;
-    private Integer money;
-    private LocalDateTime dateTime;
+    @JsonProperty("cr_name")
+    private String crName;
+    @JsonProperty("cr_money")
+    private Integer crMoney;
+    @JsonProperty("cr_datetime")
+    private LocalDateTime crDatetime;
 
 }

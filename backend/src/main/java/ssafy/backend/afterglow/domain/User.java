@@ -8,16 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-@Entity
+@Entity(name="User")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class User {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("usr_id")
+    @Id
     private Integer usrId;
 
     @JsonProperty("usr_email")
@@ -28,4 +26,13 @@ public class User {
     private String usrNickname;
     @JsonProperty("usr_traveling_state")
     private Integer usrTravelingState;
+
+//    @Builder
+//    public User(String usrEmail, String usrPwd, String usrNickname, Integer usrTravelingState){
+//        super();
+//        this.usrEmail = usrEmail;
+//        this.usrPwd = usrPwd;
+//        this.usrNickname = usrNickname;
+//        this.usrTravelingState = usrTravelingState;
+//    }
 }
