@@ -1,4 +1,7 @@
 package ssafy.backend.afterglow.repository;
 
-public class UserRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository {
 }
