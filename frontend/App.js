@@ -9,22 +9,38 @@ import {
   View,
 } from 'react-native';
 
+import { createAppContainer } from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {createStackNavigator} from 'react-navigation-stack';
+import {DrawerActions} from 'react-navigation-drawer'
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import Home from './navigation/Home'
+import Travel from './navigation/Travel'
+
 import HelloWorld from "./components/HelloWorld"
 
-export default function App() {
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <HelloWorld />
-    </SafeAreaView>
-  )
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    // paddingTop: Platform.OS === "android" ? StatusBarManager.HEIGHT: 0,
-    // paddingHorizontal: 10,
+const App = createStackNavigator(
+  {
+    Home: {
+      screen: Home,
+    }
   },
-})
+  {
+    Travel: {
+      screen: Travel,
+    }
+  },
+  {
+    initialRouteName: 'Home'
+  }
+);
+
+const AppContainer = createAppContainer(App);
+
+export default () => {
+  <AppContainer />
+}
