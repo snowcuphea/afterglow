@@ -18,9 +18,6 @@ class Home extends React.Component {
   //   console.log("drawer")
   // }
 
-  static navigationOptions = {
-    headerRight: false
-  };
 
   startTravel = () => {
     console.log("여기")
