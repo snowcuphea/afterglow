@@ -18,6 +18,7 @@ class Home extends React.Component {
     console.log("drawer")
   }
 
+<<<<<<< HEAD
   static navigationOptions = {
     headerRight: (
       <TouchableOpacity 
@@ -28,6 +29,8 @@ class Home extends React.Component {
       </TouchableOpacity>
     ),
   };
+=======
+>>>>>>> 26891759eef7409951f16abcaab6b63fc4fbc10c
 
   startTravel = () => {
     console.log("여기")
