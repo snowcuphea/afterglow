@@ -43,6 +43,9 @@ const App = createStackNavigator(
     },
     SingleImage: {
       screen: SingleImage,
+    },
+    TravelStart: {
+      screen: TravelStart,
     }
   },
   {

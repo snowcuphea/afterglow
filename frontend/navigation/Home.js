@@ -14,12 +14,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 class Home extends React.Component {
 
-  // openDrawer = () => {
-  //   console.log("drawer")
-  // }
+  openDrawer = () => {
+    console.log("drawer")
+  }
 
   static navigationOptions = {
-    headerRight: false
+    headerRight: (
+      <TouchableOpacity 
+        style={{paddingRight: 10}} 
+        onPress={this.openDrawer}
+      >
+        <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
+      </TouchableOpacity>
+    ),
   };
 
   startTravel = () => {
