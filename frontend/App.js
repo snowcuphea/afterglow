@@ -7,7 +7,8 @@ import {
   Text,
   useColorScheme,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Button
 } from 'react-native';
 
 import { createAppContainer } from 'react-navigation';
@@ -50,14 +51,14 @@ const App = createStackNavigator(
       headerStyle: {
         backgroundColor: "pink"
       },
-      headerRight: (
+      headerRight: () => (
         <TouchableOpacity 
-          style={{paddingRight: 10}} 
-          onPress={this.openDrawer}
+          style={{paddingRight: 10}}
+          onPress={() => console.log("hello")}
         >
           <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
         </TouchableOpacity>
-      ),
+        )
     }
   }
 );
