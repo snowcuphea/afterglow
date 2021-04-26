@@ -14,10 +14,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 class Home extends React.Component {
 
-  openDrawer = () => {
-    console.log("drawer")
-  }
+  // openDrawer = () => {
+  //   console.log("drawer")
+  // }
 
+<<<<<<< HEAD
   static navigationOptions = {
     headerRight: (
       <TouchableOpacity 
@@ -28,6 +29,8 @@ class Home extends React.Component {
       </TouchableOpacity>
     ),  
   };
+=======
+>>>>>>> 26891759eef7409951f16abcaab6b63fc4fbc10c
 
   startTravel = () => {
     console.log("여기")
