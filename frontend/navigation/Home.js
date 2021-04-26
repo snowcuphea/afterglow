@@ -3,15 +3,31 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 
+import { Header } from 'react-native-elements'
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 class Home extends React.Component {
 
-  // static navigationOptions = {
-  //   headerShown: false,
-  // };
+  openDrawer = () => {
+    console.log("drawer")
+  }
+
+  static navigationOptions = {
+    headerRight: (
+      <TouchableOpacity 
+        style={{paddingRight: 10}} 
+        onPress={this.openDrawer}
+      >
+        <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
+      </TouchableOpacity>
+    ),
+  };
 
   startTravel = () => {
     console.log("여기")
@@ -21,14 +37,14 @@ class Home extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        {/* <Header
+          leftComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+          rightComponent={{ icon: 'menu', color: '#fff' }}
+        /> */}
         <Text>
           지도가 보여지는 홈화면
         </Text>
-        {/* <Button title={"여행하기"} onPress={this.startTravel}/> */}
-        <Button
-          title="Go to Home Screen"
-          onPress={() => this.props.navigation.navigate('Travel')}
-        />
+        <Button title={"여행하기"} onPress={this.startTravel}/>
       </View>
     )
   }
@@ -39,7 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   }
 })
 
