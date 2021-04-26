@@ -7,19 +7,23 @@ import {
 } from 'react-native';
 
 
-class Travel extends React.Component {
+class AllImages extends React.Component {
 
   // static navigationOptions = {
   //   headerShown: false,
   // };
 
+  toSingleImage = () => {
+    this.props.navigation.navigate('SingleImage')
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <Text>
-          여행중 화면
+          사진 모아보기 페이지
         </Text>
+        <Button title={'사진 하나보기'} onPress={this.toSingleImage}/>
       </View>
     )
   }
@@ -34,4 +38,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Travel;
+export default AllImages;
