@@ -9,9 +9,10 @@ import {
 
 class Travel extends React.Component {
 
-  // static navigationOptions = {
-  //   headerShown: false,
-  // };
+  static navigationOptions = {
+    // headerShown: false,
+    headerRight: false,
+  };
 
   toAllImages = () => {
     this.props.navigation.navigate('AllImages')

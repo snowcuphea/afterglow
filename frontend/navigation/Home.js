@@ -26,7 +26,7 @@ class Home extends React.Component {
       >
         <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
       </TouchableOpacity>
-    ),
+    ),  
   };
 
   startTravel = () => {
