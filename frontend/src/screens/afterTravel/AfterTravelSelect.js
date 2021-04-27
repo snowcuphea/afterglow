@@ -8,12 +8,23 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { CommonActions } from '@react-navigation/native'
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class AfterTravelSelect extends React.Component {
 
   savePicture = () => {
-    this.props.navigation.navigate('AfterTravelMain')
+
+    this.props.navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home' },
+          { name: 'AfterTravelMain'},
+        ]
+      })
+    )
   }
 
   render() {

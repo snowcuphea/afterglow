@@ -24,7 +24,7 @@ export default class AfterDayMain extends React.Component {
     return (
       <View style={styles.container}>
         <Text>
-          여행 중 화면
+          하루끝 화면
         </Text>
         <Button title={"핀 선택하기"} onPress={this.selectPin}/>
         <Button title={"사진모아보기"} onPress={this.allPictures}/>

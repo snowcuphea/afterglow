@@ -52,7 +52,6 @@ const StackComponent = () => {
       headerMode="float"
       animation="fade"
     >
-
       <Stack.Screen 
         name="Home"
         component={HomeScreen}
