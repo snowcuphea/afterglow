@@ -8,20 +8,12 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { Header } from 'react-native-elements'
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-class Home extends React.Component {
-
-  // openDrawer = () => {
-  //   console.log("drawer")
-  // }
-
+export default class HomeScreen extends React.Component {
 
   startTravel = () => {
-    console.log("여기")
-    this.props.navigation.navigate('Travel')
+    this.props.navigation.navigate('OnTravelMain')
   }
 
   render() {
@@ -34,7 +26,7 @@ class Home extends React.Component {
         <Text style={styles.textStyle}>
           지도가 보여지는 홈화면
         </Text>
-        <Button title={"여행하기"} onPress={this.startTravel}/>
+        <Button title={"여행가기"} onPress={this.startTravel}/>
       </View>
     )
   }
@@ -53,5 +45,3 @@ const styles = StyleSheet.create({
   }
 
 })
-
-export default Home;
