@@ -7,23 +7,21 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import ssafy.backend.afterglow.domain.IntegrationEntity;
-import ssafy.backend.afterglow.domain.KakaoOAuth2User;
-import ssafy.backend.afterglow.dto.CustomIntegrationDto;
+import ssafy.backend.afterglow.domain.User;
 import ssafy.backend.afterglow.dto.OAuthAttributes;
-import ssafy.backend.afterglow.repository.IntegrationRepository;
+import ssafy.backend.afterglow.repository.UserRepository;
 
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class KakaoOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final IntegrationRepository integrationRepository;
+    private final UserRepository userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -34,16 +32,19 @@ public class KakaoOAuth2UserService implements OAuth2UserService<OAuth2UserReque
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        IntegrationEntity kakaointegrationEntity = saveOrUpdate(attributes);
+        User kakaointegrationEntity = saveOrUpdate(attributes);
 
-        return oAuth2User;
+        return new DefaultOAuth2User(
+               Collections.singleton(new SimpleGrantedAuthority(kakaointegrationEntity.getAuthorities().toString())),
+               attributes.getAttributes(),
+               attributes.getNameAttributeKey());
     }
 
-    private IntegrationEntity saveOrUpdate(OAuthAttributes attributes) {
-        IntegrationEntity kakaoEntity = integrationRepository.findByUsrEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getNickname(), attributes.getEmail()))
+    private User saveOrUpdate(OAuthAttributes attributes) {
+        User kakaoEntity = userRepository.findByUsername(attributes.toEntity().getUsername())
+                .map(entity -> entity.update(attributes.getUsername()))
                 .orElse(attributes.toEntity());
 
-        return integrationRepository.save(kakaoEntity);
+        return userRepository.save(kakaoEntity);
     }
 }
