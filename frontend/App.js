@@ -1,67 +1,18 @@
-import React from 'react';
-import {
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react'
+import { View, TouchableOpacity, Text, Button } from 'react-native'
 
-import { createAppContainer } from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { NavigationContainer } from '@react-navigation/native'
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import DrawerComponent from './src/Drawer'
 
-import Home from './navigation/Home'
-import Travel from './navigation/travelling/Travel'
-import AllImages from './navigation/travelling/AllImages';
-import SingleImage from './navigation/travelling/SingleImage';
-import DaySaveImages from './navigation/dayend/DaySaveImages';
-import DayEnd from './navigation/dayend/DayEnd';
-import ToImgs from './navigation/ToImgs';
+export default class App extends React.Component {
 
-
-const App = createStackNavigator(
-  {
-    Home: {
-      screen: Home,
-    },
-    Travel: {
-      screen: Travel,
-    },
-    AllImages: {
-      screen: AllImages,
-    },
-    SingleImage: {
-      screen: SingleImage,
-    },
-    DaySaveImages: {
-      screen: DaySaveImages,
-    },
-    DayEnd: {
-      screen: DayEnd
-    },
-    ToImgs: {
-      screen: ToImgs
-    }
-
-  },
-  {
-    initialRouteName: 'Home',
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "pink"
-      },
-      headerRight: () => (
-        <TouchableOpacity 
-          style={{paddingRight: 10}}
-          onPress={() => this.props.navigation.openDrawer()}
-        >
-          <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
-        </TouchableOpacity>
-        )
-    }
+  render() {
+    return (
+      <NavigationContainer>
+        <DrawerComponent />
+      </NavigationContainer>
+    )
   }
-);
+}
 
-const AppContainer = createAppContainer(App);
-
-export default () => (
-  <AppContainer />
-);
