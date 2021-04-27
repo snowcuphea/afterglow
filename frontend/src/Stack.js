@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, TouchableOpacity, Text, Button } from 'react-native'
 
-import { createStackNavigator, } from '@react-navigation/stack' 
+import { createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack' 
 import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -42,8 +42,10 @@ const StackComponent = () => {
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions = {{
-        headerRight: () => <MenuBar />
-
+        headerRight: () => <MenuBar />,
+        // gestureEnabled: true,
+        // gestureDirection: "horizontal",
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
       }}
       headerMode="float"
       animation="fade"
