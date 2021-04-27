@@ -24,7 +24,11 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
+        {/* <Header
+          leftComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+          rightComponent={{ icon: 'menu', color: '#fff' }}
+        /> */}
+        <Text style={styles.textStyle}>
           지도가 보여지는 홈화면
         </Text>
         <Button title={"여행하기"} onPress={this.startTravel}/>
@@ -40,5 +44,10 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  textStyle: {
+    fontFamily: 'RIDIBatang',
+
   }
+
 })
