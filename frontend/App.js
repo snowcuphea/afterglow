@@ -12,8 +12,9 @@ import Home from './navigation/Home'
 import Travel from './navigation/travelling/Travel'
 import AllImages from './navigation/travelling/AllImages';
 import SingleImage from './navigation/travelling/SingleImage';
-import DaySaveImages from './navigation/dayend/DaySaveImages'
+import DaySaveImages from './navigation/dayend/DaySaveImages';
 import DayEnd from './navigation/dayend/DayEnd';
+import ToImgs from './navigation/ToImgs';
 
 
 const App = createStackNavigator(
@@ -30,16 +31,14 @@ const App = createStackNavigator(
     SingleImage: {
       screen: SingleImage,
     },
-<<<<<<< HEAD
-    TravelStart: {
-      screen: TravelStart,
-=======
     DaySaveImages: {
       screen: DaySaveImages,
     },
     DayEnd: {
       screen: DayEnd
->>>>>>> 26891759eef7409951f16abcaab6b63fc4fbc10c
+    },
+    ToImgs: {
+      screen: ToImgs
     }
 
   },

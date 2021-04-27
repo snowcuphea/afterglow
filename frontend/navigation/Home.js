@@ -18,23 +18,15 @@ class Home extends React.Component {
     console.log("drawer")
   }
 
-<<<<<<< HEAD
-  static navigationOptions = {
-    headerRight: (
-      <TouchableOpacity 
-        style={{paddingRight: 10}} 
-        onPress={this.openDrawer}
-      >
-        <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
-      </TouchableOpacity>
-    ),
-  };
-=======
->>>>>>> 26891759eef7409951f16abcaab6b63fc4fbc10c
 
   startTravel = () => {
     console.log("여기")
     this.props.navigation.navigate('Travel')
+  }
+
+  toImgs = () => {
+    console.log('이미지')
+    this.props.navigation.navigate('ToImgs')
   }
 
   render() {
@@ -48,6 +40,7 @@ class Home extends React.Component {
           지도가 보여지는 홈화면
         </Text>
         <Button title={"여행하기"} onPress={this.startTravel}/>
+        <Button title={"이미지 배열"} onPress={this.toImgs}/>
       </View>
     )
   }
