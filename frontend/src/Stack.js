@@ -17,7 +17,7 @@ import AfterDaySinglePicture from './screens/afterDay/AfterDaySinglePicture';
 import AfterTravelSelect from './screens/afterTravel/AfterTravelSelect';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 
-import Images from './components/Images'
+import Pictures from './components/Pictures'
 
 const Stack = createStackNavigator();
 
@@ -119,8 +119,8 @@ const StackComponent = () => {
         }}
       />
       <Stack.Screen 
-        name="Images"
-        component={Images}
+        name="Pictures"
+        component={Pictures}
         options={{
           title: '사진 업로드'
         }}

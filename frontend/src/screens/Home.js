@@ -16,8 +16,8 @@ export default class HomeScreen extends React.Component {
     this.props.navigation.navigate('OnTravelMain')
   }
 
-  Images = () => {
-    this.props.navigation.navigate('Images')
+  Pictures = () => {
+    this.props.navigation.navigate('Pictures')
   }
 
 
@@ -28,7 +28,7 @@ export default class HomeScreen extends React.Component {
           지도가 보여지는 홈화면
         </Text>
         <Button title={"여행하기"} onPress={this.startTravel}/>
-        <Button title={"사진 업로드"} onPress={this.Images}/>
+        <Button title={"사진 업로드"} onPress={this.Pictures}/>
       </View>
     )
   }
