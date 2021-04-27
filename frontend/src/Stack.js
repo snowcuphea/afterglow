@@ -9,13 +9,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/Home'
 import OnTravelMain from './screens/onTravel/OnTravelMain';
 import OnTravelAllPictures from './screens/onTravel/OnTravelAllPictures';
+import OnTravelShare from './screens/onTravel/OnTravelShare';
 import OnTravelSinglePicture from './screens/onTravel/OnTravelSinglePicture';
 import AfterDaySelect from './screens/afterDay/AfterDaySelect';
 import AfterDayMain from './screens/afterDay/AfterDayMain';
 import AfterDayAllPictures from './screens/afterDay/AfterDayAllPictures';
+import AfterDayShare from './screens/afterDay/AfterDayShare';
 import AfterDaySinglePicture from './screens/afterDay/AfterDaySinglePicture';
 import AfterTravelSelect from './screens/afterTravel/AfterTravelSelect';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
+import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
 
 const Stack = createStackNavigator();
 
@@ -75,6 +78,13 @@ const StackComponent = () => {
         }}
       />
       <Stack.Screen 
+        name="OnTravelShare"
+        component={OnTravelShare}
+        options={{
+          title: "여행 중 사진공유"
+        }}
+      />
+      <Stack.Screen 
         name="AfterDaySelect"
         component={AfterDaySelect}
         options={{
@@ -96,6 +106,13 @@ const StackComponent = () => {
         }}
       />
       <Stack.Screen 
+        name="AfterDayShare"
+        component={AfterDayShare}
+        options={{
+          title: "하루 끝 사진 공유하기"
+        }}
+      />
+      <Stack.Screen 
         name="AfterDaySinglePicture"
         component={AfterDaySinglePicture}
         options={{
@@ -114,6 +131,13 @@ const StackComponent = () => {
         component={AfterTravelMain}
         options={{
           title: "여행 끝"
+        }}
+      />
+      <Stack.Screen 
+        name="AfterTravelShare"
+        component={AfterTravelShare}
+        options={{
+          title: "여행 끝 공유하기"
         }}
       />
     </Stack.Navigator>

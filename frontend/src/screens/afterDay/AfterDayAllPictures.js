@@ -13,7 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default class AfterDayAllPictures extends React.Component {
 
   sharePictures = () => {
-
+    this.props.navigation.navigate('AfterDayShare')
   }
 
   selectPicture = () => {

@@ -10,24 +10,22 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default class OnTravelAllPictures extends React.Component {
+export default class OnTravelShare extends React.Component {
 
-  sharePictures = () => {
-    this.props.navigation.navigate('OnTravelShare')
+  shareInsta = () => {
   }
 
-  selectPicture = () => {
-    this.props.navigation.navigate('OnTravelSinglePicture')
+  shareKakao = () => {
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text>
-          사진 모아보기
+          사진 공유하기
         </Text>
-        <Button title={"사진 공유하기"} onPress={this.sharePictures}/>
-        <Button title={"사진 하나 선택"} onPress={this.selectPicture}/>
+        <Button title={"인스타 공유하기"} onPress={this.shareInsta}/>
+        <Button title={"카카오 공유하기"} onPress={this.shareKakao}/>
       </View>
     )
   }
