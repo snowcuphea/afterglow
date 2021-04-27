@@ -23,55 +23,44 @@ import java.util.stream.Collectors;
 @Builder
 public class User implements UserDetails, CredentialsContainer {
 
-    // 일련번호
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("usr_id")
-    @Id
     private Long usrId;
 
-    // 이메일
+    @Column(length = 50, unique = true, nullable = false)
     @JsonProperty("usr_email")
     private String usrEmail;
 
-    // 비밀번호
-    @JsonProperty("usr_pwd")
-    private String usrPwd;
-
-    // 프로필 이미지
-    @JsonProperty("usr_profile_img")
-    private String usrProfileImg;
-
-    // 성별
-    @JsonProperty("usr_gender")
-    private String usrGender;
-
-    // 연령대
-    @JsonProperty("usr_age_range")
-    private String usrAgeRange;
-
-    // 닉네임
+    @Column(nullable = false, unique = true)
     @JsonProperty("usr_nickname")
     private String usrNickname;
 
-    // 여행 중 여부
-    @JsonProperty("usr_traveling_state")
-    private Integer usrTravelingState;
+    @Column(nullable = true, length = 200)
+    @JsonProperty("usr_password")
+    private String usrPwd;
 
-    // Roles
+    @JsonProperty("usr_profile_img")
+    @Column(nullable = true)
+    private String usrProfileImg;
+
+    @Column(nullable = true)
+    @JsonProperty("usr_gender")
+    private String usrGender;
+
+    @Column(nullable = true)
+    @JsonProperty("usr_age_range")
+    private String usrAgeRange;
+
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     @JsonProperty("usr_roles")
-    private List<String> roles;
+    private List<String> roles = new ArrayList<>();
 
-
-	public User(String username, String password,
-			Collection<? extends GrantedAuthority> authorities) {
-		this(username, password, authorities);
-	}
-
-    public User(String username, String password, boolean b, boolean b1, boolean b2, boolean b3, Collection<? extends GrantedAuthority> authorities) {
-    }
+    @JsonProperty("usr_traveling_state")
+    @Column(nullable = false)
+    private Integer usrTravelingState=0;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

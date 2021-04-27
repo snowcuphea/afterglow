@@ -11,10 +11,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import ssafy.backend.afterglow.domain.IntegrationEntity;
 import ssafy.backend.afterglow.domain.KakaoOAuth2User;
+import ssafy.backend.afterglow.dto.CustomIntegrationDto;
 import ssafy.backend.afterglow.dto.OAuthAttributes;
 import ssafy.backend.afterglow.repository.IntegrationRepository;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,12 +36,12 @@ public class KakaoOAuth2UserService implements OAuth2UserService<OAuth2UserReque
 
         IntegrationEntity kakaointegrationEntity = saveOrUpdate(attributes);
 
-        return new KakaoOAuth2User();
+        return oAuth2User;
     }
 
     private IntegrationEntity saveOrUpdate(OAuthAttributes attributes) {
-        IntegrationEntity kakaoEntity = integrationRepository.findByName(attributes.getName())
-                .map(entity -> entity.update(attributes.getName(), attributes.getEmail()))
+        IntegrationEntity kakaoEntity = integrationRepository.findByUsrEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getNickname(), attributes.getEmail()))
                 .orElse(attributes.toEntity());
 
         return integrationRepository.save(kakaoEntity);

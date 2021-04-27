@@ -11,7 +11,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-//import ssafy.backend.afterglow.domain.KakaoOAuth2User;
 import ssafy.backend.afterglow.domain.KakaoOAuth2User;
 import ssafy.backend.afterglow.service.KakaoOAuth2UserService;
 

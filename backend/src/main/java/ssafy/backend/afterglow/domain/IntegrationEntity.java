@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
-@Entity(name = "user")
+@Entity(name = "IntegrationEntity")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class IntegrationEntity extends BaseTimeEntity {
 
@@ -29,13 +29,17 @@ public class IntegrationEntity extends BaseTimeEntity {
     @JsonProperty("usr_email")
     private String usrEmail;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     @JsonProperty("usr_nickname")
     private String usrNickname;
 
     @Column(nullable = true, length = 200)
     @JsonProperty("usr_password")
     private String usrPwd;
+
+    @JsonProperty("usr_profile_img")
+    @Column(nullable = true)
+    private String usrProfileImg;
 
     @Column(nullable = true)
     @JsonProperty("usr_gender")
@@ -47,7 +51,6 @@ public class IntegrationEntity extends BaseTimeEntity {
 
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
     @JsonProperty("usr_roles")
     private List<String> roles = new ArrayList<>();
 
@@ -58,7 +61,7 @@ public class IntegrationEntity extends BaseTimeEntity {
     }
 
     @Builder
-    public IntegrationEntity(Long usrId, String usrEmail, String usrNickname, String usrPwd, List<String> roles, String usrGender, String usrAgeRange) {
+    public IntegrationEntity(Long usrId, String usrEmail, String usrNickname, String usrPwd, List<String> roles, String usrGender, String usrAgeRange, String usrProfileImg) {
         this.usrId = usrId;
         this.usrEmail = usrEmail;
         this.usrNickname = usrNickname;
@@ -66,6 +69,7 @@ public class IntegrationEntity extends BaseTimeEntity {
         this.roles = roles;
         this.usrGender = usrGender;
         this.usrAgeRange = usrAgeRange;
+        this.usrProfileImg = usrProfileImg;
     }
 
     public IntegrationEntity update(String usrNickname, String usrEmail) {
