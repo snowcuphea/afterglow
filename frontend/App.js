@@ -1,20 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
   TouchableOpacity,
-  Button
 } from 'react-native';
 
 import { createAppContainer } from 'react-navigation';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
-import {DrawerActions} from 'react-navigation-drawer'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -22,13 +12,9 @@ import Home from './navigation/Home'
 import Travel from './navigation/travelling/Travel'
 import AllImages from './navigation/travelling/AllImages';
 import SingleImage from './navigation/travelling/SingleImage';
+import DaySaveImages from './navigation/dayend/DaySaveImages'
+import DayEnd from './navigation/dayend/DayEnd';
 
-import HelloWorld from "./components/HelloWorld"
-
-
-const openDrawer = () => {
-  console.log("hello")
-}
 
 const App = createStackNavigator(
   {
@@ -43,7 +29,14 @@ const App = createStackNavigator(
     },
     SingleImage: {
       screen: SingleImage,
+    },
+    DaySaveImages: {
+      screen: DaySaveImages,
+    },
+    DayEnd: {
+      screen: DayEnd
     }
+
   },
   {
     initialRouteName: 'Home',
@@ -54,7 +47,7 @@ const App = createStackNavigator(
       headerRight: () => (
         <TouchableOpacity 
           style={{paddingRight: 10}}
-          onPress={() => console.log("hello")}
+          onPress={() => this.props.navigation.openDrawer()}
         >
           <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
         </TouchableOpacity>

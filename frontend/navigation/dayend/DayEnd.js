@@ -6,26 +6,20 @@ import {
   Button
 } from 'react-native';
 
-import PictureLayouts from '../../components/picture/PictureLayout'
 
-class AllImages extends React.Component {
+class DayEnd extends React.Component {
 
   // static navigationOptions = {
   //   headerShown: false,
   // };
 
-  toSingleImage = () => {
-    this.props.navigation.navigate('SingleImage')
-  }
 
   render() {
     return (
       <View style={styles.container}>
         <Text>
-          사진 모아보기 페이지
+          하루 끝 화면
         </Text>
-        <Button title={'사진 하나보기'} onPress={this.toSingleImage}/>
-        <PictureLayouts />
       </View>
     )
   }
@@ -40,4 +34,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default AllImages;
+export default DayEnd;
