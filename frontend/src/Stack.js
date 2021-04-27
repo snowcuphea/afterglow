@@ -17,6 +17,8 @@ import AfterDaySinglePicture from './screens/afterDay/AfterDaySinglePicture';
 import AfterTravelSelect from './screens/afterTravel/AfterTravelSelect';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 
+import Pictures from './components/Pictures'
+
 const Stack = createStackNavigator();
 
 const MenuBar = () => {
@@ -114,6 +116,13 @@ const StackComponent = () => {
         component={AfterTravelMain}
         options={{
           title: "여행 끝"
+        }}
+      />
+      <Stack.Screen 
+        name="Pictures"
+        component={Pictures}
+        options={{
+          title: '사진 업로드'
         }}
       />
     </Stack.Navigator>
