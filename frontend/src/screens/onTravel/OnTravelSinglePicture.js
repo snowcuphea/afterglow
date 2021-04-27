@@ -3,35 +3,30 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-class DayEnd extends React.Component {
-
-  // static navigationOptions = {
-  //   headerShown: false,
-  // };
-
+export default class OnTravelSinglePicture extends React.Component {
 
   render() {
     return (
       <View style={styles.container}>
         <Text>
-          하루 끝 화면
+          사진 하나 보기
         </Text>
       </View>
     )
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex:1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   }
 })
-
-export default DayEnd;
