@@ -3,34 +3,30 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-class SingleImage extends React.Component {
-
-  // static navigationOptions = {
-  //   headerShown: false,
-  // };
+export default class AfterDaySinglePicture extends React.Component {
 
   render() {
     return (
       <View style={styles.container}>
         <Text>
-          사진 하나보기 페이지
+          사진 하나 보기
         </Text>
       </View>
     )
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex:1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   }
 })
-
-export default SingleImage;
