@@ -24,7 +24,7 @@ public class UserController {
         this.authorizedClientService = authorizedClientService;
     }
 
-    @GetMapping("/users/me/token")
+    @GetMapping("/")
     public ResponseEntity<Object> currentUserToken(@AuthenticationPrincipal Principal principal) {
         if(principal instanceof OAuth2AuthenticationToken) {
             Map<String, Object> attributes = new HashMap<>();
@@ -37,6 +37,29 @@ public class UserController {
             attributes.put("name", oAuth2AuthenticationToken.getName());
             attributes.put("accessToken", accessToken);
             attributes.put("refreshToken", refreshToken);
+            System.out.println("done");
+            System.out.println(attributes);
+            return ResponseEntity.ok(attributes);
+        }
+
+        return ResponseEntity.ok(principal);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Object> test(Principal principal) {
+        if(principal instanceof OAuth2AuthenticationToken) {
+            Map<String, Object> attributes = new HashMap<>();
+            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
+
+            OAuth2AuthorizedClient oAuth2AuthorizedClient = authorizedClientService.loadAuthorizedClient(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId(), oAuth2AuthenticationToken.getName());
+            OAuth2AccessToken accessToken = oAuth2AuthorizedClient.getAccessToken();
+            OAuth2RefreshToken refreshToken = oAuth2AuthorizedClient.getRefreshToken();
+
+            attributes.put("name", oAuth2AuthenticationToken.getName());
+            attributes.put("accessToken", accessToken);
+            attributes.put("refreshToken", refreshToken);
+            System.out.println("done");
+            System.out.println(attributes);
             return ResponseEntity.ok(attributes);
         }
 

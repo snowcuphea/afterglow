@@ -32,19 +32,18 @@ public class KakaoOAuth2UserService implements OAuth2UserService<OAuth2UserReque
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        User kakaointegrationEntity = saveOrUpdate(attributes);
-
+        User user = saveOrUpdate(attributes);
         return new DefaultOAuth2User(
-               Collections.singleton(new SimpleGrantedAuthority(kakaointegrationEntity.getAuthorities().toString())),
+               Collections.singleton(new SimpleGrantedAuthority(user.getAuthorities().toString())),
                attributes.getAttributes(),
                attributes.getNameAttributeKey());
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
-        User kakaoEntity = userRepository.findByUsername(attributes.toEntity().getUsername())
+        User user = userRepository.findByUsername(attributes.toEntity().getUsername())
                 .map(entity -> entity.update(attributes.getUsername()))
                 .orElse(attributes.toEntity());
 
-        return userRepository.save(kakaoEntity);
+        return userRepository.save(user);
     }
 }

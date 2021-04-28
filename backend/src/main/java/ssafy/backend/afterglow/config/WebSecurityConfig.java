@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import ssafy.backend.afterglow.repository.RememberMeTokenRepository;
 import ssafy.backend.afterglow.service.KakaoOAuth2UserService;
 import ssafy.backend.afterglow.service.UserService;
 
@@ -34,14 +35,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .rememberMe()
-                    .alwaysRemember(true)
+                    .key(remember_me_secret)
+                    .tokenValiditySeconds(60 * 60 * 24 * 7 * 90)
+                    .rememberMeParameter("auto_login")
+                    .rememberMeCookieName("remember-me")
+                    .tokenRepository(rememberMeTokenRepository())
                     .userDetailsService(userService)
+                    .rememberMeServices(rememberMeServices())
                 .and()
                     .csrf().disable()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests()
-                    .antMatchers().hasRole("USER")
                     .anyRequest().permitAll()
                 .and()
                     .logout()
@@ -72,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PersistentTokenBasedRememberMeServices rememberMeServices() {
-        PersistentTokenBasedRememberMeServices rememberMeServices = new PersistentTokenBasedRememberMeServices(remember_me_secret, userService, tokenRepository());
+        PersistentTokenBasedRememberMeServices rememberMeServices = new PersistentTokenBasedRememberMeServices(remember_me_secret, userService, rememberMeTokenRepository());
         rememberMeServices.setAlwaysRemember(true);
         rememberMeServices.setCookieName("remember-me");
         rememberMeServices.setTokenValiditySeconds(60 * 60 * 24 * 90);
@@ -80,9 +85,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PersistentTokenRepository tokenRepository() {
-        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
-        jdbcTokenRepository.setDataSource(dataSource);
-        return jdbcTokenRepository;
+    RememberMeTokenRepository rememberMeTokenRepository() {
+        RememberMeTokenRepository rememberMeTokenRepository = new RememberMeTokenRepository();
+        return rememberMeTokenRepository;
     }
 }
