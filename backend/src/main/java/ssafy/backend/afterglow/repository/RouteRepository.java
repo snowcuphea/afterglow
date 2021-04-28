@@ -1,10 +1,8 @@
 package ssafy.backend.afterglow.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import ssafy.backend.afterglow.domain.Record;
+import ssafy.backend.afterglow.domain.RouteRecord;
 
-@Repository
-public interface RecordRepository extends JpaRepository<Record, Integer> {
-
+public interface RouteRepository extends JpaRepository<RouteRecord, Integer> {
 }
