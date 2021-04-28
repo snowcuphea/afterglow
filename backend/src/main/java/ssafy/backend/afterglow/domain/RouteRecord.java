@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity(name="RouteRecord")
@@ -29,4 +28,12 @@ public class RouteRecord {
     @JsonProperty("rr_time")
     private LocalDateTime rrTime;
 
+    @Builder
+    public RouteRecord(DailyRecord dr, Double rrLatitude, Double rrLongitude, LocalDateTime rrTime){
+        super();
+        this.dr = dr;
+        this.rrLatitude = rrLatitude;
+        this.rrLongitude = rrLongitude;
+        this.rrTime = rrTime;
+    }
 }

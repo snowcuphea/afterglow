@@ -11,9 +11,9 @@ import java.sql.Blob;
 @Setter
 @NoArgsConstructor
 public class ImageRecord {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("pr_id")
-    @Id
     private Integer imgId;
 
     @JsonProperty("rr")
@@ -25,4 +25,10 @@ public class ImageRecord {
     @Lob
     private Blob irImage;
 
+    @Builder
+    public ImageRecord(RouteRecord rr, Blob irImage){
+        super();
+        this.rr = rr;
+        this.irImage = irImage;
+    }
 }

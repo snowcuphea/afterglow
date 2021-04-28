@@ -30,4 +30,13 @@ public class ConsumptionRecord {
     @JsonProperty("cr_datetime")
     private LocalDateTime crDatetime;
 
+    @Builder
+    public ConsumptionRecord(DailyRecord dr, String crName, Integer crMoney, LocalDateTime crDatetime){
+        super();
+        this.dr = dr;
+        this.crName = crName;
+        this.crMoney = crMoney;
+        this.crDatetime = crDatetime;
+    }
+
 }

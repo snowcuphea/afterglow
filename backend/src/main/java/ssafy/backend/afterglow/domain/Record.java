@@ -21,9 +21,10 @@ public class Record {
     @JsonProperty("rec_name")
     private String recName;
 
-//    @Builder
-//    public Record(String recName){
-//        super();
-//        this.recName = recName;
-//    }
+    @Builder
+    public Record(User user, String recName){
+        super();
+        this.user = user;
+        this.recName = recName;
+    }
 }

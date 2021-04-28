@@ -22,8 +22,6 @@ public class DailyRecord {
     @JoinColumn(name = "recId")
     private Record rec;
 
-    @JsonProperty("dr_seq")
-    private Integer drSeq;
     @JsonProperty("dr_day")
     private LocalDate drDay;
     @JsonProperty("dr_start_time")
@@ -31,4 +29,10 @@ public class DailyRecord {
     @JsonProperty("dr_end_time")
     private LocalDateTime drEndTime;
 
+    @Builder
+    public DailyRecord(Record rec, LocalDateTime drStartTime){
+        super();
+        this.rec = rec;
+        this.drStartTime = drStartTime;
+    }
 }
