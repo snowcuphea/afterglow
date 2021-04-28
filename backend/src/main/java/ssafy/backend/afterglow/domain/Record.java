@@ -1,19 +1,30 @@
 package ssafy.backend.afterglow.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.*;
+import javax.persistence.*;
 
 @Entity(name="Record")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Record {
-
-    // 일련번호
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("usr_id")
     @Id
-    private Integer recordId;
+    private Integer recId;
 
+    @JsonProperty("usr")
+    @ManyToOne
+    @JoinColumn(name = "usrId")
+    private User user;
+    @JsonProperty("rec_name")
+    private String recName;
+
+    @Builder
+    public Record(User user, String recName){
+        super();
+        this.user = user;
+        this.recName = recName;
+    }
 }
