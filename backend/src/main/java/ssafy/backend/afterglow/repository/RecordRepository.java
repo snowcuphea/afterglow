@@ -5,6 +5,5 @@ import org.springframework.stereotype.Repository;
 import ssafy.backend.afterglow.domain.Record;
 
 @Repository
-public interface RecordRepository extends JpaRepository<Record, Integer> {
-
+public interface RecordRepository extends JpaRepository<Record, Long> {
 }

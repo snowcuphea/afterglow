@@ -1,38 +1,78 @@
 package ssafy.backend.afterglow.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-import org.springframework.data.annotation.Id;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
-@Entity(name="User")
+import javax.persistence.*;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Getter
-@Setter
-@NoArgsConstructor
+@Entity(name = "User")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("usr_id")
-    @Id
-    private Integer usrId;
+    private Long usrId;
 
+    @Column(unique = true, nullable = false)
     @JsonProperty("usr_email")
     private String usrEmail;
-    @JsonProperty("usr_pwd")
-    private String usrPwd;
-    @JsonProperty("usr_nickname")
-    private String usrNickname;
-    @JsonProperty("usr_traveling_state")
-    private Integer usrTravelingState;
 
-//    @Builder
-//    public User(String usrEmail, String usrPwd, String usrNickname, Integer usrTravelingState){
-//        super();
-//        this.usrEmail = usrEmail;
-//        this.usrPwd = usrPwd;
-//        this.usrNickname = usrNickname;
-//        this.usrTravelingState = usrTravelingState;
-//    }
+    @Column(unique = true)
+    @JsonProperty("usr_nickname")
+    private String username;
+
+    @JsonProperty("usr_password")
+    private String usrPwd;
+
+    @JsonProperty("usr_profile_img")
+    private String usrProfileImg;
+
+    @JsonProperty("usr_gender")
+    private String usrGender;
+
+    @JsonProperty("usr_age_range")
+    private String usrAgeRange;
+
+    @Column(nullable = false)
+    @JsonProperty("usr_traveling_state")
+    private Boolean usrTravelingState = false;
+
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JsonProperty("usr_roles")
+    private List<String> roles = new ArrayList<>();
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Builder
+    public User(Long usrId, String usrEmail, String username, String usrPwd, List<String> roles, String usrGender, String usrAgeRange, String usrProfileImg) {
+        this.usrId = usrId;
+        this.usrEmail = usrEmail;
+        this.username = username;
+        this.usrPwd = usrPwd;
+        this.roles = roles;
+        this.usrGender = usrGender;
+        this.usrAgeRange = usrAgeRange;
+        this.usrProfileImg = usrProfileImg;
+    }
+
+    public User update(String username) {
+        this.username = username;
+        return this;
+    }
 }

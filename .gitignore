@@ -1,2 +1,4 @@
 
-backend/src/main/resources/application.properties
+*.properties
+K4A105T.pem
+backend/src/main/resources/application.yml
