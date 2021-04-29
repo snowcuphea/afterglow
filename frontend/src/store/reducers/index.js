@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux'
 
 import countReducer from './countReducer'
+import accountReducer from './accountReducer'
 
 export default combineReducers({
-  countRe: countReducer,
+  countRd: countReducer,
+  accountRd: accountReducer,
 })
 
 // const rootReducer = combineReducers({

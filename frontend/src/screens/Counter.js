@@ -51,7 +51,7 @@ const s = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    count: state.countRe.count
+    count: state.countRd.count
   };
 }
 

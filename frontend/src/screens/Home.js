@@ -9,8 +9,10 @@ import {
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux'
 
-export default class HomeScreen extends React.Component {
+
+class HomeScreen extends React.Component {
 
   startTravel = () => {
     this.props.navigation.navigate('OnTravelMain')
@@ -28,10 +30,8 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <Header
-          leftComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-          rightComponent={{ icon: 'menu', color: '#fff' }}
-        /> */}
+        <Text>로그인여부:{this.props.isLogin}</Text>
+        
         <Text style={styles.textStyle}>
           지도가 보여지는 홈화면
         </Text>
@@ -56,3 +56,12 @@ const styles = StyleSheet.create({
   }
 
 })
+
+
+function mapStateToProps(state){
+  return {
+    isLogin: state.accountRd.isLogin
+  }
+}
+
+export default connect(mapStateToProps)(HomeScreen)

@@ -5,8 +5,8 @@ import { createStackNavigator, CardStyleInterpolators} from '@react-navigation/s
 import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import HomeScreen from './screens/Home'
+import LoginScreen from './screens/account/Login';
+import HomeScreen from './screens/Home';
 import OnTravelMain from './screens/onTravel/OnTravelMain';
 import OnTravelAllPictures from './screens/onTravel/OnTravelAllPictures';
 import OnTravelShare from './screens/onTravel/OnTravelShare';
@@ -43,7 +43,7 @@ const MenuBar = () => {
 const StackComponent = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Login"
       screenOptions = {{
         headerRight: () => <MenuBar />,
         // gestureEnabled: true,
@@ -53,6 +53,15 @@ const StackComponent = () => {
       headerMode="float"
       animation="fade"
     >
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={
+          {
+            headerShown: false
+          }
+        }
+      />
       <Stack.Screen 
         name="Home"
         component={HomeScreen}
