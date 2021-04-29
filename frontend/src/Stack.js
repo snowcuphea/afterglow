@@ -21,6 +21,7 @@ import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
 
 import Pictures from './components/Pictures'
+import Counter from './screens/Counter';
 
 const Stack = createStackNavigator();
 
@@ -147,8 +148,12 @@ const StackComponent = () => {
         name="AfterTravelShare"
         component={AfterTravelShare}
         options={{
-          title: "여행 끝 공유하기"
+          title: <Text>여행 끝 공유하기</Text>
         }}
+      />
+      <Stack.Screen
+        name="Counter"
+        component={Counter}
       />
     </Stack.Navigator>
   )

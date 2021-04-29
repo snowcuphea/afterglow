@@ -20,6 +20,10 @@ export default class HomeScreen extends React.Component {
     this.props.navigation.navigate('Pictures')
   }
 
+  reduxTest = () => {
+    this.props.navigation.navigate('Counter')
+  }
+
 
   render() {
     return (
@@ -33,6 +37,7 @@ export default class HomeScreen extends React.Component {
         </Text>
         <Button title={"여행하기"} onPress={this.startTravel}/>
         <Button title={"사진 업로드"} onPress={this.Pictures}/>
+        <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
       </View>
     )
   }
