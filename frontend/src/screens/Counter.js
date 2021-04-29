@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ActionCreator from '.././store/actions';
 
 class Counter extends Component {
+
   constructor(props, context) {
     super(props, context);
   }
@@ -50,7 +51,7 @@ const s = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    count: state.count.count
+    count: state.countRe.count
   };
 }
 

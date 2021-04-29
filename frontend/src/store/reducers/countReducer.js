@@ -5,6 +5,8 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+
+
   switch ( action.type ) {
     case types.COUNT_UP:
       return {
@@ -16,7 +18,7 @@ export default (state = initialState, action) => {
         ...state,
         count: state.count - action.payload
       }
-      default:
-        return state;
+    default:
+      return state;
   }
 }
