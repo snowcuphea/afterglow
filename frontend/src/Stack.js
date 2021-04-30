@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, Button } from 'react-native'
 
 import { createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack' 
 import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native'
+import { connect } from 'react-redux'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoginScreen from './screens/account/Login';
@@ -40,10 +41,19 @@ const MenuBar = () => {
   )
 }
 
+const initialRouteName = () => {
+  if (this.props.isLogin) {
+    return "Home"
+  } else {
+    return "Login"
+  }
+}
+
+
 const StackComponent = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName={initialRouteName}
       screenOptions = {{
         headerRight: () => <MenuBar />,
         // gestureEnabled: true,
@@ -168,4 +178,13 @@ const StackComponent = () => {
   )
 }
 
-export default StackComponent 
+function mapStateToProps(state) {
+
+  console.log("stack에서", state)
+
+  return {
+    isLogin: state.accountRd.isLogin
+  }
+}
+
+export default connect(mapStateToProps)(StackComponent) 

@@ -54,14 +54,20 @@ const styles = StyleSheet.create({
   
 })
 
-
-
-function mapDispatchToProps(dispatch) {
+function mapStateToProps(state) {
   return {
-    login: () => {
-      dispatch(ActionCreator.login())
-    }
+    isLogin: state.accountRd.isLogin
   };
 }
 
-export default connect(mapDispatchToProps)(LoginScreen)
+
+function mapDispatchToProps(dispatch) {
+
+  return {
+    login: () => {
+      dispatch(ActionCreator.login());
+    },
+  };
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )(LoginScreen)

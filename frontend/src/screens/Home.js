@@ -14,6 +14,12 @@ import { connect } from 'react-redux'
 
 class HomeScreen extends React.Component {
 
+  constructor(props) {
+    super(props);
+  }
+
+  
+
   startTravel = () => {
     this.props.navigation.navigate('OnTravelMain')
   }
@@ -28,10 +34,10 @@ class HomeScreen extends React.Component {
 
 
   render() {
+
+    
     return (
       <View style={styles.container}>
-        <Text>로그인여부:{this.props.isLogin}</Text>
-        
         <Text style={styles.textStyle}>
           지도가 보여지는 홈화면
         </Text>
@@ -52,13 +58,13 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: 'RIDIBatang',
-
   }
 
 })
 
 
 function mapStateToProps(state){
+
   return {
     isLogin: state.accountRd.isLogin
   }
