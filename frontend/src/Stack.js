@@ -20,6 +20,7 @@ import AfterDaySinglePicture from './screens/afterDay/AfterDaySinglePicture';
 import AfterTravelSelect from './screens/afterTravel/AfterTravelSelect';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
+import SettingsMain from './screens/settingss/SettingsMain';
 
 import Pictures from './components/Pictures'
 import Counter from './screens/Counter';
@@ -174,6 +175,13 @@ const StackComponent = () => {
         name="Counter"
         component={Counter}
       />
+      {/* <Stack.Screen
+        name="SettingsMain"
+        component={SettingsMain}
+        options={{
+          title: '설정'
+        }}
+      /> */}
     </Stack.Navigator>
   )
 }
