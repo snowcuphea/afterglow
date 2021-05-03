@@ -2,22 +2,19 @@ package ssafy.backend.afterglow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ssafy.backend.afterglow.VO.ConsumeVO;
-import ssafy.backend.afterglow.VO.DayVO;
-import ssafy.backend.afterglow.VO.RecVO;
-import ssafy.backend.afterglow.VO.RouteVO;
-import ssafy.backend.afterglow.domain.ConsumptionRecord;
-import ssafy.backend.afterglow.domain.DailyRecord;
-import ssafy.backend.afterglow.domain.Record;
-import ssafy.backend.afterglow.domain.RouteRecord;
+import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.repository.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecordService {
     @Autowired
-    RecordRepository repo;
+    UserRepository userRepo;
+
+    @Autowired
+    RecordRepository recRepo;
 
     @Autowired
     DailyRepository dayRepo;
@@ -34,48 +31,24 @@ public class RecordService {
     @Autowired
     ImageRepository imgRepo;
 
-    public boolean insertRec(RecVO vo){
+    public Optional<Record> insertRec(Long userId, String recName){
         try{
-            Record rec = Record.builder().user(vo.getUser()).recName(vo.getRecName()).build();
-            repo.save(rec);
-            return true;
+            User user = userRepo.findById(userId).get();
+            Record rec = Record.builder().user(user).recName(recName).build();
+            return Optional.ofNullable(recRepo.save(rec));
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
-    public boolean insertDayRec(DayVO vo){
-        try{
-            DailyRecord rec = DailyRecord.builder().rec(vo.getRec()).drStartTime(vo.getStartTime()).build();
-            dayRepo.save(rec);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public Optional<Record> selectRec(Long recId){
+        return recRepo.findById(recId);
     }
 
-    public boolean insertRoute(RouteVO vo){
-        try{
-            RouteRecord rec = RouteRecord.builder().dr(vo.getDr()).rrLatitude(vo.getLatitude()).rrLongitude(vo.getLongitude()).build();
-            rouRepo.save(rec);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+    public Optional<Record> selectCurrent(Long dayRecId){
 
-    public boolean insertConsumption(ConsumeVO vo){
-        try{
-            ConsumptionRecord rec = ConsumptionRecord.builder().crName(vo.getName()).crMoney(vo.getMoney()).crDatetime(vo.getDateTime()).build();
-            conRepo.save(rec);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        return null;
     }
 
     public String getRecTotalTime(Integer recId){
