@@ -27,17 +27,16 @@ const Drawer = createDrawerNavigator();
 // }
 
 const CustomDrawerContent = (props) => {
-
+//  console.log(props)
 
   return (
     <DrawerContentScrollView {...props} style={{flex: 1}}>
-      <DrawerItemList {...props}/>
       <View style={styles.TopIconContainer} >
         <TouchableOpacity style={styles.closeBtn}>
         <Ionicons name={"close-outline"} size={30}></Ionicons>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingBtn} onPress={() => console.log("navigation")}>
+        <TouchableOpacity style={styles.settingBtn} onPress={() => props.navigation.navigate("SettingsMain")}>
           <Ionicons name={"settings-outline"} size={30} color={"#555555"}></Ionicons>
         </TouchableOpacity>
       </View>
@@ -98,9 +97,7 @@ const DrawerComponent = () => {
       drawerPosition='right'
       drawerContent={props => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="Home" component={StackComponent}/>
-      <Drawer.Screen name="SettingsMain" component={SettingsMain}/>
-      
+      <Drawer.Screen name="Home" component={StackComponent}/>      
     </Drawer.Navigator>
   )
 }

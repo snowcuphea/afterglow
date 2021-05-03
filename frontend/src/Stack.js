@@ -172,16 +172,17 @@ const StackComponent = () => {
         }}
       />
       <Stack.Screen
-        name="Counter"
-        component={Counter}
-      />
-      {/* <Stack.Screen
         name="SettingsMain"
         component={SettingsMain}
         options={{
-          title: '설정'
+          title: '설정',
+          headerRight: false,
         }}
-      /> */}
+      />
+      <Stack.Screen
+        name="Counter"
+        component={Counter}
+      />
     </Stack.Navigator>
   )
 }
