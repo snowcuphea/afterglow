@@ -18,14 +18,8 @@ class HomeScreen extends React.Component {
     super(props);
   }
 
-  
-
   startTravel = () => {
     this.props.navigation.navigate('OnTravelMain')
-  }
-
-  Pictures = () => {
-    this.props.navigation.navigate('Pictures')
   }
 
   selectPin = () => {
@@ -46,7 +40,6 @@ class HomeScreen extends React.Component {
           지도가 보여지는 홈화면
         </Text>
         <Button title={"여행하기"} onPress={this.startTravel}/>
-        <Button title={"사진 업로드"} onPress={this.Pictures}/>
         <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
         <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
         

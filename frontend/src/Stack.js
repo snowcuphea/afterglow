@@ -2,7 +2,7 @@ import React from 'react'
 import { View, TouchableOpacity, Text, Button } from 'react-native'
 
 import { createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack' 
-import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native'
+import { NavigationContainer, DrawerActions, useNavigation, CommonActions } from '@react-navigation/native'
 import { connect } from 'react-redux'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,10 +20,10 @@ import AfterDaySinglePicture from './screens/afterDay/AfterDaySinglePicture';
 import AfterTravelSelect from './screens/afterTravel/AfterTravelSelect';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
-
-import Counter from './screens/Counter';
 import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain'
 import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory'
+
+import Counter from './screens/Counter';
 
 const Stack = createStackNavigator();
 
@@ -32,11 +32,38 @@ const MenuBar = () => {
 
   return(
     <View style={{flexDirection: 'row', paddingRight: 15}}>
-        <TouchableOpacity 
-          onPress={() => {navigation.dispatch(DrawerActions.openDrawer())}}
-        >
-          <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
-        </TouchableOpacity>
+      <TouchableOpacity 
+        onPress={() => {navigation.dispatch(DrawerActions.openDrawer())}}
+      >
+        <Ionicons name={'menu'} size={20} style={{ color: "black"}}/>
+      </TouchableOpacity>
+    </View>
+
+  )
+}
+
+const SavePicture = () => {
+  const navigation = useNavigation();
+
+  function save() {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home' },
+          { name: 'AfterDayMain'},
+        ]
+      })
+    )
+  }
+
+  return(
+    <View style={{flexDirection: 'row', paddingRight: 15}}>
+      <TouchableOpacity 
+        onPress={save}
+      >
+        <Text>저장</Text>
+      </TouchableOpacity>
     </View>
 
   )
@@ -50,6 +77,7 @@ const initialRouteName = () => {
   }
 }
 
+const travelTitle = "100일 기념 제주도"
 
 const StackComponent = () => {
   return (
@@ -112,7 +140,8 @@ const StackComponent = () => {
         name="AfterDaySelect"
         component={AfterDaySelect}
         options={{
-          title: "하루 끝 사진 저장"
+          title: `하루 끝: ${travelTitle}`,
+          headerRight: () => <SavePicture />,
         }}
       />
       <Stack.Screen 
@@ -147,7 +176,7 @@ const StackComponent = () => {
         name="AfterTravelSelect"
         component={AfterTravelSelect}
         options={{
-          title: "여행 끝 사진 저장"
+          title: `여행 끝: ${travelTitle}`
         }}
       />
       <Stack.Screen 
@@ -188,12 +217,18 @@ const StackComponent = () => {
 }
 
 function mapStateToProps(state) {
-
-  console.log("stack에서", state)
-
   return {
-    isLogin: state.accountRd.isLogin
+    isLogin: state.accountRd.isLogin,
+    selectedPictures: state.pictureRd.pictures
   }
 }
 
-export default connect(mapStateToProps)(StackComponent) 
+function mapDispatchToProps(dispatch) {
+  return {
+    savePictures: () => {
+      dispatch(ActionCreator.savePictures())
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StackComponent) 

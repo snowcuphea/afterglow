@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { CommonActions } from '@react-navigation/native'
+import Pictures from '../.././components/picture/Pictures'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -33,6 +34,7 @@ export default class AfterTravelSelect extends React.Component {
         <Text>
           여행 끝 사진 저장 화면
         </Text>
+        <Pictures />
         <Button title={"저장"} onPress={this.savePicture}/>
       </View>
     )

@@ -11,8 +11,12 @@ import {
 import { CommonActions } from '@react-navigation/native'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Pictures from '../.././components/picture/Pictures'
+import PicturesHorz from '../.././components/picture/PicturesHorz'
 
 export default class AfterDaySelect extends React.Component {
+
+  
 
   savePicture = () => {
     this.props.navigation.dispatch(
@@ -28,11 +32,14 @@ export default class AfterDaySelect extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>
-          하루 끝 사진 저장 화면
-        </Text>
-        <Button title={"저장"} onPress={this.savePicture}/>
+      <View>
+        <View>
+          <PicturesHorz />
+        </View>
+
+        <View>
+          <Pictures />
+        </View>
       </View>
     )
   }
@@ -41,7 +48,7 @@ export default class AfterDaySelect extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    // justifyContent: 'center',
+    // alignItems: 'center'
   }
 })
