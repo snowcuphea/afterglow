@@ -1,14 +1,25 @@
 package ssafy.backend.afterglow.controller;
 
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ssafy.backend.afterglow.VO.*;
+import ssafy.backend.afterglow.domain.ImageRecord;
+import ssafy.backend.afterglow.repository.ImageRepository;
 import ssafy.backend.afterglow.service.RecordService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("records")
+@RequiredArgsConstructor
 public class RecordController {
     static final int SUCCESS = 1;
     static final int FAIL = -1;
@@ -16,60 +27,88 @@ public class RecordController {
     @Autowired
     RecordService service;
 
+    private final ImageRepository imagerepository;
+
     @GetMapping
-    public ResponseEntity<String> sampleFunction(){
+    public ResponseEntity<String> sampleFunction() {
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Integer> makeRecord(@RequestBody RecVO rec){
-        if(service.insertRec(rec))
+    public ResponseEntity<Integer> makeRecord(@RequestBody RecVO rec) {
+        if (service.insertRec(rec))
             return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
         else
             return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PostMapping("/start")
-    public ResponseEntity<Integer> startRecord(@RequestBody DayVO day){
-        if(service.insertDayRec(day))
+    public ResponseEntity<Integer> startRecord(@RequestBody DayVO day) {
+        if (service.insertDayRec(day))
             return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
         else
             return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PostMapping("/route")
-    public ResponseEntity<Integer> saveRoute(@RequestBody RouteVO pos){
-        if(service.insertRoute(pos))
+    public ResponseEntity<Integer> saveRoute(@RequestBody RouteVO pos) {
+        if (service.insertRoute(pos))
             return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
         else
             return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PostMapping("/receipt")
-    public ResponseEntity<Integer> saveConsume(@RequestBody ConsumeVO consume){
-        if(service.insertConsumption(consume))
+    public ResponseEntity<Integer> saveConsume(@RequestBody ConsumeVO consume) {
+        if (service.insertConsumption(consume))
             return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
         else
             return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @GetMapping("/time")
-    public ResponseEntity<Integer> getRecordTime(){
+    public ResponseEntity<Integer> getRecordTime() {
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
     }
 
     @GetMapping("/distance")
-    public ResponseEntity<Integer> getTotalDistance(){
+    public ResponseEntity<Integer> getTotalDistance() {
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
     }
 
     @GetMapping("/receipt")
-    public ResponseEntity<Integer> getConsume(){
+    public ResponseEntity<Integer> getConsume() {
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
     }
 
     @GetMapping("/pictures")
-    public ResponseEntity<Integer> getPictures(){
+    public ResponseEntity<Integer> getPictures() {
+        return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
+    }
+
+    // 이미지 저장
+    @SneakyThrows
+    @PostMapping(value = "/saveImg")
+    public ResponseEntity<Integer> setUserProfileImg(@RequestParam("img") List<MultipartFile> files,
+                                                     @RequestParam("drId") Integer drId,
+                                                     @RequestParam("longitude") Double longitude,
+                                                     @RequestParam("latitude") Double latitude,
+                                                     HttpServletRequest request) {
+        files
+                .stream()
+                .forEach(file -> {
+                    ImageRecord ir = new ImageRecord();
+                    try {
+                        ir.setIrImage(file.getBytes());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    service.findNearestRr(drId, longitude, latitude)
+                            .ifPresent(rr -> {
+                                ir.setRr(rr);
+                                imagerepository.save(ir);
+                            });
+                });
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
     }
 }

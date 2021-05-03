@@ -13,6 +13,8 @@ import ssafy.backend.afterglow.domain.RouteRecord;
 import ssafy.backend.afterglow.repository.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class RecordService {
@@ -34,8 +36,8 @@ public class RecordService {
     @Autowired
     ImageRepository imgRepo;
 
-    public boolean insertRec(RecVO vo){
-        try{
+    public boolean insertRec(RecVO vo) {
+        try {
             Record rec = Record.builder().user(vo.getUser()).recName(vo.getRecName()).build();
             repo.save(rec);
             return true;
@@ -45,8 +47,8 @@ public class RecordService {
         }
     }
 
-    public boolean insertDayRec(DayVO vo){
-        try{
+    public boolean insertDayRec(DayVO vo) {
+        try {
             DailyRecord rec = DailyRecord.builder().rec(vo.getRec()).drStartTime(vo.getStartTime()).build();
             dayRepo.save(rec);
             return true;
@@ -56,8 +58,8 @@ public class RecordService {
         }
     }
 
-    public boolean insertRoute(RouteVO vo){
-        try{
+    public boolean insertRoute(RouteVO vo) {
+        try {
             RouteRecord rec = RouteRecord.builder().dr(vo.getDr()).rrLatitude(vo.getLatitude()).rrLongitude(vo.getLongitude()).build();
             rouRepo.save(rec);
             return true;
@@ -67,8 +69,8 @@ public class RecordService {
         }
     }
 
-    public boolean insertConsumption(ConsumeVO vo){
-        try{
+    public boolean insertConsumption(ConsumeVO vo) {
+        try {
             ConsumptionRecord rec = ConsumptionRecord.builder().crName(vo.getName()).crMoney(vo.getMoney()).crDatetime(vo.getDateTime()).build();
             conRepo.save(rec);
             return true;
@@ -78,7 +80,7 @@ public class RecordService {
         }
     }
 
-    public String getRecTotalTime(Integer recId){
+    public String getRecTotalTime(Integer recId) {
         // dr.drStartTime
         // dr.drEndTime
         // Period - 날짜 차이
@@ -87,4 +89,26 @@ public class RecordService {
         return null;
     }
 
+    public Optional<RouteRecord> findNearestRr(Integer drId, Double longitude, Double latitude) {
+        Optional<DailyRecord> dr = dayRepo.findById(drId);
+        if (dr.isPresent()) {
+            List<RouteRecord> rrList = rouRepo.findByDr(dr.get());
+            AtomicReference<RouteRecord> nearestRr = new AtomicReference<>(rrList.get(0));
+            Double nearestDist = getDist(nearestRr.get(), longitude, latitude);
+            rrList
+                    .stream()
+                    .forEach(rr -> {
+                        if (getDist(rr, longitude, latitude) < nearestDist) {
+                            nearestRr.set(rr);
+                        }
+                    });
+            return Optional.ofNullable(nearestRr.get());
+        } else {
+            return null;
+        }
+    }
+
+    public Double getDist(RouteRecord rr, Double Longitude, Double Latitude) {
+        return Math.sqrt(Math.pow(rr.getRrLatitude() - Latitude, 2) + Math.pow(rr.getRrLongitude() - Longitude, 2));
+    }
 }
