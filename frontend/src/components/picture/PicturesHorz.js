@@ -6,10 +6,8 @@ import {
   Image,
   FlatList,
   StyleSheet,
-  Text,
   Dimensions,
   TouchableOpacity,
-  ScrollView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -30,7 +28,7 @@ class PicturesHorz extends React.Component {
       <TouchableOpacity onPress={() => this.props.unselect(item.id) }>
           <View>
             <Image 
-              style={{ width: (screenWidth)/8, height: (screenWidth)/8, margin:4}} 
+              style={{ width: (screenWidth)/8, height: (screenWidth)/8, marginVertical:14, marginHorizontal:4}} 
               source={{ uri: item.uri }} />
             <View style={styles.selectContainer}>
               <Ionicons 
@@ -45,12 +43,15 @@ class PicturesHorz extends React.Component {
     let screenWidth = Dimensions.get('window').width;
 
     return(
-      <View style={{marginVertical: 10}}>
+      <View>
         <FlatList
           data={this.props.selectedPictures}
           renderItem={renderdata}
           keyExtractor = {(data) => data.id}
           horizontal
+          ref={ref => this.flatList = ref}
+          onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
+          onLayout={() => this.flatList.scrollToEnd({animated: true})}
         />
       </View>
     )
@@ -59,6 +60,8 @@ class PicturesHorz extends React.Component {
 
 const styles = StyleSheet.create({
   selectContainer: {
+    marginTop: Dimensions.get('window').width/80,
+    paddingLeft: Dimensions.get('window').width/200,
     position: "absolute",
     top: 0,
     right: 0,

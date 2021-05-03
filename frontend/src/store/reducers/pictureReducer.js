@@ -1,7 +1,9 @@
+import { ActionSheetIOS } from 'react-native';
 import types from '../actions/types'
 
 const initialState = {
   pictures : [],
+  singlePicture : {},
 };
 
 export default (state = initialState, action) => {

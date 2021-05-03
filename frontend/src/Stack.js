@@ -169,7 +169,8 @@ const StackComponent = () => {
         name="AfterDaySinglePicture"
         component={AfterDaySinglePicture}
         options={{
-          title: "하루 끝 사진 하나보기"
+          title: "하루 끝 사진 하나보기",
+          headerRight: () => <SavePicture />,
         }}
       />
       <Stack.Screen 

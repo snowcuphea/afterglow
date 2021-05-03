@@ -38,7 +38,7 @@ export default class AfterDaySelect extends React.Component {
         </View>
 
         <View>
-          <Pictures />
+          <Pictures navigation={this.props.navigation} />
         </View>
       </View>
     )

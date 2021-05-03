@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import CameraRoll from "@react-native-community/cameraroll";
+import { useNavigation } from "@react-navigation/native"
 
 import { connect } from 'react-redux';
 import ActionCreator from '../../store/actions';
@@ -63,36 +64,42 @@ class Pictures extends React.Component {
          console.log("에러",error);
       });
     
-    }
+  }
 
+  toLargeScale = (item) => {
+    this.props.navigation.navigate("AfterDaySinglePicture", { picture : item })
+  }
 
   render(){
-
 
     const renderdata = ({ item }) => {
 
       return (
-        <TouchableOpacity onPress={() => {console.log("pressed image", screenWidth)}}>
-            <View>
-              <Image 
-                style={{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}} 
-                source={{ uri: item.uri }} />
-              <View style={styles.selectContainer}>
-                { this.props.selectedPictures.filter((select) => select.id !== item.id).length !== this.props.selectedPictures.length ?  
-                  <Ionicons 
-                    name="checkmark-circle" 
-                    size={screenWidth/12}
-                    color={'black'}
-                    onPress={() => this.props.unselect(item.id)}/> :
-                  <Ionicons
-                    name="ellipse-outline"  
-                    size={screenWidth/12}
-                    color={'black'}
-                    onPress={() => this.props.select(item)}/>
-                }
-              </View>
-            </View>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity onPress={() => this.toLargeScale(item) }>
+            <Image 
+              style={{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}} 
+              source={{ uri: item.uri }} />
+          </TouchableOpacity>
+          <View style={styles.selectContainer}>
+            { this.props.selectedPictures.filter((select) => select.id !== item.id).length !== this.props.selectedPictures.length ?  
+              <TouchableOpacity style={styles.selectArea} onPress={() => this.props.unselect(item.id)}>
+                <Ionicons 
+                  name="checkmark-circle" 
+                  size={screenWidth/12}
+                  style={styles.selectIcon}
+                  color={'black'}/>
+              </TouchableOpacity> :
+              <TouchableOpacity style={styles.selectArea} onPress={() => this.props.select(item)}>
+                <Ionicons
+                  name="ellipse-outline"  
+                  size={screenWidth/12}
+                  style={styles.selectIcon}
+                  color={'black'}/>
+              </TouchableOpacity>
+            }
+          </View>
+        </View>
       )
     }
 
@@ -123,13 +130,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 0,
-    width: Dimensions.get('window').width/12,
-    height: Dimensions.get('window').width/12,
+    width: Dimensions.get('window').width/6,
+    height: Dimensions.get('window').width/6,
   },
-  selectCircle: {
-    color: 'pink',
-    backgroundColor: 'pink'
+  selectArea: {
+    height: Dimensions.get('window').width/6,
+    width: Dimensions.get('window').width/6,
   },
+  selectIcon: {
+    position: 'absolute', 
+    right: 0,
+  }
 });
 
 
