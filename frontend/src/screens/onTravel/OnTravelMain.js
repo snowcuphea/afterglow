@@ -10,11 +10,18 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import MoneyBook from '../../components/MoneyBook'
-import AddMoneyItem from '../../components/AddMoneyItem'
+import MoneyBook from '../../components/book/MoneyBook'
+import AddMoneyItem from '../../components/book/AddMoneyItem'
+
+import { connect } from 'react-redux'
 
 
-export default class OnTravelMain extends React.Component {
+
+class OnTravelMain extends React.Component {
+
+  constructor (props) {
+    super(props)
+  }
 
   endDay = () => {
     this.props.navigation.navigate('AfterDaySelect')
@@ -42,7 +49,11 @@ export default class OnTravelMain extends React.Component {
         <Button title={"여행 끝"} onPress={this.endTravel}/>
         <Button title={"핀을 눌렀을 때"} onPress={this.selectPin}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
+        <Text style={{fontSize: 20, marginLeft: 20, marginTop: 20, fontFamily:'RIDIBatang'}}>
+          {this.props.user_nickname}님은, ____ 여행 중</Text>
 
+        <Text style={{fontSize: 20, marginLeft: 20, marginTop: 20, fontFamily:'RIDIBatang'}}>
+          {this.props.user_nickname}님이 방문한 장소 </Text>
         <MoneyBook />
         <AddMoneyItem />
       </ScrollView>
@@ -57,3 +68,16 @@ const styles = StyleSheet.create({
     // alignItems: 'center'
   }
 })
+
+
+function mapStateToProps(state) {
+
+  // console.log("stack에서", state)
+
+  return {
+    isLogin: state.accountRd.isLogin,
+    user_nickname: state.accountRd.user_nickname
+  }
+}
+
+export default connect(mapStateToProps)(OnTravelMain) 

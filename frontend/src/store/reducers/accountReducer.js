@@ -1,7 +1,9 @@
 import types from '../actions/types'
+import { Platform } from 'react-native';
 
 const initialState = {
   isLogin : false,
+  user_nickname: '',
 };
 
 export default (state = initialState, action) => {
@@ -11,7 +13,8 @@ export default (state = initialState, action) => {
     case types.LOGIN:
       return {
         ...state,
-        isLogin: true
+        isLogin: true,
+        user_nickname: Platform.Version
       }
       
     default:

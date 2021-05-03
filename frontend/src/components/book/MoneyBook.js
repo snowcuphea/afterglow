@@ -4,6 +4,8 @@ import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput} from 'react
 import { Card, ListItem, Input  } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import { connect } from 'react-redux'
+
 const items = [
   {
      when: '11:40',
@@ -22,14 +24,11 @@ const items = [
 }
 ]
 
-export default class MoneyBook extends React.Component {
+class MoneyBook extends React.Component {
 
   constructor (props) {
     super(props)
   }
-
-  
-
 
   render() {
     
@@ -101,5 +100,16 @@ const styles = StyleSheet.create({
   
 })
 
+function mapStateToProps(state) {
+
+  console.log("stack에서", state)
+
+  return {
+    isLogin: state.accountRd.isLogin,
+    user_nickname: state.accountRd.user_nickname
+  }
+}
+
+export default connect(mapStateToProps)(MoneyBook) 
 
 

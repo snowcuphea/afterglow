@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput} from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
 
 import { Card, Input  } from 'react-native-elements'
-import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 
 export default class MoneyBook extends React.Component {

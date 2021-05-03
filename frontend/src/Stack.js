@@ -211,7 +211,8 @@ function mapStateToProps(state) {
   console.log("stack에서", state)
 
   return {
-    isLogin: state.accountRd.isLogin
+    isLogin: state.accountRd.isLogin,
+    user_nickname: state.accountRd.user_nickname
   }
 }
 
