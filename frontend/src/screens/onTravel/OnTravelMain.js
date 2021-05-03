@@ -10,6 +10,9 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import MoneyBook from '../book/MoneyBook'
+
+
 export default class OnTravelMain extends React.Component {
 
   endDay = () => {
@@ -38,6 +41,7 @@ export default class OnTravelMain extends React.Component {
         <Button title={"여행 끝"} onPress={this.endTravel}/>
         <Button title={"핀을 눌렀을 때"} onPress={this.selectPin}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
+        <MoneyBook />
       </View>
     )
   }
