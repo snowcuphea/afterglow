@@ -21,7 +21,6 @@ import AfterTravelSelect from './screens/afterTravel/AfterTravelSelect';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
 import SettingsMain from './screens/settingss/SettingsMain';
-import MoneyBook from './screens/book/MoneyBook';
 
 import Pictures from './components/Pictures'
 import Counter from './screens/Counter';
@@ -182,10 +181,7 @@ const StackComponent = () => {
           headerRight: false,
         }}
       />
-      <Stack.Screen
-        name="MoneyBook"
-        component={MoneyBook}
-        />
+    
         
       <Stack.Screen
         name="TravelHistoryMain"

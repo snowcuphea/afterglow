@@ -10,7 +10,8 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import MoneyBook from '../book/MoneyBook'
+import MoneyBook from '../../components/MoneyBook'
+import AddMoneyItem from '../../components/AddMoneyItem'
 
 
 export default class OnTravelMain extends React.Component {
@@ -33,7 +34,7 @@ export default class OnTravelMain extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text>
           여행 중 화면
         </Text>
@@ -41,8 +42,10 @@ export default class OnTravelMain extends React.Component {
         <Button title={"여행 끝"} onPress={this.endTravel}/>
         <Button title={"핀을 눌렀을 때"} onPress={this.selectPin}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
+
         <MoneyBook />
-      </View>
+        <AddMoneyItem />
+      </ScrollView>
     )
   }
 }
@@ -50,7 +53,7 @@ export default class OnTravelMain extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    // justifyContent: 'center',
+    // alignItems: 'center'
   }
 })

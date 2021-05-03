@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput} from 'react-native';
 
-import { Card, ListItem } from 'react-native-elements'
+import { Card, ListItem, Input  } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const items = [
@@ -34,8 +34,8 @@ export default class MoneyBook extends React.Component {
   render() {
     
     return (
-      <View  >
-        <Text>가계부</Text>
+      <View >
+        <Text style={styles.titleStyle}>가계부</Text>
         <Card >
           <View style={styles.container}>
             <Card.Title style={{flex:2}}>시간</Card.Title>
@@ -49,28 +49,22 @@ export default class MoneyBook extends React.Component {
           return (
           <View key={i} style={styles.listContainer} >
             <View style={styles.itemWhen} >
-              <Text>{item.when}</Text>
+              <Text style={styles.moenyText}>{item.when}</Text>
             </View>
             <View style={styles.itemWhat} >
-              <Text>{item.what}</Text>
+              <Text style={styles.moenyText}>{item.what}</Text>
             </View>
             <View style={styles.itemMuch}>
-              <Text>{item.much}</Text>
+              <Text style={styles.moenyText}>{item.much}</Text>
             </View>
             <View style={styles.itemDelete}>
               <Ionicons name="close"></Ionicons>
             </View>
           </View>
           );
-        })
+         })
         }
-
-      <Card.Divider style={{margin:10}}/>
-      
-
-
       </Card>
-
       </View>
     )
   }
@@ -78,7 +72,11 @@ export default class MoneyBook extends React.Component {
 }
 
 const styles = StyleSheet.create({
- 
+  titleStyle: {
+    fontSize: 20,
+    marginLeft: 20,
+    marginTop: 20,
+  },
   container:{
     width: '100%',
     flexDirection: 'row',
@@ -86,11 +84,19 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flexDirection: 'row',
+    marginBottom:5,
   },
-  itemWhen:{backgroundColor:'pink', flex:2, alignItems:'center'},
+  moneyText:{
+    fontSize: 20,
+  },
+  itemWhen:{backgroundColor:'pink', flex:2, alignItems:'center',},
   itemWhat:{backgroundColor:'yellow', flex:6, alignItems:'center'},
   itemMuch:{backgroundColor:'beige', flex:3, alignItems:'center'},
   itemDelete:{backgroundColor:'lime', flex:1, alignItems:'center'},
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   
   
 })
