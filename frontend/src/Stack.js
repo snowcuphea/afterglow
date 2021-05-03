@@ -21,7 +21,6 @@ import AfterTravelSelect from './screens/afterTravel/AfterTravelSelect';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
 
-import Pictures from './components/Pictures'
 import Counter from './screens/Counter';
 import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain'
 import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory'
@@ -156,13 +155,6 @@ const StackComponent = () => {
         component={AfterTravelMain}
         options={{
           title: "여행 끝"
-        }}
-      />
-      <Stack.Screen 
-        name="Pictures"
-        component={Pictures}
-        options={{
-          title: '사진 업로드'
         }}
       />
       <Stack.Screen

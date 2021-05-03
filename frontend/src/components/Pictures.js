@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView, StyleSheet, Image, Dimensions, FlatList } fro
 // import { FlatList } from 'react-native-gesture-handler';
 
 
-export default class test extends React.Component {
+export default class Pictures extends React.Component {
     render () {
         const renderdata = ({ item }) => (
             <View>
