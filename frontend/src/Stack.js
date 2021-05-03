@@ -25,6 +25,8 @@ import MoneyBook from './screens/book/MoneyBook';
 
 import Pictures from './components/Pictures'
 import Counter from './screens/Counter';
+import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain'
+import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory'
 
 const Stack = createStackNavigator();
 
@@ -183,11 +185,27 @@ const StackComponent = () => {
       <Stack.Screen
         name="MoneyBook"
         component={MoneyBook}
+        />
+        
+      <Stack.Screen
+        name="TravelHistoryMain"
+        component={TravelHistoryMain}
+        options={{
+          title: <Text>여행 전체 기록</Text>
+        }}
+      />
+      <Stack.Screen
+        name="SingleTravelHistory"
+        component={SingleTravelHistory}
+        options={{
+          title: <Text>선택한 여행 상세 기록</Text>
+        }}
       />
       <Stack.Screen
         name="Counter"
         component={Counter}
       />
+      
     </Stack.Navigator>
   )
 }
