@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Record {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("usr_id")
+    @JsonProperty("rec_id")
     private Long recId;
     @JsonProperty("rec_name")
     private String recName;

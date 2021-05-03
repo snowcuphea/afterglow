@@ -21,16 +21,13 @@ public class RecordController {
 
     // 예시용
     @GetMapping("/test")
-    public ResponseEntity<Object> sampleFunction(@RequestBody Map<String, Object> data){
-        return new ResponseEntity<Object>("Test", HttpStatus.OK);
+    public ResponseEntity<Object> sampleFunction(@RequestParam("user_id") Integer id){
+        return new ResponseEntity<Object>(id, HttpStatus.OK);
     }
 
     // 여행 시작 클릭 -> 여행 정보 생성
     @PostMapping("/start")
-    public ResponseEntity<String> startRecord(@RequestBody Map<String, Object> data){
-        Long userId = Long.valueOf((Integer)data.get("user_id"));
-        String recName = (String)data.get("rec_name");
-
+    public ResponseEntity<String> startRecord(@RequestParam("user_id") Long userId, @RequestParam("rec_name") String recName){
         if(service.insertRec(userId, recName).isPresent())
             return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
         else
@@ -39,8 +36,7 @@ public class RecordController {
 
     // 여행 index 받으면 -> 여행 정보 return
     @GetMapping
-    public ResponseEntity<Object> getRecord(@RequestBody Map<String, Object> data){
-        Long recId = Long.valueOf((Integer)data.get("record_id"));
+    public ResponseEntity<Object> getRecord(@RequestParam("record_id") Long recId){
         Optional<Record> result = service.selectRec(recId);
         if(result.isPresent())
             return new ResponseEntity<Object>(result, HttpStatus.OK);
