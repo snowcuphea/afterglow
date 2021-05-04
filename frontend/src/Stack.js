@@ -18,8 +18,6 @@ import AfterDayShare from './screens/afterDay/AfterDayShare';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
 import SettingsMain from './screens/settingss/SettingsMain';
-import Pictures from './components/Pictures'
-import Counter from './screens/Counter';
 import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain'
 import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory'
 import SelectPictures from './screens/common/SelectPictures';
@@ -232,7 +230,8 @@ const StackComponent = (props) => {
 function mapStateToProps(state) {
   return {
     isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user_nickname
+    user_nickname: state.accountRd.user_nickname,
+    selectedPictures: state.pictureRd.pictures,
   }
 }
 

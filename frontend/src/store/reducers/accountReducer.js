@@ -4,6 +4,10 @@ import { Platform } from 'react-native';
 const initialState = {
   isLogin : false,
   user_nickname: '',
+
+  
+
+
 };
 
 export default (state = initialState, action) => {
