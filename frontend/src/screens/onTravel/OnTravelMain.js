@@ -76,7 +76,7 @@ function mapStateToProps(state) {
 
   return {
     isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user_nickname
+    user_nickname: state.accountRd.user.nickname
   }
 }
 

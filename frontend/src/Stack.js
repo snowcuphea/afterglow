@@ -186,8 +186,6 @@ const StackComponent = (props) => {
           headerRight: false,
         }}
       />
-    
-        
       <Stack.Screen
         name="TravelHistoryMain"
         component={TravelHistoryMain}
@@ -230,7 +228,7 @@ const StackComponent = (props) => {
 function mapStateToProps(state) {
   return {
     isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user_nickname,
+    user_nickname: state.accountRd.user.nickname,
     selectedPictures: state.pictureRd.pictures,
   }
 }
