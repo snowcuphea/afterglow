@@ -9,22 +9,21 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class Record {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("usr_id")
-    @Id
-    private Integer recId;
-
-    @JsonProperty("usr")
-    @ManyToOne
-    @JoinColumn(name = "usrId")
-    private User user;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("rec_id")
+    private Long recId;
     @JsonProperty("rec_name")
     private String recName;
+
+    @ManyToOne
+    @JoinColumn(name = "usrId")
+    @JsonProperty("usr")
+    private User user;
 
     @Builder
     public Record(User user, String recName){
         super();
-        this.user = user;
         this.recName = recName;
+        this.user = user;
     }
 }

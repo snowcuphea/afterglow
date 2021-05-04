@@ -11,22 +11,20 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class RouteRecord {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("rr_id")
-    @Id
-    private Integer rrId;
-
-    @JsonProperty("dr")
-    @ManyToOne
-    @JoinColumn(name = "drId")
-    private DailyRecord dr;
-
+    private Long rrId;
     @JsonProperty("rr_latitude")
     private Double rrLatitude;
     @JsonProperty("rr_longitude")
     private Double rrLongitude;
     @JsonProperty("rr_time")
     private LocalDateTime rrTime;
+
+    @ManyToOne
+    @JoinColumn(name = "drId")
+    @JsonProperty("dr")
+    private DailyRecord dr;
 
     @Builder
     public RouteRecord(DailyRecord dr, Double rrLatitude, Double rrLongitude, LocalDateTime rrTime){
