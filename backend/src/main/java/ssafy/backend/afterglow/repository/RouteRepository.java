@@ -4,5 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ssafy.backend.afterglow.domain.Record;
 import ssafy.backend.afterglow.domain.RouteRecord;
 
-public interface RouteRepository extends JpaRepository<RouteRecord, Integer> {
+import java.util.List;
+
+public interface RouteRepository extends JpaRepository<RouteRecord, Long> {
+    List<RouteRecord> findAllByDr(Long dayRecId);
 }

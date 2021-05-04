@@ -10,20 +10,20 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class PinRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("pr_id")
-    private Integer pinId;
-
-    @JsonProperty("rr")
-    @ManyToOne
-    @JoinColumn(name = "rrId")
-    private RouteRecord rr;
-
+    private Long pinId;
     @JsonProperty("pr_name")
     private String prName;
     @JsonProperty("pr_memo")
     private String prMemo;
+
+    @ManyToOne
+    @JoinColumn(name = "rrId")
+    @JsonProperty("rr")
+    private RouteRecord rr;
+
+
 
     @Builder
     public PinRecord(RouteRecord rr, String prName, String prMemo){
