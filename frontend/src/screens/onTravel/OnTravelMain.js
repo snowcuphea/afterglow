@@ -14,7 +14,7 @@ import MoneyBook from '../../components/book/MoneyBook'
 import AddMoneyItem from '../../components/book/AddMoneyItem'
 
 import { connect } from 'react-redux'
-
+import ActionCreator from '../.././store/actions'
 
 
 class OnTravelMain extends React.Component {
@@ -25,10 +25,12 @@ class OnTravelMain extends React.Component {
 
   endDay = () => {
     this.props.navigation.navigate('SelectPicture')
+    this.props.changeStatus('dayEnd')
   }
 
   endTravel = () => {
     this.props.navigation.navigate('SelectPicture')
+    this.props.changeStatus('travelEnd')
   }
 
   selectPin = () => {
@@ -72,12 +74,19 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-  // console.log("stack에서", state)
-
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.nickname
   }
 }
 
-export default connect(mapStateToProps)(OnTravelMain) 
+function mapDispatchToProps(dispatch) {
+  return {
+    changeStatus: (status) => {
+      dispatch(ActionCreator.changeStatus(status))
+    }
+  };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(OnTravelMain) 

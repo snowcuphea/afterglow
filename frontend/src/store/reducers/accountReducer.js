@@ -41,7 +41,11 @@ export default (state = initialState, action) => {
         isLogin: true,
         user : { ...state.user, nickname: Platform.Version }
       }
-      
+    case types.CHANGE_STATUS:
+      return {
+        ...state,
+        travelStatus : action.payload
+      }
     default:
       return state;
   }

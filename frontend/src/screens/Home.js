@@ -11,6 +11,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux'
 
+import ActionCreator from '.././store/actions'
 
 class HomeScreen extends React.Component {
 
@@ -20,6 +21,7 @@ class HomeScreen extends React.Component {
 
   startTravel = () => {
     this.props.navigation.navigate('OnTravelMain')
+    this.props.changeStatus('onTravel')
   }
 
   selectPin = () => {
@@ -69,4 +71,12 @@ function mapStateToProps(state){
   }
 }
 
-export default connect(mapStateToProps)(HomeScreen)
+function mapDispatchToProps(dispatch) {
+  return {
+    changeStatus: (status) => {
+      dispatch(ActionCreator.changeStatus(status))
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

@@ -50,13 +50,22 @@ const SavePicture = (props) => {
   // const amount = 3
   const amount = props.selectedPictures.length
 
+  const status = props.travelStatus
+  let nextRoute = ''
+  
+  if (status === "dayEnd") {
+    nextRoute = "AfterDayMain"
+  } else if (status === "travelEnd") {
+    nextRoute = "AfterTravelMain"
+  }
+
   function save() {
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
         routes: [
           { name: 'Home' },
-          { name: 'AfterDayMain'},
+          { name: nextRoute},
         ]
       })
     )
@@ -82,8 +91,6 @@ const initialRouteName = (isLogin) => {
     return "Login"
   }
 }
-
-const travelTitle = "100일 기념 제주도"
 
 const StackComponent = (props) => {
 
@@ -204,7 +211,7 @@ const StackComponent = (props) => {
         name="SelectPicture"
         component={SelectPictures}
         options={{
-          title: `하루 끝: ${travelTitle}`,
+          title: "사진 저장",
           headerRight: () => <SavePicture {...props} />,
         }}
       />
@@ -212,7 +219,7 @@ const StackComponent = (props) => {
         name="SinglePicture"
         component={SinglePicture}
         options={{
-          title: "하루 끝 사진 하나보기",
+          title: "사진 보기",
           headerRight: () => <SavePicture {...props} />,
         }}
       />
@@ -230,6 +237,7 @@ function mapStateToProps(state) {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.nickname,
     selectedPictures: state.pictureRd.pictures,
+    travelStatus: state.accountRd.travelStatus,
   }
 }
 
