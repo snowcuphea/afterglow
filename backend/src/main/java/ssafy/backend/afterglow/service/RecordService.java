@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.repository.*;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -48,7 +49,7 @@ public class RecordService {
     }
 
     public Optional<Record> selectCurrent(Long dayRecId){
-
+        // 어느 정도의 정보가 필요한지 모르겟음?
         return null;
     }
 
