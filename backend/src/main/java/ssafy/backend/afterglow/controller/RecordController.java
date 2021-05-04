@@ -16,6 +16,11 @@ import ssafy.backend.afterglow.service.RecordService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import ssafy.backend.afterglow.domain.Record;
+import ssafy.backend.afterglow.service.RecordService;
+
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("records")
@@ -34,57 +39,16 @@ public class RecordController {
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Integer> makeRecord(@RequestBody RecVO rec) {
-        if (service.insertRec(rec))
-            return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<String> startRecord(@RequestParam("user_id") Long userId, @RequestParam("rec_name") String recName){
+        if(service.insertRec(userId, recName).isPresent())
+            return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
         else
-            return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<String>("FAIL", HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @PostMapping("/start")
-    public ResponseEntity<Integer> startRecord(@RequestBody DayVO day) {
-        if (service.insertDayRec(day))
-            return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
-        else
-            return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
-    }
-
-    @PostMapping("/route")
-    public ResponseEntity<Integer> saveRoute(@RequestBody RouteVO pos) {
-        if (service.insertRoute(pos))
-            return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
-        else
-            return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
-    }
-
-    @PostMapping("/receipt")
-    public ResponseEntity<Integer> saveConsume(@RequestBody ConsumeVO consume) {
-        if (service.insertConsumption(consume))
-            return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
-        else
-            return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
-    }
-
-    @GetMapping("/time")
-    public ResponseEntity<Integer> getRecordTime() {
-        return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
-    }
-
-    @GetMapping("/distance")
-    public ResponseEntity<Integer> getTotalDistance() {
-        return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
-    }
-
-    @GetMapping("/receipt")
-    public ResponseEntity<Integer> getConsume() {
-        return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
-    }
-
-    @GetMapping("/pictures")
-    public ResponseEntity<Integer> getPictures() {
-        return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
-    }
 
     // 이미지 저장
     @SneakyThrows
@@ -110,5 +74,28 @@ public class RecordController {
                             });
                 });
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
+        
+        
+    // 여행 index 받으면 -> 여행 정보 return
+    @GetMapping
+    public ResponseEntity<Object> getRecord(@RequestParam("record_id") Long recId){
+        Optional<Record> result = service.selectRec(recId);
+        if(result.isPresent())
+            return new ResponseEntity<Object>(result, HttpStatus.OK);
+        else
+            return new ResponseEntity<Object>("FAIL", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
+    // 하루 기준 현 시간까지의 실시간 정보 받아오기
+    @GetMapping("/current")
+    public ResponseEntity<String> getCurrentInfo(@RequestBody Map<String, Object> data){
+        Long dayRecId = Long.valueOf((Integer)data.get("day_record_id"));
+
+//        if(service.selectRec(recId).isPresent())
+//            return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+//        else
+//            return new ResponseEntity<String>("FAIL", HttpStatus.NOT_ACCEPTABLE);
+        return null;
     }
 }

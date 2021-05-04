@@ -11,14 +11,15 @@ import java.sql.Blob;
 @Setter
 @NoArgsConstructor
 public class ImageRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("pr_id")
-    private Integer imgId;
+    private Long imgId;
+    @Lob @JsonProperty("ir_image")
+    private Blob irImage;
 
-    @JsonProperty("rr")
     @ManyToOne
     @JoinColumn(name = "rrId")
+    @JsonProperty("rr")
     private RouteRecord rr;
 
     @JsonProperty("ir_image")

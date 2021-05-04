@@ -12,22 +12,20 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class DailyRecord {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("dr_id")
-    @Id
-    private Integer drId;
-
-    @JsonProperty("tr")
-    @ManyToOne
-    @JoinColumn(name = "recId")
-    private Record rec;
-
+    private Long drId;
     @JsonProperty("dr_day")
     private LocalDate drDay;
     @JsonProperty("dr_start_time")
     private LocalDateTime drStartTime;
     @JsonProperty("dr_end_time")
     private LocalDateTime drEndTime;
+
+    @ManyToOne
+    @JoinColumn(name = "recId")
+    @JsonProperty("rec")
+    private Record rec;
 
     @Builder
     public DailyRecord(Record rec, LocalDateTime drStartTime){

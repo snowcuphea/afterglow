@@ -13,22 +13,20 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class ConsumptionRecord {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("cr_id")
-    @Id
-    private Integer crId;
-
-    @JsonProperty("dr")
-    @ManyToOne
-    @JoinColumn(name = "drId")
-    private DailyRecord dr;
-
+    private Long crId;
     @JsonProperty("cr_name")
     private String crName;
     @JsonProperty("cr_money")
     private Integer crMoney;
     @JsonProperty("cr_datetime")
     private LocalDateTime crDatetime;
+
+    @ManyToOne
+    @JoinColumn(name = "drId")
+    @JsonProperty("dr")
+    private DailyRecord dr;
 
     @Builder
     public ConsumptionRecord(DailyRecord dr, String crName, Integer crMoney, LocalDateTime crDatetime){
