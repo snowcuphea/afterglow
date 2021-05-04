@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.repository.*;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,17 +48,19 @@ public class RecordService {
     }
 
     public Optional<Record> selectCurrent(Long dayRecId){
-
+        // 어느 정도의 정보가 필요한지 모르겟음?
         return null;
     }
 
-    public String getRecTotalTime(Integer recId){
-        // dr.drStartTime
-        // dr.drEndTime
-        // Period - 날짜 차이
-        // Duration - 시간 차이
-
-        return null;
+    public String getRecTotalTime(Long recId){
+        Optional<Record> rec = recRepo.findById(recId);
+        if(rec.isPresent()){
+            List<DailyRecord> dayRec = dayRepo.findByRec(rec.get());
+//            dayRec.forEach(day -> {Duration dur = Duration.between(day.getDrStartTime(), day.getDrEndTime())});
+            return null;
+        }
+        else
+            return null;
     }
 
 }

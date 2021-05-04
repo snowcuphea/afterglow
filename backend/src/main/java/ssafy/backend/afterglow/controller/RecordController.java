@@ -46,7 +46,7 @@ public class RecordController {
 
     // 하루 기준 현 시간까지의 실시간 정보 받아오기
     @GetMapping("/current")
-    public ResponseEntity<String> getCurrentInfo(@RequestBody Map<String, Object> data){
+    public ResponseEntity<String> getCurrentInfo(@RequestParam("")){
         Long dayRecId = Long.valueOf((Integer)data.get("day_record_id"));
 
 //        if(service.selectRec(recId).isPresent())
