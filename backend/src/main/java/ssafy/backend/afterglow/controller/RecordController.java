@@ -16,6 +16,7 @@ import ssafy.backend.afterglow.service.RecordService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+
 import ssafy.backend.afterglow.domain.Record;
 import ssafy.backend.afterglow.service.RecordService;
 
@@ -39,11 +40,9 @@ public class RecordController {
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
-    }
 
-
-    public ResponseEntity<String> startRecord(@RequestParam("user_id") Long userId, @RequestParam("rec_name") String recName){
-        if(service.insertRec(userId, recName).isPresent())
+    public ResponseEntity<String> startRecord(@RequestParam("user_id") Long userId, @RequestParam("rec_name") String recName) {
+        if (service.insertRec(userId, recName).isPresent())
             return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
         else
             return new ResponseEntity<String>("FAIL", HttpStatus.NOT_ACCEPTABLE);
@@ -74,13 +73,13 @@ public class RecordController {
                             });
                 });
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
-        
-        
+    }
+
     // 여행 index 받으면 -> 여행 정보 return
     @GetMapping
-    public ResponseEntity<Object> getRecord(@RequestParam("record_id") Long recId){
+    public ResponseEntity<Object> getRecord(@RequestParam("record_id") Long recId) {
         Optional<Record> result = service.selectRec(recId);
-        if(result.isPresent())
+        if (result.isPresent())
             return new ResponseEntity<Object>(result, HttpStatus.OK);
         else
             return new ResponseEntity<Object>("FAIL", HttpStatus.NOT_ACCEPTABLE);
@@ -89,8 +88,8 @@ public class RecordController {
 
     // 하루 기준 현 시간까지의 실시간 정보 받아오기
     @GetMapping("/current")
-    public ResponseEntity<String> getCurrentInfo(@RequestParam("")){
-        Long dayRecId = Long.valueOf((Integer)data.get("day_record_id"));
+    public ResponseEntity<String> getCurrentInfo(@RequestParam("")) {
+        Long dayRecId = Long.valueOf((Integer) data.get("day_record_id"));
 
 //        if(service.selectRec(recId).isPresent())
 //            return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
