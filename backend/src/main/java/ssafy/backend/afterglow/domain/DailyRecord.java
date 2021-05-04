@@ -7,10 +7,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity(name="DailyRecord")
-@Getter
-@Setter
+@Entity(name="daily_record")
+@Getter @Setter
 @NoArgsConstructor
+@ToString(exclude = {"rec"})
 public class DailyRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("dr_id")
@@ -22,8 +22,7 @@ public class DailyRecord {
     @JsonProperty("dr_end_time")
     private LocalDateTime drEndTime;
 
-    @ManyToOne
-    @JoinColumn(name = "recId")
+    @ManyToOne @JoinColumn(name = "rec_id")
     @JsonProperty("rec")
     private Record rec;
 
