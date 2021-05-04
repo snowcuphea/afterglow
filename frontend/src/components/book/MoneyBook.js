@@ -34,7 +34,7 @@ class MoneyBook extends React.Component {
     
     return (
       <View >
-        <Text style={styles.titleStyle}>가계부</Text>
+        
         <Card >
           <View style={styles.container}>
             <Card.Title style={{flex:2}}>시간</Card.Title>

@@ -51,13 +51,13 @@ class OnTravelMain extends React.Component {
         <Button title={"여행 끝"} onPress={this.endTravel}/>
         <Button title={"핀을 눌렀을 때"} onPress={this.selectPin}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
-        <Text style={{fontSize: 20, marginLeft: 20, marginTop: 20, fontFamily:'RIDIBatang'}}>
+        <Text style={styles.titleStyle}>
           {this.props.user_nickname}님은, ____ 여행 중</Text>
 
-        <Text style={{fontSize: 20, marginLeft: 20, marginTop: 20, fontFamily:'RIDIBatang'}}>
-          {this.props.user_nickname}님이 방문한 장소 </Text>
+        <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
+        <Text style={styles.titleStyle}>가계부</Text>
         <MoneyBook />
-        <AddMoneyItem />
+        {/* <AddMoneyItem /> */}
       </ScrollView>
     )
   }
@@ -68,6 +68,10 @@ const styles = StyleSheet.create({
     flex:1,
     // justifyContent: 'center',
     // alignItems: 'center'
+  },
+  titleStyle: {
+    fontSize: 20, marginLeft: 20, marginTop: 20, fontFamily:'RIDIBatang'
+
   }
 })
 
