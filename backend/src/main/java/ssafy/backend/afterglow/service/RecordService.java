@@ -7,6 +7,7 @@ import ssafy.backend.afterglow.repository.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class RecordService {
@@ -51,7 +52,7 @@ public class RecordService {
         return null;
     }
 
-    public String getRecTotalTime(Integer recId){
+    public String getRecTotalTime(Integer recId) {
         // dr.drStartTime
         // dr.drEndTime
         // Period - 날짜 차이
@@ -60,4 +61,26 @@ public class RecordService {
         return null;
     }
 
+    public Optional<RouteRecord> findNearestRr(Integer drId, Double longitude, Double latitude) {
+        Optional<DailyRecord> dr = dayRepo.findById(drId);
+        if (dr.isPresent()) {
+            List<RouteRecord> rrList = rouRepo.findByDr(dr.get());
+            AtomicReference<RouteRecord> nearestRr = new AtomicReference<>(rrList.get(0));
+            Double nearestDist = getDist(nearestRr.get(), longitude, latitude);
+            rrList
+                    .stream()
+                    .forEach(rr -> {
+                        if (getDist(rr, longitude, latitude) < nearestDist) {
+                            nearestRr.set(rr);
+                        }
+                    });
+            return Optional.ofNullable(nearestRr.get());
+        } else {
+            return null;
+        }
+    }
+
+    public Double getDist(RouteRecord rr, Double Longitude, Double Latitude) {
+        return Math.sqrt(Math.pow(rr.getRrLatitude() - Latitude, 2) + Math.pow(rr.getRrLongitude() - Longitude, 2));
+    }
 }

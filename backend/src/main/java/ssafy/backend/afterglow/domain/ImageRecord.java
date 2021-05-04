@@ -22,8 +22,12 @@ public class ImageRecord {
     @JsonProperty("rr")
     private RouteRecord rr;
 
+    @JsonProperty("ir_image")
+    @Lob
+    private byte[] irImage;
+
     @Builder
-    public ImageRecord(RouteRecord rr, Blob irImage){
+    public ImageRecord(RouteRecord rr, byte[] irImage){
         super();
         this.rr = rr;
         this.irImage = irImage;
