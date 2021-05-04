@@ -1,11 +1,16 @@
 package ssafy.backend.afterglow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import ssafy.backend.afterglow.domain.*;
+import ssafy.backend.afterglow.dto.DailyRecordDTO;
+import ssafy.backend.afterglow.dto.RecordDTO;
 import ssafy.backend.afterglow.repository.*;
 
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,25 +49,36 @@ public class RecordService {
         }
     }
 
-    public Optional<Record> selectRec(Long recId){
-        return recRepo.findById(recId);
+    public RecordDTO selectCurrent(Long recId){
+        Optional<Record> rec = recRepo.findById(recId);
+        if(rec.isPresent()){
+            Record rEntity = rec.get();
+            List<DailyRecord> dayEntity = rEntity.getDayRecs();
+            List<DailyRecordDTO> drDTO = new ArrayList<>();
+            for(DailyRecord dr : dayEntity){
+                drDTO.add(DailyRecordDTO.builder().drId(dr.getDrId()).drDay(dr.getDrDay()).drStartTime(dr.getDrStartTime()).drEndTime(dr.getDrEndTime()).build());
+            }
+            return RecordDTO.builder().recId(rEntity.getRecId()).recName(rEntity.getRecName()).dayRecs(drDTO).build();
+        }
+        else
+            return null;
     }
 
-    public Optional<Record> selectCurrent(Long dayRecId){
-        // 어느 정도의 정보가 필요한지 모르겟음?
-        return null;
+    public Long getRecTotalTime(Long recId) {
+        Optional<Record> rec = recRepo.findById(recId);
+        Long totalTime = 0L;
+        if(rec.isPresent()){
+            List<DailyRecord> dayRec = dayRepo.findByRec(rec.get());
+            for(DailyRecord day : dayRec){
+                totalTime += ChronoUnit.HOURS.between(day.getDrStartTime(), day.getDrEndTime());
+            }
+            return totalTime;
+        }
+        else
+            return null;
     }
 
-    public String getRecTotalTime(Integer recId) {
-        // dr.drStartTime
-        // dr.drEndTime
-        // Period - 날짜 차이
-        // Duration - 시간 차이
-
-        return null;
-    }
-
-    public Optional<RouteRecord> findNearestRr(Integer drId, Double longitude, Double latitude) {
+    public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude) {
         Optional<DailyRecord> dr = dayRepo.findById(drId);
         if (dr.isPresent()) {
             List<RouteRecord> rrList = rouRepo.findByDr(dr.get());
