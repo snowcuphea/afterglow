@@ -14,8 +14,6 @@ public class ImageRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("pr_id")
     private Long imgId;
-    @Lob @JsonProperty("ir_image")
-    private Blob irImage;
 
     @ManyToOne
     @JoinColumn(name = "rrId")

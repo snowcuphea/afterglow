@@ -3,44 +3,33 @@ package ssafy.backend.afterglow.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ssafy.backend.afterglow.domain.ImageRecord;
-import ssafy.backend.afterglow.repository.ImageRepository;
+import ssafy.backend.afterglow.domain.*;
+import ssafy.backend.afterglow.repository.*;
 import ssafy.backend.afterglow.service.RecordService;
 
-import org.springframework.web.multipart.MultipartFile;
 import ssafy.backend.afterglow.domain.ImageRecord;
 import ssafy.backend.afterglow.repository.ImageRepository;
-import ssafy.backend.afterglow.repository.RecordRepository;
-import ssafy.backend.afterglow.repository.UserRepository;
-import ssafy.backend.afterglow.service.RecordService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-
-import ssafy.backend.afterglow.domain.Record;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
-
 import ssafy.backend.afterglow.domain.Record;
-import ssafy.backend.afterglow.service.RecordService;
-
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("records")
@@ -55,6 +44,7 @@ public class RecordController {
     private final ImageRepository imagerepository;
     private final UserRepository userRepository;
     private final RecordRepository recordRepository;
+    private final DailyRepository dailyRepository;
 
     @GetMapping
     public ResponseEntity<String> sampleFunction() {
@@ -96,6 +86,32 @@ public class RecordController {
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
     }
 
+    // 여행 시작
+    @PostMapping("/startTrip")
+    public ResponseEntity<String> startTrip(@AuthenticationPrincipal Principal principal,
+                                            @RequestParam("title") String recTitle) {
+        AtomicReference<Record> record = null;
+        AtomicReference<DailyRecord> dr = null;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
+
+            userRepository.findByUsername(principal.getName())
+                    .ifPresent(user -> {
+                        record.set(recordRepository.save(Record.builder()
+                                .user(user)
+                                .recName(recTitle)
+                                .build()));
+
+                        dr.set(dailyRepository.save(DailyRecord.builder()
+                                .rec(record.get())
+                                .drStartTime(LocalDateTime.now())
+                                .build()));
+                    });
+        }
+        return ResponseEntity.ok(principal.getName());
+    }
+
+
     // 여행 index 받으면 -> 여행 정보 return
     @GetMapping
     public ResponseEntity<Object> getRecord(@RequestParam("record_id") Long recId) {
@@ -107,20 +123,8 @@ public class RecordController {
     }
 
 
-    // 하루 기준 현 시간까지의 실시간 정보 받아오기
-    @GetMapping("/current")
-    public ResponseEntity<String> getCurrentInfo(@RequestParam("")) {
-        Long dayRecId = Long.valueOf((Integer) data.get("day_record_id"));
-
-//        if(service.selectRec(recId).isPresent())
-//            return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-//        else
-//            return new ResponseEntity<String>("FAIL", HttpStatus.NOT_ACCEPTABLE);
-        return null;
-    }
-
     // 유저 전체 여행
-    @GetMapping("/")
+    @GetMapping("/total")
     public ResponseEntity<Object> currentUserToken(@AuthenticationPrincipal Principal principal) {
         AtomicReference<List<Record>> result = null;
         if (principal instanceof OAuth2AuthenticationToken) {
@@ -129,6 +133,48 @@ public class RecordController {
             userRepository.findByUsername(principal.getName())
                     .ifPresent(user -> {
                         result.set(recordRepository.findByUser(user));
+                    });
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    // 하루 기준 현 시간까지의 실시간 정보 받아오기
+    @GetMapping("/current")
+    public ResponseEntity<Object> currentInfo(@AuthenticationPrincipal Principal principal,
+                                              @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) {
+        AtomicReference<DailyRecord> result = null;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            Map<String, Object> attributes = new HashMap<>();
+            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
+            userRepository
+                    .findByUsername(principal.getName())
+                    .ifPresent(user -> {
+                        dailyRepository.findByDrDate(today)
+                                .ifPresent(dr -> {
+                                    result.set(dr);
+                                });
+                    });
+        }
+        return ResponseEntity.ok(result);
+    }
+
+
+    // 하루끝
+    @GetMapping("/current")
+    public ResponseEntity<Object> dayEnd(@AuthenticationPrincipal Principal principal,
+                                         @RequestParam("date") LocalDate today) {
+        AtomicReference<DailyRecord> result = null;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            Map<String, Object> attributes = new HashMap<>();
+            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
+            
+            userRepository
+                    .findByUsername(principal.getName())
+                    .ifPresent(user -> {
+                        dailyRepository.findByDrDate(today)
+                                .ifPresent(dr -> {
+                                    result.set(dr);
+                                });
                     });
         }
         return ResponseEntity.ok(result);
