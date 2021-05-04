@@ -25,7 +25,6 @@ class Pictures extends React.Component {
     super(props);
     this.state = {
         data: [],
-        selected: [],
     };
   }
 
