@@ -17,7 +17,7 @@ export default class AfterDayAllPictures extends React.Component {
   }
 
   selectPicture = () => {
-    this.props.navigation.navigate('AfterDaySinglePicture')
+    this.props.navigation.navigate('SinglePicture')
   }
 
   render() {

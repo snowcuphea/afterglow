@@ -12,9 +12,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class AfterTravelMain extends React.Component {
 
-  selectPin = () => {
-    
-  }
 
   sharePicture = () => {
     this.props.navigation.navigate('AfterTravelShare')

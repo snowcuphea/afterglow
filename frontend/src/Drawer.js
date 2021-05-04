@@ -27,7 +27,6 @@ const Drawer = createDrawerNavigator();
 // }
 
 const CustomDrawerContent = (props) => {
-//  console.log(props)
 
   return (
     <DrawerContentScrollView {...props} style={{flex: 1}}>
