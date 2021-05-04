@@ -15,6 +15,7 @@ import StackComponent from './Stack'
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props) => {
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItem 

@@ -31,43 +31,50 @@ class Pictures extends React.Component {
 
   async componentDidMount(){
     if (Platform.OS === 'android') {
-        const result = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          {
-            title: 'Permission Explanation',
-            message: 'ReactNativeForYou would like to access your photos!',
-          },
-        );
-        if (result !== 'granted') {
-          console.log('Access to pictures was denied');
-          return;
-        }
+      const result = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        {
+          title: 'Permission Explanation',
+          message: 'ReactNativeForYou would like to access your photos!',
+        },
+      );
+      if (result !== 'granted') {
+        console.log('Access to pictures was denied');
+        return;
       }
+    }
 
-      CameraRoll.getPhotos({
-        first: 50,
-        assetType: 'Photos',
-      })
-      .then(res => {
-        for (let picture of res.edges) {
-          const pictureForm = {
-            id: picture.node.timestamp + 0.1,
-            timestamp : picture.node.timestamp,
-            location : picture.node.location,
-            uri: picture.node.image.uri
-          }
-          this.setState({ ...this.state, data: [ pictureForm, ...this.state.data ]})
+    CameraRoll.getPhotos({
+      first: 50,
+      assetType: 'Photos',
+      include: [
+        'location', 'imageSize'
+      ]
+    })
+    .then(res => {
+      for (let picture of res.edges) {
+        const pictureForm = {
+          id: picture.node.timestamp + 0.1,
+          timestamp : picture.node.timestamp,
+          location : picture.node.location,
+          uri: picture.node.image.uri,
+          imageSize: {
+            height : picture.node.image.height,
+            width : picture.node.image.width
+          },
         }
-        
-      })
-      .catch((error) => {
-         console.log("에러",error);
-      });
-    
+        this.setState({ ...this.state, data: [ pictureForm, ...this.state.data ]})
+      }
+      
+    })
+    .catch((error) => {
+        console.log("에러",error);
+    });
+  
   }
 
   toLargeScale = (item) => {
-    this.props.navigation.navigate("AfterDaySinglePicture", { picture : item })
+    this.props.navigation.navigate("SinglePicture", { picture : item })
   }
 
   render(){
@@ -88,7 +95,7 @@ class Pictures extends React.Component {
                   name="checkmark-circle" 
                   size={screenWidth/12}
                   style={styles.selectIcon}
-                  color={'black'}/>
+                  color={'pink'}/>
               </TouchableOpacity> :
               <TouchableOpacity style={styles.selectArea} onPress={() => this.props.select(item)}>
                 <Ionicons

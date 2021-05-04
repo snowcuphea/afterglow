@@ -11,7 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import ActionCreator from '../../store/actions';
 
-class AfterDaySinglePicture extends React.Component {
+class SinglePicture extends React.Component {
 
   constructor(props) {
     super(props)
@@ -20,13 +20,19 @@ class AfterDaySinglePicture extends React.Component {
   render() {
     
     const {picture} = this.props.route.params
-
+    console.log(picture.imageSize.width, picture.imageSize.height )
     let screenWidth = Dimensions.get('window').width;
+    let screenHeight = Dimensions.get('window').height;
+
+    const tempScale1 = picture.imageSize.width/screenWidth
+    const tempScale2 = picture.imageSize.height/screenHeight
+
+    const scale = tempScale1 >= tempScale2 ? tempScale1 : tempScale2
 
     return (
       <View style={styles.container}>
         <Image 
-          style={{ width: screenWidth, height: screenWidth }} 
+          style={{ width: picture.imageSize.width/scale , height: picture.imageSize.height/scale }} 
           source={{ uri: picture.uri }} />
         <View style={styles.selectContainer}>
           { this.props.selectedPictures.filter((select) => select.id !== picture.id).length !== this.props.selectedPictures.length ?  
@@ -81,4 +87,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AfterDaySinglePicture);
+export default connect(mapStateToProps, mapDispatchToProps)(SinglePicture);

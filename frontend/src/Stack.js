@@ -12,16 +12,17 @@ import OnTravelMain from './screens/onTravel/OnTravelMain';
 import OnTravelAllPictures from './screens/onTravel/OnTravelAllPictures';
 import OnTravelShare from './screens/onTravel/OnTravelShare';
 import OnTravelSinglePicture from './screens/onTravel/OnTravelSinglePicture';
-import AfterDaySelect from './screens/afterDay/AfterDaySelect';
 import AfterDayMain from './screens/afterDay/AfterDayMain';
 import AfterDayAllPictures from './screens/afterDay/AfterDayAllPictures';
 import AfterDayShare from './screens/afterDay/AfterDayShare';
-import AfterDaySinglePicture from './screens/afterDay/AfterDaySinglePicture';
-import AfterTravelSelect from './screens/afterTravel/AfterTravelSelect';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
 import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain'
 import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory'
+import SelectPictures from './screens/common/SelectPictures';
+import SinglePicture from './screens/common/SinglePicture';
+
+import ActionCreator from './store/actions'
 
 import Counter from './screens/Counter';
 
@@ -42,8 +43,11 @@ const MenuBar = () => {
   )
 }
 
-const SavePicture = () => {
+const SavePicture = (props) => {
+
   const navigation = useNavigation();
+  // const amount = 3
+  const amount = props.selectedPictures.length
 
   function save() {
     navigation.dispatch(
@@ -62,15 +66,16 @@ const SavePicture = () => {
       <TouchableOpacity 
         onPress={save}
       >
-        <Text>저장</Text>
+        <Text>{amount} 저장</Text>
       </TouchableOpacity>
     </View>
 
   )
 }
 
-const initialRouteName = () => {
-  if (this.props.isLogin) {
+const initialRouteName = (isLogin) => {
+
+  if (isLogin) {
     return "Home"
   } else {
     return "Login"
@@ -79,10 +84,11 @@ const initialRouteName = () => {
 
 const travelTitle = "100일 기념 제주도"
 
-const StackComponent = () => {
+const StackComponent = (props) => {
+
   return (
     <Stack.Navigator
-      initialRouteName={initialRouteName}
+      initialRouteName={initialRouteName(props.isLogin)}
       screenOptions = {{
         headerRight: () => <MenuBar />,
         // gestureEnabled: true,
@@ -137,14 +143,6 @@ const StackComponent = () => {
         }}
       />
       <Stack.Screen 
-        name="AfterDaySelect"
-        component={AfterDaySelect}
-        options={{
-          title: `하루 끝: ${travelTitle}`,
-          headerRight: () => <SavePicture />,
-        }}
-      />
-      <Stack.Screen 
         name="AfterDayMain"
         component={AfterDayMain}
         options={{
@@ -163,21 +161,6 @@ const StackComponent = () => {
         component={AfterDayShare}
         options={{
           title: "하루 끝 사진 공유하기"
-        }}
-      />
-      <Stack.Screen 
-        name="AfterDaySinglePicture"
-        component={AfterDaySinglePicture}
-        options={{
-          title: "하루 끝 사진 하나보기",
-          headerRight: () => <SavePicture />,
-        }}
-      />
-      <Stack.Screen 
-        name="AfterTravelSelect"
-        component={AfterTravelSelect}
-        options={{
-          title: `여행 끝: ${travelTitle}`
         }}
       />
       <Stack.Screen 
@@ -206,6 +189,22 @@ const StackComponent = () => {
         component={SingleTravelHistory}
         options={{
           title: <Text>선택한 여행 상세 기록</Text>
+        }}
+      />
+      <Stack.Screen 
+        name="SelectPicture"
+        component={SelectPictures}
+        options={{
+          title: `하루 끝: ${travelTitle}`,
+          headerRight: () => <SavePicture {...props} />,
+        }}
+      />
+      <Stack.Screen 
+        name="SinglePicture"
+        component={SinglePicture}
+        options={{
+          title: "하루 끝 사진 하나보기",
+          headerRight: () => <SavePicture {...props} />,
         }}
       />
       <Stack.Screen
