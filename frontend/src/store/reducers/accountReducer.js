@@ -57,7 +57,7 @@ export default (state = initialState, action) => {
         ...state,
         todayTravel: {
           ...state.todayTravel,
-          todayDate: new Date().getTime()/1000    // 여행/하루를 시작하는 timestamp(초 단위) 설정
+          todayDate: new Date().getTime()    // 여행/하루를 시작하는 timestamp(ms 단위) 설정
         }
       }
     default:
