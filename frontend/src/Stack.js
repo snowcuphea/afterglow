@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, TouchableOpacity, Text, Button } from 'react-native'
 
-import { createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack' 
+import { createStackNavigator, CardStyleInterpolators, HeaderBackButton} from '@react-navigation/stack' 
 import { NavigationContainer, DrawerActions, useNavigation, CommonActions } from '@react-navigation/native'
 import { connect } from 'react-redux'
 
@@ -84,7 +84,7 @@ const SavePicture = (props) => {
 }
 
 const initialRouteName = (isLogin) => {
-  
+
   if (isLogin) {
     return "Home"
   } else {
@@ -233,6 +233,7 @@ const StackComponent = (props) => {
 }
 
 function mapStateToProps(state) {
+
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.nickname,

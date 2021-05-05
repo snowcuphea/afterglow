@@ -13,6 +13,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Divider, ListItem, Icon } from 'react-native-elements'
 
 
+import { connect } from 'react-redux'
+import ActionCreator from '../.././store/actions'
+
+
 const list = [
   {
     title: '프로필 및 계정관리',
@@ -42,9 +46,7 @@ const list2 = [
 ]
 
 
-
-
-export default class OnTravelAllPictures extends React.Component {
+class SettingsMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,6 +54,12 @@ export default class OnTravelAllPictures extends React.Component {
     };
   }
   
+  logout = () => {
+    this.props.logout()
+    this.props.navigation.navigate("Login")
+  }
+
+
   render() {
 
     return (
@@ -82,18 +90,24 @@ export default class OnTravelAllPictures extends React.Component {
           this.setState({ ...this.state, expanded: !this.state.expanded });
           // expanded = !expanded
           }}
-          >
-  {list2.map((l, i) => (
-    <ListItem key={i} bottomDivider>
-      <ListItem.Content>
-        
-        <ListItem.Subtitle>{l.title}</ListItem.Subtitle>
-      </ListItem.Content>
-      {/* <ListItem.Chevron /> */}
-    </ListItem>
-  ))}
-</ListItem.Accordion>
-       
+        >
+          {list2.map((l, i) => (
+            <ListItem key={i} bottomDivider>
+              <ListItem.Content>
+                
+                <ListItem.Subtitle>{l.title}</ListItem.Subtitle>
+              </ListItem.Content>
+              {/* <ListItem.Chevron /> */}
+            </ListItem>
+          ))}
+        </ListItem.Accordion>
+              
+      
+
+        <TouchableOpacity style={{ margin: 10, backgroundColor: 'blue'}} onPress={this.logout}>
+            <Text>LOGOUT</Text>
+        </TouchableOpacity>
+
       </View>
     )
   }
@@ -106,3 +120,20 @@ const styles = StyleSheet.create({
     // alignItems: 'center'
   }
 })
+
+function mapStateToProps(state) {
+  return {
+    isLogin: state.accountRd.isLogin,
+    user_nickname: state.accountRd.user.nickname,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => {
+      dispatch(ActionCreator.logout())
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsMain)

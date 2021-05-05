@@ -7,6 +7,12 @@ export function login(){
   };
 }
 
+export function logout() {
+  return {
+    type: types.LOGOUT,
+  }
+}
+
 export function changeStatus(status){
   return {
     type: types.CHANGE_STATUS,

@@ -41,6 +41,12 @@ export default (state = initialState, action) => {
         isLogin: true,
         user : { ...state.user, nickname: Platform.Version }
       }
+    case types.LOGOUT:
+      return {
+        ...state,
+        isLogin: false,
+        user : { nickname: "", email: "" }
+      }
     case types.CHANGE_STATUS:
       return {
         ...state,

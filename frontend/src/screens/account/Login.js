@@ -24,6 +24,9 @@ class LoginScreen extends React.Component {
   }
 
   render() {
+
+    console.log("Login.js", this.props.isLogin)
+
     return (
       <View style={styles.container}>
         <Text>로그인 화면</Text>
