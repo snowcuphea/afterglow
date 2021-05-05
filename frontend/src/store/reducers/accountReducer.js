@@ -46,6 +46,14 @@ export default (state = initialState, action) => {
         ...state,
         travelStatus : action.payload
       }
+    case types.SET_DATE:
+      return {
+        ...state,
+        todayTravel: {
+          ...state.todayTravel,
+          todayDate: new Date().getTime()/1000    // 여행/하루를 시작하는 timestamp(초 단위) 설정
+        }
+      }
     default:
       return state;
   }

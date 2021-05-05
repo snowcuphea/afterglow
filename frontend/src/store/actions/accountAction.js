@@ -13,3 +13,9 @@ export function changeStatus(status){
     payload: status
   }
 }
+
+export function setDate() {
+  return {
+    type: types.SET_DATE
+  }
+}

@@ -84,7 +84,7 @@ const SavePicture = (props) => {
 }
 
 const initialRouteName = (isLogin) => {
-
+  
   if (isLogin) {
     return "Home"
   } else {

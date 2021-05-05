@@ -6,6 +6,7 @@ const types = {
   UNSELECT_PICTURE: 'UNSELECT_PICTURE',
   SAVE_PICTURES: 'SAVE_PICTURES',
   CHANGE_STATUS:'CHANGE_STATUS',
+  SET_DATE : 'SET_DATE'
 };
 
 export default types
