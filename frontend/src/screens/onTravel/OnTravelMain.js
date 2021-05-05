@@ -78,6 +78,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
+  console.log("오늘은", state.accountRd.todayTravel.todayDate)
+
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.nickname

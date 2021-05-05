@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import CameraRoll from "@react-native-community/cameraroll";
-import { useNavigation } from "@react-navigation/native"
 
 import { connect } from 'react-redux';
 import ActionCreator from '../../store/actions';
@@ -48,7 +47,8 @@ class Pictures extends React.Component {
       assetType: 'Photos',
       include: [
         'location', 'imageSize'
-      ]
+      ],
+      fromTime: this.props.todayDate,
     })
     .then(res => {
       for (let picture of res.edges) {
@@ -62,6 +62,7 @@ class Pictures extends React.Component {
             width : picture.node.image.width
           },
         }
+        console.log(pictureForm)
         this.setState({ ...this.state, data: [ pictureForm, ...this.state.data ]})
       }
       
@@ -151,8 +152,12 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
+
+  console.log(state.accountRd.todayTravel.todayDate)
+
   return {
-    selectedPictures: state.pictureRd.pictures
+    selectedPictures: state.pictureRd.pictures,
+    todayDate: state.accountRd.todayTravel.todayDate
   };
 }
 
