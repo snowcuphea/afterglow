@@ -22,6 +22,7 @@ class HomeScreen extends React.Component {
   startTravel = () => {
     this.props.navigation.navigate('OnTravelMain')
     this.props.changeStatus('onTravel')
+    this.props.setDate()
   }
 
   selectPin = () => {
@@ -75,6 +76,9 @@ function mapDispatchToProps(dispatch) {
   return {
     changeStatus: (status) => {
       dispatch(ActionCreator.changeStatus(status))
+    },
+    setDate: () => {
+      dispatch(ActionCreator.setDate())
     }
   };
 }

@@ -12,7 +12,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Card, ListItem,  Icon } from 'react-native-elements'
 
 import StackComponent from './Stack'
-import SettingsMain from './screens/settingss/SettingsMain'
+
+import { connect } from 'react-redux'
+import ActionCreator from './store/actions'
 
 const Drawer = createDrawerNavigator();
 
@@ -27,7 +29,7 @@ const Drawer = createDrawerNavigator();
 // }
 
 const CustomDrawerContent = (props) => {
-
+  
   return (
     <DrawerContentScrollView {...props} style={{flex: 1}}>
       <View style={styles.TopIconContainer} >
@@ -79,8 +81,6 @@ const CustomDrawerContent = (props) => {
           <Text>튜토리얼</Text>
         </View>  
       </View>
-      
-      
       
     </DrawerContentScrollView>
   )
@@ -155,4 +155,21 @@ const styles = StyleSheet.create({
 
 });
 
-export default DrawerComponent
+
+function mapStateToProps(state) {
+  return {
+    isLogin: state.accountRd.isLogin,
+    user_nickname: state.accountRd.user.nickname,
+
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => {
+      dispatch(ActionCreator.logout())
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerComponent)

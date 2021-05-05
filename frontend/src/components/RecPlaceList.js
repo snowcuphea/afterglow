@@ -4,14 +4,14 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from '
 
 
 const places = [
-  { id: 1, name: "애월 해변", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-  { id: 2, name: "하르방 밀면", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-  { id: 3, name: "한라산", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-  { id: 4, name: "비밀의 숲", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-  { id: 5, name: "우도", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+  { id: 1, name: "산방산", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+  { id: 2, name: "카멜리아 힐", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+  { id: 3, name: "사려니 숲", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+  { id: 4, name: "산방산", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+  { id: 5, name: "레이지박스", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
 ]
 
-class PlaceList extends React.Component {
+class RecPlaceList extends React.Component {
 
   constructor(props){
     super(props)
@@ -35,9 +35,6 @@ class PlaceList extends React.Component {
     return (
 
       <View style={styles.container}>
-        <Text>
-          여행한 곳 보여준다
-        </Text>
         <FlatList
           data={places}
           renderItem={renderdata}
@@ -57,10 +54,9 @@ const screenWidth = Dimensions.get('screen').width
 
 const styles= StyleSheet.create({
   container: {
-    backgroundColor: 'orange'
   },
   itemContainer: {
-    backgroundColor: 'blue',
+    backgroundColor: '#BB88CC',
     justifyContent: 'center',
     marginHorizontal: screenWidth/40,
     marginVertical: screenHeight/60,
@@ -70,4 +66,4 @@ const styles= StyleSheet.create({
   }
 })
 
-export default PlaceList
+export default RecPlaceList
