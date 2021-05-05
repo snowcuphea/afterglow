@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import CameraRoll from "@react-native-community/cameraroll";
-import { useNavigation } from "@react-navigation/native"
 
 import { connect } from 'react-redux';
 import ActionCreator from '../../store/actions';

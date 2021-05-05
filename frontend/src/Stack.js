@@ -18,10 +18,11 @@ import AfterDayShare from './screens/afterDay/AfterDayShare';
 import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
 import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
 import SettingsMain from './screens/settingss/SettingsMain';
-import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain'
-import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory'
+import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain';
+import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory';
 import SelectPictures from './screens/common/SelectPictures';
 import SinglePicture from './screens/common/SinglePicture';
+import EndTravelMain from './screens/endTravel/EndTravelMain';
 
 import ActionCreator from './store/actions'
 
@@ -65,7 +66,7 @@ const SavePicture = (props) => {
         index: 1,
         routes: [
           { name: 'Home' },
-          { name: nextRoute},
+          { name: 'EndTravelMain'},
         ]
       })
     )
@@ -191,6 +192,13 @@ const StackComponent = (props) => {
         options={{
           title: '설정',
           headerRight: false,
+        }}
+      />
+      <Stack.Screen
+        name="EndTravelMain"
+        component={EndTravelMain}
+        options={{
+          title: <Text>하루 기록 보는 화면</Text>
         }}
       />
       <Stack.Screen
