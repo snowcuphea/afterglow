@@ -12,15 +12,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import MoneyBook from '../../components/book/MoneyBook'
 import AddMoneyItem from '../../components/book/AddMoneyItem'
+import PlaceList from '../../components/PlaceList'
+import RecPlaceList from '../../components/RecPlaceList'
+import PopUp from '../../components/PopUp'
 
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
+
 
 
 class OnTravelMain extends React.Component {
 
   constructor (props) {
     super(props)
+    console.log("OnTravelMain 생성자부분", this.props.todayTravel)
+    // var date = new Date(sampleTimestamp); //타임스탬프를 인자로 받아 Date 객체 생성
+
   }
 
   endDay = () => {
@@ -41,23 +48,30 @@ class OnTravelMain extends React.Component {
     this.props.navigation.navigate('OnTravelAllPictures')
   }
 
+
   render() {
+    console.log("OnTravelMain render부분")
     return (
       <ScrollView style={styles.container}>
         <Text>
-          여행 중 화면
+          여행 중, {this.props.todayTravel.todayDate}
         </Text>
+       
         <Button title={"하루 끝"} onPress={this.endDay}/>
         <Button title={"여행 끝"} onPress={this.endTravel}/>
         <Button title={"핀을 눌렀을 때"} onPress={this.selectPin}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
         <Text style={styles.titleStyle}>
-          {this.props.user_nickname}님은, ____ 여행 중</Text>
+          {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 중</Text>
 
         <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
-        <Text style={styles.titleStyle}>가계부</Text>
+        <PlaceList />
+        <Text style={styles.titleStyle}>오늘의 지출</Text>
         <MoneyBook />
         {/* <AddMoneyItem /> */}
+        <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
+        <RecPlaceList />
+        <PopUp />
       </ScrollView>
     )
   }
@@ -70,7 +84,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center'
   },
   titleStyle: {
-    fontSize: 20, marginLeft: 20, marginTop: 20, fontFamily:'RIDIBatang'
+    fontSize: 20, marginLeft: 20, marginTop: 30, fontFamily:'RIDIBatang'
 
   }
 })
@@ -78,11 +92,15 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-  console.log("오늘은", state.accountRd.todayTravel.todayDate)
+  console.log("onTravel mapStateToProps부분", state.accountRd.todayTravel.todayDate)
 
   return {
     isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user.nickname
+    user_nickname: state.accountRd.user.nickname,
+    travelingName: state.accountRd.travelingName,
+    travelStatus: state.accountRd.travelStatus,
+    todayTravel: state.accountRd.todayTravel,
+
   }
 }
 

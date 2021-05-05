@@ -11,12 +11,12 @@ const initialState = {
 
 
   // 로그인 할 때 + 앱 사용 중, 여행X : rest, 여행중 : onTravel, 하루끝 : dayEnd, 여행끝 : travelEnd
-  travelStatus: 'rest', 
+  travelStatus: 'onTravel', 
 
   // 내가마친여행들(여행의 인덱스, 여행시작점 위도/경도/행정구역(시), 여행시작날짜/끝날짜, 여행제목, 여행대표사진)
   traveledList: [],   // 로그인 할 때 받아옴
 
-  travelingName: '',  // 여행 시작 전 작성
+  travelingName: '100일 기념 제주도',  // 여행 시작 전 작성
   travelingList : [], // 여행 중 작성(전체)
   todayTravel : {     // 여행 중 작성(하루)
     timespent : 10,      // 하루 총 여행 시간
