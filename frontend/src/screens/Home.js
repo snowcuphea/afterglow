@@ -64,15 +64,17 @@ class HomeScreen extends React.Component {
         <Text style={styles.textStyle}>
           지도가 보여지는 홈화면
         </Text>
-        <ModalStartTravel navigation={this.props.navigation} />
-        
-        {/* <Button title={"여행하기"} onPress={this.startTravel}/> */}
-        <Button title={"여행이어서하기"} onPress={this.continueTravel}/>
+        {
+        this.props.travelStatus === "rest"
+        ? <ModalStartTravel navigation={this.props.navigation} /> 
+        : <Button title={"여행이어서하기"} onPress={this.continueTravel}/>
+        }
         <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
         <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
         <Button title={"maps_cluster"} onPress={this.maps_cluster}/>
         <Button title={"current_location"} onPress={this.current_location}/>
         
+        {/* <Button title={"여행하기"} onPress={this.startTravel}/> */}
       </View>
     )
   }
