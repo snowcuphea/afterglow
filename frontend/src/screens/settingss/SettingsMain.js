@@ -53,12 +53,12 @@ class SettingsMain extends React.Component {
       expanded: false,
     };
   }
-  
+
   logout = () => {
     this.props.logout()
+    this.props.initialPicture()
     this.props.navigation.navigate("Login")
   }
-
 
   render() {
 
@@ -132,6 +132,9 @@ function mapDispatchToProps(dispatch) {
   return {
     logout: () => {
       dispatch(ActionCreator.logout())
+    },
+    initialPicture: () => {
+      dispatch(ActionCreator.initialPicture)
     }
   };
 }

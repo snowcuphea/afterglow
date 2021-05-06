@@ -1,6 +1,9 @@
 import types from '../actions/types'
 import { Platform } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const initialState = {
   isLogin : false,    // 로그인 할 때 받아옴
 
@@ -11,16 +14,16 @@ const initialState = {
 
 
   // 로그인 할 때 + 앱 사용 중, 여행X : rest, 여행중 : onTravel, 하루끝 : dayEnd, 여행끝나면 다시 : rest
-  travelStatus: 'onTravel', 
+  travelStatus: 'rest', 
 
   // 내가마친여행들(여행의 인덱스, 여행시작점 위도/경도/행정구역(시), 여행시작날짜/끝날짜, 여행제목, 여행대표사진)
   traveledList: [],   // 로그인 할 때 받아옴
 
-  travelingName: '100일 기념 제주도',  // 여행 시작 전 작성
+  travelingName: '',  // 여행 시작 전 작성
   travelingList : [], // 여행 중 작성(전체)
   todayTravel : {     // 여행 중 작성(하루)
-    timespent : 10,      // 하루 총 여행 시간
-    todayDate: "",      
+    timespent : 0,      // 하루 총 여행 시간
+    todayDate: '',      
     visitedPlace : [],  // 방문한 장소 { name: "해변", time: "", location: { lat: 30, lon: 30}, memo : "" }
     moneyBook: [],    // 가계부 { name: "돼지고기", time: "", price: 35000 }
     track: [],
@@ -43,11 +46,7 @@ export default (state = initialState, action) => {
         user : { ...state.user, nickname: Platform.Version }
       }
     case types.LOGOUT:
-      return {
-        ...state,
-        isLogin: false,
-        user : { nickname: "", email: "" }
-      }
+      return initialState
     case types.CHANGE_STATUS:
       return {
         ...state,

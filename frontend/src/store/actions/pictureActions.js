@@ -1,5 +1,11 @@
 import types from './types'
 
+export function initialPicture() {
+  return {
+    type: types.INITIAL_PICTURE
+  }
+}
+
 export function selectPicture(picture){
     return {
       type: types.SELECT_PICTURE,

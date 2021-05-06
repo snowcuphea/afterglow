@@ -9,6 +9,8 @@ const initialState = {
 export default (state = initialState, action) => {
 
   switch ( action.type ) {
+    case types.INITIAL_PICTURE:
+      return initialState
     case types.SELECT_PICTURE:
       return {
         ...state,
