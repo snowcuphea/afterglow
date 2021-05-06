@@ -32,12 +32,12 @@ class OnTravelMain extends React.Component {
 
   endDay = () => {
     this.props.navigation.navigate('SelectPicture')
-    this.props.changeStatus('dayEnd')
+    this.props.changeStatus('dayEndd')
   }
 
   endTravel = () => {
     this.props.navigation.navigate('SelectPicture')
-    this.props.changeStatus('travelEnd')
+    this.props.changeStatus('travelEndd')
   }
 
   selectPin = () => {

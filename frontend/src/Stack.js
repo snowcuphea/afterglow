@@ -47,30 +47,26 @@ const SavePicture = (props) => {
   const amount = props.selectedPictures.length
 
   const status = props.travelStatus
-  let nextRoute = ''
-  
-  if (status === "dayEnd") {
-    nextRoute = "AfterDayMain"
-  } else if (status === "travelEnd") {
-    nextRoute = "AfterTravelMain"
-  }
-
-  function save() {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [
-          { name: 'Home' },
-          { name: 'EndTravelMain'},
-        ]
-      })
-    )
-  }
 
   return(
     <View style={{flexDirection: 'row', paddingRight: 15}}>
       <TouchableOpacity 
-        onPress={save}
+        onPress={()=> {
+          if (status === "dayEndd") {
+            props.changeStatus('dayEnd')
+          } else if (status === "travelEndd") {
+            props.changeStatus('travelEnd')
+          }
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [
+                { name: 'Home' },
+                { name: 'EndTravelMain'},
+              ]
+            })
+          )
+        }}
       >
         <Text>{amount} 저장</Text>
       </TouchableOpacity>
@@ -214,6 +210,9 @@ function mapDispatchToProps(dispatch) {
   return {
     savePictures: () => {
       dispatch(ActionCreator.savePictures())
+    },
+    changeStatus: (status) => {
+      dispatch(ActionCreator.changeStatus(status))
     }
   };
 }

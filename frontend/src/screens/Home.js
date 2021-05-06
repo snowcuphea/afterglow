@@ -26,9 +26,11 @@ class HomeScreen extends React.Component {
   }
 
   continueTravel = () => {
-    if ( this.props.travelStatus === "onTravel" ) {
+    if ( this.props.travelStatus === "onTravel" || 
+        this.props.travelStatus === "dayEndd" || 
+        this.props.travelStatus === "travelEndd" ) {
       this.props.navigation.navigate('OnTravelMain')
-    } else if ( this.props.travelStatus === "dayEnd" ) {
+    } else if ( this.props.travelStatus === "dayEnd" || this.props.travelStatus === "travelEnd" ) {
       this.props.navigation.navigate('EndTravelMain')
     } else {
       console.warn(this.props.travelStatus)
