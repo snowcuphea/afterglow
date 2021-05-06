@@ -13,8 +13,10 @@ public class PinRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("pr_id")
     private Long pinId;
+
     @JsonProperty("pr_name")
     private String prName;
+
     @JsonProperty("pr_memo")
     private String prMemo;
 

@@ -14,10 +14,13 @@ public class RouteRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("rr_id")
     private Long rrId;
+
     @JsonProperty("rr_latitude")
     private Double rrLatitude;
+
     @JsonProperty("rr_longitude")
     private Double rrLongitude;
+
     @JsonProperty("rr_time")
     private LocalDateTime rrTime;
 

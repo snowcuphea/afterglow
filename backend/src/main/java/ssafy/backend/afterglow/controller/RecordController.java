@@ -2,12 +2,10 @@ package ssafy.backend.afterglow.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ssafy.backend.afterglow.domain.*;
@@ -22,10 +20,8 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -45,6 +41,8 @@ public class RecordController {
     private final ImageRepository imagerepository;
     private final RecordRepository recordRepository;
     private final DailyRepository dailyRepository;
+    private final RouteRepository routeRepository;
+    private final PinRepository pinRepository;
 
     @GetMapping
     public ResponseEntity<String> sampleFunction() {
@@ -165,5 +163,34 @@ public class RecordController {
         return ResponseEntity.ok("ok");
     }
 
+    // 핀 이름 작성
+    @PostMapping("/pin/create")
+    public ResponseEntity<PinRecord> createPin(@RequestParam("pin_title") String pinTitle,
+                                               @RequestParam("Rr_id") Integer RrId) {
+        AtomicReference<PinRecord> pr = null;
+        routeRepository.findById(RrId)
+                .ifPresent(rr -> {
+                    pr.set(pinRepository.save(PinRecord.builder()
+                            .prName(pinTitle)
+                            .prMemo(null)
+                            .rr(rr)
+                            .build()));
+                });
+        return ResponseEntity.ok(pr.get());
+    }
 
+
+    // 메모 작성
+    @PostMapping("/memo/create")
+    public ResponseEntity<PinRecord> addMemo(@RequestParam("Pr_id") Long PrId,
+                                             @RequestParam("memo_content") String memoContent){
+        AtomicReference<PinRecord> result = null;
+        pinRepository
+                .findById(PrId)
+                .ifPresent(pr -> {
+                    pr.setPrMemo(memoContent);
+                    result.set(pr);
+                });
+        return ResponseEntity.ok(result.get());
+    }
 }
