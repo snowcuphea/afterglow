@@ -25,9 +25,26 @@ class OnTravelMain extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      startDate: '',
+      passedTime: '',
+    }
     console.log("OnTravelMain 생성자부분", this.props.todayTravel)
-    // var date = new Date(sampleTimestamp); //타임스탬프를 인자로 받아 Date 객체 생성
+  }
 
+  componentDidMount() {
+    const timeStamp = this.props.todayTravel.todayDate;
+    const startTime = new Date( timeStamp );
+    const nowTime = new Date();
+    const tempPassed = nowTime - startTime
+    const hours = Math.floor(tempPassed/3600000)
+    const mins = Math.floor((tempPassed%3600000)/60000)
+    this.setState({
+      startDate: startTime.getFullYear() + '년 ' + 
+                + ('0'+startTime.getMonth()).slice(-2) + '월 '
+                + ('0'+startTime.getDay()).slice(-2) + '일',
+      passedTime: hours > 0 ? hours + '시간 ' + mins + '분' : mins + '분'
+    })
   }
 
   endDay = () => {
@@ -43,7 +60,7 @@ class OnTravelMain extends React.Component {
     this.props.modePicture('save');
     this.props.emptyList();
   }
-
+q
   selectPin = () => {
 
   }
@@ -54,13 +71,14 @@ class OnTravelMain extends React.Component {
     this.props.emptyList();
   }
 
-
+  
   render() {
     console.log("OnTravelMain render부분")
+    
     return (
       <ScrollView style={styles.container}>
         <Text>
-          여행 중, {this.props.todayTravel.todayDate}
+          {this.state.startDate}, {this.state.passedTime}
         </Text>
        
         <Button title={"하루 끝"} onPress={this.endDay}/>

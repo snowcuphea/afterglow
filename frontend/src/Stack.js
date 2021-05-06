@@ -9,9 +9,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoginScreen from './screens/account/Login';
 import HomeScreen from './screens/Home';
 import OnTravelMain from './screens/onTravel/OnTravelMain';
-import OnTravelAllPictures from './screens/onTravel/OnTravelAllPictures';
-import OnTravelShare from './screens/onTravel/OnTravelShare';
-import OnTravelSinglePicture from './screens/onTravel/OnTravelSinglePicture';
 import SettingsMain from './screens/settingss/SettingsMain';
 import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain';
 import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory';
@@ -60,6 +57,7 @@ const SavePicture = (props) => {
             } else if (status === "travelEndd") {
               props.changeStatus('travelEnd')
             }
+            props.savePictures()
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
@@ -173,27 +171,6 @@ const StackComponent = (props) => {
           title: "여행 중"
         }}
       />
-      <Stack.Screen 
-        name="OnTravelAllPictures"
-        component={OnTravelAllPictures}
-        options={{
-          title: "여행 중 사진모아보기"
-        }}
-      />
-      <Stack.Screen 
-        name="OnTravelSinglePicture"
-        component={OnTravelSinglePicture}
-        options={{
-          title: "여행 중 사진하나보기"
-        }}
-      />
-      <Stack.Screen 
-        name="OnTravelShare"
-        component={OnTravelShare}
-        options={{
-          title: "여행 중 사진공유"
-        }}
-      />
       <Stack.Screen
         name="SettingsMain"
         component={SettingsMain}
@@ -277,7 +254,7 @@ function mapDispatchToProps(dispatch) {
     },
     modePicture: (mode) => {
       dispatch(ActionCreator.modePicture(mode))
-    }
+    },
   };
 }
 

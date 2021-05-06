@@ -31,11 +31,11 @@ export default (state = initialState, action) => {
         ...state,
         mode: action.payload
       }
-    // case types.SAVE_PICTURES:
-    //   return {
-    //     ...state,
-    //     isLogin: true
-    //   }
+    case types.SAVE_PICTURES:
+      return {
+        ...state,
+        pictures: []
+      }
     default:
       return state;
   }
