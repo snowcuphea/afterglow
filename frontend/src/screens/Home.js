@@ -12,6 +12,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux'
 
 import ActionCreator from '.././store/actions'
+import ModalStartTravel from '../components/modal/ModalStartTravel'
+
 
 class HomeScreen extends React.Component {
 
@@ -52,7 +54,9 @@ class HomeScreen extends React.Component {
         <Text style={styles.textStyle}>
           지도가 보여지는 홈화면
         </Text>
-        <Button title={"여행하기"} onPress={this.startTravel}/>
+        <ModalStartTravel navigation={this.props.navigation} />
+        
+        {/* <Button title={"여행하기"} onPress={this.startTravel}/> */}
         <Button title={"여행이어서하기"} onPress={this.continueTravel}/>
         <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
         <Button title={"REDUX TEST"} onPress={this.reduxTest}/>

@@ -14,7 +14,7 @@ import MoneyBook from '../../components/book/MoneyBook'
 import AddMoneyItem from '../../components/book/AddMoneyItem'
 import PlaceList from '../../components/PlaceList'
 import RecPlaceList from '../../components/RecPlaceList'
-import PopUp from '../../components/PopUp'
+import ModalStartTravel from '../../components/modal/ModalStartTravel'
 
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
@@ -71,7 +71,7 @@ class OnTravelMain extends React.Component {
         {/* <AddMoneyItem /> */}
         <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
         <RecPlaceList />
-        <PopUp />
+
       </ScrollView>
     )
   }
