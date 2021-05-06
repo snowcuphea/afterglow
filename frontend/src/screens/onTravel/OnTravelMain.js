@@ -35,15 +35,17 @@ class OnTravelMain extends React.Component {
   componentDidMount() {
     const timeStamp = this.props.todayTravel.todayDate;
     const startTime = new Date( timeStamp );
+    console.log(startTime.getDate())
     const nowTime = new Date();
     const tempPassed = nowTime - startTime
     const hours = Math.floor(tempPassed/3600000)
     const mins = Math.floor((tempPassed%3600000)/60000)
     this.setState({
       startDate: startTime.getFullYear() + '년 ' + 
-                + ('0'+startTime.getMonth()).slice(-2) + '월 '
-                + ('0'+startTime.getDay()).slice(-2) + '일',
-      passedTime: hours > 0 ? hours + '시간 ' + mins + '분' : mins + '분'
+                + ('0'+(startTime.getMonth()+1)).slice(-2) + '월 '
+                + ('0'+startTime.getDate()).slice(-2) + '일',
+      passedTime: hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
+                              ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' )
     })
   }
 
