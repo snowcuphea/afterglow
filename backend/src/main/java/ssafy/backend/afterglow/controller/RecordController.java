@@ -151,19 +151,18 @@ public class RecordController {
 
 
     // 하루끝
-    @GetMapping("/current")
-    public ResponseEntity<Object> dayEnd(@AuthenticationPrincipal Principal principal,
-                                         @RequestParam("date") LocalDate today) {
-        AtomicReference<DailyRecord> result = null;
+    @GetMapping("/dayEnd")
+    public ResponseEntity<String> dayEnd(@AuthenticationPrincipal Principal principal,
+                                         @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) {
         userService
                 .findUserByPrincipal(principal)
                 .ifPresent(user -> {
                     dailyRepository.findByDrDate(today)
                             .ifPresent(dr -> {
-                                result.set(dr);
+                                dr.setDrEndTime(LocalDateTime.now());
                             });
                 });
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok("ok");
     }
 
 
