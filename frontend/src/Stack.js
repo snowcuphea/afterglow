@@ -23,6 +23,10 @@ import ActionCreator from './store/actions'
 
 import Counter from './screens/Counter';
 
+import Maps from './screens/Maps'
+import Maps_cluster from './screens/Maps_cluster'
+import CurrentLocation from './screens/CurrentLocation'
+
 const Stack = createStackNavigator();
 
 const MenuBar = () => {
@@ -186,6 +190,18 @@ const StackComponent = (props) => {
           title: "사진 보기",
           headerRight: () => <SavePicture {...props} />,
         }}
+      />
+      <Stack.Screen
+        name="CurrentLocation"
+        component={CurrentLocation}
+      />
+      <Stack.Screen
+        name="Maps"
+        component={Maps}
+      />
+      <Stack.Screen
+        name="Maps_cluster"
+        component={Maps_cluster}
       />
       <Stack.Screen
         name="Counter"

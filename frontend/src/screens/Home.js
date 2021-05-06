@@ -45,6 +45,14 @@ class HomeScreen extends React.Component {
     this.props.navigation.navigate('Counter')
   }
 
+  maps_cluster = () => {
+    this.props.navigation.navigate('Maps_cluster')
+  }
+
+  current_location = () => {
+    this.props.navigation.navigate('CurrentLocation')
+  }
+
 
   render() {
 
@@ -58,6 +66,8 @@ class HomeScreen extends React.Component {
         <Button title={"여행이어서하기"} onPress={this.continueTravel}/>
         <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
         <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
+        <Button title={"maps_cluster"} onPress={this.maps_cluster}/>
+        <Button title={"current_location"} onPress={this.current_location}/>
         
       </View>
     )
