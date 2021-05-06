@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import ssafy.backend.afterglow.domain.Record;
+import ssafy.backend.afterglow.service.UserService;
 
 @RestController
 @RequestMapping("records")
@@ -38,11 +39,10 @@ public class RecordController {
     static final int SUCCESS = 1;
     static final int FAIL = -1;
 
-    @Autowired
-    RecordService service;
+    private final RecordService recordService;
+    private final UserService userService;
 
     private final ImageRepository imagerepository;
-    private final UserRepository userRepository;
     private final RecordRepository recordRepository;
     private final DailyRepository dailyRepository;
 
@@ -53,7 +53,7 @@ public class RecordController {
 
 
     public ResponseEntity<String> startRecord(@RequestParam("user_id") Long userId, @RequestParam("rec_name") String recName) {
-        if (service.insertRec(userId, recName).isPresent())
+        if (recordService.insertRec(userId, recName).isPresent())
             return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
         else
             return new ResponseEntity<String>("FAIL", HttpStatus.NOT_ACCEPTABLE);
@@ -77,7 +77,7 @@ public class RecordController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    service.findNearestRr(drId, longitude, latitude)
+                    recordService.findNearestRr(drId, longitude, latitude)
                             .ifPresent(rr -> {
                                 ir.setRr(rr);
                                 imagerepository.save(ir);
@@ -92,22 +92,20 @@ public class RecordController {
                                             @RequestParam("title") String recTitle) {
         AtomicReference<Record> record = null;
         AtomicReference<DailyRecord> dr = null;
-        if (principal instanceof OAuth2AuthenticationToken) {
-            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
 
-            userRepository.findByUsername(principal.getName())
-                    .ifPresent(user -> {
-                        record.set(recordRepository.save(Record.builder()
-                                .user(user)
-                                .recName(recTitle)
-                                .build()));
+        userService
+                .findUserByPrincipal(principal)
+                .ifPresent(user -> {
+                    record.set(recordRepository.save(Record.builder()
+                            .user(user)
+                            .recName(recTitle)
+                            .build()));
+                    dr.set(dailyRepository.save(DailyRecord.builder()
+                            .rec(record.get())
+                            .drStartTime(LocalDateTime.now())
+                            .build()));
+                });
 
-                        dr.set(dailyRepository.save(DailyRecord.builder()
-                                .rec(record.get())
-                                .drStartTime(LocalDateTime.now())
-                                .build()));
-                    });
-        }
         return ResponseEntity.ok(principal.getName());
     }
 
@@ -115,7 +113,7 @@ public class RecordController {
     // 여행 index 받으면 -> 여행 정보 return
     @GetMapping
     public ResponseEntity<Object> getRecord(@RequestParam("record_id") Long recId) {
-        Optional<Record> result = service.selectRec(recId);
+        Optional<Record> result = recordService.selectRec(recId);
         if (result.isPresent())
             return new ResponseEntity<Object>(result, HttpStatus.OK);
         else
@@ -127,14 +125,11 @@ public class RecordController {
     @GetMapping("/total")
     public ResponseEntity<Object> currentUserToken(@AuthenticationPrincipal Principal principal) {
         AtomicReference<List<Record>> result = null;
-        if (principal instanceof OAuth2AuthenticationToken) {
-            Map<String, Object> attributes = new HashMap<>();
-            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
-            userRepository.findByUsername(principal.getName())
-                    .ifPresent(user -> {
-                        result.set(recordRepository.findByUser(user));
-                    });
-        }
+        userService
+                .findUserByPrincipal(principal)
+                .ifPresent(user -> {
+                    result.set(recordRepository.findByUser(user));
+                });
         return ResponseEntity.ok(result);
     }
 
@@ -143,18 +138,14 @@ public class RecordController {
     public ResponseEntity<Object> currentInfo(@AuthenticationPrincipal Principal principal,
                                               @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) {
         AtomicReference<DailyRecord> result = null;
-        if (principal instanceof OAuth2AuthenticationToken) {
-            Map<String, Object> attributes = new HashMap<>();
-            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
-            userRepository
-                    .findByUsername(principal.getName())
-                    .ifPresent(user -> {
-                        dailyRepository.findByDrDate(today)
-                                .ifPresent(dr -> {
-                                    result.set(dr);
-                                });
-                    });
-        }
+        userService
+                .findUserByPrincipal(principal)
+                .ifPresent(user -> {
+                    dailyRepository.findByDrDate(today)
+                            .ifPresent(dr -> {
+                                result.set(dr);
+                            });
+                });
         return ResponseEntity.ok(result);
     }
 
@@ -164,19 +155,14 @@ public class RecordController {
     public ResponseEntity<Object> dayEnd(@AuthenticationPrincipal Principal principal,
                                          @RequestParam("date") LocalDate today) {
         AtomicReference<DailyRecord> result = null;
-        if (principal instanceof OAuth2AuthenticationToken) {
-            Map<String, Object> attributes = new HashMap<>();
-            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
-            
-            userRepository
-                    .findByUsername(principal.getName())
-                    .ifPresent(user -> {
-                        dailyRepository.findByDrDate(today)
-                                .ifPresent(dr -> {
-                                    result.set(dr);
-                                });
-                    });
-        }
+        userService
+                .findUserByPrincipal(principal)
+                .ifPresent(user -> {
+                    dailyRepository.findByDrDate(today)
+                            .ifPresent(dr -> {
+                                result.set(dr);
+                            });
+                });
         return ResponseEntity.ok(result);
     }
 
