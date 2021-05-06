@@ -1,23 +1,25 @@
 package ssafy.backend.afterglow.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import ssafy.backend.afterglow.domain.DailyRecord;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Data
+@Getter
+@Setter
 public class RecordDTO {
     private Long recId;
     private String recName;
-    private List<DailyRecordDTO> dayRecs;
+    private List<DailyRecordDTO> days;
 
     @Builder
-    public RecordDTO(Long recId, String recName, List<DailyRecordDTO> dayRecs){
+    public RecordDTO(Long recId, String recName, List<DailyRecordDTO> days){
         super();
         this.recId = recId;
         this.recName = recName;
-        this.dayRecs = dayRecs;
+        this.days = days;
     }
 }
