@@ -1,5 +1,6 @@
 package ssafy.backend.afterglow.controller;
 
+import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -212,5 +213,17 @@ public class RecordController {
                             });
                 });
         return ResponseEntity.ok(result);
+    }
+
+    // 여행 정보
+    @GetMapping("/tripInfo")
+    public ResponseEntity<Record> getRecord(@AuthenticationPrincipal Principal principal,
+                                            @RequestParam("Record_id") Long recId) {
+        AtomicReference<Record> result = null;
+        recordRepository.findById(recId)
+                .ifPresent(rec -> {
+                    result.set(rec);
+                });
+        return ResponseEntity.ok(result.get());
     }
 }
