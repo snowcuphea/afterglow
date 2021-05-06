@@ -60,6 +60,11 @@ export default (state = initialState, action) => {
           todayDate: new Date().getTime()    // 여행/하루를 시작하는 timestamp(ms 단위) 설정
         }
       }
+    case types.SET_TRAVEL_NAME:
+      return {
+        ...state,
+        travelingName: action.payload,
+      }
     default:
       return state;
   }

@@ -19,7 +19,13 @@ class ModalStartTravel extends React.Component {
 
 
   setModalVisible = (visible) => {
+    this.setState({ travelName: '' })
     this.setState({ modalVisible: visible });
+  }
+
+
+  setText = (t) => {
+    this.setState({ travelName: t });
   }
 
 
@@ -29,6 +35,7 @@ class ModalStartTravel extends React.Component {
     this.props.setDate()
     this.setState({ modalVisible: false });
     console.log("시작되는여행이름", this.state.travelName)
+    this.props.setTravelName(this.state.travelName)
   }
 
 
@@ -50,6 +57,7 @@ class ModalStartTravel extends React.Component {
         <Text>여행 이름을 적어주세요!</Text>
         <Input 
             style={styles.textInputStyle}
+            onChangeText={(t) => this.setText(t)}
             value={this.state.travelName}
              />
 
@@ -142,6 +150,9 @@ function mapDispatchToProps(dispatch) {
     },
     setDate: () => {
       dispatch(ActionCreator.setDate())
+    },
+    setTravelName: (travelname) => {
+      dispatch(ActionCreator.setTravelName(travelname))
     }
   };
 }
