@@ -25,6 +25,16 @@ class HomeScreen extends React.Component {
     this.props.setDate()
   }
 
+  continueTravel = () => {
+    if ( this.props.travelStatus === "onTravel" ) {
+      this.props.navigation.navigate('OnTravelMain')
+    } else if ( this.props.travelStatus === "dayEnd" ) {
+      this.props.navigation.navigate('EndTravelMain')
+    } else {
+      console.warn(this.props.travelStatus)
+    }
+  }
+
   selectPin = () => {
     this.props.navigation.navigate('TravelHistoryMain')
   }
@@ -43,6 +53,7 @@ class HomeScreen extends React.Component {
           지도가 보여지는 홈화면
         </Text>
         <Button title={"여행하기"} onPress={this.startTravel}/>
+        <Button title={"여행이어서하기"} onPress={this.continueTravel}/>
         <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
         <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
         
@@ -68,7 +79,8 @@ const styles = StyleSheet.create({
 function mapStateToProps(state){
 
   return {
-    isLogin: state.accountRd.isLogin
+    isLogin: state.accountRd.isLogin,
+    travelStatus: state.accountRd.travelStatus
   }
 }
 

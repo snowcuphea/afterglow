@@ -17,6 +17,8 @@ import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
 
 
+import { CommonActions } from '@react-navigation/native'
+
 class EndTravelMain extends React.Component {
 
   constructor (props) {
@@ -28,7 +30,16 @@ class EndTravelMain extends React.Component {
   }
 
   saveRecord = () => {
-    this.props.navigation.navigate('SingleTravelHistory')
+    this.props.changeStatus('rest')
+    this.props.navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home' },
+          { name: 'SingleTravelHistory'},
+        ]
+      })
+    )
   }
 
   render() {
