@@ -12,11 +12,6 @@ import OnTravelMain from './screens/onTravel/OnTravelMain';
 import OnTravelAllPictures from './screens/onTravel/OnTravelAllPictures';
 import OnTravelShare from './screens/onTravel/OnTravelShare';
 import OnTravelSinglePicture from './screens/onTravel/OnTravelSinglePicture';
-import AfterDayMain from './screens/afterDay/AfterDayMain';
-import AfterDayAllPictures from './screens/afterDay/AfterDayAllPictures';
-import AfterDayShare from './screens/afterDay/AfterDayShare';
-import AfterTravelMain from './screens/afterTravel/AfterTravelMain';
-import AfterTravelShare from './screens/afterTravel/AfterTravelShare';
 import SettingsMain from './screens/settingss/SettingsMain';
 import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain';
 import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory';
@@ -149,41 +144,6 @@ const StackComponent = (props) => {
         component={OnTravelShare}
         options={{
           title: "여행 중 사진공유"
-        }}
-      />
-      <Stack.Screen 
-        name="AfterDayMain"
-        component={AfterDayMain}
-        options={{
-          title: "하루 끝"
-        }}
-      />
-      <Stack.Screen 
-        name="AfterDayAllPictures"
-        component={AfterDayAllPictures}
-        options={{
-          title: "하루 끝 사진 모아보기"
-        }}
-      />
-      <Stack.Screen 
-        name="AfterDayShare"
-        component={AfterDayShare}
-        options={{
-          title: "하루 끝 사진 공유하기"
-        }}
-      />
-      <Stack.Screen 
-        name="AfterTravelMain"
-        component={AfterTravelMain}
-        options={{
-          title: "여행 끝"
-        }}
-      />
-      <Stack.Screen
-        name="AfterTravelShare"
-        component={AfterTravelShare}
-        options={{
-          title: <Text>여행 끝 공유하기</Text>
         }}
       />
       <Stack.Screen

@@ -12,14 +12,24 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import PlaceList from '../../components/PlaceList'
-import PicturesHorz from '../../components/picture/PicturesHorz'
 
-export default class EndTravelMain extends React.Component {
+import { connect } from 'react-redux'
+import ActionCreator from '../.././store/actions'
 
 
-  // sharePicture = () => {
-  //   this.props.navigation.navigate('AfterTravelShare')
-  // }
+class EndTravelMain extends React.Component {
+
+  constructor (props) {
+    super(props)
+  }
+
+  startDay = () => {
+    console.warn("해당 버튼을 누르면 여행이 시작")
+  }
+
+  saveRecord = () => {
+    this.props.navigation.navigate('SingleTravelHistory')
+  }
 
   render() {
     return (
@@ -32,9 +42,14 @@ export default class EndTravelMain extends React.Component {
             <View style={{ marginLeft:5, backgroundColor : 'pink'}}>
               <Text>날짜와 버튼 보여주는 영역</Text>
             </View>
-            <TouchableOpacity style={{ marginRight:5, backgroundColor:'purple'}}>
-              <Text>기록 저장</Text>
-            </TouchableOpacity>
+            { this.props.travelStatus === "dayEnd" ? 
+              <TouchableOpacity style={{ marginRight:5, backgroundColor:'purple'}} onPress={this.startDay}>
+                <Text>하루 시작</Text>
+              </TouchableOpacity> :
+              <TouchableOpacity style={{ marginRight:5, backgroundColor:'purple'}} onPress={this.saveRecord}>
+                <Text>여행 끝</Text>
+              </TouchableOpacity>
+            }
           </View>
         </View>
 
@@ -43,7 +58,7 @@ export default class EndTravelMain extends React.Component {
         </View>
           
         <PlaceList />
-        
+
         <View style={styles.bookContainer}>
           <Text>가계부 보여주는 영역</Text>
         </View>
@@ -77,3 +92,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'red'
   }
 })
+
+
+function mapStateToProps(state) {
+
+  return {
+    travelStatus: state.accountRd.travelStatus,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeStatus: (status) => {
+      dispatch(ActionCreator.changeStatus(status))
+    }
+  };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(EndTravelMain) 

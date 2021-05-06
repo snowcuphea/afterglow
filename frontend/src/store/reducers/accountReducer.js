@@ -23,7 +23,8 @@ const initialState = {
     todayDate: "",      
     visitedPlace : [],  // 방문한 장소 { name: "해변", time: "", location: { lat: 30, lon: 30}, memo : "" }
     moneyBook: [],    // 가계부 { name: "돼지고기", time: "", price: 35000 }
-    track: []
+    track: [],
+    pictures: [],
   },
 
   recoPlace : [], // 여행 중 내 위치 기반 받아옴
