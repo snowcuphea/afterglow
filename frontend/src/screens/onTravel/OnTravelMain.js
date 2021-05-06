@@ -31,13 +31,17 @@ class OnTravelMain extends React.Component {
   }
 
   endDay = () => {
-    this.props.navigation.navigate('SelectPicture')
-    this.props.changeStatus('dayEndd')
+    this.props.navigation.navigate('SavePictures');
+    this.props.changeStatus('dayEndd');
+    this.props.modePicture('save');
+    this.props.emptyList();
   }
 
   endTravel = () => {
-    this.props.navigation.navigate('SelectPicture')
-    this.props.changeStatus('travelEndd')
+    this.props.navigation.navigate('SavePictures');
+    this.props.changeStatus('travelEndd');
+    this.props.modePicture('save');
+    this.props.emptyList();
   }
 
   selectPin = () => {
@@ -45,7 +49,9 @@ class OnTravelMain extends React.Component {
   }
 
   allPictures = () => {
-    this.props.navigation.navigate('OnTravelAllPictures')
+    this.props.navigation.navigate('ShowPictures');
+    this.props.modePicture('look');
+    this.props.emptyList();
   }
 
 
@@ -108,6 +114,12 @@ function mapDispatchToProps(dispatch) {
   return {
     changeStatus: (status) => {
       dispatch(ActionCreator.changeStatus(status))
+    },
+    modePicture: (mode) => {
+      dispatch(ActionCreator.modePicture(mode))
+    },
+    emptyList: () => {
+      dispatch(ActionCreator.emptyList())
     }
   };
 }

@@ -63,7 +63,6 @@ class Pictures extends React.Component {
             width : picture.node.image.width
           },
         }
-        console.log(pictureForm)
         this.setState({ ...this.state, data: [ pictureForm, ...this.state.data ]})
       }
       
@@ -81,47 +80,60 @@ class Pictures extends React.Component {
   render(){
 
     const renderdata = ({ item }) => {
-
-      return (
-        <View>
-          <TouchableOpacity onPress={() => this.toLargeScale(item) }>
-            <Image 
-              style={{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}} 
-              source={{ uri: item.uri }} />
-          </TouchableOpacity>
-          <View style={styles.selectContainer}>
-            { this.props.selectedPictures.filter((select) => select.id !== item.id).length !== this.props.selectedPictures.length ?  
-              <TouchableOpacity style={styles.selectArea} onPress={() => this.props.unselect(item.id)}>
-                <Ionicons 
-                  name="checkmark-circle" 
-                  size={screenWidth/12}
-                  style={styles.selectIcon}
-                  color={'pink'}/>
-              </TouchableOpacity> :
-              <TouchableOpacity style={styles.selectArea} onPress={() => this.props.select(item)}>
-                <Ionicons
-                  name="ellipse-outline"  
-                  size={screenWidth/12}
-                  style={styles.selectIcon}
-                  color={'black'}/>
-              </TouchableOpacity>
-            }
+      
+      if ( this.props.mode === "look" ) {
+        return (
+          <View>
+            <TouchableOpacity onPress={() => this.toLargeScale(item) }>
+              <Image 
+                style={{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}} 
+                source={{ uri: item.uri }} />
+            </TouchableOpacity>
           </View>
-        </View>
-      )
+        )
+      } else { 
+        return (
+          <View>
+            <TouchableOpacity onPress={() => this.toLargeScale(item) }>
+              <Image 
+                style={{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}} 
+                source={{ uri: item.uri }} />
+            </TouchableOpacity>
+            <View style={styles.selectContainer}>
+              { this.props.selectedPictures.filter((select) => select.id !== item.id).length !== this.props.selectedPictures.length ?  
+                <TouchableOpacity style={styles.selectArea} onPress={() => this.props.unselect(item.id)}>
+                  <Ionicons 
+                    name="checkmark-circle" 
+                    size={screenWidth/12}
+                    style={styles.selectIcon}
+                    color={'pink'}/>
+                </TouchableOpacity> :
+                <TouchableOpacity style={styles.selectArea} onPress={() => this.props.select(item)}>
+                  <Ionicons
+                    name="ellipse-outline"  
+                    size={screenWidth/12}
+                    style={styles.selectIcon}
+                    color={'black'}/>
+                </TouchableOpacity>
+              }
+            </View>
+          </View> 
+        )
+      }
     }
 
     let screenWidth = Dimensions.get('window').width;
     let screenHeight = Dimensions.get('window').height;
-
+  
     return(
       <View>
+        { this.state.data.length > 0 ? 
+          <View>
+            <Text style={{ fontSize: screenHeight/30 }}>제주공항 (09:15~09:50)</Text>
+          </View>  :
+          <View />
+        }
         <FlatList
-          ListHeaderComponent = {
-            <View>
-                <Text style={{ fontSize: screenHeight/30 }}>제주공항 (09:15~09:50)</Text>
-            </View>
-          }
           data={this.state.data}
           numColumns={3}
           renderItem={renderdata}
@@ -154,11 +166,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-  console.log(state.accountRd.todayTravel.todayDate)
-
   return {
     selectedPictures: state.pictureRd.pictures,
-    todayDate: state.accountRd.todayTravel.todayDate
+    todayDate: state.accountRd.todayTravel.todayDate,
+    mode: state.pictureRd.mode
   };
 }
 

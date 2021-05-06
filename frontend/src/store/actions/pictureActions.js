@@ -6,6 +6,12 @@ export function initialPicture() {
   }
 }
 
+export function emptyList() {
+  return {
+    type: types.EMPTY_LIST
+  }
+}
+
 export function selectPicture(picture){
     return {
       type: types.SELECT_PICTURE,
@@ -17,6 +23,13 @@ export function unselectPicture(picture_id) {
   return {
     type: types.UNSELECT_PICTURE,
     payload: picture_id
+  }
+}
+
+export function modePicture(mode) {
+  return {
+    type: types.MODE_PICTURE,
+    payload: mode
   }
 }
 
