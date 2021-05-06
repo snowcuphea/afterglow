@@ -1,17 +1,25 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
-import countReducer from './countReducer'
-import accountReducer from './accountReducer'
-import pictureReducer from './pictureReducer'
+import { persistReducer } from 'redux-persist';
 
-export default combineReducers({
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import countReducer from './countReducer';
+import accountReducer from './accountReducer';
+import pictureReducer from './pictureReducer';
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  Whitelist: ['countReducer', 'accountReducer', 'pictureReducer']
+}
+
+
+const rootReducer = combineReducers({
   countRd: countReducer,
   accountRd: accountReducer,
   pictureRd: pictureReducer,
 })
 
-// const rootReducer = combineReducers({
-//   count: countReducer
-// })
 
-// export default rootReducer
+export default persistReducer(persistConfig, rootReducer)
