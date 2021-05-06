@@ -6,7 +6,7 @@ import {
 import Pictures from '../../components/picture/Pictures'
 import PicturesHorz from '../../components/picture/PicturesHorz'
 
-export default class SelectPictures extends React.Component {
+export default class SavePictures extends React.Component {
 
   render() {
     return (

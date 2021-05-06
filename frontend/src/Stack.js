@@ -9,14 +9,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoginScreen from './screens/account/Login';
 import HomeScreen from './screens/Home';
 import OnTravelMain from './screens/onTravel/OnTravelMain';
-import OnTravelAllPictures from './screens/onTravel/OnTravelAllPictures';
-import OnTravelShare from './screens/onTravel/OnTravelShare';
-import OnTravelSinglePicture from './screens/onTravel/OnTravelSinglePicture';
 import SettingsMain from './screens/settingss/SettingsMain';
 import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain';
 import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory';
-import SelectPictures from './screens/common/SelectPictures';
+import SavePictures from './screens/common/SavePictures';
 import SinglePicture from './screens/common/SinglePicture';
+import ShowPictures from './screens/common/ShowPictures';
 import EndTravelMain from './screens/endTravel/EndTravelMain';
 
 import ActionCreator from './store/actions'
@@ -49,35 +47,87 @@ const SavePicture = (props) => {
   const navigation = useNavigation();
   // const amount = 3
   const amount = props.selectedPictures.length
-
+  const mode = props.mode
   const status = props.travelStatus
 
-  return(
-    <View style={{flexDirection: 'row', paddingRight: 15}}>
-      <TouchableOpacity 
-        onPress={()=> {
-          if (status === "dayEndd") {
-            props.changeStatus('dayEnd')
-          } else if (status === "travelEndd") {
-            props.changeStatus('travelEnd')
-          }
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [
-                { name: 'Home' },
-                { name: 'EndTravelMain'},
-              ]
-            })
-          )
-        }}
-      >
-        <Text>{amount} 저장</Text>
-      </TouchableOpacity>
-    </View>
-
-  )
+  if ( mode === "save" ) {
+    return(
+      <View style={{flexDirection: 'row', paddingRight: 15}}>
+        <TouchableOpacity 
+          onPress={()=> {
+            console.log(status)
+            if (status === "dayEndd") {
+              props.changeStatus('dayEnd')
+            } else if (status === "travelEndd") {
+              props.changeStatus('travelEnd')
+            }
+            props.savePictures()
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [
+                  { name: 'Home' },
+                  { name: 'EndTravelMain'},
+                ]
+              })
+            )
+          }}
+        >
+          <Text>{amount} 저장</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  } else {
+    return(
+      <View style={{flexDirection: 'row', paddingRight: 15}}>
+        { mode === "look" ? 
+          <TouchableOpacity
+            onPress={()=> {
+              props.modePicture('share')
+            }}
+          >
+            <Text>공유하기</Text>
+          </TouchableOpacity> :
+          <TouchableOpacity
+            onPress={()=> {
+              props.modePicture('look')
+            }}
+          >
+            <Text>{amount} 공유</Text>
+          </TouchableOpacity>  
+        }
+      </View>
+    )
+  }
 }
+
+// const SharePicture = (props) => {
+
+//   const amount = props.selectedPictures.length
+
+//   const mode = props.mode
+
+//   return(
+//     <View style={{flexDirection: 'row', paddingRight: 15}}>
+//       { mode === "look" ? 
+//         <TouchableOpacity
+//           onPress={()=> {
+//             props.modePicture('share')
+//           }}
+//         >
+//           <Text>공유하기</Text>
+//         </TouchableOpacity> :
+//         <TouchableOpacity
+//           onPress={()=> {
+//             props.modePicture('look')
+//           }}
+//         >
+//           <Text>{amount} 공유</Text>
+//         </TouchableOpacity>  
+//       }
+//     </View>
+//   )
+// }
 
 const initialRouteName = (isLogin) => {
 
@@ -125,27 +175,6 @@ const StackComponent = (props) => {
           title: "여행 중"
         }}
       />
-      <Stack.Screen 
-        name="OnTravelAllPictures"
-        component={OnTravelAllPictures}
-        options={{
-          title: "여행 중 사진모아보기"
-        }}
-      />
-      <Stack.Screen 
-        name="OnTravelSinglePicture"
-        component={OnTravelSinglePicture}
-        options={{
-          title: "여행 중 사진하나보기"
-        }}
-      />
-      <Stack.Screen 
-        name="OnTravelShare"
-        component={OnTravelShare}
-        options={{
-          title: "여행 중 사진공유"
-        }}
-      />
       <Stack.Screen
         name="SettingsMain"
         component={SettingsMain}
@@ -176,8 +205,8 @@ const StackComponent = (props) => {
         }}
       />
       <Stack.Screen 
-        name="SelectPicture"
-        component={SelectPictures}
+        name="SavePictures"
+        component={SavePictures}
         options={{
           title: "사진 저장",
           headerRight: () => <SavePicture {...props} />,
@@ -188,6 +217,14 @@ const StackComponent = (props) => {
         component={SinglePicture}
         options={{
           title: "사진 보기",
+          headerRight: () => <SavePicture {...props} />,
+        }}
+      />
+      <Stack.Screen 
+        name="ShowPictures"
+        component={ShowPictures}
+        options={{
+          title: props.mode === 'look' ? "사진 보기" : "사진 공유",
           headerRight: () => <SavePicture {...props} />,
         }}
       />
@@ -219,6 +256,7 @@ function mapStateToProps(state) {
     user_nickname: state.accountRd.user.nickname,
     selectedPictures: state.pictureRd.pictures,
     travelStatus: state.accountRd.travelStatus,
+    mode: state.pictureRd.mode
   }
 }
 
@@ -229,7 +267,10 @@ function mapDispatchToProps(dispatch) {
     },
     changeStatus: (status) => {
       dispatch(ActionCreator.changeStatus(status))
-    }
+    },
+    modePicture: (mode) => {
+      dispatch(ActionCreator.modePicture(mode))
+    },
   };
 }
 
