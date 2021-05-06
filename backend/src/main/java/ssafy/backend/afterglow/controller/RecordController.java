@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class RecordController {
     private final RecordService recordService;
     private final UserService userService;
 
-    private final ImageRepository imagerepository;
+    private final ImageRepository imageRepository;
     private final RecordRepository recordRepository;
     private final DailyRepository dailyRepository;
     private final RouteRepository routeRepository;
@@ -78,7 +79,7 @@ public class RecordController {
                     recordService.findNearestRr(drId, longitude, latitude)
                             .ifPresent(rr -> {
                                 ir.setRr(rr);
-                                imagerepository.save(ir);
+                                imageRepository.save(ir);
                             });
                 });
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
@@ -139,7 +140,7 @@ public class RecordController {
         userService
                 .findUserByPrincipal(principal)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDate(today)
+                    dailyRepository.findByDrDateAAndRec_User(today, user)
                             .ifPresent(dr -> {
                                 result.set(dr);
                             });
@@ -155,7 +156,7 @@ public class RecordController {
         userService
                 .findUserByPrincipal(principal)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDate(today)
+                    dailyRepository.findByDrDateAAndRec_User(today, user)
                             .ifPresent(dr -> {
                                 dr.setDrEndTime(LocalDateTime.now());
                             });
@@ -183,7 +184,7 @@ public class RecordController {
     // 메모 작성
     @PostMapping("/memo/create")
     public ResponseEntity<PinRecord> addMemo(@RequestParam("Pr_id") Long PrId,
-                                             @RequestParam("memo_content") String memoContent){
+                                             @RequestParam("memo_content") String memoContent) {
         AtomicReference<PinRecord> result = null;
         pinRepository
                 .findById(PrId)
@@ -192,5 +193,24 @@ public class RecordController {
                     result.set(pr);
                 });
         return ResponseEntity.ok(result.get());
+    }
+
+    // 하루 사진
+    @GetMapping("/daily/picture")
+    public ResponseEntity<List<ImageRecord>> dailyPicture(@AuthenticationPrincipal Principal principal) {
+        List<ImageRecord> result = null;
+        userService
+                .findUserByPrincipal(principal)
+                .ifPresent(user -> {
+                    dailyRepository.findByDrDateAAndRec_User(LocalDate.now(), user)
+                            .ifPresent(dr -> {
+                                routeRepository.findByDr(dr)
+                                        .forEach(rr -> {
+                                            result.addAll(imageRepository.findAllByRr(rr)
+                                                    .orElse(new ArrayList<>()));
+                                        });
+                            });
+                });
+        return ResponseEntity.ok(result);
     }
 }
