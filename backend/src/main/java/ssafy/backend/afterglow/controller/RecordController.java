@@ -86,11 +86,14 @@ public class RecordController {
 
     // 가계부 등록
     @PostMapping("/consumption")
-    public ResponseEntity<Object> setConsumption(@RequestParam("consumption_name") String conName,
+    public ResponseEntity<Object> setConsumption(@RequestParam("day_id") Long dayId,
+                                                 @RequestParam("consumption_name") String conName,
                                                  @RequestParam("consumption_money") Integer conMoney,
                                                  @RequestParam("consumption_time") LocalDateTime conTime) {
-
-        return null;
+        if(service.insertConsumption(dayId, conName, conMoney, conTime).isPresent())
+            return new ResponseEntity<Object>("SUCCESS", HttpStatus.OK);
+        else
+            return new ResponseEntity<Object>("FAIL", HttpStatus.OK);
     }
 
     // 가계부 수정
@@ -99,8 +102,10 @@ public class RecordController {
                                                     @RequestParam("consumption_name") String conName,
                                                     @RequestParam("consumption_money") Integer conMoney,
                                                     @RequestParam("consumption_time") LocalDateTime conTime) {
-
-        return null;
+        if(service.updateConsumption(conId, conName, conMoney, conTime).isPresent())
+            return new ResponseEntity<Object>("SUCCESS", HttpStatus.OK);
+        else
+            return new ResponseEntity<Object>("FAIL", HttpStatus.OK);
     }
 
     // 메모(핀) 등록

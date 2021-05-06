@@ -6,6 +6,7 @@ import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.*;
 import ssafy.backend.afterglow.repository.*;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -164,12 +165,32 @@ public class RecordService {
             return null;
     }
 
-    public String insertConsumption(){
-        return null;
+    public Optional<ConsumptionRecord> insertConsumption(Long dayId, String conName, Integer conMoney, LocalDateTime conTime){
+        Optional<DailyRecord> day = dayRepo.findById(dayId);
+        if(day.isPresent()){
+            ConsumptionRecord con = ConsumptionRecord.builder()
+                    .dr(day.get())
+                    .crName(conName)
+                    .crMoney(conMoney)
+                    .crDatetime(conTime)
+                    .build();
+            return Optional.ofNullable(conRepo.save(con));
+        }
+        else
+            return null;
     }
 
-    public String updateConsumption(){
-        return null;
+    public Optional<ConsumptionRecord> updateConsumption(Long conId, String conName, Integer conMoney, LocalDateTime conTime){
+        Optional<ConsumptionRecord> con = conRepo.findById(conId);
+        if(con.isPresent()){
+            ConsumptionRecord newCon = con.get();
+            newCon.setCrName(conName);
+            newCon.setCrMoney(conMoney);
+            newCon.setCrDatetime(conTime);
+            return Optional.ofNullable(conRepo.save(newCon));
+        }
+        else
+            return null;
     }
 
     public Optional<PinRecord> insertMemo(Long routeId, String pinName, String pinMemo){
