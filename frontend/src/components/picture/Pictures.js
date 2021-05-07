@@ -77,7 +77,16 @@ class Pictures extends React.Component {
     this.props.navigation.navigate("SinglePicture", { picture : item })
   }
 
+  isSelected = (item) => {
+    if (this.props.selectedPictures.filter((select) => select.id !== item.id).length !== this.props.selectedPictures.length) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   render(){
+
 
     const renderdata = ({ item }) => {
       
@@ -94,13 +103,14 @@ class Pictures extends React.Component {
       } else { 
         return (
           <View>
-            <TouchableOpacity onPress={() => this.toLargeScale(item) }>
+            <TouchableOpacity onPress={() => this.toLargeScale(item)} style={{margin:1}}>
               <Image 
-                style={{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}} 
+                style={[{ width: (screenWidth-6)/3, height: (screenWidth-6)/3}, 
+                  this.isSelected(item) ? styles.selectedBorder : '']} 
                 source={{ uri: item.uri }} />
             </TouchableOpacity>
             <View style={styles.selectContainer}>
-              { this.props.selectedPictures.filter((select) => select.id !== item.id).length !== this.props.selectedPictures.length ?  
+              { this.isSelected(item) ?  
                 <TouchableOpacity style={styles.selectArea} onPress={() => this.props.unselect(item.id)}>
                   <Ionicons 
                     name="checkmark-circle" 
@@ -160,6 +170,10 @@ const styles = StyleSheet.create({
   selectIcon: {
     position: 'absolute', 
     right: 0,
+  },
+  selectedBorder: {
+    borderWidth: 6,
+    borderColor: 'black'
   }
 });
 

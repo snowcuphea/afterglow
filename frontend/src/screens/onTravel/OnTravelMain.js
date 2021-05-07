@@ -35,7 +35,6 @@ class OnTravelMain extends React.Component {
   componentDidMount() {
     const timeStamp = this.props.todayTravel.todayDate;
     const startTime = new Date( timeStamp );
-    console.log(startTime.getDate())
     const nowTime = new Date();
     const tempPassed = nowTime - startTime
     const hours = Math.floor(tempPassed/3600000)
