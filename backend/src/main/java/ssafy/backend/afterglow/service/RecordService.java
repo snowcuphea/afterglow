@@ -6,6 +6,7 @@ import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.*;
 import ssafy.backend.afterglow.repository.*;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -147,6 +148,20 @@ public class RecordService {
                     .recName(rEntity.getRecName())
                     .days(drDTO)
                     .build();
+        }
+        else
+            return null;
+    }
+
+    public Object updateUserPos(Long usrId, Double usrLatitude, Double usrLongitude){
+        Optional<User> userEntity = userRepo.findById(usrId);
+        if(userEntity.isPresent()){
+            User user = userEntity.get();
+            user.setUsrLatitude(usrLatitude);
+            user.setUsrLongitude(usrLongitude);
+            userRepo.save(user);
+            PositionDTO dto = PositionDTO.builder().latitude(usrLatitude).longitude(usrLongitude).build();
+            return dto;
         }
         else
             return null;

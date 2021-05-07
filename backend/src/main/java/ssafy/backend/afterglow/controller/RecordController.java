@@ -1,5 +1,6 @@
 package ssafy.backend.afterglow.controller;
 
+import com.sun.mail.iap.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ssafy.backend.afterglow.domain.ImageRecord;
-import ssafy.backend.afterglow.domain.PinRecord;
 import ssafy.backend.afterglow.dto.RecordDTO;
 import ssafy.backend.afterglow.repository.ImageRepository;
-import ssafy.backend.afterglow.repository.RecordRepository;
 import ssafy.backend.afterglow.service.RecordService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,20 +29,14 @@ public class RecordController {
     RecordService service;
 
     private final ImageRepository imagerepository;
-    private final RecordRepository recRepo;
-
-//    @GetMapping
-//    public ResponseEntity<String> sampleFunction() {
-//        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-//    }
 
     // 여행 시작
     @PostMapping("/start")
-    public ResponseEntity<String> startRecord(@RequestParam("user_id") Long userId, @RequestParam("rec_name") String recName) {
+    public ResponseEntity<Integer> startRecord(@RequestParam("user_id") Long userId, @RequestParam("rec_name") String recName) {
         if (service.insertRec(userId, recName).isPresent())
-            return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+            return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
         else
-            return new ResponseEntity<String>("FAIL", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<Integer>(FAIL, HttpStatus.NOT_ACCEPTABLE);
     }
 
 
@@ -80,9 +73,19 @@ public class RecordController {
         if (test != null)
             return new ResponseEntity<Object>(test, HttpStatus.OK);
         else
-            return new ResponseEntity<Object>("FAIL", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<Object>(FAIL, HttpStatus.NOT_ACCEPTABLE);
     }
 
+    // 위치 저장
+    @PutMapping("/pos")
+    public ResponseEntity<Object> setCurPos(@RequestParam("user_id") Long userId,
+                                            @RequestParam("user_latitude") Double userLat,
+                                            @RequestParam("user_longitude") Double userLong){
+        if(service.updateUserPos(userId, userLat, userLong) != null)
+            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
+        else
+            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
+    }
 
     // 가계부 등록
     @PostMapping("/consumption")
@@ -91,9 +94,9 @@ public class RecordController {
                                                  @RequestParam("consumption_money") Integer conMoney,
                                                  @RequestParam("consumption_time") LocalDateTime conTime) {
         if(service.insertConsumption(dayId, conName, conMoney, conTime).isPresent())
-            return new ResponseEntity<Object>("SUCCESS", HttpStatus.OK);
+            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
         else
-            return new ResponseEntity<Object>("FAIL", HttpStatus.OK);
+            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
     }
 
     // 가계부 수정
@@ -103,9 +106,9 @@ public class RecordController {
                                                     @RequestParam("consumption_money") Integer conMoney,
                                                     @RequestParam("consumption_time") LocalDateTime conTime) {
         if(service.updateConsumption(conId, conName, conMoney, conTime).isPresent())
-            return new ResponseEntity<Object>("SUCCESS", HttpStatus.OK);
+            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
         else
-            return new ResponseEntity<Object>("FAIL", HttpStatus.OK);
+            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
     }
 
     // 메모(핀) 등록
@@ -114,9 +117,9 @@ public class RecordController {
                                           @RequestParam("pin_name") String pinName,
                                           @RequestParam("pin_memo") String pinMemo) {
         if(service.insertMemo(rrId, pinName, pinMemo).isPresent())
-            return new ResponseEntity<Object>("SUCCESS", HttpStatus.OK);
+            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
         else
-            return new ResponseEntity<Object>("FAIL", HttpStatus.OK);
+            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
     }
 
     // 메모 수정
@@ -124,8 +127,8 @@ public class RecordController {
     public ResponseEntity<Object> modifyMemo(@RequestParam("pin_id") Long pinId,
                                              @RequestParam("pin_memo") String pinMemo) {
         if(service.modifyMemo(pinId, pinMemo).isPresent())
-            return new ResponseEntity<Object>("SUCCESS", HttpStatus.OK);
+            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
         else
-            return new ResponseEntity<Object>("FAIL", HttpStatus.OK);
+            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
     }
 }
