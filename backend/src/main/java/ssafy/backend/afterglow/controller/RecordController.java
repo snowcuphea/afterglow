@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -182,10 +183,10 @@ public class RecordController {
     }
 
 
-    // 메모 작성
+    // 메모 작성 and 수정
     @PostMapping("/memo/create")
-    public ResponseEntity<PinRecord> addMemo(@RequestParam("Pr_id") Long PrId,
-                                             @RequestParam("memo_content") String memoContent) {
+    public ResponseEntity<PinRecord> addAndUpdateMemo(@RequestParam("Pr_id") Long PrId,
+                                                      @RequestParam("memo_content") String memoContent) {
         AtomicReference<PinRecord> result = null;
         pinRepository
                 .findById(PrId)
@@ -215,6 +216,32 @@ public class RecordController {
         return ResponseEntity.ok(result);
     }
 
+
+    // 전체 사진
+    @GetMapping("/trip/picture")
+    public ResponseEntity<Map<LocalDate, List<ImageRecord>>> tripPicture(@RequestParam("rec_id") Long recId) {
+        Map<LocalDate, List<ImageRecord>> result = null;
+        recordRepository
+                .findById(recId)
+                .ifPresent(rec -> {
+                    dailyRepository.findByRec(rec)
+                            .forEach(dr -> {
+                                routeRepository.findByDr(dr)
+                                        .forEach(rr -> {
+                                            if (result.containsKey(rr.getRrTime().toLocalDate())) {
+                                                result.get(rr.getRrTime().toLocalDate()).addAll(imageRepository.findAllByRr(rr)
+                                                        .orElse(new ArrayList<>()));
+                                            } else {
+                                                result.put(rr.getRrTime().toLocalDate(), imageRepository.findAllByRr(rr)
+                                                        .orElse(new ArrayList<>()));
+                                            }
+                                        });
+                            });
+                });
+        return ResponseEntity.ok(result);
+    }
+
+
     // 여행 정보
     @GetMapping("/tripInfo")
     public ResponseEntity<Record> getRecord(@AuthenticationPrincipal Principal principal,
@@ -226,4 +253,6 @@ public class RecordController {
                 });
         return ResponseEntity.ok(result.get());
     }
+
+    //
 }
