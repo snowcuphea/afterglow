@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     position: 'absolute',
     left: 60,
-    bottom: 10,
+    bottom: 15,
   },
   nextBtn: {
     backgroundColor: 'skyblue',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     position: 'absolute',
     right: 60,
-    bottom: 10,
+    bottom: 15,
   },
 
 })

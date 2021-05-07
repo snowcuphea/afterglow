@@ -101,14 +101,13 @@ class Diary extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'blue'
   },
   indicatorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 16,
     justifyContent: 'center',
-    backgroundColor: 'green'
+    height: 30,
+    paddingBottom: 30,
   },
   indicator: {
     marginHorizontal: 4,
