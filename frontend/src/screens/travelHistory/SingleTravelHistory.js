@@ -1,21 +1,53 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  Button,
-  ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Text
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import Diary from '../.././components/diary/Diary'
+import Summary from '../.././components/diary/Summary'
+import Gallery from '../.././components/diary/Gallery'
+
 export default class SingleTravelHistory extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      page : 0,
+      content: [],
+    }
+  }
+
+  componentDidMount() {
+    const content = [
+      <Summary />,
+      <Diary />,
+      <Gallery />,
+    ]
+    this.setState({
+      ...this.state,
+      content: content
+    })
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        
+        {this.state.content[this.state.page]}
+        <View style={styles.btnContainer}>
+          <TouchableOpacity style={this.state.page == 0 ? {display : 'none'}: styles.backBtn}
+            onPress={() => this.setState({...this.state, page: this.state.page - 1})}>
+            <Text>이전</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={this.state.page == 2 ? {display : 'none'}: styles.nextBtn}
+            onPress={() => this.setState({...this.state, page: this.state.page + 1})}>
+            <Text>다음</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -24,7 +56,28 @@ export default class SingleTravelHistory extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    paddingVertical: 30,
+  },
+  backBtn: {
+    backgroundColor: 'grey',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 15,
+    position: 'absolute',
+    left: 60,
+    bottom: 15,
+  },
+  nextBtn: {
+    backgroundColor: 'skyblue',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 15,
+    position: 'absolute',
+    right: 60,
+    bottom: 15,
+  },
+
 })

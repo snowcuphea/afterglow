@@ -54,7 +54,7 @@ class Pictures extends React.Component {
     .then(res => {
       for (let picture of res.edges) {
         const pictureForm = {
-          id: picture.node.timestamp + 0.1,
+          id: picture.node.timestamp,
           timestamp : picture.node.timestamp,
           location : picture.node.location,
           uri: picture.node.image.uri,
@@ -115,14 +115,19 @@ class Pictures extends React.Component {
                   <Ionicons 
                     name="checkmark-circle" 
                     size={screenWidth/12}
-                    style={styles.selectIcon}
+                    style={styles.selectIcon1}
                     color={'pink'}/>
                 </TouchableOpacity> :
                 <TouchableOpacity style={styles.selectArea} onPress={() => this.props.select(item)}>
                   <Ionicons
+                    name="ellipse"  
+                    size={screenWidth/12}
+                    style={styles.selectIcon2}
+                    color={'black'}/>
+                  <Ionicons
                     name="ellipse-outline"  
                     size={screenWidth/12}
-                    style={styles.selectIcon}
+                    style={styles.selectIcon3}
                     color={'black'}/>
                 </TouchableOpacity>
               }
@@ -167,9 +172,19 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width/6,
     width: Dimensions.get('window').width/6,
   },
-  selectIcon: {
+  selectIcon1: {
     position: 'absolute', 
     right: 0,
+  },
+  selectIcon2: {
+    position: 'absolute', 
+    right: 0,
+    opacity: 0.4,
+  },
+  selectIcon3: {
+    position: 'absolute', 
+    right: 0,
+    opacity: 0.8,
   },
   selectedBorder: {
     borderWidth: 6,
