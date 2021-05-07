@@ -25,19 +25,43 @@ class OnTravelMain extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      startDate: '',
+      passedTime: '',
+    }
     console.log("OnTravelMain 생성자부분", this.props.todayTravel)
-    // var date = new Date(sampleTimestamp); //타임스탬프를 인자로 받아 Date 객체 생성
-
   }
 
+  componentDidMount() {
+    const timeStamp = this.props.todayTravel.todayDate;
+    const startTime = new Date( timeStamp );
+    console.log(startTime.getDate())
+    const nowTime = new Date();
+    const tempPassed = nowTime - startTime
+    const hours = Math.floor(tempPassed/3600000)
+    const mins = Math.floor((tempPassed%3600000)/60000)
+    this.setState({
+      startDate: startTime.getFullYear() + '년 ' + 
+                + ('0'+(startTime.getMonth()+1)).slice(-2) + '월 '
+                + ('0'+startTime.getDate()).slice(-2) + '일',
+      passedTime: hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
+                              ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' )
+    })
+  }
+
+
   endDay = () => {
-    this.props.navigation.navigate('SelectPicture')
-    this.props.changeStatus('dayEndd')
+    this.props.navigation.navigate('SavePictures');
+    this.props.changeStatus('dayEndd');
+    this.props.modePicture('save');
+    this.props.emptyList();
   }
 
   endTravel = () => {
-    this.props.navigation.navigate('SelectPicture')
-    this.props.changeStatus('travelEndd')
+    this.props.navigation.navigate('SavePictures');
+    this.props.changeStatus('travelEndd');
+    this.props.modePicture('save');
+    this.props.emptyList();
   }
 
   selectPin = () => {
@@ -45,16 +69,19 @@ class OnTravelMain extends React.Component {
   }
 
   allPictures = () => {
-    this.props.navigation.navigate('OnTravelAllPictures')
+    this.props.navigation.navigate('ShowPictures');
+    this.props.modePicture('look');
+    this.props.emptyList();
   }
 
-
+  
   render() {
     console.log("OnTravelMain render부분")
+    
     return (
       <ScrollView style={styles.container}>
         <Text>
-          여행 중, {this.props.todayTravel.todayDate}
+          {this.state.startDate}, {this.state.passedTime}
         </Text>
        
         <Button title={"하루 끝"} onPress={this.endDay}/>
@@ -71,7 +98,6 @@ class OnTravelMain extends React.Component {
         {/* <AddMoneyItem /> */}
         <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
         <RecPlaceList />
-
       </ScrollView>
     )
   }
@@ -108,6 +134,12 @@ function mapDispatchToProps(dispatch) {
   return {
     changeStatus: (status) => {
       dispatch(ActionCreator.changeStatus(status))
+    },
+    modePicture: (mode) => {
+      dispatch(ActionCreator.modePicture(mode))
+    },
+    emptyList: () => {
+      dispatch(ActionCreator.emptyList())
     }
   };
 }
