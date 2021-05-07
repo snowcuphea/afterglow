@@ -14,7 +14,7 @@ import MoneyBook from '../../components/book/MoneyBook'
 import AddMoneyItem from '../../components/book/AddMoneyItem'
 import PlaceList from '../../components/PlaceList'
 import RecPlaceList from '../../components/RecPlaceList'
-import ModalStartTravel from '../../components/modal/ModalStartTravel'
+import ModalDayFinish from '../../components/modal/ModalDayFinish'
 
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
@@ -29,7 +29,6 @@ class OnTravelMain extends React.Component {
       startDate: '',
       passedTime: '',
     }
-    console.log("OnTravelMain 생성자부분", this.props.todayTravel)
   }
 
   componentDidMount() {
@@ -49,20 +48,6 @@ class OnTravelMain extends React.Component {
   }
 
 
-  endDay = () => {
-    this.props.navigation.navigate('SavePictures');
-    this.props.changeStatus('dayEndd');
-    this.props.modePicture('save');
-    this.props.emptyList();
-  }
-
-  endTravel = () => {
-    this.props.navigation.navigate('SavePictures');
-    this.props.changeStatus('travelEndd');
-    this.props.modePicture('save');
-    this.props.emptyList();
-  }
-
   selectPin = () => {
 
   }
@@ -75,16 +60,13 @@ class OnTravelMain extends React.Component {
 
   
   render() {
-    console.log("OnTravelMain render부분")
     
     return (
       <ScrollView style={styles.container}>
         <Text>
           {this.state.startDate}, {this.state.passedTime}
         </Text>
-       
-        <Button title={"하루 끝"} onPress={this.endDay}/>
-        <Button title={"여행 끝"} onPress={this.endTravel}/>
+        <ModalDayFinish navigation={this.props.navigation} /> 
         <Button title={"핀을 눌렀을 때"} onPress={this.selectPin}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
         <Text style={styles.titleStyle}>
@@ -116,8 +98,6 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
-
-  console.log("onTravel mapStateToProps부분", state.accountRd.todayTravel.todayDate)
 
   return {
     isLogin: state.accountRd.isLogin,
