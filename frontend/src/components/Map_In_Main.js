@@ -16,7 +16,7 @@ import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-nativ
 
 class Map_In_Main extends React.Component {
     render () {
-        const { lati, longi } = this.props.route.params;
+        const { lat, lon } = this.props.route.params;
 
         // const latitude = Props_items.latitude
         // const longitude = Props_items.longitude
@@ -26,8 +26,8 @@ class Map_In_Main extends React.Component {
                 <MapView
                     style={{ flex:1 }}
                     initialRegion = {{
-                        latitude: lati,
-                        longitude: longi,
+                        latitude: lat,
+                        longitude: lon,
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1
 
