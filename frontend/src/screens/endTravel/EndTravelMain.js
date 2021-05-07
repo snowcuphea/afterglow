@@ -26,6 +26,16 @@ class EndTravelMain extends React.Component {
   }
 
   startDay = () => {
+    this.props.changeStatus('onTravel')
+    this.props.navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home' },
+          { name: 'OnTravelMain'},
+        ]
+      })
+    )
     console.warn("해당 버튼을 누르면 여행이 시작")
   }
 
@@ -67,7 +77,8 @@ class EndTravelMain extends React.Component {
         <View style={styles.mapContainer}>
           <Text>지도 보여주는 영역</Text>
         </View>
-          
+
+        <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>  
         <PlaceList />
 
         <View style={styles.bookContainer}>
@@ -101,6 +112,9 @@ const styles = StyleSheet.create({
   bookContainer: {
     height: 500,
     backgroundColor: 'red'
+  },
+  titleStyle: {
+    fontSize: 20, marginLeft: 20, marginTop: 10, fontFamily:'RIDIBatang'
   }
 })
 
@@ -108,6 +122,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
   return {
+    user_nickname: state.accountRd.user.nickname,
     travelStatus: state.accountRd.travelStatus,
   }
 }

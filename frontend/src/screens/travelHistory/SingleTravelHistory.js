@@ -15,9 +15,7 @@ export default class SingleTravelHistory extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-          여행 하나에 대한 자세한 기록
-        </Text>
+        
       </View>
     )
   }

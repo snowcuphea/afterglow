@@ -35,9 +35,6 @@ class PlaceList extends React.Component {
     return (
 
       <View style={styles.container}>
-        <Text>
-          여행한 곳 보여준다
-        </Text>
         <FlatList
           data={places}
           renderItem={renderdata}
@@ -57,10 +54,9 @@ const screenWidth = Dimensions.get('screen').width
 
 const styles= StyleSheet.create({
   container: {
-    backgroundColor: 'orange'
   },
   itemContainer: {
-    backgroundColor: 'blue',
+    backgroundColor: 'green',
     justifyContent: 'center',
     marginHorizontal: screenWidth/40,
     marginVertical: screenHeight/60,
