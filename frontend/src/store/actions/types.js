@@ -12,6 +12,7 @@ const types = {
   CHANGE_STATUS:'CHANGE_STATUS',
   SET_DATE : 'SET_DATE',
   SET_TRAVEL_NAME: 'SET_TRAVEL_NAME',
+  ADD_MONEY_ITEM:'ADD_MONEY_ITEM'
 };
 
 export default types

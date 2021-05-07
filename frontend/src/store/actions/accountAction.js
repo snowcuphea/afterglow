@@ -32,3 +32,10 @@ export function setTravelName(travelname) {
     payload: travelname
   }
 }
+
+export function addMoneyItem(moneyItem) {
+  return {
+    type: types.ADD_MONEY_ITEM,
+    payload: moneyItem
+  }
+}

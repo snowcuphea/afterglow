@@ -15,7 +15,7 @@ const items = [
   {
     when: '13:40',
     what: '땅콩막걸리',
-    much: '12312300'
+    much: '123300'
  },
  {
   when: '19:20',
@@ -38,17 +38,17 @@ class MoneyBook extends React.Component {
         <Card >
           <View style={styles.container}>
             <Card.Title style={{flex:2}}>시간</Card.Title>
-            <Card.Title style={{flex:6}}>메모</Card.Title>
+            <Card.Title style={{flex:6}}>사용처</Card.Title>
             <Card.Title style={{flex:4}}>비용</Card.Title>
             {/* <Card.Title style={{flex:1}}>관리</Card.Title> */}
           </View>
-          <Card.Divider/>
+          {/* <Card.Divider/> */}
         {
-        items.map((item, i) => {
+        this.props.moneyBookList.map((item, i) => {
           return (
           <View key={i} style={styles.listContainer} >
             <View style={styles.itemWhen} >
-              <Text style={styles.moenyText}>{item.when}</Text>
+              <Text style={styles.moenyText}>{item.hour}:{item.min}</Text>
             </View>
             <View style={styles.itemWhat} >
               <Text style={styles.moenyText}>{item.what}</Text>
@@ -88,10 +88,19 @@ const styles = StyleSheet.create({
   moneyText:{
     fontSize: 20,
   },
-  itemWhen:{backgroundColor:'pink', flex:2, alignItems:'center',},
-  itemWhat:{backgroundColor:'yellow', flex:6, alignItems:'center'},
-  itemMuch:{backgroundColor:'beige', flex:3, alignItems:'center'},
-  itemDelete:{backgroundColor:'lime', flex:1, alignItems:'center'},
+  itemWhen:{flex:2, alignItems:'center',
+              // backgroundColor:'pink', 
+            },
+  itemWhat:{flex:6, alignItems:'center',
+              // backgroundColor:'yellow', 
+            },
+  itemMuch:{flex:3, alignItems:'flex-end',
+              // backgroundColor:'beige', 
+            },
+  itemDelete:{ flex:1, alignItems:'center',
+              justifyContent: 'center'
+              // backgroundColor:'lime',
+            },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center'
@@ -101,10 +110,12 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
+  console.log("ddd",state.accountRd.todayTravel )
 
   return {
     isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user.nickname
+    user_nickname: state.accountRd.user.nickname,
+    moneyBookList: state.accountRd.todayTravel.moneyBook
   }
 }
 

@@ -148,7 +148,8 @@ const StackComponent = (props) => {
         headerRight: () => <MenuBar />,
         // gestureEnabled: true,
         // gestureDirection: "horizontal",
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        cardStyle: {backgroundColor: 'ghostwhite'}
       }}
       headerMode="float"
       animation="fade"

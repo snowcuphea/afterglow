@@ -28,6 +28,7 @@ class OnTravelMain extends React.Component {
     this.state = {
       startDate: '',
       passedTime: '',
+      
     }
   }
 
@@ -43,7 +44,10 @@ class OnTravelMain extends React.Component {
                 + ('0'+(startTime.getMonth()+1)).slice(-2) + '월 '
                 + ('0'+startTime.getDate()).slice(-2) + '일',
       passedTime: hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
-                              ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' )
+                              ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' ),
+      
+      
+  
     })
   }
 
@@ -76,7 +80,7 @@ class OnTravelMain extends React.Component {
         <PlaceList />
         <Text style={styles.titleStyle}>오늘의 지출</Text>
         <MoneyBook />
-        {/* <AddMoneyItem /> */}
+        <AddMoneyItem />
         <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
         <RecPlaceList />
       </ScrollView>
