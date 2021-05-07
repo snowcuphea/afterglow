@@ -14,7 +14,7 @@ import {
 
 import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
 
-class Maps extends React.Component {
+class Map_In_Main extends React.Component {
     render () {
         const { lati, longi } = this.props.route.params;
 
@@ -47,4 +47,4 @@ class Maps extends React.Component {
     }
 }
 
-export default Maps
+export default Map_In_Main
