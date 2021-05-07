@@ -25,3 +25,10 @@ export function setDate() {
     type: types.SET_DATE
   }
 }
+
+export function setTravelName(travelname) {
+  return {
+    type: types.SET_TRAVEL_NAME,
+    payload: travelname
+  }
+}

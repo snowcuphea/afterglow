@@ -29,27 +29,37 @@ class SinglePicture extends React.Component {
 
     const scale = tempScale1 >= tempScale2 ? tempScale1 : tempScale2
 
-    return (
-      <View style={styles.container}>
-        <Image 
-          style={{ width: picture.imageSize.width/scale , height: picture.imageSize.height/scale }} 
-          source={{ uri: picture.uri }} />
-        <View style={styles.selectContainer}>
-          { this.props.selectedPictures.filter((select) => select.id !== picture.id).length !== this.props.selectedPictures.length ?  
-            <Ionicons 
-              name="checkmark-circle" 
-              size={screenWidth/8}
-              color={'pink'}
-              onPress={() => this.props.unselect(picture.id)}/> :
-            <Ionicons
-              name="ellipse-outline"  
-              size={screenWidth/8}
-              color={'grey'}
-              onPress={() => this.props.select(picture)}/>
-          }
+    if ( this.props.mode === "look" ) {
+      return (
+        <View style={styles.container}>
+          <Image 
+            style={{ width: picture.imageSize.width/scale , height: picture.imageSize.height/scale }} 
+            source={{ uri: picture.uri }} />
         </View>
-      </View>
-    )
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          <Image 
+            style={{ width: picture.imageSize.width/scale , height: picture.imageSize.height/scale }} 
+            source={{ uri: picture.uri }} />
+          <View style={styles.selectContainer}>
+            { this.props.selectedPictures.filter((select) => select.id !== picture.id).length !== this.props.selectedPictures.length ?  
+              <Ionicons 
+                name="checkmark-circle" 
+                size={screenWidth/8}
+                color={'pink'}
+                onPress={() => this.props.unselect(picture.id)}/> :
+              <Ionicons
+                name="ellipse-outline"  
+                size={screenWidth/8}
+                color={'grey'}
+                onPress={() => this.props.select(picture)}/>
+            }
+          </View>
+        </View>
+      )
+    }
   }
 }
 
@@ -72,7 +82,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    selectedPictures: state.pictureRd.pictures
+    selectedPictures: state.pictureRd.pictures,
+    mode: state.pictureRd.mode
   };
 }
 
