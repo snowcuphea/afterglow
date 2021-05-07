@@ -21,9 +21,10 @@ import ActionCreator from './store/actions'
 
 import Counter from './screens/Counter';
 
-import Maps from './screens/Maps'
+import Map_In_Main from './components/Map_In_Main'
 import Maps_cluster from './screens/Maps_cluster'
 import CurrentLocation from './screens/CurrentLocation'
+import Test_Maps from './screens/Test_Maps'
 
 const Stack = createStackNavigator();
 
@@ -233,12 +234,16 @@ const StackComponent = (props) => {
         component={CurrentLocation}
       />
       <Stack.Screen
-        name="Maps"
-        component={Maps}
+        name="Map_In_Main"
+        component={Map_In_Main}
       />
       <Stack.Screen
         name="Maps_cluster"
         component={Maps_cluster}
+      />
+      <Stack.Screen
+        name="Test_Maps"
+        component={Test_Maps}
       />
       <Stack.Screen
         name="Counter"
