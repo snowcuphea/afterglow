@@ -25,7 +25,7 @@ const initialState = {
     timespent : 0,      // 하루 총 여행 시간
     todayDate: '',      
     visitedPlace : [],  // 방문한 장소 { name: "해변", time: "", location: { lat: 30, lon: 30}, memo : "" }
-    moneyBook: [],    // 가계부 { name: "돼지고기", time: "", price: 35000 }
+    moneyBook: [{ hour:11, min:40, what:'정직한돈', much:62000 }],    // 가계부 { name: "돼지고기", time: "", price: 35000 }
     track: [],
     pictures: [],
   },
@@ -64,6 +64,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         travelingName: action.payload,
+      }
+    case types.ADD_MONEY_ITEM:
+      return {
+        ...state,
+        todayTravel: {...state.todayTravel, moneyBook : [ ...state.todayTravel.moneyBook, action.payload ] }
+
       }
     default:
       return state;

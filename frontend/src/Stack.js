@@ -149,6 +149,7 @@ const StackComponent = (props) => {
         // gestureEnabled: true,
         // gestureDirection: "horizontal",
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        cardStyle: {backgroundColor: 'ghostwhite'}
       }}
       headerMode="float"
       animation="fade"
