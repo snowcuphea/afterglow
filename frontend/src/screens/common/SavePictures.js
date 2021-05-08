@@ -11,13 +11,8 @@ export default class SavePictures extends React.Component {
   render() {
     return (
       <View>
-        <View>
-          <PicturesHorz />
-        </View>
-
-        <View>
-          <Pictures navigation={this.props.navigation} />
-        </View>
+        <PicturesHorz />
+        <Pictures navigation={this.props.navigation}/>
       </View>
     )
   }

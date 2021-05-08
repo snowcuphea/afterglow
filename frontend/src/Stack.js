@@ -102,34 +102,6 @@ const SavePicture = (props) => {
   }
 }
 
-// const SharePicture = (props) => {
-
-//   const amount = props.selectedPictures.length
-
-//   const mode = props.mode
-
-//   return(
-//     <View style={{flexDirection: 'row', paddingRight: 15}}>
-//       { mode === "look" ? 
-//         <TouchableOpacity
-//           onPress={()=> {
-//             props.modePicture('share')
-//           }}
-//         >
-//           <Text>공유하기</Text>
-//         </TouchableOpacity> :
-//         <TouchableOpacity
-//           onPress={()=> {
-//             props.modePicture('look')
-//           }}
-//         >
-//           <Text>{amount} 공유</Text>
-//         </TouchableOpacity>  
-//       }
-//     </View>
-//   )
-// }
-
 const initialRouteName = (isLogin) => {
 
   if (isLogin) {
