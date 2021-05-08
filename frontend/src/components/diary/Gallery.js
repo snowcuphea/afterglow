@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import ActionCreator from '../../store/actions'
 
+import PicturesFromDB from '.././picture/PicturesFromDB'
 
 
 class Gallery extends React.Component {
@@ -15,9 +16,7 @@ class Gallery extends React.Component {
 
     return(
       <View style={styles.container}>
-        <Text>
-          사진첩처럼
-        </Text>
+        <PicturesFromDB />
       </View>
     )
 

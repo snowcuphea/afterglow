@@ -25,63 +25,59 @@ class PicturesFromDB extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        data: [],
+      data: [],
+      result: 0,
     };
   }
 
   async componentDidMount(){
-    if (Platform.OS === 'android') {
-      const result = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        {
-          title: 'Permission Explanation',
-          message: 'ReactNativeForYou would like to access your photos!',
-        },
-      );
-      if (result !== 'granted') {
-        console.log('Access to pictures was denied');
-        return;
-      }
-    }
+    
+    const tempData = [
+      { id : 0, timestamp: 1620159970, uri: require('../../assets/pics/1.png') },
+      { id : 1, timestamp: 1620159970, uri: require('../../assets/pics/2.png') },
+      { id : 2, timestamp: 1620246370, uri: require('../../assets/pics/3.png') },
+      { id : 3, timestamp: 1620246370, uri: require('../../assets/pics/4.png') },
+      { id : 4, timestamp: 1620332770, uri: require('../../assets/pics/5.png') },
+      { id : 5, timestamp: 1620332770, uri: require('../../assets/pics/1.png') },
+      { id : 6, timestamp: 1620419170, uri: require('../../assets/pics/2.png') },
+      { id : 7, timestamp: 1620419170, uri: require('../../assets/pics/3.png') },
+      { id : 8, timestamp: 1620505570, uri: require('../../assets/pics/4.png') },
+      { id : 9, timestamp: 1620505570, uri: require('../../assets/pics/5.png') },
+    ]
+    
+    const startTime = new Date( tempData[0].timestamp * 1000 ).toISOString()
 
-    CameraRoll.getPhotos({
-      first: 50,
-      assetType: 'Photos',
-      include: [
-        'location', 'imageSize'
-      ],
-      fromTime: this.props.todayDate,
+
+    this.setState({
+      ...this.state,
+      result: startTime,
     })
-    .then(res => {
-      const pictureSet = {
-        title: "구분",
-        id: "구분",
-        data: []
-      }
-      const tempData = {
-        id : "123",
-        list: []
-      }
-      for (let picture of res.edges) {
-        const pictureForm = {
-          id: picture.node.timestamp,
-          timestamp : picture.node.timestamp,
-          location : picture.node.location,
-          uri: picture.node.image.uri,
-          imageSize: {
-            height : picture.node.image.height,
-            width : picture.node.image.width
-          },
-        }
-        tempData.list.unshift(pictureForm)
-      }
-      pictureSet.data.push(tempData)
-      this.setState({ ...this.state, data: [ ...this.state.data, pictureSet ]})
-    })
-    .catch((error) => {
-        console.log("에러",error);
-    });
-  
+
+    //   const pictureSet = {
+    //     title: "구분",
+    //     id: "구분",
+    //     data: []
+    //   }
+    //   const tempData = {
+    //     id : "123",
+    //     list: []
+    //   }
+    //   for (let picture of res.edges) {
+    //     const pictureForm = {
+    //       id: picture.node.timestamp,
+    //       timestamp : picture.node.timestamp,
+    //       location : picture.node.location,
+    //       uri: picture.node.image.uri,
+    //       imageSize: {
+    //         height : picture.node.image.height,
+    //         width : picture.node.image.width
+    //       },
+    //     }
+    //     tempData.list.unshift(pictureForm)
+    //   }
+    //   pictureSet.data.push(tempData)
+    //   this.setState({ ...this.state, data: [ ...this.state.data, pictureSet ]})
+
   }
 
   toLargeScale = (item) => {
@@ -153,7 +149,7 @@ class PicturesFromDB extends React.Component {
   
     return(
       <View style={this.props.selectedPictures.length > 0 ? {height: screenHeight*0.825} : {}}>
-        <SectionList
+        {/* <SectionList
           sections={this.state.data}
           keyExtractor = {(data) => data.id}
           renderItem={({ item }) => (
@@ -166,7 +162,9 @@ class PicturesFromDB extends React.Component {
           renderSectionHeader={({ section : { title }}) => (
             <Text> { title } </Text>
           )}
-        />
+        /> */}
+        <Text style={{ margin: 20, fontSize: 50}}>{this.state.result}</Text> 
+        <Text> pictures from db </Text>
       </View>
     )
   }

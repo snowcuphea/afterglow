@@ -81,7 +81,6 @@ class Pictures extends React.Component {
     .catch((error) => {
         console.log("에러",error);
     });
-  
   }
 
   toLargeScale = (item) => {
