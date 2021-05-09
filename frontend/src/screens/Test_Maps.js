@@ -59,10 +59,11 @@ import MapViewDirections from 'react-native-maps-directions';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.771707;
-const LONGITUDE = -122.4053769;
+const LATITUDE = 37.56214048089164;
+const LONGITUDE = 126.98781186361127;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCGLwsIiM-z2L8XLBFSZg_G3OCfh4acg7I';
 
@@ -88,8 +89,8 @@ class Test_Maps extends Component {
 
     this.state = {
       coordinates: [
-        "Twitter HQ, Market Street, San Francisco, CA, USA",
-        "Apple Park Visitor Center",
+        [37.57973601713675, 126.97703026928599],
+        [37.50045755483594, 126.96977429055488]
       ],
     };
 
@@ -97,6 +98,7 @@ class Test_Maps extends Component {
   }
 
   onMapPress = (e) => {
+    console.log(e)
     this.setState({
       coordinates: [
         ...this.state.coordinates,
@@ -144,12 +146,14 @@ class Test_Maps extends Component {
           onPress={this.onMapPress}
         >
           <MapViewDirections
-            origin={this.state.coordinates[0]}
-            destination={this.state.coordinates[this.state.coordinates.length-1]}
-            waypoints={this.state.coordinates.slice(1,-1)}
+            // origin={this.state.coordinates[0]}
+            origin={{ latitude: 37.57973601713675, longitude: 126.97703026928599 }}
+            // destination={this.state.coordinates[this.state.coordinates.length-1]}
+            destination={{ latitude: 37.50045755483594, longitude: 126.96977429055488 }}
+            // waypoints={this.state.coordinates.slice(1,-1)}
             mode='DRIVING'
             apikey={GOOGLE_MAPS_APIKEY}
-            language='en'
+            language='ko'
             strokeWidth={4}
             strokeColor="black"
             onStart={(params) => {
