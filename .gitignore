@@ -483,3 +483,7 @@ $RECYCLE.BIN/
 **/build/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,intellij,visualstudiocode,vscode,reactnative,gradle
+
+*.properties
+K4A105T.pem
+backend/src/main/resources/application.yml
