@@ -1,5 +1,6 @@
 package ssafy.backend.afterglow.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.apache.tomcat.jni.Local;
@@ -21,6 +22,7 @@ public class ConsumptionRecord {
     @JsonProperty("cr_money")
     private Integer crMoney;
     @JsonProperty("cr_datetime")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd 'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime crDatetime;
 
     @ManyToOne

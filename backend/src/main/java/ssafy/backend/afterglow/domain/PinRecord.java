@@ -1,6 +1,7 @@
 package ssafy.backend.afterglow.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import javax.persistence.*;
@@ -18,12 +19,10 @@ public class PinRecord {
     @JsonProperty("pr_memo")
     private String prMemo;
 
-    @ManyToOne
-    @JoinColumn(name = "rrId")
-    @JsonProperty("rr")
+    @ManyToOne @JoinColumn(name = "rrId")
+    @JsonIgnore
+    //@JsonProperty("rr")
     private RouteRecord rr;
-
-
 
     @Builder
     public PinRecord(RouteRecord rr, String prName, String prMemo){
