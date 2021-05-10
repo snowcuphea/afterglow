@@ -46,12 +46,6 @@ public class User {
     @JsonProperty("usr_traveling_state")
     private Boolean usrTravelingState = false;
 
-    @JsonProperty("usr_latitude")
-    private Double usrLatitude;
-
-    @JsonProperty("usr_longitude")
-    private Double usrLongitude;
-
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ElementCollection(fetch = FetchType.EAGER)
     @JsonProperty("usr_roles")
@@ -64,7 +58,7 @@ public class User {
     }
 
     @Builder
-    public User(Long usrId, String usrEmail, String username, String usrPwd, List<String> roles, String usrGender, String usrAgeRange, String usrProfileImg, Double usrLatitude, Double usrLongitude) {
+    public User(Long usrId, String usrEmail, String username, String usrPwd, List<String> roles, String usrGender, String usrAgeRange, String usrProfileImg) {
         this.usrId = usrId;
         this.usrEmail = usrEmail;
         this.username = username;
@@ -73,8 +67,6 @@ public class User {
         this.usrGender = usrGender;
         this.usrAgeRange = usrAgeRange;
         this.usrProfileImg = usrProfileImg;
-        this.usrLatitude = usrLatitude;
-        this.usrLongitude = usrLongitude;
     }
 
     public User update(String username) {
