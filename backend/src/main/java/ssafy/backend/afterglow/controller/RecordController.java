@@ -290,11 +290,13 @@ public class RecordController {
     @GetMapping("/tripInfo")
     public ResponseEntity<Record> getRecord(@AuthenticationPrincipal Principal principal,
                                             @RequestParam("Record_id") Long recId) {
-        AtomicReference<Record> result = null;
+        var ref = new Object() {
+            Record result;
+        };
         recordRepository.findById(recId)
                 .ifPresent(rec -> {
-                    result.set(rec);
+                    ref.result = rec;
                 });
-        return ResponseEntity.ok(result.get());
+        return ResponseEntity.ok(ref.result));
     }
 }
