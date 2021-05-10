@@ -95,7 +95,7 @@ public class RecordController {
     public ResponseEntity<Object> setConsumption(@RequestParam("day_id") Long dayId,
                                                  @RequestParam("consumption_name") String conName,
                                                  @RequestParam("consumption_money") Integer conMoney,
-                                                 @RequestParam("consumption_time") LocalDateTime conTime) {
+                                                 @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
         var ref = new Object() {
             ConsumptionRecord result = null;
         };
