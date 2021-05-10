@@ -20,10 +20,13 @@ public class RouteRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("rr_id")
     private Long rrId;
+
     @JsonProperty("rr_latitude")
     private Double rrLatitude;
+
     @JsonProperty("rr_longitude")
     private Double rrLongitude;
+
     @JsonProperty("rr_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd 'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime rrTime;

@@ -23,10 +23,12 @@ public class DailyRecord {
     private Long drId;
     @JsonProperty("dr_day")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDate drDay;
+    private LocalDate drDate;
+
     @JsonProperty("dr_start_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd 'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime drStartTime;
+
     @JsonProperty("dr_end_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd 'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime drEndTime;
@@ -45,10 +47,10 @@ public class DailyRecord {
     private List<ConsumptionRecord> conRecs = new ArrayList<>();
 
     @Builder
-    public DailyRecord(Record rec, LocalDate drDay, LocalDateTime drStartTime, LocalDateTime drEndTime){
+    public DailyRecord(Record rec, LocalDate drDate, LocalDateTime drStartTime, LocalDateTime drEndTime){
         super();
         this.rec = rec;
-        this.drDay = drDay;
+        this.drDate = drDate;
         this.drStartTime = drStartTime;
         this.drEndTime = drEndTime;
     }

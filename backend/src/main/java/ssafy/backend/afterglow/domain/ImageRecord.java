@@ -17,10 +17,12 @@ public class ImageRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("pr_id")
     private Long imgId;
+
     @Lob @JsonProperty("ir_image")
     private byte[] irImage;
 
-    @ManyToOne @JoinColumn(name = "rrId")
+    @ManyToOne
+    @JoinColumn(name = "rrId")
     @JsonIgnore
     //@JsonProperty("rr")
     private RouteRecord rr;
