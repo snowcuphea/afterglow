@@ -18,10 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 @ToString(exclude = {"rec"})
 public class DailyRecord {
+    
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("dr_id")
     private Long drId;
-    @JsonProperty("dr_day")
+
+    @JsonProperty("dr_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate drDate;
 

@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
@@ -46,7 +47,7 @@ public class RecordController {
     public ResponseEntity<Integer> setUserProfileImg(@RequestParam("img") List<ImageInputDto> images,
                                                      @AuthenticationPrincipal Principal principal) {
         Optional<User> user = userService.findUserByPrincipal(principal);
-        Optional<DailyRecord> dr = dailyRepository.findByDrDateAAndRec_User(LocalDate.now(), user.get());
+        Optional<DailyRecord> dr = dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user.get());
         images
                 .stream()
                 .forEach(image -> {
@@ -172,7 +173,7 @@ public class RecordController {
         userService
                 .findUserByPrincipal(principal)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDateAAndRec_User(today, user)
+                    dailyRepository.findByDrDateAndRec_User(today, user)
                             .ifPresent(dr -> {
                                 result.set(dr);
                             });
@@ -187,7 +188,7 @@ public class RecordController {
         userService
                 .findUserByPrincipal(principal)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDateAAndRec_User(LocalDate.now(), user)
+                    dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user)
                             .ifPresent(dr -> {
                                 dr.setDrEndTime(LocalDateTime.now());
                             });
@@ -247,7 +248,7 @@ public class RecordController {
         userService
                 .findUserByPrincipal(principal)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDateAAndRec_User(LocalDate.now(), user)
+                    dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user)
                             .ifPresent(dr -> {
                                 routeRepository.findByDr(dr)
                                         .forEach(rr -> {
