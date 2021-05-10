@@ -7,14 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ssafy.backend.afterglow.domain.*;
+import ssafy.backend.afterglow.dto.ImageInputDto;
 import ssafy.backend.afterglow.dto.RecordDTO;
 import ssafy.backend.afterglow.repository.*;
 import ssafy.backend.afterglow.service.RecordService;
 import ssafy.backend.afterglow.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -44,21 +43,20 @@ public class RecordController {
     // 이미지 저장
     @SneakyThrows
     @PostMapping(value = "/saveImg")
-    public ResponseEntity<Integer> setUserProfileImg(@RequestParam("img") List<MultipartFile> files,
-                                                     @RequestParam("drId") Long drId,
-                                                     @RequestParam("longitude") Double longitude,
-                                                     @RequestParam("latitude") Double latitude,
-                                                     HttpServletRequest request) {
-        files
+    public ResponseEntity<Integer> setUserProfileImg(@RequestParam("img") List<ImageInputDto> images,
+                                                     @AuthenticationPrincipal Principal principal) {
+        Optional<User> user = userService.findUserByPrincipal(principal);
+        Optional<DailyRecord> dr = dailyRepository.findByDrDateAAndRec_User(LocalDate.now(), user.get());
+        images
                 .stream()
-                .forEach(file -> {
+                .forEach(image -> {
                     ImageRecord ir = new ImageRecord();
                     try {
-                        ir.setIrImage(file.getBytes());
+                        ir.setIrImage(image.getIrImage().getBytes());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    recordService.findNearestRr(drId, longitude, latitude)
+                    recordService.findNearestRr(dr.get().getDrId(), image.getLongitude(), image.getLatitude())
                             .ifPresent(rr -> {
                                 ir.setRr(rr);
                                 imageRepository.save(ir);
@@ -185,12 +183,11 @@ public class RecordController {
 
     // 하루끝
     @GetMapping("/dayEnd")
-    public ResponseEntity<String> dayEnd(@AuthenticationPrincipal Principal principal,
-                                         @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) {
+    public ResponseEntity<String> dayEnd(@AuthenticationPrincipal Principal principal) {
         userService
                 .findUserByPrincipal(principal)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDateAAndRec_User(today, user)
+                    dailyRepository.findByDrDateAAndRec_User(LocalDate.now(), user)
                             .ifPresent(dr -> {
                                 dr.setDrEndTime(LocalDateTime.now());
                             });
