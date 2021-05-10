@@ -1,10 +1,7 @@
 package ssafy.backend.afterglow.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 @Entity(name = "User")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User implements UserDetails {
