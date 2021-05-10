@@ -1,18 +1,19 @@
 package ssafy.backend.afterglow.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
-import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity(name="ConsumptionRecord")
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class ConsumptionRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("cr_id")
@@ -38,5 +39,4 @@ public class ConsumptionRecord {
         this.crMoney = crMoney;
         this.crDatetime = crDatetime;
     }
-
 }

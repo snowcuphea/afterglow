@@ -1,7 +1,9 @@
 package ssafy.backend.afterglow.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +15,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class ImageRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("pr_id")
+    @JsonProperty("img_id")
     private Long imgId;
 
     @Lob @JsonProperty("ir_image")
