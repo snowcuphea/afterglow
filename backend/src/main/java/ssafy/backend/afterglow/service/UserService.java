@@ -3,13 +3,13 @@ package ssafy.backend.afterglow.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import ssafy.backend.afterglow.domain.User;
 import ssafy.backend.afterglow.repository.UserRepository;
 
-import javax.transaction.Transactional;
-import java.beans.Transient;
+import java.security.Principal;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -20,16 +20,17 @@ public class UserService implements UserDetailsService {
     }
 
 
-    @RequestMapping(value="/login/oauth2/code/kakao")
-    public String login(@RequestParam("code") String code) {
-        System.out.println("controller access_token : " + code);
-
-        return "index";
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return (UserDetails) userRepository.findByUsername(username)
                 .orElse(null);
+    }
+
+    public Optional<User> findUserByPrincipal(Principal principal){
+        Optional<User> result = null;
+        if (principal instanceof OAuth2AuthenticationToken) {
+            result = userRepository.findByUsername(principal.getName());
+        }
+        return result;
     }
 }

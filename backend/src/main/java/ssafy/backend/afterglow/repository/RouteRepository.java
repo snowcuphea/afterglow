@@ -7,6 +7,6 @@ import ssafy.backend.afterglow.domain.RouteRecord;
 
 import java.util.List;
 
-public interface RouteRepository extends JpaRepository<RouteRecord, Integer> {
+public interface RouteRepository extends JpaRepository<RouteRecord, Long> {
     List<RouteRecord> findByDr(DailyRecord dr);
 }
