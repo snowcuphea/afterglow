@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = "asd"
+const API_BASE_URL = "http://k4a105.p.ssafy.io:8080"
 
 function createInstance() {
   const instance = axios.create({
