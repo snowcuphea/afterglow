@@ -34,7 +34,6 @@ class ModalStartTravel extends React.Component {
     this.props.changeStatus('onTravel')
     this.props.setDate()
     this.setState({ modalVisible: false });
-    console.log("시작되는여행이름", this.state.travelName)
     this.props.setTravelName(this.state.travelName)
   }
 
@@ -66,7 +65,10 @@ class ModalStartTravel extends React.Component {
         <TouchableOpacity style={styles.btnCancel} onPress={() => this.setModalVisible(!this.state.modalVisible)}>
           <Text style={styles.txtCancel}>아니오</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnStart} onPress={this.startTravel}>
+        <TouchableOpacity style={styles.btnStart}
+        onPress={ (this.state.travelName.trim().length === 0)
+          ? () => alert("여행 이름을 입력해주세요!")
+          : this.startTravel}>
           <Text style={styles.txtStart}>시작해요!</Text>
         </TouchableOpacity>
         </View>
