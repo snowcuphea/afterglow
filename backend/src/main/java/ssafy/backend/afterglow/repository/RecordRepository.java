@@ -10,5 +10,4 @@ import java.util.Optional;
 @Repository
 public interface RecordRepository extends JpaRepository<Record, Long> {
     List<Record> findByUser(User user);
-    Optional<Record> findById(Integer recId);
 }

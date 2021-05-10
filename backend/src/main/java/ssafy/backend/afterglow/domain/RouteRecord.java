@@ -42,17 +42,18 @@ public class RouteRecord {
     //@JsonProperty("dr")
     private DailyRecord dr;
 
-
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "rr", cascade = CascadeType.ALL)
     private List<ImageRecord> imgRecs = new ArrayList<>();
 
     @Builder
-    public RouteRecord(DailyRecord dr, Double rrLatitude, Double rrLongitude, LocalDateTime rrTime){
+    public RouteRecord(DailyRecord dr, Double rrLatitude, Double rrLongitude, LocalDateTime rrTime, String rrName, String rrMemo){
         super();
         this.dr = dr;
         this.rrLatitude = rrLatitude;
         this.rrLongitude = rrLongitude;
         this.rrTime = rrTime;
+        this.rrName = rrName;
+        this.rrMemo = rrMemo;
     }
 }

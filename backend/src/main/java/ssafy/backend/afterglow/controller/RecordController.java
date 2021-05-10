@@ -2,32 +2,27 @@ package ssafy.backend.afterglow.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ssafy.backend.afterglow.domain.*;
+import ssafy.backend.afterglow.dto.RecordDTO;
+import ssafy.backend.afterglow.repository.*;
+import ssafy.backend.afterglow.service.RecordService;
+import ssafy.backend.afterglow.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-
-import ssafy.backend.afterglow.domain.*;
-import ssafy.backend.afterglow.repository.*;
-import ssafy.backend.afterglow.service.RecordService;
-import ssafy.backend.afterglow.dto.RecordDTO;
-import ssafy.backend.afterglow.repository.ImageRepository;
-import ssafy.backend.afterglow.domain.Record;
-import ssafy.backend.afterglow.service.UserService;
 
 @RestController
 @RequestMapping("records")
@@ -43,6 +38,7 @@ public class RecordController {
     private final RecordRepository recordRepository;
     private final DailyRepository dailyRepository;
     private final RouteRepository routeRepository;
+    private final ConsumptionRepository conRepository;
 
 
     // 이미지 저장
@@ -111,10 +107,18 @@ public class RecordController {
                                                  @RequestParam("consumption_name") String conName,
                                                  @RequestParam("consumption_money") Integer conMoney,
                                                  @RequestParam("consumption_time") LocalDateTime conTime) {
-        if (recordService.insertConsumption(dayId, conName, conMoney, conTime).isPresent())
-            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
-        else
-            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
+        AtomicReference<ConsumptionRecord> result = null;
+        dailyRepository
+                .findById(dayId)
+                .ifPresent(dr -> {
+                    result.set(conRepository.save(ConsumptionRecord.builder()
+                            .dr(dr)
+                            .crName(conName)
+                            .crMoney(conMoney)
+                            .crDatetime(conTime)
+                            .build()));
+                });
+        return ResponseEntity.ok(result.get());
     }
 
 
@@ -124,10 +128,29 @@ public class RecordController {
                                                     @RequestParam("consumption_name") String conName,
                                                     @RequestParam("consumption_money") Integer conMoney,
                                                     @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
-        if (recordService.updateConsumption(conId, conName, conMoney, conTime).isPresent())
-            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
-        else
-            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
+        AtomicReference<ConsumptionRecord> result = null;
+        conRepository
+                .findById(conId)
+                .ifPresent(cr -> {
+                    result.set(conRepository.save(ConsumptionRecord.builder()
+                            .crName(conName)
+                            .crMoney(conMoney)
+                            .crDatetime(conTime)
+                            .build()));
+                });
+        return ResponseEntity.ok(result.get());
+    }
+
+    // 가계부 삭제
+    @DeleteMapping("/consumption")
+    public ResponseEntity<Object> deleteConsumption(@RequestParam("consumption_id") Long conId){
+        AtomicReference<ConsumptionRecord> result = null;
+        conRepository
+                .findById(conId)
+                .ifPresent(cr -> {
+                    conRepository.delete(cr);
+                });
+        return ResponseEntity.ok("DELETE CONSUMPTION");
     }
 
 
@@ -173,6 +196,23 @@ public class RecordController {
                             });
                 });
         return ResponseEntity.ok("ok");
+    }
+
+    // 여행 중 위치 저장
+    @PostMapping("/route")
+    public ResponseEntity<Object> saveRoute(@RequestParam("dr_id") Long drId,
+                                             @RequestParam("rr_latitude") Double rrLat,
+                                             @RequestParam("rr_longitude") Double rrLong){
+        AtomicReference<RouteRecord> result = null;
+        dailyRepository.findById(drId)
+                .ifPresent(dr -> {
+                    result.set(routeRepository.save(RouteRecord.builder()
+                            .dr(dr)
+                            .rrLatitude(rrLat)
+                            .rrLongitude(rrLong)
+                            .build()));
+                });
+        return ResponseEntity.ok(result.get());
     }
 
     // 경로 이름 작성
@@ -259,6 +299,4 @@ public class RecordController {
                 });
         return ResponseEntity.ok(result.get());
     }
-
-    //
 }

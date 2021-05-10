@@ -10,10 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DailyRepository extends JpaRepository<DailyRecord, Long> {
-    // SELECT * FROM dailyrecord ORDER BY ROWID DESC LIMIT 1; -> 마지막 행 찾기
     List<DailyRecord> findByRec(Record rec);
 
-    Optional<DailyRecord> findById(Integer drId);
+    Optional<DailyRecord> findById(Long drId);
 
     Optional<DailyRecord> findByDrDateAAndRec_User(LocalDate date, User user);
 }

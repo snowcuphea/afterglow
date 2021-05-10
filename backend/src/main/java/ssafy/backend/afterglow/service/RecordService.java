@@ -31,9 +31,6 @@ public class RecordService {
     ConsumptionRepository conRepo;
 
     @Autowired
-    PinRepository pinRepo;
-
-    @Autowired
     ImageRepository imgRepo;
 
     public Optional<Record> insertRec(Long userId, String recName){
@@ -54,43 +51,23 @@ public class RecordService {
             List<DailyRecord> dayEntity = rEntity.getDayRecs();
             List<List<RouteRecord>> routeEntity = new ArrayList<>();
             List<List<ConsumptionRecord>> conEntity = new ArrayList<>();
-            List<List<List<PinRecord>>> pinEntity = new ArrayList<>();
             List<List<List<ImageRecord>>> imgEntity = new ArrayList<>();
             for(DailyRecord dRec : dayEntity){
                 routeEntity.add(dRec.getRouteRecs());
                 conEntity.add(dRec.getConRecs());
             }
             for(List<RouteRecord> list : routeEntity){
-                List<List<PinRecord>> pTemp = new ArrayList<>();
                 List<List<ImageRecord>> iTemp = new ArrayList<>();
                 for(RouteRecord rRec : list){
-                    pTemp.add(rRec.getPinRecs());
                     iTemp.add(rRec.getImgRecs());
                 }
-                pinEntity.add(pTemp);
                 imgEntity.add(iTemp);
             }
 
-            List<List<List<PinDTO>>> prDTO = new ArrayList<>();
             List<List<List<ImageDTO>>> irDTO = new ArrayList<>();
             List<List<RouteDTO>> rrDTO = new ArrayList<>();
             List<List<ConsumptionDTO>> crDTO = new ArrayList<>();
             List<DailyRecordDTO> drDTO = new ArrayList<>();
-            for(List<List<PinRecord>> pDList : pinEntity){
-                List<List<PinDTO>> dTemp = new ArrayList<>();
-                for(List<PinRecord> pList : pDList){
-                    List<PinDTO> temp = new ArrayList<>();
-                    for(PinRecord pr : pList){
-                        temp.add(PinDTO.builder()
-                                .pinId(pr.getPinId())
-                                .prName(pr.getPrName())
-                                .prMemo(pr.getPrMemo())
-                                .build());
-                    }
-                    dTemp.add(temp);
-                }
-                prDTO.add(dTemp);
-            }
             for(List<List<ImageRecord>> iDList : imgEntity){
                 List<List<ImageDTO>> dTemp = new ArrayList<>();
                 for(List<ImageRecord> iList : iDList){
@@ -114,7 +91,6 @@ public class RecordService {
                             .rrLatitude(routeEntity.get(i).get(j).getRrLatitude())
                             .rrLongitude(routeEntity.get(i).get(j).getRrLongitude())
                             .rrTime(routeEntity.get(i).get(j).getRrTime())
-                            .pins(prDTO.get(i).get(j))
                             .images(irDTO.get(i).get(j))
                             .build());
                 }
@@ -152,20 +128,6 @@ public class RecordService {
             return null;
     }
 
-    public Object updateUserPos(Long usrId, Double usrLatitude, Double usrLongitude){
-        Optional<User> userEntity = userRepo.findById(usrId);
-        if(userEntity.isPresent()){
-            User user = userEntity.get();
-            user.setUsrLatitude(usrLatitude);
-            user.setUsrLongitude(usrLongitude);
-            userRepo.save(user);
-            PositionDTO dto = PositionDTO.builder().latitude(usrLatitude).longitude(usrLongitude).build();
-            return dto;
-        }
-        else
-            return null;
-    }
-
     public Long getRecTotalTime(Long recId) {
         Optional<Record> rec = recRepo.findById(recId);
         if(rec.isPresent()){
@@ -178,35 +140,6 @@ public class RecordService {
         else
             return null;
     }
-
-    public Optional<ConsumptionRecord> insertConsumption(Long dayId, String conName, Integer conMoney, LocalDateTime conTime){
-        Optional<DailyRecord> day = dayRepo.findById(dayId);
-        if(day.isPresent()){
-            ConsumptionRecord con = ConsumptionRecord.builder()
-                    .dr(day.get())
-                    .crName(conName)
-                    .crMoney(conMoney)
-                    .crDatetime(conTime)
-                    .build();
-            return Optional.ofNullable(conRepo.save(con));
-        }
-        else
-            return null;
-    }
-
-    public Optional<ConsumptionRecord> updateConsumption(Long conId, String conName, Integer conMoney, LocalDateTime conTime){
-        Optional<ConsumptionRecord> con = conRepo.findById(conId);
-        if(con.isPresent()){
-            ConsumptionRecord newCon = con.get();
-            newCon.setCrName(conName);
-            newCon.setCrMoney(conMoney);
-            newCon.setCrDatetime(conTime);
-            return Optional.ofNullable(conRepo.save(newCon));
-        }
-        else
-            return null;
-    }
-
 
     public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude) {
         Optional<DailyRecord> dr = dayRepo.findById(drId);
