@@ -43,7 +43,7 @@ public class RecordController {
     // 이미지 저장
     @SneakyThrows
     @PostMapping(value = "/saveImg")
-    public ResponseEntity<Integer> setUserProfileImg(@RequestParam("img") List<ImageInputDto> images,
+    public ResponseEntity<Integer> saveImg(@RequestParam("img") List<ImageInputDto> images,
                                                      @AuthenticationPrincipal Principal principal) {
         Optional<User> user = userService.findUserByPrincipal(principal);
         Optional<DailyRecord> dr = dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user.get());
@@ -148,7 +148,7 @@ public class RecordController {
 
     // 유저 전체 여행
     @GetMapping("/total")
-    public ResponseEntity<Object> currentUserToken(@RequestParam("user_id") Long userId) {
+    public ResponseEntity<Object> totalTrip(@RequestParam("user_id") Long userId) {
         var ref = new Object() {
             List<Record> result = null;
         };
