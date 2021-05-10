@@ -297,6 +297,6 @@ public class RecordController {
                 .ifPresent(rec -> {
                     ref.result = rec;
                 });
-        return ResponseEntity.ok(ref.result));
+        return ResponseEntity.ok(ref.result);
     }
 }
