@@ -6,7 +6,6 @@ import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.*;
 import ssafy.backend.afterglow.repository.*;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -136,7 +135,7 @@ public class RecordService {
             for(int i=0; i<dayEntity.size(); i++){
                 drDTO.add(DailyRecordDTO.builder()
                         .drId(dayEntity.get(i).getDrId())
-                        .drDay(dayEntity.get(i).getDrDay())
+                        .drDay(dayEntity.get(i).getDrDate())
                         .drStartTime(dayEntity.get(i).getDrStartTime())
                         .drEndTime(dayEntity.get(i).getDrEndTime())
                         .routes(rrDTO.get(i))
@@ -208,29 +207,6 @@ public class RecordService {
             return null;
     }
 
-    public Optional<PinRecord> insertMemo(Long routeId, String pinName, String pinMemo){
-        Optional<RouteRecord> route = rouRepo.findById(routeId);
-        if(route.isPresent()){
-            PinRecord pin = PinRecord.builder()
-                    .prName(pinName)
-                    .prMemo(pinMemo)
-                    .rr(route.get())
-                    .build();
-            return Optional.ofNullable(pinRepo.save(pin));
-        }
-        else
-            return null;
-    }
-
-    public Optional<PinRecord> modifyMemo(Long pinId, String pinMemo){
-        Optional<PinRecord> pin = pinRepo.findById(pinId);
-        if(pin.isPresent()){
-            pin.get().setPrMemo(pinMemo);
-            return Optional.ofNullable(pinRepo.save(pin.get()));
-        }
-        else
-            return null;
-    }
 
     public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude) {
         Optional<DailyRecord> dr = dayRepo.findById(drId);

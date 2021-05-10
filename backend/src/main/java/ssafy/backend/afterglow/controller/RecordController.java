@@ -43,7 +43,6 @@ public class RecordController {
     private final RecordRepository recordRepository;
     private final DailyRepository dailyRepository;
     private final RouteRepository routeRepository;
-    private final PinRepository pinRepository;
 
 
     // 이미지 저장
@@ -102,7 +101,6 @@ public class RecordController {
                             .drStartTime(LocalDateTime.now())
                             .build()));
                 });
-
         return ResponseEntity.ok(principal.getName());
     }
 
@@ -125,35 +123,13 @@ public class RecordController {
     public ResponseEntity<Object> modifyConsumption(@RequestParam("consumption_id") Long conId,
                                                     @RequestParam("consumption_name") String conName,
                                                     @RequestParam("consumption_money") Integer conMoney,
-                                                    @RequestParam("consumption_time") LocalDateTime conTime) {
+                                                    @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
         if (recordService.updateConsumption(conId, conName, conMoney, conTime).isPresent())
             return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
         else
             return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
     }
 
-
-    // 메모(핀) 등록
-    @PostMapping("/memo")
-    public ResponseEntity<Object> setMemo(@RequestParam("route_id") Long rrId,
-                                          @RequestParam("pin_name") String pinName,
-                                          @RequestParam("pin_memo") String pinMemo) {
-        if (recordService.insertMemo(rrId, pinName, pinMemo).isPresent())
-            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
-        else
-            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
-    }
-
-
-    // 메모 수정
-    @PutMapping("/memo")
-    public ResponseEntity<Object> modifyMemo(@RequestParam("pin_id") Long pinId,
-                                             @RequestParam("pin_memo") String pinMemo) {
-        if (service.modifyMemo(pinId, pinMemo).isPresent())
-            return new ResponseEntity<Object>(SUCCESS, HttpStatus.OK);
-        else
-            return new ResponseEntity<Object>(FAIL, HttpStatus.OK);
-    }
 
     // 유저 전체 여행
     @GetMapping("/total")
@@ -199,33 +175,30 @@ public class RecordController {
         return ResponseEntity.ok("ok");
     }
 
-    // 핀 이름 작성
-    @PostMapping("/pin/create")
-    public ResponseEntity<PinRecord> createPin(@RequestParam("pin_title") String pinTitle,
-                                               @RequestParam("Rr_id") Long RrId) {
-        AtomicReference<PinRecord> pr = null;
+    // 경로 이름 작성
+    @PostMapping("/route/name")
+    public ResponseEntity<RouteRecord> routeNaming(@RequestParam("route_name") String routeName,
+                                                   @RequestParam("Rr_id") Long RrId) {
+        AtomicReference<RouteRecord> result = null;
         routeRepository.findById(RrId)
                 .ifPresent(rr -> {
-                    pr.set(pinRepository.save(PinRecord.builder()
-                            .prName(pinTitle)
-                            .prMemo(null)
-                            .rr(rr)
-                            .build()));
+                    rr.setRrName(routeName);
+                    result.set(rr);
                 });
-        return ResponseEntity.ok(pr.get());
+        return ResponseEntity.ok(result.get());
     }
 
 
     // 메모 작성 and 수정
     @PostMapping("/memo/create")
-    public ResponseEntity<PinRecord> addAndUpdateMemo(@RequestParam("Pr_id") Long PrId,
-                                                      @RequestParam("memo_content") String memoContent) {
-        AtomicReference<PinRecord> result = null;
-        pinRepository
-                .findById(PrId)
-                .ifPresent(pr -> {
-                    pr.setPrMemo(memoContent);
-                    result.set(pr);
+    public ResponseEntity<RouteRecord> addAndUpdateMemo(@RequestParam("Rr_id") Long RrId,
+                                                        @RequestParam("memo_content") String memoContent) {
+        AtomicReference<RouteRecord> result = null;
+        routeRepository
+                .findById(RrId)
+                .ifPresent(rr -> {
+                    rr.setRrMemo(memoContent);
+                    result.set(rr);
                 });
         return ResponseEntity.ok(result.get());
     }

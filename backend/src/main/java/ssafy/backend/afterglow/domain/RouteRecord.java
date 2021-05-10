@@ -31,14 +31,17 @@ public class RouteRecord {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd 'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime rrTime;
 
+    @JsonProperty("rr_name")
+    private String rrName;
+
+    @JsonProperty("rr_memo")
+    private String rrMemo;
+
     @ManyToOne @JoinColumn(name = "drId")
     @JsonIgnore
     //@JsonProperty("dr")
     private DailyRecord dr;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "rr", cascade = CascadeType.ALL)
-    private List<PinRecord> pinRecs = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "rr", cascade = CascadeType.ALL)

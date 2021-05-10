@@ -29,7 +29,6 @@ public class UserService implements UserDetailsService {
     public Optional<User> findUserByPrincipal(Principal principal){
         Optional<User> result = null;
         if (principal instanceof OAuth2AuthenticationToken) {
-            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
             result = userRepository.findByUsername(principal.getName());
         }
         return result;
