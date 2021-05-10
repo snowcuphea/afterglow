@@ -31,7 +31,7 @@ public class User {
     private String username;
 
     @JsonProperty("usr_password")
-    private String usrPwd;
+    private String password;
 
     @JsonProperty("usr_profile_img")
     private String usrProfileImg;
@@ -62,7 +62,7 @@ public class User {
         this.usrId = usrId;
         this.usrEmail = usrEmail;
         this.username = username;
-        this.usrPwd = usrPwd;
+        this.password = usrPwd;
         this.roles = roles;
         this.usrGender = usrGender;
         this.usrAgeRange = usrAgeRange;
