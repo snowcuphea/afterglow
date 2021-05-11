@@ -13,5 +13,14 @@ function getRecordList( success, fail ) {
       .catch(fail)
   }
   
-  export { getRecordList }
-  
+
+function login( success, fail) {
+
+  instance
+    .get("customLogin")
+    .then(success)
+    .catch(fail)
+
+}
+
+export { login, getRecordList }
