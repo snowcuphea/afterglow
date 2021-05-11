@@ -23,9 +23,7 @@ public class UserController {
     @Transactional
     public ResponseEntity<Object> login(HttpServletRequest request) throws IOException {
         Arrays.stream(request.getCookies())
-                .forEach(cookie -> System.out.println(cookie));
-
-        System.out.println(request.getHeaders("Cookies").toString());
+                .forEach(cookie -> System.out.println(cookie.getName() + " " + cookie.getValue()));
         User user = userService.login(request);
         return ResponseEntity.ok(user.getUsername());
     }
