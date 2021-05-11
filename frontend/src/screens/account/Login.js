@@ -31,36 +31,35 @@ class LoginScreen extends React.Component {
           value: res.refreshToken,
         }).then((done) => {
           console.log("refresh_token", done)
+          login(
+            (res) => {
+              console.log("로그인응답", res)
+              this.props.login()
+              this.props.navigation.dispatch(
+                CommonActions.reset({
+                  index: 1,
+                  routes: [{name: 'Home'}]
+                })
+              )
+            },
+            (err) => {
+              console.log("로그인에러", err)
+            }
+          )
         })
       })
 
-      
-      login(
-        (res) => {
-          console.log("로그인응답", res)
-          this.props.login()
-          this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{name: 'Home'}]
-            })
-          )
-        },
-        (err) => {
-          console.log("로그인에러", err)
-        }
-      )
     }) .catch(err => 
       console.log("카카오로그인 에러", err)
     )
 
-  //   this.props.login()
-  //   this.props.navigation.dispatch(
-  //     CommonActions.reset({
-  //       index: 1,
-  //       routes: [{name: 'Home'}]
-  //     })
-  //   )
+    // this.props.login()
+    // this.props.navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [{name: 'Home'}]
+    //   })
+    // )
   };
 
 
