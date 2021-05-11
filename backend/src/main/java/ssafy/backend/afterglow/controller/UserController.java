@@ -1,5 +1,6 @@
 package ssafy.backend.afterglow.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 public class UserController {
     private Authentication authentication;
     private UserRepository userRepository;
+    @Autowired
     private UserService userService;
 
     @GetMapping("/customLogin")
