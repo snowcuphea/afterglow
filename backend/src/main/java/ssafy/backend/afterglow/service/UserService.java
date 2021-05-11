@@ -85,7 +85,6 @@ public class UserService implements UserDetailsService {
         JsonElement element = parser.parse(userInfo);
         JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
         JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-        JsonObject profile = kakao_account.getAsJsonObject().get("profile").getAsJsonObject();
 
         String username = properties.getAsJsonObject().get("nickname").getAsString();
         String email = kakao_account.getAsJsonObject().get("email").getAsString();
@@ -99,38 +98,37 @@ public class UserService implements UserDetailsService {
                 .usrGender(gender)
                 .usrAgeRange(age_range)
                 .usrProfileImg(profile_img)
+                .roles(Collections.singletonList("ROLE_USER"))
                 .build();
         saveOrUpdate(tempUser);
         return tempUser;
     }
 
-//    public Map<String, Object> renewalToken(HttpServletRequest request) throws IOException {
-//        List<Cookie> cookies = Arrays.asList(request.getCookies());
-//        String refresh_token = cookies.get
-//
-//        String reqURL = "https://kapi.kakao.com/oauth/token";
-//        URL url = new URL(reqURL);
-//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//        conn.setRequestMethod("GET");
-//        conn.setRequestProperty("grant_type", "refresh_token");
-//        conn.setRequestProperty("client_id", kakao_rest_api_key);
-//        conn.setRequestProperty("refresh_token", refresh_token);
-//        int responseCode = conn.getResponseCode();
-//        System.out.println("responseCode : " + responseCode);
-//
-//        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//        String line = "";
-//        String res = "";
-//        while ((line = br.readLine()) != null) {
-//            res += line;
-//        }
-//        JsonParser parser = new JsonParser();
-//        JsonElement element = parser.parse(res);
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("access_token", element.getAsJsonObject().get("access_token").getAsString());
-//        result.put("refresh_token", element.getAsJsonObject().get("refresh_token").getAsString());
-//        return result;
-//    }
+    public Map<String, Object> renewalToken(String refresh_token) throws IOException {
+
+        String reqURL = "https://kapi.kakao.com/oauth/token";
+        URL url = new URL(reqURL);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("grant_type", "refresh_token");
+        conn.setRequestProperty("client_id", kakao_rest_api_key);
+        conn.setRequestProperty("refresh_token", refresh_token);
+        int responseCode = conn.getResponseCode();
+        System.out.println("responseCode : " + responseCode);
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line = "";
+        String res = "";
+        while ((line = br.readLine()) != null) {
+            res += line;
+        }
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(res);
+        Map<String, Object> result = new HashMap<>();
+        result.put("access_token", element.getAsJsonObject().get("access_token").getAsString());
+        result.put("refresh_token", element.getAsJsonObject().get("refresh_token").getAsString());
+        return result;
+    }
 
 
     public Optional<User> findUserByPrincipal(Principal principal) {
