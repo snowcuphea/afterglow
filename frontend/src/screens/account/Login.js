@@ -6,6 +6,7 @@ import { CommonActions } from '@react-navigation/native';
 import ActionCreator from '../../store/actions'
 import { connect } from 'react-redux'
 
+import { login } from '@react-native-seoul/kakao-login'
 
 class LoginScreen extends React.Component {
 
@@ -13,15 +14,22 @@ class LoginScreen extends React.Component {
     super(props)
   }
 
-  login = () => {
-    this.props.login()
-    this.props.navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{name: 'Home'}]
-      })
+  signInWithKakao = async () => {
+    await login()
+    .then(res => {
+      console.log(JSON.stringify(res))
+      this.props.login()
+      this.props.navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{name: 'Home'}]
+        })
+      )
+    }) .catch(err => 
+      console.log(err)
     )
-  }
+  };
+
 
   render() {
 
@@ -30,7 +38,7 @@ class LoginScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>로그인 화면</Text>
-        <TouchableOpacity style={styles.buttonStyle} onPress={this.login}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={() => this.signInWithKakao()}>
           <Text style={styles.textStyle}>KAKAO 로그인</Text>
         </TouchableOpacity>
 
