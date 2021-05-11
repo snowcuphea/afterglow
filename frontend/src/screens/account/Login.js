@@ -58,6 +58,14 @@ class LoginScreen extends React.Component {
     }) .catch(err => 
       console.log("카카오로그인 에러", err)
     )
+
+  //   this.props.login()
+  //   this.props.navigation.dispatch(
+  //     CommonActions.reset({
+  //       index: 1,
+  //       routes: [{name: 'Home'}]
+  //     })
+  //   )
   };
 
 

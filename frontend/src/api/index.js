@@ -36,9 +36,13 @@ function createInstancePicture() {
     }
   })
 
-  AsyncStorage.getItem('cookie', (err, result) => {
-    instance.defaults.headers.Cookie = result
+  CookieManager.get("http://k4a105.p.ssafy.io:8080")
+  .then((cookies) => {
+    console.log(cookies)
+    instance.defaults.headers["Cookies"] = cookies
   })
+
+
 
   return instance
 }
