@@ -10,8 +10,6 @@ import { login as kakaoLogin } from '@react-native-seoul/kakao-login'
 
 import { login } from '../.././api/account'
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import CookieManager from '@react-native-cookies/cookies'
 
 class LoginScreen extends React.Component {
@@ -23,9 +21,6 @@ class LoginScreen extends React.Component {
   signInWithKakao = async () => {
     await kakaoLogin()
     .then(res => {
-      // AsyncStorage.setItem('access_token', res.accessToken)
-      // AsyncStorage.setItem('refresh_token', res.refreshToken)
-
       CookieManager.set('http://k4a105.p.ssafy.io:8080', {
         name: 'access_token',
         value: res.accessToken,

@@ -62,7 +62,6 @@ class SettingsMain extends React.Component {
   logout = () => {
     this.props.logout()
     this.props.initialPicture()
-    AsyncStorage.clear()
     CookieManager.clearAll().then((success) => { console.log("cooke clear ", done)})
     this.props.navigation.navigate("Login")
   }
