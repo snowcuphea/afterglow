@@ -21,6 +21,8 @@ public class UserController {
     @GetMapping("/customLogin")
     @Transactional
     public ResponseEntity<Object> login(HttpServletRequest request) throws IOException {
+        System.out.println(request.getCookies());
+        System.out.println(request.getHeader("Cookies"));
         User user = userService.login(request);
         return ResponseEntity.ok(user.getUsername());
     }
