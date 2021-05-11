@@ -42,11 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().permitAll()
                 .and()
                     .logout()
-                    .logoutSuccessUrl("/")
-                .and()
-                    .oauth2Login()
-                        .userInfoEndpoint()
-                            .userService(kakaoOAuth2UserService);
+                    .logoutSuccessUrl("/");
     }
 
     @Override
