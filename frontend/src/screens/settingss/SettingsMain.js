@@ -16,6 +16,8 @@ import { Divider, ListItem, Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
 
+import { logout, unlink } from '@react-native-seoul/kakao-login'
+
 
 const list = [
   {
@@ -56,11 +58,22 @@ class SettingsMain extends React.Component {
 
   logout = () => {
     this.props.logout()
-
     this.props.initialPicture()
-
     this.props.navigation.navigate("Login")
   }
+
+  signOutWithKakao = async () => {
+    await logout()
+    .then(res => {
+      console.log(res)
+      this.props.logout()
+      this.props.initialPicture()
+      this.props.navigation.navigate("Login")
+    }) .catch(err => 
+      console.log(err)
+    )
+
+  };
 
   render() {
 
@@ -106,7 +119,7 @@ class SettingsMain extends React.Component {
               
       
 
-        <TouchableOpacity style={{ margin: 10, backgroundColor: 'blue'}} onPress={this.logout}>
+        <TouchableOpacity style={{ margin: 10, backgroundColor: 'blue'}} onPress={() => this.signOutWithKakao()}>
             <Text>LOGOUT</Text>
         </TouchableOpacity>
 
