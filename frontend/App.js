@@ -12,9 +12,21 @@ import DrawerComponent from './src/Drawer'
 
 import store from './src/store/index'
 
+import { setCustomText } from 'react-native-global-props'
+
 const persistor = persistStore(store)
 
+const customTextProps = {
+  style : {
+    fontFamily: 'RIDIBatang'
+  }
+};
+
+setCustomText(customTextProps);
+
 export default class App extends React.Component {
+
+  
 
   render() {
 

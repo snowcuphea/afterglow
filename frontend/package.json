@@ -24,6 +24,7 @@
     "react-native": "0.64.0",
     "react-native-elements": "^3.4.1",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-global-props": "^1.1.5",
     "react-native-map-clustering": "^3.4.2",
     "react-native-maps": "^0.28.0",
     "react-native-maps-directions": "^1.8.0",
