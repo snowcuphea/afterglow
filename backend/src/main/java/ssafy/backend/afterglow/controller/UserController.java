@@ -8,6 +8,7 @@ import ssafy.backend.afterglow.domain.User;
 import ssafy.backend.afterglow.repository.UserRepository;
 import ssafy.backend.afterglow.service.UserService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -22,9 +23,9 @@ public class UserController {
     @GetMapping("/customLogin")
     @Transactional
     public ResponseEntity<Object> login(HttpServletRequest request) throws IOException {
-        Arrays.stream(request.getCookies())
-                .forEach(cookie -> System.out.println(cookie.getName() + " " + cookie.getValue()));
-        User user = userService.login(request);
+        Cookie[] cookies = request.getCookies();
+        String access_token = cookies[1].getValue();
+        User user = userService.login(access_token);
         return ResponseEntity.ok(user.getUsername());
     }
 }

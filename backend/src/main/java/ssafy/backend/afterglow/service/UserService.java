@@ -40,14 +40,14 @@ public class UserService implements UserDetailsService {
                 .orElse(null);
     }
 
-    public User login(HttpServletRequest request) throws IOException {
-        String userInfo = getUserInfo(request);
+    public User login(String access_token) throws IOException {
+        String userInfo = getUserInfo(access_token);
         User tempUser = customUserBuilder(userInfo);
         return saveOrUpdate(tempUser);
     }
 
-    public Optional<User> findUserByToken(HttpServletRequest request) throws IOException {
-        String userInfo = getUserInfo(request);
+    public Optional<User> findUserByToken(String access_token) throws IOException {
+        String userInfo = getUserInfo(access_token);
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(userInfo);
         JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
@@ -64,19 +64,12 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public String getUserInfo(HttpServletRequest request) throws IOException {
-        Map<String, Object> cookies = new HashMap<>();
-        Arrays.stream(request.getCookies())
-                .forEach(cookie -> {
-                    System.out.println(cookie.getName() + " " + cookie.getValue());
-                    cookies.put(cookie.getName(), cookie.getValue());
-                });
-        String access_Token = (String) cookies.get("access_token");
+    public String getUserInfo(String access_token) throws IOException {
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         URL url = new URL(reqURL);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+        conn.setRequestProperty("Authorization", "Bearer " + access_token);
         int responseCode = conn.getResponseCode();
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line = "";
