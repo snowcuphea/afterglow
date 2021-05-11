@@ -67,7 +67,10 @@ public class UserService implements UserDetailsService {
     public String getUserInfo(HttpServletRequest request) throws IOException {
         Map<String, Object> cookies = new HashMap<>();
         Arrays.stream(request.getCookies())
-                .forEach(cookie -> cookies.put(cookie.getName(), cookie.getValue()));
+                .forEach(cookie -> {
+                    System.out.println(cookie.getName() + " " + cookie.getValue());
+                    cookies.put(cookie.getName(), cookie.getValue());
+                });
         String access_Token = (String) cookies.get("access_token");
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         URL url = new URL(reqURL);
