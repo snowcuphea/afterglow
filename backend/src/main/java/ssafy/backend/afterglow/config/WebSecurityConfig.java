@@ -39,10 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests()
-                    .anyRequest().permitAll()
-                .and()
-                    .logout()
-                    .logoutSuccessUrl("/");
+                    .anyRequest().permitAll();
     }
 
     @Override

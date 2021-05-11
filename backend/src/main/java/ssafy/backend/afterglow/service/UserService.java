@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ssafy.backend.afterglow.domain.User;
 import ssafy.backend.afterglow.repository.UserRepository;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,7 +68,6 @@ public class UserService implements UserDetailsService {
         Map<String, Object> cookies = new HashMap<>();
         Arrays.stream(request.getCookies())
                 .forEach(cookie -> cookies.put(cookie.getName(), cookie.getValue()));
-
         String access_Token = (String) cookies.get("access_token");
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         URL url = new URL(reqURL);

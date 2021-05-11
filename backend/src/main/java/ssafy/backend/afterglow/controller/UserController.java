@@ -18,7 +18,7 @@ public class UserController {
     private UserRepository userRepository;
     private UserService userService;
 
-    @GetMapping("/login")
+    @GetMapping("/customLogin")
     @Transactional
     public ResponseEntity<Object> login(HttpServletRequest request) throws IOException {
         User user = userService.login(request);
