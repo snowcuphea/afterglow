@@ -18,6 +18,9 @@ import ActionCreator from '../.././store/actions'
 
 import { logout, unlink } from '@react-native-seoul/kakao-login'
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import CookieManager from '@react-native-cookies/cookies'
 
 const list = [
   {
@@ -59,6 +62,8 @@ class SettingsMain extends React.Component {
   logout = () => {
     this.props.logout()
     this.props.initialPicture()
+    AsyncStorage.clear()
+    CookieManager.clearAll().then((success) => { console.log("cooke clear ", done)})
     this.props.navigation.navigate("Login")
   }
 
