@@ -99,26 +99,16 @@ class Pictures extends React.Component {
 
 
     const renderdata = ({ item }) => {
-      
-      if ( this.props.mode === "look" ) {
-        return (
-          <View>
-            <TouchableOpacity onPress={() => this.toLargeScale(item) }>
-              <Image 
-                style={{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}} 
-                source={{ uri: item.uri }} />
-            </TouchableOpacity>
-          </View>
-        )
-      } else { 
-        return (
-          <View>
-            <TouchableOpacity onPress={() => this.toLargeScale(item)}>
-              <Image 
-                style={[{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}, 
-                  this.isSelected(item) ? styles.selectedBorder : '']} 
-                source={{ uri: item.uri }} />
-            </TouchableOpacity>
+
+      return (
+        <View>
+          <TouchableOpacity onPress={() => this.toLargeScale(item)}>
+            <Image 
+              style={[{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}, 
+                this.isSelected(item) ? styles.selectedBorder : '']} 
+              source={{ uri: item.uri }} />
+          </TouchableOpacity>
+          { this.props.mode === "look" ? null :
             <View style={styles.selectContainer}>
               { this.isSelected(item) ?  
                 <TouchableOpacity style={styles.selectArea} onPress={() => this.props.unselect(item.id)}>
@@ -142,9 +132,9 @@ class Pictures extends React.Component {
                 </TouchableOpacity>
               }
             </View>
-          </View> 
-        )
-      }
+          } 
+        </View> 
+      )
     }
 
     let screenWidth = Dimensions.get('window').width;

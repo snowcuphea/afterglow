@@ -19,47 +19,47 @@ class LoginScreen extends React.Component {
   }
 
   signInWithKakao = async () => {
-    await kakaoLogin()
-    .then(res => {
-      CookieManager.set('http://k4a105.p.ssafy.io:8080', {
-        name: 'access_token',
-        value: res.accessToken,
-      }).then((done) => {
-        console.log("access_token", done)
-        CookieManager.set('http://k4a105.p.ssafy.io:8080', {
-          name: 'refresh_token',
-          value: res.refreshToken,
-        }).then((done) => {
-          console.log("refresh_token", done)
-          login(
-            (res) => {
-              console.log("로그인응답", res)
-              this.props.login()
-              this.props.navigation.dispatch(
-                CommonActions.reset({
-                  index: 1,
-                  routes: [{name: 'Home'}]
-                })
-              )
-            },
-            (err) => {
-              console.log("로그인에러", err)
-            }
-          )
-        })
-      })
-
-    }) .catch(err => 
-      console.log("카카오로그인 에러", err)
-    )
-
-    // this.props.login()
-    // this.props.navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [{name: 'Home'}]
+    // await kakaoLogin()
+    // .then(res => {
+    //   CookieManager.set('http://k4a105.p.ssafy.io:8080', {
+    //     name: 'access_token',
+    //     value: res.accessToken,
+    //   }).then((done) => {
+    //     console.log("access_token", done)
+    //     CookieManager.set('http://k4a105.p.ssafy.io:8080', {
+    //       name: 'refresh_token',
+    //       value: res.refreshToken,
+    //     }).then((done) => {
+    //       console.log("refresh_token", done)
+    //       login(
+    //         (res) => {
+    //           console.log("로그인응답", res)
+    //           this.props.login()
+    //           this.props.navigation.dispatch(
+    //             CommonActions.reset({
+    //               index: 1,
+    //               routes: [{name: 'Home'}]
+    //             })
+    //           )
+    //         },
+    //         (err) => {
+    //           console.log("로그인에러", err)
+    //         }
+    //       )
+    //     })
     //   })
+
+    // }) .catch(err => 
+    //   console.log("카카오로그인 에러", err)
     // )
+
+    this.props.login()
+    this.props.navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{name: 'Home'}]
+      })
+    )
   };
 
 

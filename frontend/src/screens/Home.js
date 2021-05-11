@@ -14,11 +14,15 @@ import { connect } from 'react-redux'
 import ActionCreator from '.././store/actions'
 import ModalStartTravel from '../components/modal/ModalStartTravel'
 
+import MainList from '../components/MainList'
 
 class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state={
+      mode: "map"
+    }
   }
 
   startTravel = () => {
@@ -68,6 +72,14 @@ class HomeScreen extends React.Component {
         <Text style={styles.textStyle}>
           지도가 보여지는 홈화면
         </Text>
+
+        <Button title={"지도"} onPress={() => this.setState({mode: "map"})}/>
+        <Button title={"리스트"} onPress={() => this.setState({mode: "list"})}/>
+        { this.state.mode === "map" ? 
+          <View><Text>지도가보여지는 영역</Text></View> :
+          <MainList navigation={this.props.navigation}/> 
+        }
+
         {
         this.props.travelStatus === "rest"
         ? <ModalStartTravel navigation={this.props.navigation} /> 
@@ -79,7 +91,6 @@ class HomeScreen extends React.Component {
         <Button title={"current_location"} onPress={this.current_location}/>
         <Button title={"test"} onPress={this.test}/>
         
-        {/* <Button title={"여행하기"} onPress={this.startTravel}/> */}
       </View>
     )
   }
