@@ -92,8 +92,8 @@ public class User implements UserDetails {
         this.usrProfileImg = usrProfileImg;
     }
 
-    public User update(String username) {
-        this.username = username;
+    public User update(String usrEmail) {
+        this.usrEmail = usrEmail;
         return this;
     }
 

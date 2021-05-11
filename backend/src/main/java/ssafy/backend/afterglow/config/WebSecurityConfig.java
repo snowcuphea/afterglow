@@ -26,7 +26,6 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final KakaoOAuth2UserService kakaoOAuth2UserService;
     private final UserService userService;
-    private final DataSource dataSource;
 
     @Value("${remember_me_secret}")
     private String remember_me_secret;
@@ -34,14 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .rememberMe()
-                    .key(remember_me_secret)
-                    .tokenValiditySeconds(60 * 60 * 24 * 7 * 90)
-                    .rememberMeParameter("auto_login")
-                    .rememberMeCookieName("remember-me")
-                    .tokenRepository(rememberMeTokenRepository())
-                    .userDetailsService(userService)
-                    .rememberMeServices(rememberMeServices())
+                    .cors()
                 .and()
                     .csrf().disable()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -53,8 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/")
                 .and()
                     .oauth2Login()
-                    .userInfoEndpoint()
-                    .userService(kakaoOAuth2UserService);
+                        .userInfoEndpoint()
+                            .userService(kakaoOAuth2UserService);
     }
 
     @Override
