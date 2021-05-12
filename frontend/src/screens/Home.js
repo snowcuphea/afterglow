@@ -69,27 +69,34 @@ class HomeScreen extends React.Component {
     
     return (
       <View style={styles.container}>
-        <Text style={styles.textStyle}>
-          지도가 보여지는 홈화면
-        </Text>
-
-        <Button title={"지도"} onPress={() => this.setState({mode: "map"})}/>
-        <Button title={"리스트"} onPress={() => this.setState({mode: "list"})}/>
         { this.state.mode === "map" ? 
           <View><Text>지도가보여지는 영역</Text></View> :
           <MainList navigation={this.props.navigation}/> 
         }
 
-        {
-        this.props.travelStatus === "rest"
-        ? <ModalStartTravel navigation={this.props.navigation} /> 
-        : <Button title={"여행이어서하기"} onPress={this.continueTravel}/>
+        { this.state.mode === "map" ? 
+          <View style={{position: 'absolute', right:0, bottom:0}}>
+            {
+            this.props.travelStatus === "rest"
+            ? <ModalStartTravel navigation={this.props.navigation} /> 
+            : <Button title={"여행이어서하기"} onPress={this.continueTravel}/>
+            }
+          </View> :
+          null  
         }
-        <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
-        <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
-        <Button title={"maps_cluster"} onPress={this.maps_cluster}/>
-        <Button title={"current_location"} onPress={this.current_location}/>
-        <Button title={"test"} onPress={this.test}/>
+
+        <View style={{position: 'absolute', flexDirection: "row", justifyContent: 'center', top: 0}}>
+          <Button title={"지도"} onPress={() => this.setState({mode: "map"})}/>
+          <Button title={"리스트"} onPress={() => this.setState({mode: "list"})}/>
+        </View>
+
+        <View style={{position: 'absolute', left: 0, bottom: 0}}>
+          <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
+          <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
+          <Button title={"maps_cluster"} onPress={this.maps_cluster}/>
+          <Button title={"current_location"} onPress={this.current_location}/>
+          <Button title={"test"} onPress={this.test}/>
+        </View>
         
       </View>
     )

@@ -8,6 +8,9 @@ const tempList = [
   { name: "수원", image: require("../assets/pics/3.png"), date: "2021-04" },
   { name: "일산", image: require("../assets/pics/4.png"), date: "2021-04" },
   { name: "속초", image: require("../assets/pics/5.png"), date: "2021-04" },
+  { name: "우도", image: require("../assets/pics/5.png"), date: "2021-04" },
+  { name: "파주", image: require("../assets/pics/5.png"), date: "2021-04" },
+  { name: "가평", image: require("../assets/pics/5.png"), date: "2021-04" },
 ]
 
 
@@ -49,7 +52,7 @@ class MainList extends React.Component{
 
     return(
       <FlatList
-        style={{ marginHorizontal:20 }}
+        style={{ marginHorizontal:20, marginTop: 40 }}
         data={tempList}
         numColumns={2}
         renderItem={renderdata}
