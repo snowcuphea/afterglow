@@ -1,7 +1,7 @@
 import types from '../actions/types'
-import ActionCreator from '.././actions'
+import ActionCreator from '../actions'
 
-import { takeLatest, put, call} from 'redux-saga/effects';
+import { takeLatest, put } from 'redux-saga/effects';
 
 export function* increaseCounterAsync(action) {
   try {
@@ -26,6 +26,6 @@ export function* decreaseCounterAsync(action) {
 }
 
 export const countSagas = [
-  takeLatest('COUNT_UP', increaseCounterAsync),
-  takeLatest('COUNT_DOWN', decreaseCounterAsync),
+  takeLatest('COUNT_UP_ASYNC', increaseCounterAsync),
+  takeLatest('COUNT_DOWN_ASYNC', decreaseCounterAsync),
 ]

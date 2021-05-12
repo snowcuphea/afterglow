@@ -59,13 +59,13 @@ function mapDispatchToProps(dispatch) {
   return {
     countUp: (num) => {
       dispatch({
-        type: 'COUNT_UP',
+        type: 'COUNT_UP_ASYNC',
         payload: num
       });
     },
     countDown: (num) => {
       dispatch({
-        type: 'COUNT_DOWN',
+        type: 'COUNT_DOWN_ASYNC',
         payload: num
       });
     }
