@@ -13,6 +13,8 @@ import ssafy.backend.afterglow.repository.*;
 import ssafy.backend.afterglow.service.RecordService;
 import ssafy.backend.afterglow.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -44,8 +46,9 @@ public class RecordController {
     @SneakyThrows
     @PostMapping(value = "/saveImg")
     public ResponseEntity<Integer> saveImg(@RequestParam("img") List<ImageInputDto> images,
-                                           @AuthenticationPrincipal Principal principal) {
-        Optional<User> user = userService.findUserByPrincipal(principal);
+                                           HttpServletRequest request,
+                                           HttpServletResponse response) {
+        Optional<User> user = userService.findUserByToken(request, response);
         Optional<DailyRecord> dr = dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user.get());
         images
                 .stream()
@@ -67,15 +70,16 @@ public class RecordController {
 
     // 여행 시작
     @PostMapping("/startTrip")
-    public ResponseEntity<String> startTrip(@AuthenticationPrincipal Principal principal,
-                                            @RequestParam("title") String recTitle) {
+    public ResponseEntity<String> startTrip(HttpServletRequest request,
+                                            HttpServletResponse response,
+                                            @RequestParam("title") String recTitle) throws IOException {
         var ref = new Object() {
             Record record = null;
             DailyRecord dr = null;
         };
 
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
                     ref.record = recordRepository.save(Record.builder()
                             .user(user)
@@ -86,7 +90,7 @@ public class RecordController {
                             .drStartTime(LocalDateTime.now())
                             .build());
                 });
-        return ResponseEntity.ok(principal.getName());
+        return ResponseEntity.ok(ref.record.getUser().getUsername());
     }
 
 
@@ -136,7 +140,7 @@ public class RecordController {
 
     // 가계부 삭제
     @DeleteMapping("/consumption")
-    public ResponseEntity<Object> deleteConsumption(@RequestParam("consumption_id") Long conId){
+    public ResponseEntity<Object> deleteConsumption(@RequestParam("consumption_id") Long conId) {
         conRepository
                 .findById(conId)
                 .ifPresent(cr -> {
@@ -162,13 +166,14 @@ public class RecordController {
 
     // 하루 기준 현 시간까지의 실시간 정보 받아오기
     @GetMapping("/current")
-    public ResponseEntity<Object> currentInfo(@AuthenticationPrincipal Principal principal,
-                                              @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) {
+    public ResponseEntity<Object> currentInfo(HttpServletRequest request,
+                                              HttpServletResponse response,
+                                              @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) throws IOException {
         var ref = new Object() {
             DailyRecord result = null;
         };
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
                     dailyRepository.findByDrDateAndRec_User(today, user)
                             .ifPresent(dr -> {
@@ -181,9 +186,10 @@ public class RecordController {
 
     // 하루끝
     @GetMapping("/dayEnd")
-    public ResponseEntity<String> dayEnd(@AuthenticationPrincipal Principal principal) {
+    public ResponseEntity<String> dayEnd(HttpServletRequest request,
+                                         HttpServletResponse response) throws IOException {
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
                     dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user)
                             .ifPresent(dr -> {
@@ -196,14 +202,14 @@ public class RecordController {
     // 여행 중 위치 저장
     @PostMapping("/route")
     public ResponseEntity<Object> saveRoute(@RequestParam("dr_id") Long drId,
-                                             @RequestParam("rr_latitude") Double rrLat,
-                                             @RequestParam("rr_longitude") Double rrLong){
+                                            @RequestParam("rr_latitude") Double rrLat,
+                                            @RequestParam("rr_longitude") Double rrLong) {
         var ref = new Object() {
             RouteRecord result = null;
         };
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
-                    ref.result =routeRepository.save(RouteRecord.builder()
+                    ref.result = routeRepository.save(RouteRecord.builder()
                             .dr(dr)
                             .rrLatitude(rrLat)
                             .rrLongitude(rrLong)
@@ -246,12 +252,13 @@ public class RecordController {
 
     // 하루 사진
     @GetMapping("/daily/picture")
-    public ResponseEntity<List<ImageRecord>> dailyPicture(@AuthenticationPrincipal Principal principal) {
+    public ResponseEntity<List<ImageRecord>> dailyPicture(HttpServletRequest request,
+                                                          HttpServletResponse response) throws IOException {
         var ref = new Object() {
             List<ImageRecord> result = null;
         };
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
                     dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user)
                             .ifPresent(dr -> {
@@ -293,7 +300,8 @@ public class RecordController {
 
     // 여행 정보
     @GetMapping("/tripInfo")
-    public ResponseEntity<Record> getRecord(@AuthenticationPrincipal Principal principal,
+    public ResponseEntity<Record> getRecord(HttpServletRequest request,
+                                            HttpServletResponse response,
                                             @RequestParam("Record_id") Long recId) {
         var ref = new Object() {
             Record result;
