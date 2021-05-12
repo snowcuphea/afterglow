@@ -19,10 +19,10 @@ class Counter extends Component {
         <TouchableOpacity style={s.upButton} onPress={() => this.props.countUp(2)}>
           <Text style={{ fontSize: 20 }}>+2</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={s.downButton} onPress={() => this.props.countUp(-1)}>
+        <TouchableOpacity style={s.downButton} onPress={() => this.props.countDown(1)}>
           <Text style={{ fontSize: 20 }}>-1</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={s.downButton} onPress={() => this.props.countUp(-2)}>
+        <TouchableOpacity style={s.downButton} onPress={() => this.props.countDown(2)}>
           <Text style={{ fontSize: 20 }}>-2</Text>
         </TouchableOpacity>
       </View>
@@ -58,10 +58,16 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     countUp: (num) => {
-      dispatch(ActionCreator.countUp(num));
+      dispatch({
+        type: 'COUNT_UP_ASYNC',
+        payload: num
+      });
     },
     countDown: (num) => {
-      dispatch(ActionCreator.countDown(num));
+      dispatch({
+        type: 'COUNT_DOWN_ASYNC',
+        payload: num
+      });
     }
   };
 }
