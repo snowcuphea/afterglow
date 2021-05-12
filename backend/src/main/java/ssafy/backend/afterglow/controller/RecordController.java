@@ -2,6 +2,7 @@ package ssafy.backend.afterglow.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,9 @@ public class RecordController {
     static final int SUCCESS = 1;
     static final int FAIL = -1;
 
+    @Autowired
     private final RecordService recordService;
+    @Autowired
     private final UserService userService;
 
     private final UserRepository userRepository;
@@ -152,12 +155,12 @@ public class RecordController {
 
     // 유저 전체 여행
     @GetMapping("/total")
-    public ResponseEntity<Object> totalTrip(@RequestParam("user_id") Long userId) {
+    public ResponseEntity<Object> totalTrip(HttpServletRequest request, HttpServletResponse response) {
         var ref = new Object() {
             List<Record> result = null;
         };
-        userRepository
-                .findById(userId)
+        userService
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
                     ref.result = recordRepository.findByUser(user);
                 });
