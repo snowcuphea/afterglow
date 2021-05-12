@@ -1,7 +1,7 @@
 import ActionCreator from '../actions'
 
 import { takeLatest, put } from 'redux-saga/effects';
-import { login } from '../../api/account'
+import { getRecordList, login } from '../../api/account'
 
 
 export function* loginAsync() {
@@ -18,6 +18,21 @@ export function* loginAsync() {
   )
 }
 
+export function* getRecordListAsync() {
+  console.log("getRecordListAsync사가입장")
+  getRecordList(
+    (res) => {
+      console.log("사가에서 레코드status", res.status)
+      console.log("사가에서 레코드받은데이터", res.data)
+      put(ActionCreator.getRecordList(res.data))
+    },
+    (err) => {
+      console.log("getRecordListAsync에러", err)
+    }
+  )
+}
+
 export const accountSagas = [
   takeLatest('LOGIN_ASYNC', loginAsync),
+  takeLatest('GET_RECORD_LIST_ASYNC', getRecordListAsync),
 ]

@@ -38,6 +38,7 @@ class LoginScreen extends React.Component {
               routes: [{name: 'Home'}]
             })
           )
+          this.props.getRecordListReq()
         })
       })
 
@@ -103,6 +104,11 @@ function mapDispatchToProps(dispatch) {
         type: 'LOGIN_ASYNC'
       });
     },
+    getRecordListReq: () => {
+      dispatch({
+        type: 'GET_RECORD_LIST_ASYNC'
+      })
+    }
   };
 }
 

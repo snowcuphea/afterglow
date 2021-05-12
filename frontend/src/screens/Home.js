@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 
 import ActionCreator from '.././store/actions'
 import ModalStartTravel from '../components/modal/ModalStartTravel'
-
+import { getRecordList as getRecordListAPI } from '../api/account'
 
 class HomeScreen extends React.Component {
 
@@ -59,8 +59,18 @@ class HomeScreen extends React.Component {
     this.props.navigation.navigate('Test_Maps')
   }
 
+  getRecord = () => {
+    console.log("getRecordListReq 눌ㄹ럿어")
+    this.props.getRecordListReq()
+    console.log(this.props.wow)
+  }
+  componentDidMount() {
+    
+  }
+
 
   render() {
+    
 
     
     return (
@@ -78,6 +88,8 @@ class HomeScreen extends React.Component {
         <Button title={"maps_cluster"} onPress={this.maps_cluster}/>
         <Button title={"current_location"} onPress={this.current_location}/>
         <Button title={"test"} onPress={this.test}/>
+        <Button title={"getRecord"} onPress={this.getRecord}/>
+        <Text>????{this.props.wow}</Text>
         
         {/* <Button title={"여행하기"} onPress={this.startTravel}/> */}
       </View>
@@ -100,10 +112,11 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state){
-
+  console.log("홈이당", state.accountRd)
   return {
     isLogin: state.accountRd.isLogin,
-    travelStatus: state.accountRd.travelStatus
+    travelStatus: state.accountRd.travelStatus,
+    wow: state.accountRd.wow
   }
 }
 
@@ -114,7 +127,13 @@ function mapDispatchToProps(dispatch) {
     },
     setDate: () => {
       dispatch(ActionCreator.setDate())
+    },
+    getRecordListReq: () => {
+      dispatch({
+        type: 'GET_RECORD_LIST_ASYNC'
+      })
     }
+    
   };
 }
 

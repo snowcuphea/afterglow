@@ -31,6 +31,7 @@ const initialState = {
   },
 
   recoPlace : [], // 여행 중 내 위치 기반 받아옴
+  wow : [],
 
 
 };
@@ -47,6 +48,11 @@ export default (state = initialState, action) => {
       }
     case types.LOGOUT:
       return initialState
+    case types.GET_RECORD_LIST:
+      return {
+        ...state,
+        wow : "gooooooooooooooooooooooooood"
+      }
     case types.CHANGE_STATUS:
       return {
         ...state,
