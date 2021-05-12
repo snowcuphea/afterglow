@@ -20,10 +20,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("records")
@@ -59,6 +56,8 @@ public class RecordController {
                     ImageRecord ir = new ImageRecord();
                     try {
                         ir.setIrImage(image.getIrImage().getBytes());
+                        ir.setImgHeight(image.getHeight());
+                        ir.setImgWidth(image.getWidth());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -73,14 +72,15 @@ public class RecordController {
 
     // 여행 시작
     @PostMapping("/startTrip")
-    public ResponseEntity<String> startTrip(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            @RequestParam("title") String recTitle) throws IOException {
+    public ResponseEntity<Map<String, Object>> startTrip(HttpServletRequest request,
+                                                         HttpServletResponse response,
+                                                         @RequestParam("title") String recTitle) throws IOException {
         var ref = new Object() {
             Record record = null;
             DailyRecord dr = null;
         };
 
+        Map<String, Object> result = new HashMap<>();
         userService
                 .findUserByToken(request, response)
                 .ifPresent(user -> {
@@ -93,7 +93,35 @@ public class RecordController {
                             .drStartTime(LocalDateTime.now())
                             .build());
                 });
-        return ResponseEntity.ok(ref.record.getUser().getUsername());
+        result.put("recId", ref.record.getRecId());
+        result.put("drId", ref.dr.getDrId());
+        return ResponseEntity.ok(result);
+    }
+
+    // 하루 시작
+    @PostMapping("/startDay")
+    public ResponseEntity<Map<String, Object>> startDay(HttpServletRequest request,
+                                                        HttpServletResponse response,
+                                                        @RequestParam("recId") Long recId) throws IOException {
+        var ref = new Object() {
+            DailyRecord dr = null;
+        };
+
+        Map<String, Object> result = new HashMap<>();
+        userService
+                .findUserByToken(request, response)
+                .ifPresent(user -> {
+                    recordRepository.findById(recId)
+                            .ifPresent(record -> {
+                                ref.dr = dailyRepository.save(DailyRecord.builder()
+                                        .rec(record)
+                                        .drStartTime(LocalDateTime.now())
+                                        .build());
+                            });
+                });
+        result.put("drId", ref.dr.getDrId());
+        return ResponseEntity.ok(result);
+
     }
 
 

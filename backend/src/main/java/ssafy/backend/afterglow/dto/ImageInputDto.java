@@ -12,15 +12,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageInputDto {
     private Long imgId;
     private MultipartFile irImage;
-    private Double Longitude;
-    private Double Latitude;
+    private Double longitude;
+    private Double latitude;
+    private Integer height;
+    private Integer width;
 
     @Builder
-    public ImageInputDto(Long imgId, MultipartFile irImage, Double Longitude, Double Latitude){
+    public ImageInputDto(Long imgId, MultipartFile irImage, Double longitude, Double latitude, Integer height, Integer width){
         super();
         this.imgId = imgId;
         this.irImage = irImage;
-        this.Longitude = Longitude;
-        this.Latitude = Latitude;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.height = height;
+        this.width = width;
     }
 }
