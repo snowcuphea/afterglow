@@ -70,7 +70,9 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         { this.state.mode === "map" ? 
-          <View><Text>지도가보여지는 영역</Text></View> :
+          <View>
+            <Text>지도가보여지는 영역</Text>
+          </View> :
           <MainList navigation={this.props.navigation}/> 
         }
 
