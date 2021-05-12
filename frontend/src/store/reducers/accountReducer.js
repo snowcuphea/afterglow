@@ -9,7 +9,8 @@ const initialState = {
 
   user : {            // 로그인 할 때 받아옴
     nickname : '',
-    email : ''
+    email : '',
+    picture: '',
   },
 
 
@@ -45,7 +46,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLogin: true,
-        user : { ...state.user, nickname: Platform.Version }
+        user : {
+          nickname: action.payload.usr_nickname,
+          email: action.payload.usr_email,
+          picture: action.payload.usr_profile_img,
+        }
       }
     case types.LOGOUT:
       return initialState

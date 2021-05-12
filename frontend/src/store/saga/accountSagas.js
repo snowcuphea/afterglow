@@ -9,7 +9,7 @@ export function* loginAsync() {
     const { status, data } = yield call(login)
     console.log("로그인응답", status)
     console.log("로그인데이터", data)
-    yield put(ActionCreator.login())
+    yield put(ActionCreator.login(data))
 
   } catch (error) {
     console.log(error)

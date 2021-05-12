@@ -1,8 +1,9 @@
 import types from './types'
 
-export function login(){
+export function login(userData){
   return {
-    type: types.LOGIN,   
+    type: types.LOGIN,
+    payload: userData
   };
 }
 

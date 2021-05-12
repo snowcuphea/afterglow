@@ -4,37 +4,32 @@ import { View, TouchableOpacity, Text, Button, StyleSheet, Image,  } from 'react
 import { 
   createDrawerNavigator,
   DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem
+
  } from '@react-navigation/drawer'
+
+ import { DrawerActions } from '@react-navigation/native'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Card, ListItem,  Icon } from 'react-native-elements'
 
 import StackComponent from './Stack'
 
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import ActionCreator from './store/actions'
 
 const Drawer = createDrawerNavigator();
 
-
-// function goToSettingsMain() {
-//   const mynav = useNavigation()
-  
-//   return (
-//     mynav.navigate('SettingsMain')
-//   )
-
-// }
-
 const CustomDrawerContent = (props) => {
+
   
+  const userDetail = useSelector(state => state.accountRd.user )
+  // console.log(JSON.stringify(userDetail,null,2))
+
   return (
     <DrawerContentScrollView {...props} style={{flex: 1}}>
       <View style={styles.TopIconContainer} >
-        <TouchableOpacity style={styles.closeBtn}>
-        <Ionicons name={"close-outline"} size={30}></Ionicons>
+        <TouchableOpacity style={styles.closeBtn} onPress={() => {props.navigation.dispatch(DrawerActions.closeDrawer())}}>
+          <Ionicons name={"close-outline"} size={30}></Ionicons>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.settingBtn} onPress={() => props.navigation.navigate("SettingsMain")}>
@@ -44,14 +39,14 @@ const CustomDrawerContent = (props) => {
 
       <View style={styles.userContainer}>
         <View style={styles.userItem}>
-          <Text>김민정</Text>
-          <Text>snowcuphea@naver.com</Text>
+          <Text>{userDetail.nickname}</Text>
+          <Text>{userDetail.email}</Text>
         </View>
         <View>
           <Image
             style={styles.image}
             resizeMode="cover"
-            source={require('./assets/pics/3.png')}
+            source={{ uri : userDetail.picture }}
           />
         </View>
       </View>
@@ -157,18 +152,17 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
-  return {
-    isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user.nickname,
 
+  return {
+    nickname: state.accountRd.user.nickname,
+    profilePicture: state.accountRd.user.picture,
+    email: state.accountRd.user.email
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: () => {
-      dispatch(ActionCreator.logout())
-    }
+
   };
 }
 
