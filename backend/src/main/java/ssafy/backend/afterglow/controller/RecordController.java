@@ -72,9 +72,9 @@ public class RecordController {
 
     // 여행 시작
     @PostMapping("/startTrip")
-    public ResponseEntity<Map<String, Object>> startTrip(HttpServletRequest request,
-                                                         HttpServletResponse response,
-                                                         @RequestParam("title") String recTitle) throws IOException {
+    public ResponseEntity<Map<String, Object>> startTrip(@RequestParam("title") String recTitle,
+                                                         HttpServletRequest request,
+                                                         HttpServletResponse response) throws IOException {
         var ref = new Object() {
             Record record = null;
             DailyRecord dr = null;
@@ -100,9 +100,9 @@ public class RecordController {
 
     // 하루 시작
     @PostMapping("/startDay")
-    public ResponseEntity<Map<String, Object>> startDay(HttpServletRequest request,
-                                                        HttpServletResponse response,
-                                                        @RequestParam("recId") Long recId) throws IOException {
+    public ResponseEntity<Map<String, Object>> startDay(@RequestParam("recId") Long recId,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response) throws IOException {
         var ref = new Object() {
             DailyRecord dr = null;
         };
@@ -197,9 +197,9 @@ public class RecordController {
 
     // 하루 기준 현 시간까지의 실시간 정보 받아오기
     @GetMapping("/current")
-    public ResponseEntity<Object> currentInfo(HttpServletRequest request,
-                                              HttpServletResponse response,
-                                              @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) throws IOException {
+    public ResponseEntity<Object> currentInfo(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today,
+                                              HttpServletRequest request,
+                                              HttpServletResponse response) throws IOException {
         var ref = new Object() {
             DailyRecord result = null;
         };
@@ -331,9 +331,9 @@ public class RecordController {
 
     // 여행 정보
     @GetMapping("/tripInfo")
-    public ResponseEntity<Record> getRecord(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            @RequestParam("Record_id") Long recId) {
+    public ResponseEntity<Record> getRecord(@RequestParam("Record_id") Long recId,
+                                            HttpServletRequest request,
+                                            HttpServletResponse response) {
         var ref = new Object() {
             Record result;
         };
