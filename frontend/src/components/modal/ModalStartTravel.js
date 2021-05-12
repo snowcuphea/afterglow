@@ -148,13 +148,19 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch) {
   return {
     changeStatus: (status) => {
-      dispatch(ActionCreator.changeStatus(status))
+      dispatch({
+        type: "CHANGE_STATUS_ASYNC",
+        payload: status
+      })
     },
     setDate: () => {
       dispatch(ActionCreator.setDate())
     },
     setTravelName: (travelname) => {
-      dispatch(ActionCreator.setTravelName(travelname))
+      dispatch({
+        type: "SET_TRAVEL_NAME_ASYNC",
+        payload: travelname
+      })
     }
   };
 }
