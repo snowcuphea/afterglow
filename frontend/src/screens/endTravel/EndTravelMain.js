@@ -130,8 +130,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     changeStatus: (status) => {
-      dispatch(ActionCreator.changeStatus(status))
-    }
+      dispatch({
+        type: "CHANGE_STATUS_ASYNC",
+        payload: status
+      })
+    },
   };
 }
 

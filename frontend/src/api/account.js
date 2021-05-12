@@ -12,13 +12,19 @@ function getRecordList( success, fail ) {
   }
   
 
-function login( success, fail) {
+function login() {
 
-  instance
-    .get("customLogin")
-    .then(success)
-    .catch(fail)
+  return instance.get("customLogin")
 
 }
 
-export { login, getRecordList }
+function startTrip( title ) {
+
+  const titleForm = {
+    'title': title
+  }
+
+  return instance.post("records/startTrip",{},{ params: titleForm})
+}
+
+export { login, getRecordList, startTrip }
