@@ -244,7 +244,10 @@ function mapDispatchToProps(dispatch) {
       dispatch(ActionCreator.savePictures())
     },
     changeStatus: (status) => {
-      dispatch(ActionCreator.changeStatus(status))
+      dispatch({
+        type: "CHANGE_STATUS_ASYNC",
+        payload: status
+      })
     },
     modePicture: (mode) => {
       dispatch(ActionCreator.modePicture(mode))

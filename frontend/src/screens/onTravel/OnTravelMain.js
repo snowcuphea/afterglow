@@ -33,7 +33,7 @@ class OnTravelMain extends React.Component {
   }
 
   componentDidMount() {
-    const timeStamp = this.props.todayTravel.todayDate;
+    const timeStamp = this.props.todayTravel.startTime;
     const startTime = new Date( timeStamp );
     const nowTime = new Date();
     const tempPassed = nowTime - startTime
@@ -116,7 +116,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     changeStatus: (status) => {
-      dispatch(ActionCreator.changeStatus(status))
+      dispatch({
+        type: "CHANGE_STATUS_ASYNC",
+        payload: status
+      })
     },
     modePicture: (mode) => {
       dispatch(ActionCreator.modePicture(mode))
