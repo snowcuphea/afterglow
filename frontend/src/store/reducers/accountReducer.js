@@ -53,7 +53,7 @@ export default (state = initialState, action) => {
     case types.GET_RECORD_LIST:
       return {
         ...state,
-        wow : "gooooooooooooooooooooooooood"
+        wow : action.payload
       }
     case types.CHANGE_STATUS:
       return {

@@ -1,7 +1,7 @@
 import ActionCreator from '../actions'
 
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { login, startTrip } from '../../api/account'
+import { login, startTrip, getRecordList } from '../../api/account'
 
 
 export function* loginAsync() {
@@ -10,6 +10,18 @@ export function* loginAsync() {
     console.log("로그인응답", status)
     console.log("로그인데이터", data)
     yield put(ActionCreator.login())
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function* getRecordListAsync() {
+  try {
+    const res = yield call(getRecordList)
+    console.log("여행리스트응답코드", res.status)
+    console.log("여행리스트데이터", res.data)
+    yield put(ActionCreator.getRecordList(res.data))
 
   } catch (error) {
     console.log(error)
@@ -42,6 +54,7 @@ export function* changeStatusAsync(action) {
 
 export const accountSagas = [
   takeLatest('LOGIN_ASYNC', loginAsync),
+  takeLatest('GET_RECORD_LIST_ASYNC', getRecordListAsync),
   takeLatest('SET_TRAVEL_NAME_ASYNC', startTravelAsync),
   takeLatest('CHANGE_STATUS_ASYNC', changeStatusAsync),
 ]

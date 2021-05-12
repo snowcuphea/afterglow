@@ -3,12 +3,8 @@ import { createInstance } from "./index.js"
 const instance = createInstance()
 
 
-function getRecordList( success, fail ) {
-
-    instance
-      .get("/records/total")
-      .then(success)
-      .catch(fail)
+function getRecordList() {
+    return instance.get("records/total")
   }
   
 
