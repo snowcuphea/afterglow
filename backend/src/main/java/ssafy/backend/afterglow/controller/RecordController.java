@@ -155,7 +155,7 @@ public class RecordController {
 
     // 유저 전체 여행
     @GetMapping("/total")
-    public ResponseEntity<Object> totalTrip(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Object> totalTrip(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var ref = new Object() {
             List<Record> result = null;
         };
