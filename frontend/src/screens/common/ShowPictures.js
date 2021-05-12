@@ -18,20 +18,15 @@ class ShowPictures extends React.Component {
 
   render() {
     
-    if ( this.props.mode === "look" ) {
-      return (
-        <View>
-          <Pictures navigation={this.props.navigation}/>
-        </View>
-      )
-    } else {
-      return (
-        <View>
-          <PicturesHorz />
-          <Pictures navigation={this.props.navigation}/>
-        </View>
-      )
-    }
+    return (
+      <View>
+        { this.props.mode !== "look" ? 
+         <PicturesHorz /> : null
+        }
+        <Pictures navigation={this.props.navigation}/>
+      </View>
+    )
+
 
   }
 }
