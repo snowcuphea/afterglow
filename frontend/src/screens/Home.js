@@ -87,9 +87,22 @@ class HomeScreen extends React.Component {
           null  
         }
 
-        <View style={{position: 'absolute', flexDirection: "row", justifyContent: 'center', top: 0}}>
-          <Button title={"지도"} onPress={() => this.setState({mode: "map"})}/>
-          <Button title={"리스트"} onPress={() => this.setState({mode: "list"})}/>
+        <View style={{position: 'absolute', flexDirection: "row", top: 0, backgroundColor: 'grey'}}>
+          <TouchableOpacity
+            disabled={this.state.mode=== "map" ? true: false}
+            style={[styles.segmentBtn, { marginLeft : 3},this.state.mode === "map" ? {backgroundColor: 'skyblue'} : null]}
+            onPress={() => this.setState({mode: "map"})}>
+            <Text style={styles.segmentBtnText}>지도</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+          disabled={this.state.mode=== "list" ? true: false}
+            style={[styles.segmentBtn, { marginRight : 3},this.state.mode === "list" ? {backgroundColor: 'skyblue'} : null]} 
+            onPress={() => this.setState({mode: "list"})}>
+            <Text style={styles.segmentBtnText}>리스트</Text>
+          </TouchableOpacity>
+          
+          {/* <Button title={"지도"} onPress={() => this.setState({mode: "map"})}/>
+          <Button title={"리스트"} onPress={() => this.setState({mode: "list"})}/> */}
         </View>
 
         <View style={{position: 'absolute', left: 0, bottom: 0}}>
@@ -112,8 +125,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  textStyle: {
-    fontFamily: 'RIDIBatang',
+  segmentBtn: {
+    flex: 0.5,
+    height: 30,
+    marginVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5
+  },
+  segmentBtnText: {
+    fontSize: 20,
   }
 
 })

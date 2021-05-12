@@ -52,7 +52,7 @@ class MainList extends React.Component{
 
     return(
       <FlatList
-        style={{ marginHorizontal:20, marginTop: 40 }}
+        style={{ marginHorizontal:20, marginTop: 50 }}
         data={tempList}
         numColumns={2}
         renderItem={renderdata}
