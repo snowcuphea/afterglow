@@ -1,45 +1,63 @@
 package ssafy.backend.afterglow.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.OAuth2RefreshToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ssafy.backend.afterglow.domain.User;
+import ssafy.backend.afterglow.repository.UserRepository;
+import ssafy.backend.afterglow.service.UserService;
 
-import java.security.Principal;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class UserController {
-    private final OAuth2AuthorizedClientService authorizedClientService;
 
-    public UserController(OAuth2AuthorizedClientService authorizedClientService) {
-        this.authorizedClientService = authorizedClientService;
+    private Authentication authentication;
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Value("${kakao_rest_api_key}")
+    private String kakao_rest_api_key;
+
+    @GetMapping("/customLogin")
+    public ResponseEntity<User> login(HttpServletRequest request,
+                                      HttpServletResponse response) throws IOException {
+        User user = userService.login(request, response);
+        return new ResponseEntity(user, HttpStatus.valueOf(response.getStatus()));
     }
 
-    @GetMapping("/users/me/token")
-    public ResponseEntity<Object> currentUserToken(@AuthenticationPrincipal Principal principal) {
-        if(principal instanceof OAuth2AuthenticationToken) {
-            Map<String, Object> attributes = new HashMap<>();
-            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) principal;
-
-            OAuth2AuthorizedClient oAuth2AuthorizedClient = authorizedClientService.loadAuthorizedClient(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId(), oAuth2AuthenticationToken.getName());
-            OAuth2AccessToken accessToken = oAuth2AuthorizedClient.getAccessToken();
-            OAuth2RefreshToken refreshToken = oAuth2AuthorizedClient.getRefreshToken();
-
-            attributes.put("name", oAuth2AuthenticationToken.getName());
-            attributes.put("accessToken", accessToken);
-            attributes.put("refreshToken", refreshToken);
-            return ResponseEntity.ok(attributes);
-        }
-
-        return ResponseEntity.ok(principal);
+    @PostMapping("/change/travelingState")
+    public ResponseEntity<Object> changeUserTravelingState(@RequestParam("status") String status,
+                                                           HttpServletRequest request,
+                                                           HttpServletResponse response) throws IOException {
+        userService.findUserByToken(request,response)
+                .ifPresent(user -> {
+                    user.setUsrTravelingState(status);
+                });
+        return ResponseEntity.ok(status);
     }
+
+
 }

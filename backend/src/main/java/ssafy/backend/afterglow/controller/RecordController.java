@@ -2,6 +2,7 @@ package ssafy.backend.afterglow.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,20 +10,17 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.ImageInputDto;
-import ssafy.backend.afterglow.dto.RecordDTO;
 import ssafy.backend.afterglow.repository.*;
 import ssafy.backend.afterglow.service.RecordService;
 import ssafy.backend.afterglow.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.*;
 
 @RestController
 @RequestMapping("records")
@@ -31,9 +29,12 @@ public class RecordController {
     static final int SUCCESS = 1;
     static final int FAIL = -1;
 
+    @Autowired
     private final RecordService recordService;
+    @Autowired
     private final UserService userService;
 
+    private final UserRepository userRepository;
     private final ImageRepository imageRepository;
     private final RecordRepository recordRepository;
     private final DailyRepository dailyRepository;
@@ -44,9 +45,10 @@ public class RecordController {
     // 이미지 저장
     @SneakyThrows
     @PostMapping(value = "/saveImg")
-    public ResponseEntity<Integer> setUserProfileImg(@RequestParam("img") List<ImageInputDto> images,
-                                                     @AuthenticationPrincipal Principal principal) {
-        Optional<User> user = userService.findUserByPrincipal(principal);
+    public ResponseEntity<Integer> saveImg(@RequestParam("img") List<ImageInputDto> images,
+                                           HttpServletRequest request,
+                                           HttpServletResponse response) {
+        Optional<User> user = userService.findUserByToken(request, response);
         Optional<DailyRecord> dr = dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user.get());
         images
                 .stream()
@@ -54,6 +56,8 @@ public class RecordController {
                     ImageRecord ir = new ImageRecord();
                     try {
                         ir.setIrImage(image.getIrImage().getBytes());
+                        ir.setImgHeight(image.getHeight());
+                        ir.setImgWidth(image.getWidth());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -66,37 +70,58 @@ public class RecordController {
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
     }
 
-    // 여행 선택 시 여행 정보 받아오기
-    @GetMapping
-    public ResponseEntity<Object> getRecord(@RequestParam("record_id") Long recId) {
-        RecordDTO test = recordService.selectRecordInfo(recId);
-        if (test != null)
-            return new ResponseEntity<Object>(test, HttpStatus.OK);
-        else
-            return new ResponseEntity<Object>(FAIL, HttpStatus.NOT_ACCEPTABLE);
-    }
-
-
     // 여행 시작
     @PostMapping("/startTrip")
-    public ResponseEntity<String> startTrip(@AuthenticationPrincipal Principal principal,
-                                            @RequestParam("title") String recTitle) {
-        AtomicReference<Record> record = null;
-        AtomicReference<DailyRecord> dr = null;
+    public ResponseEntity<Map<String, Object>> startTrip(@RequestParam("title") String recTitle,
+                                                         HttpServletRequest request,
+                                                         HttpServletResponse response) throws IOException {
+        var ref = new Object() {
+            Record record = null;
+            DailyRecord dr = null;
+        };
 
+        Map<String, Object> result = new HashMap<>();
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
-                    record.set(recordRepository.save(Record.builder()
+                    ref.record = recordRepository.save(Record.builder()
                             .user(user)
                             .recName(recTitle)
-                            .build()));
-                    dr.set(dailyRepository.save(DailyRecord.builder()
-                            .rec(record.get())
+                            .build());
+                    ref.dr = dailyRepository.save(DailyRecord.builder()
+                            .rec(ref.record)
                             .drStartTime(LocalDateTime.now())
-                            .build()));
+                            .build());
                 });
-        return ResponseEntity.ok(principal.getName());
+        result.put("recId", ref.record.getRecId());
+        result.put("drId", ref.dr.getDrId());
+        return ResponseEntity.ok(result);
+    }
+
+    // 하루 시작
+    @PostMapping("/startDay")
+    public ResponseEntity<Map<String, Object>> startDay(@RequestParam("recId") Long recId,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response) throws IOException {
+        var ref = new Object() {
+            DailyRecord dr = null;
+        };
+
+        Map<String, Object> result = new HashMap<>();
+        userService
+                .findUserByToken(request, response)
+                .ifPresent(user -> {
+                    recordRepository.findById(recId)
+                            .ifPresent(record -> {
+                                ref.dr = dailyRepository.save(DailyRecord.builder()
+                                        .rec(record)
+                                        .drStartTime(LocalDateTime.now())
+                                        .build());
+                            });
+                });
+        result.put("drId", ref.dr.getDrId());
+        return ResponseEntity.ok(result);
+
     }
 
 
@@ -105,19 +130,21 @@ public class RecordController {
     public ResponseEntity<Object> setConsumption(@RequestParam("day_id") Long dayId,
                                                  @RequestParam("consumption_name") String conName,
                                                  @RequestParam("consumption_money") Integer conMoney,
-                                                 @RequestParam("consumption_time") LocalDateTime conTime) {
-        AtomicReference<ConsumptionRecord> result = null;
+                                                 @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
+        var ref = new Object() {
+            ConsumptionRecord result = null;
+        };
         dailyRepository
                 .findById(dayId)
                 .ifPresent(dr -> {
-                    result.set(conRepository.save(ConsumptionRecord.builder()
+                    ref.result = conRepository.save(ConsumptionRecord.builder()
                             .dr(dr)
                             .crName(conName)
                             .crMoney(conMoney)
                             .crDatetime(conTime)
-                            .build()));
+                            .build());
                 });
-        return ResponseEntity.ok(result.get());
+        return ResponseEntity.ok(ref.result);
     }
 
 
@@ -127,23 +154,24 @@ public class RecordController {
                                                     @RequestParam("consumption_name") String conName,
                                                     @RequestParam("consumption_money") Integer conMoney,
                                                     @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
-        AtomicReference<ConsumptionRecord> result = null;
+        var ref = new Object() {
+            ConsumptionRecord result = null;
+        };
         conRepository
                 .findById(conId)
                 .ifPresent(cr -> {
-                    result.set(conRepository.save(ConsumptionRecord.builder()
+                    ref.result = conRepository.save(ConsumptionRecord.builder()
                             .crName(conName)
                             .crMoney(conMoney)
                             .crDatetime(conTime)
-                            .build()));
+                            .build());
                 });
-        return ResponseEntity.ok(result.get());
+        return ResponseEntity.ok(ref.result);
     }
 
     // 가계부 삭제
     @DeleteMapping("/consumption")
-    public ResponseEntity<Object> deleteConsumption(@RequestParam("consumption_id") Long conId){
-        AtomicReference<ConsumptionRecord> result = null;
+    public ResponseEntity<Object> deleteConsumption(@RequestParam("consumption_id") Long conId) {
         conRepository
                 .findById(conId)
                 .ifPresent(cr -> {
@@ -155,38 +183,44 @@ public class RecordController {
 
     // 유저 전체 여행
     @GetMapping("/total")
-    public ResponseEntity<Object> currentUserToken(@AuthenticationPrincipal Principal principal) {
-        AtomicReference<List<Record>> result = null;
+    public ResponseEntity<Object> totalTrip(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        var ref = new Object() {
+            List<Record> result = null;
+        };
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
-                    result.set(recordRepository.findByUser(user));
+                    ref.result = recordRepository.findByUser(user);
                 });
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ref.result);
     }
 
     // 하루 기준 현 시간까지의 실시간 정보 받아오기
     @GetMapping("/current")
-    public ResponseEntity<Object> currentInfo(@AuthenticationPrincipal Principal principal,
-                                              @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) {
-        AtomicReference<DailyRecord> result = null;
+    public ResponseEntity<Object> currentInfo(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today,
+                                              HttpServletRequest request,
+                                              HttpServletResponse response) throws IOException {
+        var ref = new Object() {
+            DailyRecord result = null;
+        };
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
                     dailyRepository.findByDrDateAndRec_User(today, user)
                             .ifPresent(dr -> {
-                                result.set(dr);
+                                ref.result = dr;
                             });
                 });
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ref.result);
     }
 
 
     // 하루끝
     @GetMapping("/dayEnd")
-    public ResponseEntity<String> dayEnd(@AuthenticationPrincipal Principal principal) {
+    public ResponseEntity<String> dayEnd(HttpServletRequest request,
+                                         HttpServletResponse response) throws IOException {
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
                     dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user)
                             .ifPresent(dr -> {
@@ -199,31 +233,35 @@ public class RecordController {
     // 여행 중 위치 저장
     @PostMapping("/route")
     public ResponseEntity<Object> saveRoute(@RequestParam("dr_id") Long drId,
-                                             @RequestParam("rr_latitude") Double rrLat,
-                                             @RequestParam("rr_longitude") Double rrLong){
-        AtomicReference<RouteRecord> result = null;
+                                            @RequestParam("rr_latitude") Double rrLat,
+                                            @RequestParam("rr_longitude") Double rrLong) {
+        var ref = new Object() {
+            RouteRecord result = null;
+        };
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
-                    result.set(routeRepository.save(RouteRecord.builder()
+                    ref.result = routeRepository.save(RouteRecord.builder()
                             .dr(dr)
                             .rrLatitude(rrLat)
                             .rrLongitude(rrLong)
-                            .build()));
+                            .build());
                 });
-        return ResponseEntity.ok(result.get());
+        return ResponseEntity.ok(ref.result);
     }
 
     // 경로 이름 작성
     @PostMapping("/route/name")
     public ResponseEntity<RouteRecord> routeNaming(@RequestParam("route_name") String routeName,
                                                    @RequestParam("Rr_id") Long RrId) {
-        AtomicReference<RouteRecord> result = null;
+        var ref = new Object() {
+            RouteRecord result = null;
+        };
         routeRepository.findById(RrId)
                 .ifPresent(rr -> {
                     rr.setRrName(routeName);
-                    result.set(rr);
+                    ref.result = rr;
                 });
-        return ResponseEntity.ok(result.get());
+        return ResponseEntity.ok(ref.result);
     }
 
 
@@ -231,33 +269,38 @@ public class RecordController {
     @PostMapping("/memo/create")
     public ResponseEntity<RouteRecord> addAndUpdateMemo(@RequestParam("Rr_id") Long RrId,
                                                         @RequestParam("memo_content") String memoContent) {
-        AtomicReference<RouteRecord> result = null;
+        var ref = new Object() {
+            RouteRecord result = null;
+        };
         routeRepository
                 .findById(RrId)
                 .ifPresent(rr -> {
                     rr.setRrMemo(memoContent);
-                    result.set(rr);
+                    ref.result = rr;
                 });
-        return ResponseEntity.ok(result.get());
+        return ResponseEntity.ok(ref.result);
     }
 
     // 하루 사진
     @GetMapping("/daily/picture")
-    public ResponseEntity<List<ImageRecord>> dailyPicture(@AuthenticationPrincipal Principal principal) {
-        List<ImageRecord> result = null;
+    public ResponseEntity<List<ImageRecord>> dailyPicture(HttpServletRequest request,
+                                                          HttpServletResponse response) throws IOException {
+        var ref = new Object() {
+            List<ImageRecord> result = null;
+        };
         userService
-                .findUserByPrincipal(principal)
+                .findUserByToken(request, response)
                 .ifPresent(user -> {
                     dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user)
                             .ifPresent(dr -> {
                                 routeRepository.findByDr(dr)
                                         .forEach(rr -> {
-                                            result.addAll(imageRepository.findAllByRr(rr)
+                                            ref.result.addAll(imageRepository.findAllByRr(rr)
                                                     .orElse(new ArrayList<>()));
                                         });
                             });
                 });
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ref.result);
     }
 
 
@@ -288,8 +331,9 @@ public class RecordController {
 
     // 여행 정보
     @GetMapping("/tripInfo")
-    public ResponseEntity<Record> getRecord(@AuthenticationPrincipal Principal principal,
-                                            @RequestParam("Record_id") Long recId) {
+    public ResponseEntity<Record> getRecord(@RequestParam("Record_id") Long recId,
+                                            HttpServletRequest request,
+                                            HttpServletResponse response) {
         var ref = new Object() {
             Record result;
         };
