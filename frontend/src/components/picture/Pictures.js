@@ -102,9 +102,9 @@ class Pictures extends React.Component {
 
       return (
         <View>
-          <TouchableOpacity onPress={() => this.toLargeScale(item)}>
+          <TouchableOpacity onPress={() => this.toLargeScale(item)} style={{margin:1}}>
             <Image 
-              style={[{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}, 
+              style={[{ width: (screenWidth-6)/3, height: (screenWidth-6)/3}, 
                 this.isSelected(item) ? styles.selectedBorder : '']} 
               source={{ uri: item.uri }} />
           </TouchableOpacity>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   selectIcon3: {
     position: 'absolute', 
     right: 0,
-    opacity: 0.8,
+    opacity: 0.5,
   },
   selectedBorder: {
     borderWidth: 6,

@@ -15,6 +15,15 @@ const tempList = [
 
 class MainList extends React.Component{
 
+  constructor(props) {
+    super(props)
+  }
+
+
+  toSingleHistory = () => {
+    this.props.navigation.navigate("SingleTravelHistory")
+  }
+
 
   render() {
 
@@ -25,10 +34,14 @@ class MainList extends React.Component{
 
       return (
         <View>
-          <TouchableOpacity>
+          <TouchableOpacity style={{ margin: 10}} onPress={() => this.toSingleHistory()}>
             <Image 
-              style={{ width: (screenWidth-100)/2, height: (screenWidth-8)/2, margin: 10, backgroundColor: "pink"}} 
+              style={{ width: (screenWidth-100)/2, height: (screenWidth-8)/2, backgroundColor: "pink"}} 
               source={{ uri: "../assets/pics/1.png" }}/>
+              <View style={styles.imageTextContainer}>
+                <Text>{item.date}</Text>
+                <Text>{item.name}</Text>
+              </View>
           </TouchableOpacity>
         </View>
       )
@@ -36,7 +49,7 @@ class MainList extends React.Component{
 
     return(
       <FlatList
-        style={{ marginHorizontal: 20 }}
+        style={{ marginHorizontal:20 }}
         data={tempList}
         numColumns={2}
         renderItem={renderdata}
@@ -47,7 +60,11 @@ class MainList extends React.Component{
 }
 
 const styles = StyleSheet.create({
-
+  imageTextContainer: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+  }
 })
 
 
