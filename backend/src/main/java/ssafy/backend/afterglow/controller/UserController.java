@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import ssafy.backend.afterglow.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +40,9 @@ public class UserController {
 
     @GetMapping("/customLogin")
     @Transactional
-    public ResponseEntity<User> login(HttpServletRequest request) throws IOException {
+    public ResponseEntity<User> login(HttpServletRequest request,
+                                      HttpServletResponse response) throws IOException {
+        HttpStatus status = HttpStatus.OK;
         Map<String, Object> cookies = new HashMap<>();
         Arrays.stream(request.getCookies())
                 .forEach(cookie -> cookies.put(cookie.getName(), cookie.getValue()));
@@ -69,8 +73,11 @@ public class UserController {
             JsonElement element = parser.parse(res);
             cookies.replace("access_token", element.getAsJsonObject().get("access_token").getAsString());
             cookies.replace("refresh_token", element.getAsJsonObject().get("refresh_token").getAsString());
+            response.addCookie(new Cookie("access_token", (String) cookies.get("access_token")));
+            response.addCookie(new Cookie("refresh_token", (String) cookies.get("refresh_token")));
+            status = HttpStatus.CREATED;
         }
         User user = userService.login((String) cookies.get("access_token"));
-        return ResponseEntity.ok(user);
+        return new ResponseEntity(user, status);
     }
 }
