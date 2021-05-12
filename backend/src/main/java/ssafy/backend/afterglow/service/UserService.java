@@ -14,10 +14,13 @@ import ssafy.backend.afterglow.repository.UserRepository;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.*;
@@ -40,14 +43,16 @@ public class UserService implements UserDetailsService {
                 .orElse(null);
     }
 
-    public User login(String access_token) throws IOException {
-        String userInfo = getUserInfo(access_token);
+    public User login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, String> cookies = getCookies(request, response);
+        String userInfo = getUserInfo(cookies.get("access_token"));
         User tempUser = customUserBuilder(userInfo);
         return saveOrUpdate(tempUser);
     }
 
-    public Optional<User> findUserByToken(String access_token) throws IOException {
-        String userInfo = getUserInfo(access_token);
+    public Optional<User> findUserByToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, String> cookies = getCookies(request, response);
+        String userInfo = getUserInfo(cookies.get("access_token"));
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(userInfo);
         JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
@@ -62,6 +67,45 @@ public class UserService implements UserDetailsService {
                 .orElse(tempUser);
 
         return userRepository.save(user);
+    }
+
+    public Map<String, String> getCookies(HttpServletRequest request,
+                                          HttpServletResponse response) throws IOException {
+        Map<String, String> cookies = new HashMap<>();
+        Arrays.stream(request.getCookies())
+                .forEach(cookie -> cookies.put(cookie.getName(), cookie.getValue()));
+
+        String reqURL = "https://kapi.kakao.com/v1/user/access_token_info";
+        URL url = new URL(reqURL);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", "Bearer " + (String) cookies.get("access_token"));
+        int responseCode = conn.getResponseCode();
+        if (responseCode == 401) {
+            String reqRenewalURL = "https://kapi.kakao.com/oauth/token";
+            URL renewalURL = new URL(reqRenewalURL);
+            HttpURLConnection renewalConn = (HttpURLConnection) renewalURL.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("grant_type", "refresh_token");
+            conn.setRequestProperty("client_id", kakao_rest_api_key);
+            conn.setRequestProperty("refresh_token", (String) cookies.get("refresh_token"));
+
+            int renewalResponseCode = conn.getResponseCode();
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String res = "";
+            while ((line = br.readLine()) != null) {
+                res += line;
+            }
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(res);
+            cookies.replace("access_token", element.getAsJsonObject().get("access_token").getAsString());
+            cookies.replace("refresh_token", element.getAsJsonObject().get("refresh_token").getAsString());
+            response.addCookie(new Cookie("access_token", (String) cookies.get("access_token")));
+            response.addCookie(new Cookie("refresh_token", (String) cookies.get("refresh_token")));
+            response.setStatus(201);
+        }
+        return cookies;
     }
 
     public String getUserInfo(String access_token) throws IOException {
@@ -104,38 +148,4 @@ public class UserService implements UserDetailsService {
         return tempUser;
     }
 
-    public Map<String, Object> renewalToken(String refresh_token) throws IOException {
-
-        String reqURL = "https://kapi.kakao.com/oauth/token";
-        URL url = new URL(reqURL);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("grant_type", "refresh_token");
-        conn.setRequestProperty("client_id", kakao_rest_api_key);
-        conn.setRequestProperty("refresh_token", refresh_token);
-        int responseCode = conn.getResponseCode();
-        System.out.println("responseCode : " + responseCode);
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String line = "";
-        String res = "";
-        while ((line = br.readLine()) != null) {
-            res += line;
-        }
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(res);
-        Map<String, Object> result = new HashMap<>();
-        result.put("access_token", element.getAsJsonObject().get("access_token").getAsString());
-        result.put("refresh_token", element.getAsJsonObject().get("refresh_token").getAsString());
-        return result;
-    }
-
-
-    public Optional<User> findUserByPrincipal(Principal principal) {
-        Optional<User> result = null;
-        if (principal instanceof OAuth2AuthenticationToken) {
-            result = userRepository.findByUsername(principal.getName());
-        }
-        return result;
-    }
 }

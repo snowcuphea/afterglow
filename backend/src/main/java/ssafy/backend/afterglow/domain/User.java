@@ -46,7 +46,7 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     @JsonProperty("usr_traveling_state")
-    private Boolean usrTravelingState = false;
+    private String usrTravelingState = "rest";
 
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ElementCollection(fetch = FetchType.EAGER)

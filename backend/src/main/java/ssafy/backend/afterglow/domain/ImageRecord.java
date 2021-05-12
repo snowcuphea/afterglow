@@ -17,6 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class ImageRecord {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("img_id")
     private Long imgId;
@@ -29,6 +30,12 @@ public class ImageRecord {
     @JsonIgnore
     //@JsonProperty("rr")
     private RouteRecord rr;
+
+    @JsonProperty("imgHeight")
+    private Integer imgHeight;
+
+    @JsonProperty("imgWidth")
+    private Integer imgWidth;
 
     @Builder
     public ImageRecord(RouteRecord rr, byte[] irImage){

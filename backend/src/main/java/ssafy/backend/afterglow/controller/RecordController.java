@@ -44,7 +44,7 @@ public class RecordController {
     @SneakyThrows
     @PostMapping(value = "/saveImg")
     public ResponseEntity<Integer> saveImg(@RequestParam("img") List<ImageInputDto> images,
-                                                     @AuthenticationPrincipal Principal principal) {
+                                           @AuthenticationPrincipal Principal principal) {
         Optional<User> user = userService.findUserByPrincipal(principal);
         Optional<DailyRecord> dr = dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user.get());
         images
