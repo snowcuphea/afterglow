@@ -211,7 +211,7 @@ const DrawerComponent = () => {
     watchId.current = Geolocation.watchPosition(
       (position) => {
         setLocation(position);
-        console.log(position);
+        console.log('이건가' , position);
       },
       (error) => {
         setLocation(null);
@@ -224,8 +224,8 @@ const DrawerComponent = () => {
         },
         enableHighAccuracy: highAccuracy,
         distanceFilter: 0,
-        interval: 10000,
-        fastestInterval: 2000,
+        interval: 60000,
+        fastestInterval: 50000,
         forceRequestLocation: forceLocation,
         showLocationDialog: locationDialog,
         useSignificantChanges: significantChanges,
