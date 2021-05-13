@@ -2,10 +2,11 @@ import React, { useRef } from "react";
 import MapView from "react-native-map-clustering";
 import { Marker } from "react-native-maps";
 
+
 const INITIAL_REGION = {
-  latitude: 37.55053382130016,
-  longitude: 126.99218984745893,
-  latitudeDelta: 6,
+  latitude: 35.83463069429124, 
+  longitude: 127.75646977566188,
+  latitudeDelta: 6.3,
   longitudeDelta: 1,
 };
 
@@ -122,7 +123,7 @@ class Maps_cluster extends React.Component {
                 return (
                     <Marker
                         coordinate={{ latitude: contact.latitude + (i*0.01), longitude: contact.longitude + (i*0.01) }}
-                        // onPress={() => navigation.navigate('Map_In_Main', {lat: contact.latitude+(i*0.01), lon:contact.longitude+(i*0.01)})}
+                        onPress={() => this.props.navigation.navigate('EndTravelMain', {lat: contact.latitude+(i*0.01), lon:contact.longitude+(i*0.01)})}
                         key={i}
                     ></Marker>
                 )

@@ -80,7 +80,7 @@ class HomeScreen extends React.Component {
       <View style={styles.container}>
         { this.state.mode === "map" ? 
           <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, marginTop: 40}}>
-            <Maps_cluster />
+            <Maps_cluster navigation={this.props.navigation}/>
           </View> :
           <MainList navigation={this.props.navigation}/> 
         }

@@ -18,6 +18,7 @@ import ModalDayFinish from '../../components/modal/ModalDayFinish'
 
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
+import MapView from 'react-native-maps';
 
 
 
@@ -70,6 +71,18 @@ class OnTravelMain extends React.Component {
         <Text>
           {this.state.startDate}, {this.state.passedTime}
         </Text>
+        <MapView
+              style={{ flex:1 }}
+              initialRegion = {{
+                  latitude: lat,
+                  longitude: lon,
+                  latitudeDelta: 0.1,
+                  longitudeDelta: 0.1
+
+              }}
+          >
+
+        </MapView>
         <ModalDayFinish navigation={this.props.navigation} /> 
         <Button title={"핀을 눌렀을 때"} onPress={this.selectPin}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>

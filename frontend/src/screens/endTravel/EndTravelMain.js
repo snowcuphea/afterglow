@@ -9,6 +9,8 @@ import {
   Dimensions
 } from 'react-native';
 
+import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import PlaceList from '../../components/PlaceList'
@@ -18,9 +20,11 @@ import ActionCreator from '../.././store/actions'
 
 
 import { CommonActions } from '@react-navigation/native'
-import Map_In_Main from '../../components/Map_In_Main'
+// import Map_In_Main from '../../components/Map_In_Main'
 
 class EndTravelMain extends React.Component {
+  
+
 
   constructor (props) {
     super(props)
@@ -55,6 +59,7 @@ class EndTravelMain extends React.Component {
   }
 
   render() {
+    const { lat, lon } = this.props.route.params;
     return (
       <ScrollView
         stickyHeaderIndices={[0]}
@@ -77,8 +82,18 @@ class EndTravelMain extends React.Component {
         </View>
 
         <View style={styles.mapContainer}>
-          {/* <Text>지도 보여주는 영역</Text> */}
-          <Map_In_Main />
+          <MapView
+              style={{ flex:1 }}
+              initialRegion = {{
+                  latitude: lat,
+                  longitude: lon,
+                  latitudeDelta: 0.1,
+                  longitudeDelta: 0.1
+
+              }}
+          >
+
+          </MapView>
         </View>
 
         <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>  
