@@ -9,15 +9,99 @@ import ActionCreator from '../../store/actions'
 
 class Summary extends React.Component {
 
+  constructor(props) {
+    super(props)
+  }
 
+  componentDidMount(){
+    // console.log("현재는",this.props.record)
+  }
+
+  dateForm(date) {
+    const tempDate = date.split('-')
+    return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+  }
+
+  totalTime() {
+    var totalTime = 0
+    for ( var day of this.props.record.dayRecs){
+      var tempTime = day.dr_time_spent.split(":")
+      var hours = Number(tempTime[0])
+      var mins = Number(tempTime[1])
+
+      var tempTotal = hours * 60 + mins
+      totalTime += tempTotal
+    }
+    const _day = Math.floor(totalTime/1440)
+    const _hours = Math.floor(totalTime%1440/60)
+    const _mins = Math.floor(totalTime%60)
+
+    return _day > 0 ? ( _hours > 0 ? _days + '일 ' + _hours + '시간 ' + _mins + '분' : _days + '일 ' + _mins + '분' ) :
+                      ( _hours > 0 ? _hours + '시간 ' + _mins + '분' : _mins + '분' )
+  }
+
+  getLocation() {
+    // 여행의 시작 위치가 어떤 시/도 인지
+  }
+
+  totalPlaces() {
+    const tempDayRecs = [
+      {
+        "routeRecs" : [
+          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null },
+        ]
+      },
+      {
+        "routeRecs" : [
+          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": null },
+        ]
+      },
+      {
+        "routeRecs" : [
+          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": null }, { "rr_name": "어딘가" },
+        ]
+      },
+      {
+        "routeRecs" : [
+          { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" },
+        ]
+      },
+      {
+        "routeRecs" : [
+          { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null },
+        ]
+      },
+    ]
+    var total = 0
+    for ( var day of tempDayRecs ) {
+      for ( var route of day.routeRecs ){
+        if ( route.rr_name !== null ) { total += 1 }
+      }
+    }
+    return total
+  }
+
+  getTotalPictures() {
+    // 지금까지 몇개의 사진을 찍었는지도 db에 저장해야한다
+  }
+
+  getSelectedPictures() {
+
+  }
 
   render() {
+
+    const history = this.props.record
+    const len = history.dayRecs.length
+    const startDate = history.dayRecs[0].dr_date
+    const endDate = history.dayRecs[len-1].dr_date
+    const title = history.rec_name
 
     return(
       <ScrollView
         showsVerticalScrollIndicator={false}>
         <View style={styles.dateContainer}>
-          <Text style={styles.textStyle}> 2021년 04월 20일 ~ 2021년 04월 25일 </Text>
+          <Text style={styles.textStyle}> {this.dateForm(startDate)} ~ {this.dateForm(endDate)}</Text>
         </View>
 
         <View style={styles.mapContainer}>
@@ -27,9 +111,14 @@ class Summary extends React.Component {
         </View>
 
         <View style={styles.summaryContainer}>
-          <Text>
-            줄거리 보여주는 영역
-          </Text>
+          <Text>"{title}" 여행을</Text>
+          <Text style={{ marginTop: 20 }}>{this.props.user_nickname}님과 함께</Text>
+          <Text style={{ marginTop: 20 }}>{this.totalTime()} 동안</Text>
+          <Text style={{ marginTop: 20 }}>제주도에서</Text>
+          <Text style={{ marginTop: 20 }}>{this.totalPlaces()}개의 관광지를 들르고</Text>
+          <Text style={{ marginTop: 20 }}>1500장의 사진을 찍고</Text>
+          <Text style={{ marginTop: 20 }}>58장의 사진으로 <Text style={{ color: 'skyblue' }}>여운</Text>을 남겼어요</Text>
+          
         </View>
 
         <View style={styles.bookContainer}>
@@ -62,9 +151,9 @@ const styles = StyleSheet.create({
   },
   summaryContainer: {
     backgroundColor: 'green',
-    height: 700,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 20,
   },
   bookContainer: {
     backgroundColor: 'pink',
@@ -82,9 +171,9 @@ function mapStateToProps(state) {
   // state.accountRd.travelingList.map((item) => console.log(JSON.stringify(item,null,2)))
 
   return {
-    selectedPictures: state.pictureRd.pictures,
-    startTime: state.accountRd.todayTravel.dr_start_time,
-    mode: state.pictureRd.mode
+    index: state.accountRd.historyIndex,
+    user_nickname: state.accountRd.user.usr_nickname,
+    record: state.accountRd.traveledList[state.accountRd.historyIndex]
   };
 }
 

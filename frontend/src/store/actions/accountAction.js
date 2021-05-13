@@ -55,3 +55,10 @@ export function endDay(todayInfo) {
     payload: todayInfo
   }
 }
+
+export function selectIndex(index) {
+  return {
+    type: types.SELECT_INDEX,
+    payload: index
+  }
+}

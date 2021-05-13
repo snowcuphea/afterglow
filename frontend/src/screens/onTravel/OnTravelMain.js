@@ -35,44 +35,6 @@ class OnTravelMain extends React.Component {
     }
   }
 
-  componentDidMount() {
-  
-    function changeTime(time) {
-      if ( time === '' ) {
-        return null
-      } else {
-        const tempTime = time.split(' ')
-        const toDate = tempTime[0].split('-')
-        const toTime = tempTime[1].split(':')
-        return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
-      }
-    }
-
-    const timeStamp = changeTime(this.props.todayTravel.dr_start_time);
-    const startTime = new Date( timeStamp );
-
-
-    var tempPassed = "0:0"
-    if ( this.props.todayTravel.dr_time_spent !== null ) {
-      tempPassed = this.props.todayTravel.dr_time_spent
-    }
-
-    const timepassed = tempPassed.split(":")
-    const hours = Number(timepassed[0])
-    const mins = Number(timepassed[1])
-    this.setState({
-      startDate: startTime.getFullYear() + '년 ' + 
-                + ('0'+(startTime.getMonth()+1)).slice(-2) + '월 '
-                + ('0'+startTime.getDate()).slice(-2) + '일',
-      passedTime: hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
-                              ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' ),
-
-    })
-  }
-
-
-
-
   allPictures = () => {
     this.props.navigation.navigate('ShowPictures');
     this.props.modePicture('look');
@@ -83,13 +45,32 @@ class OnTravelMain extends React.Component {
     this.setState({ clickPin: val });
     console.log("핀상태",this.state.clickPin )
   }
+
+
+  dateForm(date) {
+    const tempDate = date.split('-')
+    return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+  }
+
+  timeForm(time) {
+    if (time !== null) {
+      const tempTime = time.split(':')
+      const hours = Number(tempTime[0])
+      const mins = Number(tempTime[1])
+    
+      return hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
+              ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' )
+    } else {
+      return '여행을 시작했습니다.'
+    }
+  }
   
   render() {
-    
+
     return (
       <ScrollView style={styles.container}>
         <Text>
-          {this.state.startDate}, {this.state.passedTime}
+          {this.dateForm(this.props.todayTravel.dr_date)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
         </Text>
         {/* <MapView
               style={{ flex:1 }}
@@ -142,8 +123,6 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-  console.log(state.accountRd.todayTravel.dr_time_spent)
-
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.usr_nickname,
@@ -159,6 +138,12 @@ function mapDispatchToProps(dispatch) {
       dispatch({
         type: "CHANGE_STATUS_ASYNC",
         payload: status
+      })
+    },
+    getCurrentInfo: (dr_id)=>{
+      dispatch({
+        type: "GET_CURRENT_INFO_ASYNC",
+        payload: dr_id
       })
     },
     modePicture: (mode) => {
