@@ -14,30 +14,40 @@ class Summary extends React.Component {
   }
 
   componentDidMount(){
-    // console.log("현재는",this.props.record)
+    console.log("현재는",this.props.record)
   }
 
   dateForm(date) {
-    const tempDate = date.split('-')
-    return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+    try {
+      const tempDate = date.split('-')
+      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+    } catch (error) {
+      console.log(error)
+      return "이런"
+    }
   }
 
   totalTime() {
-    var totalTime = 0
-    for ( var day of this.props.record.dayRecs){
-      var tempTime = day.dr_time_spent.split(":")
-      var hours = Number(tempTime[0])
-      var mins = Number(tempTime[1])
-
-      var tempTotal = hours * 60 + mins
-      totalTime += tempTotal
+    try {
+      var totalTime = 0
+      for ( var day of this.props.record.dayRecs){
+        var tempTime = day.dr_time_spent.split(":")
+        var hours = Number(tempTime[0])
+        var mins = Number(tempTime[1])
+  
+        var tempTotal = hours * 60 + mins
+        totalTime += tempTotal
+      }
+      const _day = Math.floor(totalTime/1440)
+      const _hours = Math.floor(totalTime%1440/60)
+      const _mins = Math.floor(totalTime%60)
+  
+      return _day > 0 ? ( _hours > 0 ? _days + '일 ' + _hours + '시간 ' + _mins + '분' : _days + '일 ' + _mins + '분' ) :
+                        ( _hours > 0 ? _hours + '시간 ' + _mins + '분' : _mins + '분' )
+    } catch (error) {
+      console.log(error)
+      return 30
     }
-    const _day = Math.floor(totalTime/1440)
-    const _hours = Math.floor(totalTime%1440/60)
-    const _mins = Math.floor(totalTime%60)
-
-    return _day > 0 ? ( _hours > 0 ? _days + '일 ' + _hours + '시간 ' + _mins + '분' : _days + '일 ' + _mins + '분' ) :
-                      ( _hours > 0 ? _hours + '시간 ' + _mins + '분' : _mins + '분' )
   }
 
   getLocation() {
@@ -86,7 +96,33 @@ class Summary extends React.Component {
   }
 
   getSelectedPictures() {
-
+    const tempDayRecs = [
+      {
+        "routeRecs" : [
+          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null },
+        ]
+      },
+      {
+        "routeRecs" : [
+          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": null },
+        ]
+      },
+      {
+        "routeRecs" : [
+          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": null }, { "rr_name": "어딘가" },
+        ]
+      },
+      {
+        "routeRecs" : [
+          { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" },
+        ]
+      },
+      {
+        "routeRecs" : [
+          { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null },
+        ]
+      },
+    ]
   }
 
   render() {
