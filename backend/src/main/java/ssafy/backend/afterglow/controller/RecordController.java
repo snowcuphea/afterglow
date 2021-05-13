@@ -94,7 +94,7 @@ public class RecordController {
                             .drStartTime(LocalDateTime.now())
                             .build());
                 });
-        return ResponseEntity.ok(ref.record);
+        return ResponseEntity.ok(recordRepository.findById(ref.record.getRecId()).get());
     }
 
     // 하루 시작
