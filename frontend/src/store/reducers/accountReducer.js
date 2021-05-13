@@ -10,7 +10,7 @@ const initialState = {
   user : {            // 로그인 할 때 받아옴
     nickname : '',
     email : '',
-    picture: '',
+    picture: undefined,
   },
 
 
@@ -24,6 +24,7 @@ const initialState = {
   travelingName: '',  // 여행 시작 전 작성
   travelingList : [], // 여행 중 작성(전체)
   todayTravel : {     // 여행 중 작성(하루)
+    todayId: undefined,
     timespent : 0,      // 하루 총 여행 시간
     startTime: '',
     endTime: '',      
@@ -50,7 +51,8 @@ export default (state = initialState, action) => {
           nickname: action.payload.usr_nickname,
           email: action.payload.usr_email,
           picture: action.payload.usr_profile_img,
-        }
+        },
+        // travelStatus: action.payload.usr_traveling_state
       }
     case types.LOGOUT:
       return initialState
@@ -70,7 +72,12 @@ export default (state = initialState, action) => {
     case types.SET_TRAVEL_NAME:
       return {
         ...state,
-        travelingName: action.payload,
+        travelingName: action.payload.title,
+        travelingId: action.payload.data.recId,
+        todayTravel: {
+          ...state.todayTravel,
+          todayId: action.payload.data.drId
+        }
       }
     case types.ADD_MONEY_ITEM:
       return {

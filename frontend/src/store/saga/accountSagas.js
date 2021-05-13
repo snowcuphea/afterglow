@@ -1,7 +1,7 @@
 import ActionCreator from '../actions'
 
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { login, startTrip } from '../../api/account'
+import { login, startTrip, changeStatus } from '../../api/account'
 
 
 export function* loginAsync() {
@@ -23,8 +23,13 @@ export function* startTravelAsync(action) {
     
     console.log("여행시작 응답", status)
     console.log("여행시작 데이터", data)
+    
+    const payload = {
+      title : action.payload,
+      data : data
+    }
 
-    yield put(ActionCreator.setTravelName(action.payload))
+    yield put(ActionCreator.setTravelName(payload))
 
   } catch (error) {
     console.log(error)
@@ -33,12 +38,14 @@ export function* startTravelAsync(action) {
 
 export function* changeStatusAsync(action) {
   try {
+
+    const { status,data } = yield call(changeStatus, action.payload)
+    console.log("status", status,data)
     yield put(ActionCreator.changeStatus(action.payload))
   } catch (error) {
     console.log(error)
   }
 }
-
 
 export const accountSagas = [
   takeLatest('LOGIN_ASYNC', loginAsync),

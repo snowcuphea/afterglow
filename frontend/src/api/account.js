@@ -29,4 +29,13 @@ function startTrip( title ) {
   return instance.post("records/startTrip",{},{ params: titleForm})
 }
 
-export { login, getRecordList, startTrip }
+function changeStatus( status ) {
+  const statusForm = {
+    'status': status
+  }
+
+  return instance.post("change/travelingState", {}, { params: statusForm})
+
+}
+
+export { login, getRecordList, startTrip, changeStatus }
