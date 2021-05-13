@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   segmentBtnText: {
-    fontSize: 20,
+    fontSize: 18,
   }
 
 })

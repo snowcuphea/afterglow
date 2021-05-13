@@ -36,6 +36,8 @@ const initialState = {
 
   recoPlace : [], // 여행 중 내 위치 기반 받아옴
 
+  historyIndex : 0,
+
 };
 
 
@@ -99,6 +101,11 @@ export default (state = initialState, action) => {
         ...state,
         travelingList: [...state.traveledList, action.payload],
         todayTravel: action.payload
+      }
+    case types.SELECT_INDEX:
+      return {
+        ...state,
+        historyIndex: action.payload
       }
     default:
       return state;

@@ -18,7 +18,8 @@ const persistor = persistStore(store)
 
 const customTextProps = {
   style : {
-    fontFamily: 'RIDIBatang'
+    fontFamily: 'RIDIBatang',
+    fontSize: 18,
   }
 };
 
