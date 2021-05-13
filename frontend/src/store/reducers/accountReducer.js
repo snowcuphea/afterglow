@@ -107,6 +107,11 @@ export default (state = initialState, action) => {
         ...state,
         historyIndex: action.payload
       }
+    case types.SEND_LOCATION:
+      return {
+        ...state,
+        
+      }
     default:
       return state;
   }
