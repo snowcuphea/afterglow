@@ -33,7 +33,7 @@ class OnTravelMain extends React.Component {
   }
 
   componentDidMount() {
-    const timeStamp = this.props.todayTravel.startTime;
+    const timeStamp = this.props.todayTravel.dr_start_time;
     const startTime = new Date( timeStamp );
     const nowTime = new Date();
     const tempPassed = nowTime - startTime
@@ -103,13 +103,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
+  // console.log("여행중",JSON.stringify(state.accountRd.travelingList,2,null))
+
   return {
     isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user.nickname,
+    user_nickname: state.accountRd.user.usr_nickname,
     travelingName: state.accountRd.travelingName,
     travelStatus: state.accountRd.travelStatus,
     todayTravel: state.accountRd.todayTravel,
-
   }
 }
 

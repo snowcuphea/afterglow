@@ -113,8 +113,8 @@ function mapStateToProps(state) {
 
   return {
     isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user.nickname,
-    moneyBookList: state.accountRd.todayTravel.moneyBook
+    user_nickname: state.accountRd.user.usr_nickname,
+    moneyBookList: state.accountRd.todayTravel.conRecs
   }
 }
 

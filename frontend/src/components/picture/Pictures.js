@@ -29,59 +29,59 @@ class Pictures extends React.Component {
     };
   }
 
-  // async componentDidMount(){
-  //   if (Platform.OS === 'android') {
-  //     const result = await PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-  //       {
-  //         title: 'Permission Explanation',
-  //         message: 'ReactNativeForYou would like to access your photos!',
-  //       },
-  //     );
-  //     if (result !== 'granted') {
-  //       console.log('Access to pictures was denied');
-  //       return;
-  //     }
-  //   }
+  async componentDidMount(){
+    if (Platform.OS === 'android') {
+      const result = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        {
+          title: 'Permission Explanation',
+          message: 'ReactNativeForYou would like to access your photos!',
+        },
+      );
+      if (result !== 'granted') {
+        console.log('Access to pictures was denied');
+        return;
+      }
+    }
 
-  //   CameraRoll.getPhotos({
-  //     first: 50,
-  //     assetType: 'Photos',
-  //     include: [
-  //       'location', 'imageSize'
-  //     ],
-  //     fromTime: this.props.startTime,
-  //   })
-  //   .then(res => {
-  //     const pictureSet = {
-  //       title: "구분",
-  //       id: "구분",
-  //       data: []
-  //     }
-  //     const tempData = {
-  //       id : "123",
-  //       list: []
-  //     }
-  //     for (let picture of res.edges) {
-  //       const pictureForm = {
-  //         id: picture.node.timestamp,
-  //         timestamp : picture.node.timestamp,
-  //         location : picture.node.location,
-  //         uri: picture.node.image.uri,
-  //         imageSize: {
-  //           height : picture.node.image.height,
-  //           width : picture.node.image.width
-  //         },
-  //       }
-  //       tempData.list.unshift(pictureForm)
-  //     }
-  //     pictureSet.data.push(tempData)
-  //     this.setState({ ...this.state, data: [ ...this.state.data, pictureSet ]})
-  //   })
-  //   .catch((error) => {
-  //       console.log("에러",error);
-  //   });
-  // }
+    CameraRoll.getPhotos({
+      first: 50,
+      assetType: 'Photos',
+      include: [
+        'location', 'imageSize'
+      ],
+      fromTime: this.props.startTime,
+    })
+    .then(res => {
+      const pictureSet = {
+        title: "구분",
+        id: "구분",
+        data: []
+      }
+      const tempData = {
+        id : "123",
+        list: []
+      }
+      for (let picture of res.edges) {
+        const pictureForm = {
+          id: picture.node.timestamp,
+          timestamp : picture.node.timestamp,
+          location : picture.node.location,
+          uri: picture.node.image.uri,
+          imageSize: {
+            height : picture.node.image.height,
+            width : picture.node.image.width
+          },
+        }
+        tempData.list.unshift(pictureForm)
+      }
+      pictureSet.data.push(tempData)
+      this.setState({ ...this.state, data: [ ...this.state.data, pictureSet ]})
+    })
+    .catch((error) => {
+        console.log("에러",error);
+    });
+  }
 
   toLargeScale = (item) => {
     this.props.navigation.navigate("SinglePicture", { picture : item })
@@ -199,7 +199,7 @@ function mapStateToProps(state) {
 
   return {
     selectedPictures: state.pictureRd.pictures,
-    startTime: state.accountRd.todayTravel.startTime,
+    startTime: state.accountRd.todayTravel.dr_start_time,
     mode: state.pictureRd.mode
   };
 }
