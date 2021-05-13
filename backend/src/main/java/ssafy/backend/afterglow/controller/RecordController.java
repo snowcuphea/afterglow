@@ -2,12 +2,10 @@ package ssafy.backend.afterglow.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.ImageInputDto;
@@ -18,10 +16,10 @@ import ssafy.backend.afterglow.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("records")
@@ -41,6 +39,7 @@ public class RecordController {
     private final DailyRepository dailyRepository;
     private final RouteRepository routeRepository;
     private final ConsumptionRepository conRepository;
+    private final TourDestinationRepository tourDestinationRepository;
 
 
     // 이미지 저장
@@ -75,8 +74,8 @@ public class RecordController {
     // 여행 시작
     @PostMapping("/startTrip")
     public ResponseEntity<Record> startTrip(@RequestParam("title") String recTitle,
-                                                         HttpServletRequest request,
-                                                         HttpServletResponse response) throws IOException {
+                                            HttpServletRequest request,
+                                            HttpServletResponse response) throws IOException {
         var ref = new Object() {
             Record record = null;
             DailyRecord dr = null;
@@ -101,8 +100,8 @@ public class RecordController {
     // 하루 시작
     @PostMapping("/startDay")
     public ResponseEntity<DailyRecord> startDay(@RequestParam("recId") Long recId,
-                                                        HttpServletRequest request,
-                                                        HttpServletResponse response) throws IOException {
+                                                HttpServletRequest request,
+                                                HttpServletResponse response) throws IOException {
         var ref = new Object() {
             DailyRecord dr = null;
         };
@@ -217,8 +216,8 @@ public class RecordController {
     // 하루끝
     @GetMapping("/dayEnd")
     public ResponseEntity<DailyRecord> dayEnd(HttpServletRequest request,
-                                         HttpServletResponse response,
-                                         @RequestParam("drId") Long drId) throws IOException {
+                                              HttpServletResponse response,
+                                              @RequestParam("drId") Long drId) throws IOException {
         var ref = new Object() {
             DailyRecord result;
         };
@@ -236,21 +235,46 @@ public class RecordController {
 
     // 여행 중 위치 저장
     @PostMapping("/route")
-    public ResponseEntity<Object> saveRoute(@RequestParam("dr_id") Long drId,
-                                            @RequestParam("rr_latitude") Double rrLat,
-                                            @RequestParam("rr_longitude") Double rrLong) {
-        var ref = new Object() {
-            RouteRecord result = null;
-        };
+    public ResponseEntity<Map<String, Object>> saveRoute(@RequestParam("dr_id") Long drId,
+                                                         @RequestParam("rr_latitude") Double rrLat,
+                                                         @RequestParam("rr_longitude") Double rrLong) {
+        Map<String, Object> result = new HashMap<>();
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
-                    ref.result = routeRepository.save(RouteRecord.builder()
+                    routeRepository.save(RouteRecord.builder()
                             .dr(dr)
                             .rrLatitude(rrLat)
                             .rrLongitude(rrLong)
                             .build());
+                    List<RouteRecord> RrList = routeRepository.findByDr(dr);
+                    if (RrList.size() > 15) {
+                        List<RouteRecord> tempRrList = RrList.subList(-15, -1);
+                        tempRrList.add(RrList.get(-1));
+                        RrList = tempRrList;
+                        Boolean isStaying = true;
+                        for (int i = 0; i <= RrList.size() - 1; i++) {
+                            if (recordService.getDistBtwRr(RrList.get(i), RrList.get(i + 1)) > 0.1) {
+                                isStaying = false;
+                            }
+                        }
+                        result.put("isStaying", isStaying);
+                        if (isStaying) {
+                            AtomicReference<TourDestination> nearestTd = null;
+                            double nearestDist = 5;
+                            RouteRecord curRr = RrList.get(-1);
+                            tourDestinationRepository.findAll()
+                                    .stream()
+                                    .forEach(td -> {
+                                        if (recordService.getDist(curRr.getRrLatitude(), curRr.getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
+                                            nearestTd.set(td);
+                                        }
+                                    });
+                            result.put("place", nearestTd);
+                        }
+                    }
                 });
-        return ResponseEntity.ok(ref.result);
+
+        return ResponseEntity.ok(result);
     }
 
     // 경로 이름 작성
