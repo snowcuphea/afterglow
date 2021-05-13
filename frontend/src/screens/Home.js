@@ -66,7 +66,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount부분", JSON.stringify(this.props.traveledList, null, 2))
+    // console.log("componentDidMount부분", JSON.stringify(this.props.traveledList, null, 2))
     this.props.getRecordListReq()
   }
 
@@ -109,8 +109,6 @@ class HomeScreen extends React.Component {
             <Text style={styles.segmentBtnText}>리스트</Text>
           </TouchableOpacity>
           
-          {/* <Button title={"지도"} onPress={() => this.setState({mode: "map"})}/>
-          <Button title={"리스트"} onPress={() => this.setState({mode: "list"})}/> */}
         </View>
 
         <View style={{position: 'absolute', left: 0, bottom: 0}}>

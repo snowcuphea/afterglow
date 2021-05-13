@@ -17,7 +17,7 @@ function createInstance() {
 
   CookieManager.get("http://k4a105.p.ssafy.io:8080")
     .then((cookies) => {
-      console.log(cookies)
+      // console.log(cookies)
       instance.defaults.headers["Cookies"] = cookies
     })
 
@@ -37,7 +37,7 @@ function createInstancePicture() {
 
   CookieManager.get("http://k4a105.p.ssafy.io:8080")
     .then((cookies) => {
-      console.log(cookies)
+      // console.log(cookies)
       instance.defaults.headers["Cookies"] = cookies
     })
 

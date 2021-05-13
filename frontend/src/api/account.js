@@ -23,4 +23,40 @@ function startTrip( title ) {
   return instance.post("records/startTrip",{},{ params: titleForm})
 }
 
-export { login, getRecordList, startTrip }
+function startDay( rec_id ) {
+
+  const recForm = {
+    "recId" : rec_id
+  }
+
+  return instance.post("records/startDay",{},{ params: recForm})
+}
+
+function endDay(dr_id) {
+  console.log("axios endDay", dr_id)
+  return instance.get(`records/dayEnd?drId=${dr_id}`)
+  
+}
+
+function changeStatus( status ) {
+  const statusForm = {
+    'status': status
+  }
+
+  return instance.post("change/travelingState", {}, { params: statusForm})
+
+}
+
+function getTripInfo( rec_id ) {
+
+  const recForm = {
+    "Record_id" : rec_id
+  }
+
+  console.log("여행정보받아오기 axios", recForm)
+
+  return instance.get("records/tripinfo", { params : recForm })
+
+}
+
+export { login, getRecordList, startTrip, changeStatus, getTripInfo, startDay, endDay }
