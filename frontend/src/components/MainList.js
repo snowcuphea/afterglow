@@ -24,7 +24,11 @@ class MainList extends React.Component{
     let screenHeight = Dimensions.get('window').height;
 
     const renderdata = ({ item }) => {
-      console.log("아이템:",JSON.stringify(item.dayRecs[0].dr_date,null,2))
+      if (item.dayRecs[0].dr_date === null) {
+        console.log("아직 여행중인 item", item["@id"])
+      }
+      else {
+      console.log("아이템:",JSON.stringify(item,null,2))
       const travelName = item.rec_name
       const travelStartDay = item.dayRecs[0].dr_date
       const len = (item.dayRecs).length
@@ -47,6 +51,7 @@ class MainList extends React.Component{
           </TouchableOpacity>
         </View>
       )
+    }
     }
 
     return(
