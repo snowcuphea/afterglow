@@ -8,9 +8,9 @@ const initialState = {
   isLogin : false,    // 로그인 할 때 받아옴
 
   user : {            // 로그인 할 때 받아옴
-    nickname : '',
-    email : '',
-    picture: undefined,
+    usr_nickname : '',
+    usr_email : '',
+    usr_profile_img: undefined,
   },
 
 
@@ -24,25 +24,35 @@ const initialState = {
   travelingName: '',  // 여행 시작 전 작성
   travelingList : [], // 여행 중 작성(전체)
   todayTravel : {     // 여행 중 작성(하루)
-    todayId: undefined,
+    dr_id: undefined,
     timespent : 0,      // 하루 총 여행 시간
-    startTime: '',
-    endTime: '',      
-    visitedPlace : [],  // 방문한 장소 { name: "해변", time: "", location: { lat: 30, lon: 30}, memo : "" }
-    moneyBook: [{ hour:11, min:40, what:'정직한돈', much:62000 }],    // 가계부 { name: "돼지고기", time: "", price: 35000 }
-    track: [], // [{lat: x, lon: y}], // 좌표
-    todayDate: 0,
+    dr_start_time: '',
+    dr_end_time: '',      
+    routeRecs : [],  // 방문한 장소 { imgRecs:{imgHeight,imgWidth,img_id,ir_image}, rr_id,rr_latitude,rr_longitude,rr_memo,rr_name,rr_time }
+    conRecs: [{ hour:11, min:40, what:'정직한돈', much:62000 }],    // 가계부 { cr_datetime,cr_id,cr_money,cr_name, }
+    dr_date: 0,
     
   },
 
   recoPlace : [], // 여행 중 내 위치 기반 받아옴
 
-
 };
+
+
+
 
 export default (state = initialState, action) => {
 
   var today = []
+
+  function changeTime(time) {
+    const tempTime = time.split(' ')
+    const toDate = tempTime[0].split('-')
+    const toTime = tempTime[1].split(':')
+    console.log(toDate, toTime[0].slice(1))
+  
+    return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
+  }
 
   switch ( action.type ) {
     case types.LOGIN:
@@ -50,9 +60,9 @@ export default (state = initialState, action) => {
         ...state,
         isLogin: true,
         user : {
-          nickname: action.payload.usr_nickname,
-          email: action.payload.usr_email,
-          picture: action.payload.usr_profile_img,
+          usr_nickname: action.payload.usr_nickname,
+          usr_email: action.payload.usr_email,
+          usr_profile_img: action.payload.usr_profile_img,
         },
         travelStatus: action.payload.usr_traveling_state
       }
@@ -68,26 +78,17 @@ export default (state = initialState, action) => {
         travelingList: action.payload.length > 0 ? action.payload[action.payload.length-1].dayRecs: [],
         todayTravel: today !== null ? {
           ...state.todayTravel,
-          todayId: today.dr_id,
-          startTime: new Date(today.dr_start_time).getTime(),
-          endTime: today.dr_end_time,
-          moneyBook: today.conRecs,
-          visitedPlace: today.routeRecs,
-          todayDate: today.dr_date
+          dr_id: today.dr_id,
+          dr_start_time: changeTime(today.dr_start_time),
+          conRecs: today.conRecs,
+          routeRecs: today.routeRecs,
+          dr_date: today.dr_date
         } : { ...initialState.todayTravel }
       }
     case types.CHANGE_STATUS:
       return {
         ...state,
         travelStatus : action.payload
-      }
-    case types.SET_DATE:
-      return {
-        ...state,
-        todayTravel: {
-          ...state.todayTravel,
-          startTime: new Date().getTime()    // 여행/하루를 시작하는 timestamp(ms 단위) 설정
-        }
       }
     case types.SET_TRAVEL_NAME:
       today = action.payload.dayRecs[action.payload.dayRecs.length-1]
@@ -97,43 +98,42 @@ export default (state = initialState, action) => {
         travelingId: action.payload.rec_id,
         todayTravel: {
           ...initialState.todayTravel,
-          todayId: today.dr_id,
-          startTime: new Date(today.dr_start_time).getTime(),
-          endTime: today.dr_end_time,
-          moneyBook: today.conRecs,
-          visitedPlace: today.routeRecs,
-          todayDate: today.dr_date
+          dr_id: today.dr_id,
+          dr_start_time: changeTime(today.dr_start_time),
+          conRecs: today.conRecs,
+          routeRecs: today.routeRecs,
+          dr_date: today.dr_date
         }
       }
     case types.ADD_MONEY_ITEM:
       return {
         ...state,
-        todayTravel: {...state.todayTravel, moneyBook : [ ...state.todayTravel.moneyBook, action.payload ] }
+        todayTravel: {...state.todayTravel, conRecs : [ ...state.todayTravel.conRecs, action.payload ] }
 
       }
     case types.START_DAY:
-      // today = 
+      today = action.payload
+      // state.travelingList.push(state.todayTravel)
       return {
         ...state,
         todayTravel: {
           ...initialState.todayTravel,
-          // todayId: today.dr_id,
-          // startTime: new Date(today.dr_start_time).getTime(),
-          // endTime: today.dr_end_time,
-          // moneyBook: today.conRecs,
-          // visitedPlace: today.routeRecs,
-          // todayDate: today.dr_date
+          dr_id: today.dr_id,
+          dr_start_time: changeTime(today.dr_start_time),
+          conRecs: today.conRecs,
+          routeRecs: today.routeRecs,
+          dr_date: today.dr_date
         }
       }
     case types.END_DAY:
-      // return {
-      //   ...state,
-      //   travelingList: travelingList.push(state.todayTravel),
-      //   todayTravel: {
-      //     ...initialState.todayTravel,
-      //   }
-      // }
-      return state
+      today = action.payload
+      return {
+        ...state,
+        todayTravel: {
+          ...state.todayTravel,
+          dr_end_time: changeTime(today.dr_end_time),
+        }
+      }
     default:
       return state;
   }

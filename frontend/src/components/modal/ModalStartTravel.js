@@ -32,7 +32,6 @@ class ModalStartTravel extends React.Component {
   startTravel = () => {
     this.props.navigation.navigate('OnTravelMain')
     this.props.changeStatus('onTravel')
-    this.props.setDate()
     this.setState({ modalVisible: false });
     this.props.setTravelName(this.state.travelName)
   }
@@ -152,9 +151,6 @@ function mapDispatchToProps(dispatch) {
         type: "CHANGE_STATUS_ASYNC",
         payload: status
       })
-    },
-    setDate: () => {
-      dispatch(ActionCreator.setDate())
     },
     setTravelName: (travelname) => {
       dispatch({

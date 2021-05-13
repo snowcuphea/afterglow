@@ -28,12 +28,6 @@ export function changeStatus(status){
   }
 }
 
-export function setDate() {
-  return {
-    type: types.SET_DATE
-  }
-}
-
 export function setTravelName(data) {
   return {
     type: types.SET_TRAVEL_NAME,

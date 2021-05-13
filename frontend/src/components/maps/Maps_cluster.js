@@ -9,123 +9,129 @@ const INITIAL_REGION = {
   longitudeDelta: 1,
 };
 
+class Maps_cluster extends React.Component {
 
-function Maps_cluster ({navigation}) {
-  state = {
-    loca: [
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 37.50053382130016, longitude: 126.90218984745893
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      },
-      {
-        latitude: 33.38318664501014, longitude: 126.53454671251562
-      }
-  
-    ]
-  }
-  
-  return (
-    <MapView 
-      initialRegion={INITIAL_REGION} 
-      style={{ flex: 1 }} 
-    >
+  constructor(props){
+    super(props)
+    this.state = {
+      loca: [
         {
-          this.state.loca.map((contact, i) => {
-              return (
-                  <Marker
-                      coordinate={{ latitude: contact.latitude + (i*0.01), longitude: contact.longitude + (i*0.01) }}
-                      // onPress={() => navigation.navigate('Map_In_Main', {lat: contact.latitude+(i*0.01), lon:contact.longitude+(i*0.01)})}
-                      key={i}
-                  ></Marker>
-              )
-          })
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 37.50053382130016, longitude: 126.90218984745893
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
+        },
+        {
+          latitude: 33.38318664501014, longitude: 126.53454671251562
         }
-    </MapView>
+    
+      ]
+    }
+  }
 
-  )
+
+  render() {
+    return (
+      <MapView 
+        initialRegion={INITIAL_REGION} 
+        style={{ flex: 1 }} 
+      >
+          {
+            this.state.loca.map((contact, i) => {
+                return (
+                    <Marker
+                        coordinate={{ latitude: contact.latitude + (i*0.01), longitude: contact.longitude + (i*0.01) }}
+                        // onPress={() => navigation.navigate('Map_In_Main', {lat: contact.latitude+(i*0.01), lon:contact.longitude+(i*0.01)})}
+                        key={i}
+                    ></Marker>
+                )
+            })
+          }
+      </MapView>
+  
+    )
+  }
 }
 
 export default Maps_cluster;

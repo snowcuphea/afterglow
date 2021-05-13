@@ -121,7 +121,7 @@ function mapStateToProps(state) {
 
   return {
     selectedPictures: state.pictureRd.pictures,
-    startTime: state.accountRd.todayTravel.startTime,
+    startTime: state.accountRd.todayTravel.dr_start_time,
     mode: state.pictureRd.mode
   };
 }
