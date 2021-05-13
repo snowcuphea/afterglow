@@ -32,7 +32,6 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    private Authentication authentication;
     private UserRepository userRepository;
 
     @Autowired
@@ -55,6 +54,7 @@ public class UserController {
         userService.findUserByToken(request,response)
                 .ifPresent(user -> {
                     user.setUsrTravelingState(status);
+                    userRepository.save(user);
                 });
         return ResponseEntity.ok(status);
     }
