@@ -229,11 +229,11 @@ function mapStateToProps(state) {
 
   return {
     isLogin: state.accountRd.isLogin,
-    user_nickname: state.accountRd.user.nickname,
+    user_nickname: state.accountRd.user.usr_nickname,
     selectedPictures: state.pictureRd.pictures,
     travelStatus: state.accountRd.travelStatus,
     mode: state.pictureRd.mode,
-    dr_id: state.accountRd.todayTravel.todayId
+    dr_id: state.accountRd.todayTravel.dr_id
   }
 }
 

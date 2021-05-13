@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
   return {
-    user_nickname: state.accountRd.user.nickname,
+    user_nickname: state.accountRd.user.usr_nickname,
     travelStatus: state.accountRd.travelStatus,
     rec_id: state.accountRd.travelingId
   }

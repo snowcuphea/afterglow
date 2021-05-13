@@ -156,9 +156,9 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
   return {
-    nickname: state.accountRd.user.nickname,
-    profilePicture: state.accountRd.user.picture,
-    email: state.accountRd.user.email
+    nickname: state.accountRd.user.usr_nickname,
+    profilePicture: state.accountRd.user.usr_profile_img,
+    email: state.accountRd.user.usr_email
   }
 }
 
