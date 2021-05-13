@@ -34,10 +34,10 @@ export function setDate() {
   }
 }
 
-export function setTravelName(travelname) {
+export function setTravelName(data) {
   return {
     type: types.SET_TRAVEL_NAME,
-    payload: travelname
+    payload: data
   }
 }
 
@@ -47,3 +47,18 @@ export function addMoneyItem(moneyItem) {
     payload: moneyItem
   }
 }
+
+export function startDay(todayInfo) {
+  return {
+    type: types.START_DAY,
+    payload: todayInfo
+  }
+}
+
+export function endDay(todayInfo) {
+  return {
+    type: types.END_DAY,
+    payload: todayInfo
+  }
+}
+

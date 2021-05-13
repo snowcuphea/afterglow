@@ -21,6 +21,7 @@
     "@voximplant/react-native-foreground-service": "^2.0.0",
     "axios": "^0.21.1",
     "fbjs": "^3.0.0",
+    "form-data": "^4.0.0",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-elements": "^3.4.1",

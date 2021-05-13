@@ -50,29 +50,32 @@ const SavePicture = (props) => {
   const amount = props.selectedPictures.length
   const mode = props.mode
   const status = props.travelStatus
+  const dr_id = props.dr_id
+  const uploadPicture = () => {
+    // console.log(props.selectedPictures)
+    if (status === "dayEndd") {
+      props.changeStatus('dayEnd')
+    } else if (status === "travelEndd") {
+      props.changeStatus('travelEnd')
+    }
+    props.endDay(dr_id)
+    props.savePictures()
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home' },
+          { name: 'EndTravelMain'},
+        ]
+      })
+    )
+  }
 
   if ( mode === "save" ) {
     return(
       <View style={{flexDirection: 'row', paddingRight: 15}}>
         <TouchableOpacity 
-          onPress={()=> {
-            console.log(status)
-            if (status === "dayEndd") {
-              props.changeStatus('dayEnd')
-            } else if (status === "travelEndd") {
-              props.changeStatus('travelEnd')
-            }
-            props.savePictures()
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 1,
-                routes: [
-                  { name: 'Home' },
-                  { name: 'EndTravelMain'},
-                ]
-              })
-            )
-          }}
+          onPress={()=> uploadPicture() }
         >
           <Text>{amount} 저장</Text>
         </TouchableOpacity>
@@ -234,7 +237,8 @@ function mapStateToProps(state) {
     user_nickname: state.accountRd.user.nickname,
     selectedPictures: state.pictureRd.pictures,
     travelStatus: state.accountRd.travelStatus,
-    mode: state.pictureRd.mode
+    mode: state.pictureRd.mode,
+    dr_id: state.accountRd.todayTravel.todayId
   }
 }
 
@@ -252,6 +256,12 @@ function mapDispatchToProps(dispatch) {
     modePicture: (mode) => {
       dispatch(ActionCreator.modePicture(mode))
     },
+    endDay: (dr_id) => {
+      dispatch({
+        type: "END_DAY_ASYNC",
+        payload: dr_id
+      })
+    }
   };
 }
 

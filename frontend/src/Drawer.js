@@ -43,11 +43,13 @@ const CustomDrawerContent = (props) => {
           <Text>{userDetail.email}</Text>
         </View>
         <View>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            source={{ uri : userDetail.picture }}
-          />
+          { userDetail.picture === undefined ? null:
+            <Image
+              style={styles.image}
+              resizeMode="cover"
+              source={{ uri : userDetail.picture }}
+            />
+          }
         </View>
       </View>
 

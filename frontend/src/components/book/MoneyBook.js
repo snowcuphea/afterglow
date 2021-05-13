@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-  console.log("ddd",state.accountRd.todayTravel )
 
   return {
     isLogin: state.accountRd.isLogin,
