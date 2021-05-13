@@ -48,9 +48,10 @@ public class RecordController {
     @PostMapping(value = "/saveImg")
     public ResponseEntity<Integer> saveImg(@RequestParam("img") List<ImageInputDto> images,
                                            HttpServletRequest request,
-                                           HttpServletResponse response) {
+                                           HttpServletResponse response,
+                                           @RequestParam("drId") Long drId) {
         Optional<User> user = userService.findUserByToken(request, response);
-        Optional<DailyRecord> dr = dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user.get());
+        Optional<DailyRecord> dr = dailyRepository.findById(drId);
         images
                 .stream()
                 .forEach(image -> {
@@ -216,11 +217,12 @@ public class RecordController {
     // 하루끝
     @GetMapping("/dayEnd")
     public ResponseEntity<String> dayEnd(HttpServletRequest request,
-                                         HttpServletResponse response) throws IOException {
+                                         HttpServletResponse response,
+                                         @RequestParam("drId") Long drId) throws IOException {
         userService
                 .findUserByToken(request, response)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user)
+                    dailyRepository.findById(drId)
                             .ifPresent(dr -> {
                                 dr.setDrEndTime(LocalDateTime.now());
                             });
@@ -282,14 +284,15 @@ public class RecordController {
     // 하루 사진
     @GetMapping("/daily/picture")
     public ResponseEntity<List<ImageRecord>> dailyPicture(HttpServletRequest request,
-                                                          HttpServletResponse response) throws IOException {
+                                                          HttpServletResponse response,
+                                                          @RequestParam("drId") Long drId) throws IOException {
         var ref = new Object() {
             List<ImageRecord> result = null;
         };
         userService
                 .findUserByToken(request, response)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDateAndRec_User(LocalDate.now(), user)
+                    dailyRepository.findById(drId)
                             .ifPresent(dr -> {
                                 routeRepository.findByDr(dr)
                                         .forEach(rr -> {
