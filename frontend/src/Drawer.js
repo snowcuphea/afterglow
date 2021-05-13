@@ -39,15 +39,15 @@ const CustomDrawerContent = (props) => {
 
       <View style={styles.userContainer}>
         <View style={styles.userItem}>
-          <Text>{userDetail.nickname}</Text>
-          <Text>{userDetail.email}</Text>
+          <Text>{userDetail.usr_nickname}</Text>
+          <Text>{userDetail.usr_email}</Text>
         </View>
         <View>
-          { userDetail.picture === undefined ? null:
+          { userDetail.usr_profile_img === undefined ? null:
             <Image
               style={styles.image}
               resizeMode="cover"
-              source={{ uri : userDetail.picture }}
+              source={{ uri : userDetail.usr_profile_img }}
             />
           }
         </View>

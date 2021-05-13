@@ -78,6 +78,7 @@ export default (state = initialState, action) => {
       today = action.payload.dayRecs[action.payload.dayRecs.length-1]
       return {
         ...state,
+        travelingList: [],
         travelingName: action.payload.rec_name,
         travelingId: action.payload.rec_id,
         todayTravel: today
@@ -89,7 +90,6 @@ export default (state = initialState, action) => {
 
       }
     case types.START_DAY:
-      // state.travelingList.push(state.todayTravel)
       return {
         ...state,
         todayTravel: action.payload
@@ -97,6 +97,7 @@ export default (state = initialState, action) => {
     case types.END_DAY:
       return {
         ...state,
+        travelingList: [...state.traveledList, action.payload],
         todayTravel: action.payload
       }
     default:

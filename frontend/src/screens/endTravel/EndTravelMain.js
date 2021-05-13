@@ -77,7 +77,6 @@ class EndTravelMain extends React.Component {
         </View>
 
         <View style={styles.mapContainer}>
-          {/* <Text>지도 보여주는 영역</Text> */}
           <Map_In_Main />
         </View>
 

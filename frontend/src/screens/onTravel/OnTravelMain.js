@@ -43,10 +43,14 @@ class OnTravelMain extends React.Component {
 
     const timeStamp = changeTime(this.props.todayTravel.dr_start_time);
     const startTime = new Date( timeStamp );
-    const nowTime = new Date();
-    const tempPassed = nowTime - startTime
-    const hours = Math.floor(tempPassed/3600000)
-    const mins = Math.floor((tempPassed%3600000)/60000)
+
+    var tempPassed = this.props.todayTravel.dr_time_spent
+    if ( tempPassed === null ) {
+      tempPassed = "0:0"
+    }
+    tempPassed = tempPassed.split(":")
+    const hours = Number(tempPassed[0])
+    const mins = Number(tempPassed[1])
     this.setState({
       startDate: startTime.getFullYear() + '년 ' + 
                 + ('0'+(startTime.getMonth()+1)).slice(-2) + '월 '
@@ -107,8 +111,6 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
-
-  // console.log("여행중",JSON.stringify(state.accountRd.travelingList,2,null))
 
   return {
     isLogin: state.accountRd.isLogin,
