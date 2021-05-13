@@ -34,7 +34,7 @@ public class User implements UserDetails {
 
     @JsonProperty("usr_password")
     private String password;
-
+    
     @JsonProperty("usr_profile_img")
     private String usrProfileImg;
 

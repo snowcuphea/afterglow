@@ -216,19 +216,22 @@ public class RecordController {
 
     // 하루끝
     @GetMapping("/dayEnd")
-    public ResponseEntity<String> dayEnd(HttpServletRequest request,
+    public ResponseEntity<DailyRecord> dayEnd(HttpServletRequest request,
                                          HttpServletResponse response,
                                          @RequestParam("drId") Long drId) throws IOException {
+        var ref = new Object() {
+            DailyRecord result;
+        };
         userService
                 .findUserByToken(request, response)
                 .ifPresent(user -> {
                     dailyRepository.findById(drId)
                             .ifPresent(dr -> {
                                 dr.setDrEndTime(LocalDateTime.now());
-                                dailyRepository.save(dr);
+                                ref.result = dailyRepository.save(dr);
                             });
                 });
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(ref.result);
     }
 
     // 여행 중 위치 저장
