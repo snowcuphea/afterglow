@@ -59,4 +59,10 @@ function getTripInfo( rec_id ) {
 
 }
 
-export { login, getRecordList, startTrip, changeStatus, getTripInfo, startDay, endDay }
+function getCurrentInfo( dr_id ) {
+
+  return instance.get(`records/current?drId=${dr_id}`)
+
+}
+
+export { login, getRecordList, startTrip, changeStatus, getTripInfo, startDay, endDay, getCurrentInfo }

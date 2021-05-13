@@ -14,7 +14,7 @@ const types = {
   SET_TRAVEL_NAME: 'SET_TRAVEL_NAME',
   ADD_MONEY_ITEM:'ADD_MONEY_ITEM',
   START_DAY : 'START_DAY',
-  END_DAY : 'END_DAY'
+  END_DAY : 'END_DAY',
 };
 
 export default types

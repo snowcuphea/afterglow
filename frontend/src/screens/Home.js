@@ -38,6 +38,7 @@ class HomeScreen extends React.Component {
     if ( this.props.travelStatus === "onTravel" || 
         this.props.travelStatus === "dayEndd" || 
         this.props.travelStatus === "travelEndd" ) {
+      this.props.getCurrentInfo(this.props.dr_id)
       this.props.navigation.navigate('OnTravelMain')
     } else if ( this.props.travelStatus === "dayEnd" || this.props.travelStatus === "travelEnd" ) {
       this.props.navigation.navigate('EndTravelMain')
@@ -152,7 +153,8 @@ function mapStateToProps(state){
   return {
     isLogin: state.accountRd.isLogin,
     travelStatus: state.accountRd.travelStatus,
-    traveledList: state.accountRd.traveledList
+    traveledList: state.accountRd.traveledList,
+    dr_id: state.accountRd.todayTravel.dr_id
   }
 }
 
@@ -162,6 +164,12 @@ function mapDispatchToProps(dispatch) {
       dispatch({
         type: "CHANGE_STATUS_ASYNC",
         payload: status
+      })
+    },
+    getCurrentInfo: (dr_id)=>{
+      dispatch({
+        type: "GET_CURRENT_INFO_ASYNC",
+        payload: dr_id
       })
     },
     setDate: () => {

@@ -55,4 +55,3 @@ export function endDay(todayInfo) {
     payload: todayInfo
   }
 }
-

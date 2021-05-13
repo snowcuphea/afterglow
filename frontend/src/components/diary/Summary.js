@@ -79,8 +79,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-  state.accountRd.travelingList.map((item) => console.log(JSON.stringify(item,null,2)))
-
+  // state.accountRd.travelingList.map((item) => console.log(JSON.stringify(item,null,2)))
 
   return {
     selectedPictures: state.pictureRd.pictures,

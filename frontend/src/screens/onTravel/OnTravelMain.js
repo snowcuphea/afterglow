@@ -35,24 +35,30 @@ class OnTravelMain extends React.Component {
   }
 
   componentDidMount() {
-
+  
     function changeTime(time) {
-      const tempTime = time.split(' ')
-      const toDate = tempTime[0].split('-')
-      const toTime = tempTime[1].split(':')
-      return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
+      if ( time === '' ) {
+        return null
+      } else {
+        const tempTime = time.split(' ')
+        const toDate = tempTime[0].split('-')
+        const toTime = tempTime[1].split(':')
+        return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
+      }
     }
 
     const timeStamp = changeTime(this.props.todayTravel.dr_start_time);
     const startTime = new Date( timeStamp );
 
-    var tempPassed = this.props.todayTravel.dr_time_spent
-    if ( tempPassed === null ) {
-      tempPassed = "0:0"
+
+    var tempPassed = "0:0"
+    if ( this.props.todayTravel.dr_time_spent !== null ) {
+      tempPassed = this.props.todayTravel.dr_time_spent
     }
-    tempPassed = tempPassed.split(":")
-    const hours = Number(tempPassed[0])
-    const mins = Number(tempPassed[1])
+
+    const timepassed = tempPassed.split(":")
+    const hours = Number(timepassed[0])
+    const mins = Number(timepassed[1])
     this.setState({
       startDate: startTime.getFullYear() + '년 ' + 
                 + ('0'+(startTime.getMonth()+1)).slice(-2) + '월 '
@@ -122,6 +128,8 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
+
+  console.log(state.accountRd.todayTravel.dr_time_spent)
 
   return {
     isLogin: state.accountRd.isLogin,

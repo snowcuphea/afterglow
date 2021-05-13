@@ -1,7 +1,7 @@
 import ActionCreator from '../actions'
 
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay } from '../../api/account'
+import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay, getCurrentInfo } from '../../api/account'
 
 
 export function* loginAsync() {
@@ -77,6 +77,18 @@ export function* startDayAsync(action) {
   }
 }
 
+export function* getCurrentInfoAsync(action) {
+  try{
+    const { status, data } = yield call(getCurrentInfo, action.payload) 
+    console.log( "여행중 현재 상태 ",  status, data )
+
+    yield put(ActionCreator.startDay(data))
+
+  } catch (error) {
+    console.log("여행중 현재 상태", error)
+  }
+}
+
 
 export const accountSagas = [
   takeLatest('LOGIN_ASYNC', loginAsync),
@@ -85,4 +97,5 @@ export const accountSagas = [
   takeLatest('CHANGE_STATUS_ASYNC', changeStatusAsync),
   takeLatest('END_DAY_ASYNC', endDayAsync),
   takeLatest('START_DAY_ASYNC', startDayAsync),
+  takeLatest('GET_CURRENT_INFO_ASYNC', getCurrentInfoAsync),
 ]
