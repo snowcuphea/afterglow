@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red'
   },
   titleStyle: {
-    fontSize: 20, marginLeft: 20, marginTop: 10, fontFamily:'RIDIBatang'
+    fontSize: 20, marginLeft: 20, marginTop: 10,
   }
 })
 

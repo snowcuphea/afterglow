@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center'
   },
   titleStyle: {
-    fontSize: 20, marginLeft: 20, marginTop: 30, fontFamily:'RIDIBatang'
+    fontSize: 20, marginLeft: 20, marginTop: 30,
 
   }
 })
