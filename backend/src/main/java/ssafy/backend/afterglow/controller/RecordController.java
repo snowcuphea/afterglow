@@ -225,6 +225,7 @@ public class RecordController {
                     dailyRepository.findById(drId)
                             .ifPresent(dr -> {
                                 dr.setDrEndTime(LocalDateTime.now());
+                                dailyRepository.save(dr);
                             });
                 });
         return ResponseEntity.ok("ok");
