@@ -59,7 +59,7 @@ class EndTravelMain extends React.Component {
   }
 
   render() {
-    const { lat, lon } = this.props.route.params;
+    // const { lat, lon } = this.props.route.params;
     return (
       <ScrollView
         stickyHeaderIndices={[0]}
@@ -82,7 +82,7 @@ class EndTravelMain extends React.Component {
         </View>
 
         <View style={styles.mapContainer}>
-          <MapView
+          {/* <MapView
               style={{ flex:1 }}
               initialRegion = {{
                   latitude: lat,
@@ -93,7 +93,7 @@ class EndTravelMain extends React.Component {
               }}
           >
 
-          </MapView>
+          </MapView> */}
         </View>
 
         <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>  
