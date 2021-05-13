@@ -73,7 +73,7 @@ public class RecordController {
 
     // 여행 시작
     @PostMapping("/startTrip")
-    public ResponseEntity<Map<String, Object>> startTrip(@RequestParam("title") String recTitle,
+    public ResponseEntity<Record> startTrip(@RequestParam("title") String recTitle,
                                                          HttpServletRequest request,
                                                          HttpServletResponse response) throws IOException {
         var ref = new Object() {
@@ -81,7 +81,6 @@ public class RecordController {
             DailyRecord dr = null;
         };
 
-        Map<String, Object> result = new HashMap<>();
         userService
                 .findUserByToken(request, response)
                 .ifPresent(user -> {
@@ -95,21 +94,18 @@ public class RecordController {
                             .drStartTime(LocalDateTime.now())
                             .build());
                 });
-        result.put("recId", ref.record.getRecId());
-        result.put("drId", ref.dr.getDrId());
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ref.record);
     }
 
     // 하루 시작
     @PostMapping("/startDay")
-    public ResponseEntity<Map<String, Object>> startDay(@RequestParam("recId") Long recId,
+    public ResponseEntity<DailyRecord> startDay(@RequestParam("recId") Long recId,
                                                         HttpServletRequest request,
                                                         HttpServletResponse response) throws IOException {
         var ref = new Object() {
             DailyRecord dr = null;
         };
 
-        Map<String, Object> result = new HashMap<>();
         userService
                 .findUserByToken(request, response)
                 .ifPresent(user -> {
@@ -122,8 +118,7 @@ public class RecordController {
                                         .build());
                             });
                 });
-        result.put("drId", ref.dr.getDrId());
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ref.dr);
 
     }
 
