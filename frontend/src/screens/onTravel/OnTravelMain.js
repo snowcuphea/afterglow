@@ -48,23 +48,24 @@ class OnTravelMain extends React.Component {
 
 
   dateForm(date) {
-    if ( date !== undefined) {
+    try {
       const tempDate = date.split('-')
       return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
-    } else {
+    } catch (error) {
       return null
     }
   }
 
   timeForm(time) {
-    if (time !== null) {
+    try {
       const tempTime = time.split(':')
       const hours = Number(tempTime[0])
       const mins = Number(tempTime[1])
     
       return hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
               ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' )
-    } else {
+    } catch (error) {
+      console.log(error)
       return '여행을 시작했습니다.'
     }
   }
