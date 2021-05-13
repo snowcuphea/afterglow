@@ -50,14 +50,15 @@ const SavePicture = (props) => {
   const amount = props.selectedPictures.length
   const mode = props.mode
   const status = props.travelStatus
-
+  const dr_id = props.dr_id
   const uploadPicture = () => {
-    console.log(props.selectedPictures)
+    // console.log(props.selectedPictures)
     if (status === "dayEndd") {
       props.changeStatus('dayEnd')
     } else if (status === "travelEndd") {
       props.changeStatus('travelEnd')
     }
+    props.endDay(dr_id)
     props.savePictures()
     navigation.dispatch(
       CommonActions.reset({
@@ -236,7 +237,8 @@ function mapStateToProps(state) {
     user_nickname: state.accountRd.user.nickname,
     selectedPictures: state.pictureRd.pictures,
     travelStatus: state.accountRd.travelStatus,
-    mode: state.pictureRd.mode
+    mode: state.pictureRd.mode,
+    dr_id: state.accountRd.todayTravel.todayId
   }
 }
 
@@ -254,9 +256,10 @@ function mapDispatchToProps(dispatch) {
     modePicture: (mode) => {
       dispatch(ActionCreator.modePicture(mode))
     },
-    dayEnd: () => {
+    endDay: (dr_id) => {
       dispatch({
-        type: "END_DAY_ASYNC"
+        type: "END_DAY_ASYNC",
+        payload: dr_id
       })
     }
   };

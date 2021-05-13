@@ -26,15 +26,15 @@ function startTrip( title ) {
 function startDay( rec_id ) {
 
   const recForm = {
-    "Record_id" : rec_id
+    "recId" : rec_id
   }
 
   return instance.post("records/startDay",{},{ params: recForm})
 }
 
-function endDay() {
-
-  return instance.post("records/dayEnd")
+function endDay(dr_id) {
+  console.log("axios endDay", dr_id)
+  return instance.get(`records/dayEnd?drId=${dr_id}`)
   
 }
 
@@ -42,8 +42,6 @@ function changeStatus( status ) {
   const statusForm = {
     'status': status
   }
-
-  console.log(statusForm)
 
   return instance.post("change/travelingState", {}, { params: statusForm})
 

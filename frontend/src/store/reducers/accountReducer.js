@@ -42,6 +42,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
 
+  var today = []
 
   switch ( action.type ) {
     case types.LOGIN:
@@ -58,12 +59,13 @@ export default (state = initialState, action) => {
     case types.LOGOUT:
       return initialState
     case types.GET_RECORD_LIST:
-      const today = action.payload.length > 0 ? action.payload[action.payload.length-1].dayRecs[action.payload[action.payload.length-1].dayRecs.length-1] : null
+      today = action.payload.length > 0 ? action.payload[action.payload.length-1].dayRecs[action.payload[action.payload.length-1].dayRecs.length-1] : null
       return {
         ...state,
         traveledList : action.payload,
         travelingName : action.payload.length > 0 ? action.payload[action.payload.length-1].rec_name: null,
         travelingId: action.payload.length > 0 ? action.payload[action.payload.length-1].rec_id: null,
+        travelingList: action.payload.length > 0 ? action.payload[action.payload.length-1].dayRecs: [],
         todayTravel: today !== null ? {
           ...state.todayTravel,
           todayId: today.dr_id,
@@ -88,20 +90,19 @@ export default (state = initialState, action) => {
         }
       }
     case types.SET_TRAVEL_NAME:
-      // const today = 
+      today = action.payload.dayRecs[action.payload.dayRecs.length-1]
       return {
         ...state,
-        travelingName: action.payload.title,
-        travelingId: action.payload.data.recId,
+        travelingName: action.payload.rec_name,
+        travelingId: action.payload.rec_id,
         todayTravel: {
           ...initialState.todayTravel,
-          todayId: action.payload.data.drId
-          // todayId: today.dr_id,
-          // startTime: new Date(today.dr_start_time).getTime(),
-          // endTime: today.dr_end_time,
-          // moneyBook: today.conRecs,
-          // visitedPlace: today.routeRecs,
-          // todayDate: today.dr_date
+          todayId: today.dr_id,
+          startTime: new Date(today.dr_start_time).getTime(),
+          endTime: today.dr_end_time,
+          moneyBook: today.conRecs,
+          visitedPlace: today.routeRecs,
+          todayDate: today.dr_date
         }
       }
     case types.ADD_MONEY_ITEM:
@@ -111,7 +112,7 @@ export default (state = initialState, action) => {
 
       }
     case types.START_DAY:
-      // const today = 
+      // today = 
       return {
         ...state,
         todayTravel: {
@@ -125,17 +126,11 @@ export default (state = initialState, action) => {
         }
       }
     case types.END_DAY:
-      // const today =
       // return {
       //   ...state,
+      //   travelingList: travelingList.push(state.todayTravel),
       //   todayTravel: {
       //     ...initialState.todayTravel,
-      //     todayId: today.dr_id,
-      //     startTime: new Date(today.dr_start_time).getTime(),
-      //     endTime: today.dr_end_time,
-      //     moneyBook: today.conRecs,
-      //     visitedPlace: today.routeRecs,
-      //     todayDate: today.dr_date,
       //   }
       // }
       return state

@@ -27,6 +27,7 @@ class EndTravelMain extends React.Component {
 
   startDay = () => {
     this.props.changeStatus('onTravel')
+    this.props.startNewDay(this.props.rec_id)
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
@@ -36,7 +37,7 @@ class EndTravelMain extends React.Component {
         ]
       })
     )
-    console.warn("해당 버튼을 누르면 여행이 시작")
+
   }
 
   saveRecord = () => {
@@ -124,6 +125,7 @@ function mapStateToProps(state) {
   return {
     user_nickname: state.accountRd.user.nickname,
     travelStatus: state.accountRd.travelStatus,
+    rec_id: state.accountRd.travelingId
   }
 }
 
@@ -135,6 +137,12 @@ function mapDispatchToProps(dispatch) {
         payload: status
       })
     },
+    startNewDay: (rec_id) => {
+      dispatch({
+        type: "START_DAY_ASYNC",
+        payload: rec_id
+      })
+    }
   };
 }
 
