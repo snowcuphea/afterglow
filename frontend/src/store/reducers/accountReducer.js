@@ -30,7 +30,7 @@ const initialState = {
     endTime: '',      
     visitedPlace : [],  // 방문한 장소 { name: "해변", time: "", location: { lat: 30, lon: 30}, memo : "" }
     moneyBook: [{ hour:11, min:40, what:'정직한돈', much:62000 }],    // 가계부 { name: "돼지고기", time: "", price: 35000 }
-    track: [{lat: x, lon: y}], // 좌표
+    track: [], // [{lat: x, lon: y}], // 좌표
     todayDate: 0,
     
   },
