@@ -1,17 +1,7 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, FlatList, Dimensions, StyleSheet } from 'react-native'
 
-
-const tempList = [
-  { name: "제주도", image: require("../assets/pics/1.png"), date: "2021-04" },
-  { name: "양양", image: require("../assets/pics/2.png"), date: "2021-04" },
-  { name: "수원", image: require("../assets/pics/3.png"), date: "2021-04" },
-  { name: "일산", image: require("../assets/pics/4.png"), date: "2021-04" },
-  { name: "속초", image: require("../assets/pics/5.png"), date: "2021-04" },
-  { name: "우도", image: require("../assets/pics/5.png"), date: "2021-04" },
-  { name: "파주", image: require("../assets/pics/5.png"), date: "2021-04" },
-  { name: "가평", image: require("../assets/pics/5.png"), date: "2021-04" },
-]
+import { connect } from 'react-redux'
 
 
 
@@ -34,6 +24,13 @@ class MainList extends React.Component{
     let screenHeight = Dimensions.get('window').height;
 
     const renderdata = ({ item }) => {
+      console.log("아이템:",JSON.stringify(item.dayRecs[0].dr_date,null,2))
+      const travelName = item.rec_name
+      const travelStartDay = item.dayRecs[0].dr_date
+      const len = (item.dayRecs).length
+      const travelEndDay = item.dayRecs[len-1].dr_date
+      // const travelEndDay = item.dr_end_time
+      // console.log("item에 대한 로그",JSON.stringify(item.dayRecs[0],null,2))
 
       return (
         <View>
@@ -42,8 +39,10 @@ class MainList extends React.Component{
               style={{ width: (screenWidth-100)/2, height: (screenWidth-8)/2, backgroundColor: "pink"}} 
               source={{ uri: "../assets/pics/1.png" }}/>
               <View style={styles.imageTextContainer}>
-                <Text>{item.date}</Text>
-                <Text>{item.name}</Text>
+
+                <Text>{travelStartDay}~</Text>
+                <Text>{travelEndDay}</Text>
+                <Text>{travelName}</Text>
               </View>
           </TouchableOpacity>
         </View>
@@ -53,10 +52,10 @@ class MainList extends React.Component{
     return(
       <FlatList
         style={{ marginHorizontal:20, marginTop: 40 }}
-        data={tempList}
+        data={this.props.traveledList}
         numColumns={2}
         renderItem={renderdata}
-        keyExtractor={(data) => data.name }
+        keyExtractor={(data) => data.rec_name }
       />
     )
   }
@@ -71,4 +70,10 @@ const styles = StyleSheet.create({
 })
 
 
-export default MainList
+function mapStateToProps(state){
+  return {
+    traveledList: state.accountRd.traveledList
+  }
+}
+
+export default connect(mapStateToProps)(MainList)
