@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 
 import ActionCreator from '.././store/actions'
 import ModalStartTravel from '../components/modal/ModalStartTravel'
+import { getRecordList as getRecordListAPI } from '../api/account'
 
 import MainList from '../components/MainList'
 
@@ -21,7 +22,7 @@ class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      mode: "map"
+      mode: "map",
     }
   }
 
@@ -63,8 +64,14 @@ class HomeScreen extends React.Component {
     this.props.navigation.navigate('Test_Maps')
   }
 
+  componentDidMount() {
+    console.log("componentDidMount부분", JSON.stringify(this.props.traveledList, null, 2))
+    this.props.getRecordListReq()
+  }
+
 
   render() {
+    
 
     
     return (
@@ -141,10 +148,11 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state){
-
+  // console.log("홈이당", state.accountRd)
   return {
     isLogin: state.accountRd.isLogin,
-    travelStatus: state.accountRd.travelStatus
+    travelStatus: state.accountRd.travelStatus,
+    traveledList: state.accountRd.traveledList
   }
 }
 
@@ -158,7 +166,13 @@ function mapDispatchToProps(dispatch) {
     },
     setDate: () => {
       dispatch(ActionCreator.setDate())
+    },
+    getRecordListReq: () => {
+      dispatch({
+        type: 'GET_RECORD_LIST_ASYNC'
+      })
     }
+    
   };
 }
 

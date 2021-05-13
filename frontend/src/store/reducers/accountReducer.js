@@ -54,6 +54,11 @@ export default (state = initialState, action) => {
       }
     case types.LOGOUT:
       return initialState
+    case types.GET_RECORD_LIST:
+      return {
+        ...state,
+        traveledList : action.payload
+      }
     case types.CHANGE_STATUS:
       return {
         ...state,
