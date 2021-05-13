@@ -114,6 +114,7 @@ public class RecordController {
                     recordRepository.findById(recId)
                             .ifPresent(record -> {
                                 ref.dr = dailyRepository.save(DailyRecord.builder()
+                                        .drDate(LocalDate.now())
                                         .rec(record)
                                         .drStartTime(LocalDateTime.now())
                                         .build());
