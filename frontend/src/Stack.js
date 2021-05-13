@@ -23,7 +23,6 @@ import Counter from './screens/Counter';
 
 import Map_In_Main from './components/Map_In_Main'
 import CurrentLocation from './screens/CurrentLocation'
-import Test_Maps from './screens/Test_Maps'
 
 const Stack = createStackNavigator();
 
@@ -211,10 +210,6 @@ const StackComponent = (props) => {
       <Stack.Screen
         name="Map_In_Main"
         component={Map_In_Main}
-      />
-      <Stack.Screen
-        name="Test_Maps"
-        component={Test_Maps}
       />
       <Stack.Screen
         name="Counter"

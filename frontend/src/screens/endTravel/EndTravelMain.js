@@ -18,6 +18,7 @@ import ActionCreator from '../.././store/actions'
 
 
 import { CommonActions } from '@react-navigation/native'
+import Map_In_Main from '../../components/Map_In_Main'
 
 class EndTravelMain extends React.Component {
 
@@ -76,7 +77,8 @@ class EndTravelMain extends React.Component {
         </View>
 
         <View style={styles.mapContainer}>
-          <Text>지도 보여주는 영역</Text>
+          {/* <Text>지도 보여주는 영역</Text> */}
+          <Map_In_Main />
         </View>
 
         <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>  

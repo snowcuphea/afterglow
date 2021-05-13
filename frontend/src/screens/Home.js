@@ -5,7 +5,8 @@ import {
   View,
   Button,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,7 +17,7 @@ import ModalStartTravel from '../components/modal/ModalStartTravel'
 import { getRecordList as getRecordListAPI } from '../api/account'
 
 import MainList from '../components/MainList'
-// import Maps_cluster from './maps/'
+import Maps_cluster from '../components/maps/Maps_cluster'
 
 class HomeScreen extends React.Component {
 
@@ -78,8 +79,8 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         { this.state.mode === "map" ? 
-          <View>
-            <Text>지도가보여지는 영역</Text>
+          <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, marginTop: 40}}>
+            <Maps_cluster />
           </View> :
           <MainList navigation={this.props.navigation}/> 
         }
@@ -114,7 +115,7 @@ class HomeScreen extends React.Component {
         <View style={{position: 'absolute', left: 0, bottom: 0}}>
           <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
           <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
-          <Button title={"maps_cluster"} onPress={this.maps_cluster}/>
+          {/* <Button title={"maps_cluster"} onPress={this.maps_cluster}/> */}
           <Button title={"current_location"} onPress={this.current_location}/>
           <Button title={"test"} onPress={this.test}/>
         </View>
