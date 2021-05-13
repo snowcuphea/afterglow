@@ -2,6 +2,7 @@ package ssafy.backend.afterglow.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -90,6 +91,7 @@ public class RecordController {
                             .build());
                     ref.dr = dailyRepository.save(DailyRecord.builder()
                             .rec(ref.record)
+                            .drDate(LocalDate.now())
                             .drStartTime(LocalDateTime.now())
                             .build());
                 });
