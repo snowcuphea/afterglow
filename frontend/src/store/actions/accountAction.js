@@ -47,3 +47,18 @@ export function addMoneyItem(moneyItem) {
     payload: moneyItem
   }
 }
+
+export function startDay(todayInfo) {
+  return {
+    type: types.START_DAY,
+    payload: todayInfo
+  }
+}
+
+export function endDay(todayInfo) {
+  return {
+    type: types.END_DAY,
+    payload: todayInfo
+  }
+}
+

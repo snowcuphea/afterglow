@@ -252,6 +252,11 @@ function mapDispatchToProps(dispatch) {
     modePicture: (mode) => {
       dispatch(ActionCreator.modePicture(mode))
     },
+    dayEnd: () => {
+      dispatch({
+        type: "END_DAY_ASYNC"
+      })
+    }
   };
 }
 

@@ -31,7 +31,8 @@ const initialState = {
     visitedPlace : [],  // 방문한 장소 { name: "해변", time: "", location: { lat: 30, lon: 30}, memo : "" }
     moneyBook: [{ hour:11, min:40, what:'정직한돈', much:62000 }],    // 가계부 { name: "돼지고기", time: "", price: 35000 }
     track: [],
-    pictures: [],
+    todayDate: 0,
+    
   },
 
   recoPlace : [], // 여행 중 내 위치 기반 받아옴
@@ -52,14 +53,26 @@ export default (state = initialState, action) => {
           email: action.payload.usr_email,
           picture: action.payload.usr_profile_img,
         },
-        // travelStatus: action.payload.usr_traveling_state
+        travelStatus: action.payload.usr_traveling_state
       }
     case types.LOGOUT:
       return initialState
     case types.GET_RECORD_LIST:
+      const today = action.payload.length > 0 ? action.payload[action.payload.length-1].dayRecs[action.payload[action.payload.length-1].dayRecs.length-1] : null
       return {
         ...state,
-        traveledList : action.payload
+        traveledList : action.payload,
+        travelingName : action.payload.length > 0 ? action.payload[action.payload.length-1].rec_name: null,
+        travelingId: action.payload.length > 0 ? action.payload[action.payload.length-1].rec_id: null,
+        todayTravel: today !== null ? {
+          ...state.todayTravel,
+          todayId: today.dr_id,
+          startTime: new Date(today.dr_start_time).getTime(),
+          endTime: today.dr_end_time,
+          moneyBook: today.conRecs,
+          visitedPlace: today.routeRecs,
+          todayDate: today.dr_date
+        } : { ...initialState.todayTravel }
       }
     case types.CHANGE_STATUS:
       return {
@@ -75,13 +88,20 @@ export default (state = initialState, action) => {
         }
       }
     case types.SET_TRAVEL_NAME:
+      // const today = 
       return {
         ...state,
         travelingName: action.payload.title,
         travelingId: action.payload.data.recId,
         todayTravel: {
-          ...state.todayTravel,
+          ...initialState.todayTravel,
           todayId: action.payload.data.drId
+          // todayId: today.dr_id,
+          // startTime: new Date(today.dr_start_time).getTime(),
+          // endTime: today.dr_end_time,
+          // moneyBook: today.conRecs,
+          // visitedPlace: today.routeRecs,
+          // todayDate: today.dr_date
         }
       }
     case types.ADD_MONEY_ITEM:
@@ -90,6 +110,35 @@ export default (state = initialState, action) => {
         todayTravel: {...state.todayTravel, moneyBook : [ ...state.todayTravel.moneyBook, action.payload ] }
 
       }
+    case types.START_DAY:
+      // const today = 
+      return {
+        ...state,
+        todayTravel: {
+          ...initialState.todayTravel,
+          // todayId: today.dr_id,
+          // startTime: new Date(today.dr_start_time).getTime(),
+          // endTime: today.dr_end_time,
+          // moneyBook: today.conRecs,
+          // visitedPlace: today.routeRecs,
+          // todayDate: today.dr_date
+        }
+      }
+    case types.END_DAY:
+      // const today =
+      // return {
+      //   ...state,
+      //   todayTravel: {
+      //     ...initialState.todayTravel,
+      //     todayId: today.dr_id,
+      //     startTime: new Date(today.dr_start_time).getTime(),
+      //     endTime: today.dr_end_time,
+      //     moneyBook: today.conRecs,
+      //     visitedPlace: today.routeRecs,
+      //     todayDate: today.dr_date,
+      //   }
+      // }
+      return state
     default:
       return state;
   }
