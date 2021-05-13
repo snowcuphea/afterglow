@@ -6,23 +6,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
 
-const items = [
-  {
-     when: '11:40',
-     what: '흑돼지구이',
-     much: '56000'
-  },
-  {
-    when: '13:40',
-    what: '땅콩막걸리',
-    much: '123300'
- },
- {
-  when: '19:20',
-  what: '문어찌개',
-  much: '56000'
-}
-]
 
 class MoneyBook extends React.Component {
 

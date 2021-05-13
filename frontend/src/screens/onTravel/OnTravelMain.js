@@ -15,9 +15,11 @@ import AddMoneyItem from '../../components/book/AddMoneyItem'
 import PlaceList from '../../components/PlaceList'
 import RecPlaceList from '../../components/RecPlaceList'
 import ModalDayFinish from '../../components/modal/ModalDayFinish'
+import PinClickPage from '../../components/PinClickPage'
 
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 
 
@@ -28,7 +30,7 @@ class OnTravelMain extends React.Component {
     this.state = {
       startDate: '',
       passedTime: '',
-      
+      clickPin: false,
     }
   }
 
@@ -52,9 +54,7 @@ class OnTravelMain extends React.Component {
   }
 
 
-  selectPin = () => {
 
-  }
 
   allPictures = () => {
     this.props.navigation.navigate('ShowPictures');
@@ -62,6 +62,10 @@ class OnTravelMain extends React.Component {
     this.props.emptyList();
   }
 
+  selectPinFunc = (val) => {
+    this.setState({ clickPin: val });
+    console.log("핀상태",this.state.clickPin )
+  }
   
   render() {
     
@@ -71,18 +75,24 @@ class OnTravelMain extends React.Component {
           {this.state.startDate}, {this.state.passedTime}
         </Text>
         <ModalDayFinish navigation={this.props.navigation} /> 
-        <Button title={"핀을 눌렀을 때"} onPress={this.selectPin}/>
+        <Button title={"핀을 눌렀을 때"} onPress={() => this.selectPinFunc(true)}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
-        <Text style={styles.titleStyle}>
-          {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 중</Text>
+        { this.state.clickPin
+        ? <PinClickPage selectPinFunc={this.selectPinFunc}/>
+        : 
+          <View>
+            <Text style={styles.titleStyle}>
+              {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 중</Text>
 
-        <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
-        <PlaceList />
-        <Text style={styles.titleStyle}>오늘의 지출</Text>
-        <MoneyBook />
-        <AddMoneyItem />
-        <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
-        <RecPlaceList />
+            <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
+            <PlaceList />
+            <Text style={styles.titleStyle}>오늘의 지출</Text>
+            <MoneyBook />
+            <AddMoneyItem />
+            <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
+            <RecPlaceList />
+          </View>
+      }
       </ScrollView>
     )
   }
