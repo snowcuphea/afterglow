@@ -48,7 +48,7 @@ class OnTravelMain extends React.Component {
 
 
   dateForm(date) {
-    if (date !== undefined) {
+    if ( date !== undefined) {
       const tempDate = date.split('-')
       return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
     } else {
