@@ -195,7 +195,7 @@ public class RecordController {
 
     // 하루 기준 현 시간까지의 실시간 정보 받아오기
     @GetMapping("/current")
-    public ResponseEntity<Object> currentInfo(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today,
+    public ResponseEntity<Object> currentInfo(@RequestParam("drId") Long drId,
                                               HttpServletRequest request,
                                               HttpServletResponse response) throws IOException {
         var ref = new Object() {
@@ -204,7 +204,7 @@ public class RecordController {
         userService
                 .findUserByToken(request, response)
                 .ifPresent(user -> {
-                    dailyRepository.findByDrDateAndRec_User(today, user)
+                    dailyRepository.findById(drId)
                             .ifPresent(dr -> {
                                 ref.result = dr;
                             });

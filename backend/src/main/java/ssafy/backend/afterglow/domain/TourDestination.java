@@ -17,9 +17,14 @@ public class TourDestination {
 
     @JsonProperty("td_name")
     private String tdName;
+
     @JsonProperty("td_latitude")
     private Double tdLatitude;
+
     @JsonProperty("td_longitude")
     private Double tdLongitude;
+
+    @JsonProperty("td_sido")
+    private String tdSido;
 
 }
