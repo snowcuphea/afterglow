@@ -51,28 +51,30 @@ const SavePicture = (props) => {
   const mode = props.mode
   const status = props.travelStatus
 
+  const uploadPicture = () => {
+    console.log(props.selectedPictures)
+    if (status === "dayEndd") {
+      props.changeStatus('dayEnd')
+    } else if (status === "travelEndd") {
+      props.changeStatus('travelEnd')
+    }
+    props.savePictures()
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home' },
+          { name: 'EndTravelMain'},
+        ]
+      })
+    )
+  }
+
   if ( mode === "save" ) {
     return(
       <View style={{flexDirection: 'row', paddingRight: 15}}>
         <TouchableOpacity 
-          onPress={()=> {
-            console.log(status)
-            if (status === "dayEndd") {
-              props.changeStatus('dayEnd')
-            } else if (status === "travelEndd") {
-              props.changeStatus('travelEnd')
-            }
-            props.savePictures()
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 1,
-                routes: [
-                  { name: 'Home' },
-                  { name: 'EndTravelMain'},
-                ]
-              })
-            )
-          }}
+          onPress={()=> uploadPicture() }
         >
           <Text>{amount} 저장</Text>
         </TouchableOpacity>
