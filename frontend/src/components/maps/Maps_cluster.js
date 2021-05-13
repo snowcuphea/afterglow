@@ -163,7 +163,6 @@ function Maps_cluster ({navigation}) {
               return (
                   <Marker
                       coordinate={{ latitude: contact.latitude + (i*0.01), longitude: contact.longitude + (i*0.01) }}
-                      // onPress={() => navigation.navigate('Maps'), {latitude: contact.latitude+(i*0.01), longtitude:contact.longitude+(i*0.01)}}
                       onPress={() => navigation.navigate('Map_In_Main', {lat: contact.latitude+(i*0.01), lon:contact.longitude+(i*0.01)})}
                       key={i}
                   ></Marker>

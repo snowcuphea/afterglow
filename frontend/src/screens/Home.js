@@ -16,6 +16,7 @@ import ModalStartTravel from '../components/modal/ModalStartTravel'
 import { getRecordList as getRecordListAPI } from '../api/account'
 
 import MainList from '../components/MainList'
+// import Maps_cluster from './maps/'
 
 class HomeScreen extends React.Component {
 

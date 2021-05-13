@@ -22,7 +22,6 @@ import ActionCreator from './store/actions'
 import Counter from './screens/Counter';
 
 import Map_In_Main from './components/Map_In_Main'
-import Maps_cluster from './screens/maps/Maps_cluster'
 import CurrentLocation from './screens/CurrentLocation'
 import Test_Maps from './screens/Test_Maps'
 
@@ -209,10 +208,6 @@ const StackComponent = (props) => {
       <Stack.Screen
         name="Map_In_Main"
         component={Map_In_Main}
-      />
-      <Stack.Screen
-        name="Maps_cluster"
-        component={Maps_cluster}
       />
       <Stack.Screen
         name="Test_Maps"
