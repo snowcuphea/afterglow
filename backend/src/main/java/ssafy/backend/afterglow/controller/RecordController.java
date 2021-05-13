@@ -16,6 +16,7 @@ import ssafy.backend.afterglow.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -206,6 +207,10 @@ public class RecordController {
                 .ifPresent(user -> {
                     dailyRepository.findById(drId)
                             .ifPresent(dr -> {
+                                Duration duration = Duration.between(dr.getDrStartTime(), LocalDateTime.now());
+                                long hours = Math.floorDiv(duration.getSeconds(), 3600);
+                                long minutes = Math.floorDiv(duration.getSeconds() - 3600 * hours, 60);
+                                dr.setDrTimeSpent(String.format("%d:%d", hours, minutes));
                                 ref.result = dr;
                             });
                 });
@@ -227,6 +232,10 @@ public class RecordController {
                     dailyRepository.findById(drId)
                             .ifPresent(dr -> {
                                 dr.setDrEndTime(LocalDateTime.now());
+                                Duration duration = Duration.between(dr.getDrStartTime(), dr.getDrEndTime());
+                                long hours = Math.floorDiv(duration.getSeconds(), 3600);
+                                long minutes = Math.floorDiv(duration.getSeconds() - 3600 * hours, 60);
+                                dr.setDrTimeSpent(String.format("%d:%d", hours, minutes));
                                 ref.result = dailyRepository.save(dr);
                             });
                 });

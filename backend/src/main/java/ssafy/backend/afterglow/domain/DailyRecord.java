@@ -46,12 +46,16 @@ public class DailyRecord {
     @OneToMany(mappedBy = "dr", cascade = CascadeType.ALL)
     private List<ConsumptionRecord> conRecs = new ArrayList<>();
 
+    @JsonProperty("dr_time_spent")
+    private String drTimeSpent = "00:00";
+
     @Builder
-    public DailyRecord(Record rec, LocalDate drDate, LocalDateTime drStartTime, LocalDateTime drEndTime){
+    public DailyRecord(Record rec, LocalDate drDate, LocalDateTime drStartTime, LocalDateTime drEndTime, String drTimeSpent){
         super();
         this.rec = rec;
         this.drDate = drDate;
         this.drStartTime = drStartTime;
         this.drEndTime = drEndTime;
+        this.drTimeSpent = drTimeSpent;
     }
 }
