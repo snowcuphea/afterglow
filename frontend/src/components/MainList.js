@@ -42,7 +42,7 @@ class MainList extends React.Component{
           <View>
             <TouchableOpacity style={{ margin: 10}} onPress={() => this.toSingleHistory(index)}>
               <Image 
-                style={{ width: (screenWidth-100)/2, height: (screenWidth-8)/2, backgroundColor: "pink"}} 
+                style={{ width: (screenWidth-80)/2, height: (screenWidth+30)/2, backgroundColor: "pink"}} 
                 source={{ uri: "../assets/pics/1.png" }}/>
                 <View style={styles.imageTextContainer}>
 
