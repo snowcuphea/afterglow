@@ -44,13 +44,20 @@ class Pictures extends React.Component {
       }
     }
 
+    function changeTime(time) {
+      const tempTime = time.split(' ')
+      const toDate = tempTime[0].split('-')
+      const toTime = tempTime[1].split(':')
+      return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
+    }
+
     CameraRoll.getPhotos({
       first: 50,
       assetType: 'Photos',
       include: [
         'location', 'imageSize'
       ],
-      fromTime: this.props.startTime,
+      fromTime: changeTime(this.props.startTime),
     })
     .then(res => {
       const pictureSet = {

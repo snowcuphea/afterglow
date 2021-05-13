@@ -33,7 +33,15 @@ class OnTravelMain extends React.Component {
   }
 
   componentDidMount() {
-    const timeStamp = this.props.todayTravel.dr_start_time;
+
+    function changeTime(time) {
+      const tempTime = time.split(' ')
+      const toDate = tempTime[0].split('-')
+      const toTime = tempTime[1].split(':')
+      return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
+    }
+
+    const timeStamp = changeTime(this.props.todayTravel.dr_start_time);
     const startTime = new Date( timeStamp );
     const nowTime = new Date();
     const tempPassed = nowTime - startTime
@@ -45,9 +53,7 @@ class OnTravelMain extends React.Component {
                 + ('0'+startTime.getDate()).slice(-2) + '일',
       passedTime: hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
                               ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' ),
-      
-      
-  
+
     })
   }
 
@@ -62,7 +68,6 @@ class OnTravelMain extends React.Component {
     this.props.emptyList();
   }
 
-  
   render() {
     
     return (
