@@ -10,6 +10,8 @@ import { connect } from 'react-redux'
 class PinClickPage extends React.Component {
 
   constructor (props) {
+    //부모 컴포넌트로부터 선택된 방문정보 객체로 받아온상태
+    //this.props.selectedPin 하면 정보 쫙나옴
     super(props)
 		this.state = {
 			modifyStatus: false,
@@ -25,9 +27,9 @@ class PinClickPage extends React.Component {
 		console.log("newMemoText", this.state.newMemoText)
   }
 
-  childFunction = () => {
-		this.setState({ clickPin: val });
-  }
+//   selectPinFunc = () => {
+// 		this.setState({ clickPin: false });
+//   }
 
 	switchStatus = (val) => {
 		this.setState({ modifyStatus: val });
@@ -45,8 +47,10 @@ class PinClickPage extends React.Component {
 	}
 
 	componentDidMount() {
-		const memoText = this.state.memoText
-    this.setState({ newMemoText: memoText });
+    const rr_memo = this.props.selectedPin.rr_memo
+    this.setState({ 
+      memoText: rr_memo,
+      newMemoText: rr_memo });
   }
 
 
@@ -55,7 +59,7 @@ class PinClickPage extends React.Component {
     return (
       <View>
           <Text>여기는 핀 눌렀을 때 페이지 </Text>
-          <Button title={"핀창 끄고싶을때 "} onPress={this.childFunction}/>
+          <Button title={"핀창 끄고싶을때 "} onPress={() => this.props.selectPinFunc(false)}/>
 
           <Text>장소이름: </Text>
             <View style={styles.container}>

@@ -34,6 +34,7 @@ class OnTravelMain extends React.Component {
       clickPin: false,
       routeRecs : [],
       pinList : [],
+      selectedPin : null,
     }
   }
 
@@ -46,6 +47,15 @@ class OnTravelMain extends React.Component {
   selectPinFunc = (val) => {
     this.setState({ clickPin: val });
     console.log("핀상태",this.state.clickPin )
+  }
+
+  newSelectPinFunc = (val) => {
+    console.log("val??", val)
+    this.setState({
+      selectedPin: val,
+      clickPin: true,
+    });
+    
   }
 
 
@@ -74,17 +84,21 @@ class OnTravelMain extends React.Component {
 
   componentDidMount () {
     const tempRouteRecs = this.props.todayTravel.routeRecs
-    const tempPinList = tempRouteRecs.filter(item => item.rr_name !== null)
+    const tempPinList = tempRouteRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
+    
     this.setState({
       routeRecs : tempRouteRecs,
       pinList: tempPinList
     })
+    this.props.saveVisitPlace(tempPinList);
+
+    console.log("pinlist", JSON.stringify(this.state.pinList, null, 2))
+
   }
 
   
   render() {
-    console.log("routout", this.state.routeRecs)
-    console.log("pinlist", this.state.pinList)
+    
     
     return (
       <ScrollView style={styles.container}>
@@ -107,7 +121,9 @@ class OnTravelMain extends React.Component {
         <Button title={"핀을 눌렀을 때"} onPress={() => this.selectPinFunc(true)}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
         { this.state.clickPin
-        ? <PinClickPage selectPinFunc={this.selectPinFunc}/>
+        ? <PinClickPage 
+          selectedPin={this.state.selectedPin}
+          selectPinFunc={this.selectPinFunc}/>
         : 
           <View>
             <Text style={styles.titleStyle}>
@@ -115,7 +131,7 @@ class OnTravelMain extends React.Component {
 
             <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
             
-            <PlaceList />
+            <PlaceList newSelectPinFunc={this.newSelectPinFunc}/>
             <Text style={styles.titleStyle}>오늘의 지출</Text>
             <MoneyBook />
             <AddMoneyItem />
@@ -171,7 +187,11 @@ function mapDispatchToProps(dispatch) {
     },
     emptyList: () => {
       dispatch(ActionCreator.emptyList())
+    },
+    saveVisitPlace: (place) => {
+      dispatch(ActionCreator.saveVisitPlace(place))
     }
+
   };
 }
 

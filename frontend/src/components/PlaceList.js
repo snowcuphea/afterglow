@@ -1,15 +1,16 @@
 import React from 'react'
 
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import { connect } from 'react-redux'
+import ActionCreator from '../store/actions';
 
-
-const places = [
-  { id: 1, name: "애월 해변", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-  { id: 2, name: "하르방 밀면", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-  { id: 3, name: "한라산", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-  { id: 4, name: "비밀의 숲", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-  { id: 5, name: "우도", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-]
+// const places = [
+//   { id: 1, name: "애월 해변", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+//   { id: 2, name: "하르방 밀면", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+//   { id: 3, name: "한라산", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+//   { id: 4, name: "비밀의 숲", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+//   { id: 5, name: "우도", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
+// ]
 
 class PlaceList extends React.Component {
 
@@ -21,12 +22,16 @@ class PlaceList extends React.Component {
 
   render() {
 
-    const renderdata = ({item}) => {
+    const renderdata = ({item, index}) => {
 
       return (
-        <TouchableOpacity onPress={() => console.log(item.name)}>
+        <TouchableOpacity
+            onPress={() => 
+              this.props.newSelectPinFunc(item)
+              }
+          >
           <View style={styles.itemContainer}>
-            <Text>{ item.name }</Text>
+            <Text>{ item.rr_name }</Text>
           </View>
         </TouchableOpacity>
       )
@@ -36,9 +41,9 @@ class PlaceList extends React.Component {
 
       <View style={styles.container}>
         <FlatList
-          data={places}
+          data={this.props.visitedPlace}
           renderItem={renderdata}
-          keyExtractor = {(data) => data.id}
+          keyExtractor = {(data) => data.rr_id}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
@@ -66,4 +71,15 @@ const styles= StyleSheet.create({
   }
 })
 
-export default PlaceList
+
+
+function mapStateToProps(state){
+  console.log("visitedPlacE?", state.accountRd.visitedPlace)
+  return {
+    visitedPlace: state.accountRd.visitedPlace
+  }
+}
+
+
+
+export default connect(mapStateToProps)(PlaceList)
