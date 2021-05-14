@@ -61,7 +61,7 @@ class PinClickPage extends React.Component {
           <Text>여기는 핀 눌렀을 때 페이지 </Text>
           <Button title={"핀창 끄고싶을때 "} onPress={() => this.props.selectPinFunc(false)}/>
 
-          <Text>장소이름: </Text>
+          <Text>장소이름:{this.props.selectedPin.rr_name} </Text>
             <View style={styles.container}>
               <TextInput
                 editable={this.state.modifyStatus}
