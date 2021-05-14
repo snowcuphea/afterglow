@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("records")
@@ -264,29 +265,50 @@ public class RecordController {
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
                     RouteRecord latestRr = recordService.getLatestRr(dr);
-                    if (!recordService.isUserMoving(latestRr, rrLat, rrLong)) {
-                        latestRr.setRrStaying_minute(latestRr.getRrStaying_minute() + 1);
-
-                        if (latestRr.getRrName() != null && latestRr.getRrStaying_minute() >= 15) {
-                            double nearestDist = 5;
-                            tourDestinationRepository.findAll()
-                                    .stream()
-                                    .forEach(td -> {
-                                        if (recordService.getDist(latestRr.getRrLatitude(), latestRr.getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
-                                            ref.nearestTd = td;
-                                        }
-                                    });
-                            latestRr.setRrName(ref.nearestTd.getTdName());
+                    if (latestRr.getRrName() != null) {
+                        if (recordService.getDist(latestRr.getLatest_latitude(), latestRr.getLatest_longitude(), rrLat, rrLong) > 3) {
+                            routeRepository.save(RouteRecord.builder()
+                                    .dr(dr)
+                                    .rrLatitude(rrLat)
+                                    .rrLongitude(rrLong)
+                                    .latest_latitude(rrLat)
+                                    .latest_longitude(rrLong)
+                                    .rrTime(LocalDateTime.now())
+                                    .build());
                         }
-                        routeRepository.save(latestRr);
                     } else {
-                        routeRepository.save(RouteRecord.builder()
-                                .dr(dr)
-                                .rrLatitude(rrLat)
-                                .rrLongitude(rrLong)
-                                .rrTime(LocalDateTime.now())
-                                .build());
+                        if (!recordService.isUserMoving(latestRr, rrLat, rrLong)) {
+                            latestRr.setRrStaying_minute(latestRr.getRrStaying_minute() + 1);
+                            latestRr.setLatest_latitude(rrLat);
+                            latestRr.setLatest_longitude(rrLong);
 
+                            if (latestRr.getRrName() != null && latestRr.getRrStaying_minute() >= 15) {
+                                double nearestDist = 3;
+                                tourDestinationRepository.findAll()
+                                        .stream()
+                                        .forEach(td -> {
+                                            if (recordService.getDist(latestRr.getRrLatitude(), latestRr.getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
+                                                ref.nearestTd = td;
+                                            }
+                                        });
+                                if (ref.nearestTd != null) {
+                                    latestRr.setRrName(ref.nearestTd.getTdName());
+                                    latestRr.setRrLatitude(ref.nearestTd.getTdLatitude());
+                                    latestRr.setRrLongitude(ref.nearestTd.getTdLongitude());
+                                }
+                            }
+                            routeRepository.save(latestRr);
+                        } else {
+                            routeRepository.save(RouteRecord.builder()
+                                    .dr(dr)
+                                    .rrLatitude(rrLat)
+                                    .rrLongitude(rrLong)
+                                    .latest_latitude(rrLat)
+                                    .latest_longitude(rrLong)
+                                    .rrTime(LocalDateTime.now())
+                                    .build());
+
+                        }
                     }
                 });
         return ResponseEntity.ok(result);
@@ -384,6 +406,22 @@ public class RecordController {
         recordRepository.findById(recId)
                 .ifPresent(rec -> {
                     ref.result = rec;
+                });
+        return ResponseEntity.ok(ref.result);
+    }
+
+    // 장소만 반환
+    @GetMapping("/places")
+    public ResponseEntity<List<RouteRecord>> getPlaces(@RequestParam("drId") Long drId) {
+        var ref = new Object() {
+            List<RouteRecord> result;
+        };
+        dailyRepository.findById(drId)
+                .ifPresent(dr -> {
+                    ref.result = routeRepository.findByDr(dr)
+                            .stream()
+                            .filter(rr -> rr.getRrName() != null)
+                            .collect(Collectors.toList());
                 });
         return ResponseEntity.ok(ref.result);
     }

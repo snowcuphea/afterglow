@@ -51,7 +51,7 @@ public class RecordService {
     }
 
     public Boolean isUserMoving(RouteRecord latestRr, Double latitude, Double longitude) {
-        return getDist(latestRr.getRrLatitude(), latestRr.getRrLongitude(), latitude, longitude) > 0.1;
+        return getDist(latestRr.getLatest_latitude(), latestRr.getLatest_longitude(), latitude, longitude) > 0.1;
     }
 
     public RouteRecord getLatestRr(DailyRecord dr) {
@@ -68,6 +68,7 @@ public class RecordService {
 
                     ref.result = rouRepo.findByDr(dr)
                             .stream()
+                            .filter(rr -> rr.getRrTime().compareTo(timestamp.toLocalDateTime()) < 0)
                             .min(new Comparator<RouteRecord>() {
                                 @Override
                                 public int compare(RouteRecord rr1, RouteRecord rr2) {
