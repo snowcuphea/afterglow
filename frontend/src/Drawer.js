@@ -19,7 +19,7 @@ import { Card, ListItem,  Icon } from 'react-native-elements'
 
 import StackComponent from './Stack'
 
-import { connect, useSelector } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import ActionCreator from './store/actions'
 
 const Drawer = createDrawerNavigator();
@@ -91,6 +91,8 @@ const CustomDrawerContent = (props) => {
 
 const DrawerComponent = () => {
   const travelStatus = useSelector(state => state.accountRd.travelStatus)
+  const dispatch = useDispatch()
+  const dr_id = useSelector(state => state.accountRd.todayTravel.dr_id)
 
   const [forceLocation, setForceLocation] = useState(true);
   const [highAccuracy, setHighAccuracy] = useState(true);
@@ -211,7 +213,22 @@ const DrawerComponent = () => {
     watchId.current = Geolocation.watchPosition(
       (position) => {
         setLocation(position);
-        console.log(position);
+        console.log('이건가' , position);
+
+        const sendData = {
+          'dr_id':dr_id,
+          'rr_latitude': position.coords.latitude,
+          'rr_longitude': position.coords.longitude
+        }
+        console.log('sendData 확인', sendData)
+        
+        if (dr_id !== undefined) {
+          dispatch({
+            type: 'SEND_LOCATION_INFO_ASYNC',
+            payload: sendData
+          })
+        }
+
       },
       (error) => {
         setLocation(null);
@@ -224,8 +241,8 @@ const DrawerComponent = () => {
         },
         enableHighAccuracy: highAccuracy,
         distanceFilter: 0,
-        interval: 10000,
-        fastestInterval: 2000,
+        interval: 60000,
+        fastestInterval: 50000,
         forceRequestLocation: forceLocation,
         showLocationDialog: locationDialog,
         useSignificantChanges: significantChanges,

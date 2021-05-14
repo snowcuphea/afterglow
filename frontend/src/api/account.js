@@ -65,4 +65,9 @@ function getCurrentInfo( dr_id ) {
 
 }
 
-export { login, getRecordList, startTrip, changeStatus, getTripInfo, startDay, endDay, getCurrentInfo }
+function sendLocationInfo( data ) {
+
+  return instance.post("records/route", {}, { params: data })
+}
+
+export { login, getRecordList, startTrip, changeStatus, getTripInfo, startDay, endDay, getCurrentInfo, sendLocationInfo }

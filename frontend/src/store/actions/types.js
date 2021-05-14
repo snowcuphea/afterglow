@@ -15,7 +15,8 @@ const types = {
   ADD_MONEY_ITEM:'ADD_MONEY_ITEM',
   START_DAY : 'START_DAY',
   END_DAY : 'END_DAY',
-  SELECT_INDEX : 'SELECT_INDEX'
+  SELECT_INDEX : 'SELECT_INDEX',
+  SEND_LOCATION : 'SEND_LOCATION'
 };
 
 export default types

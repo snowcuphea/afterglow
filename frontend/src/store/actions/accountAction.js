@@ -62,3 +62,10 @@ export function selectIndex(index) {
     payload: index
   }
 }
+
+export function sendLocationInfo(data) {
+  return {
+    type: types.SEND_LOCATION,
+    payload: data
+  }
+}
