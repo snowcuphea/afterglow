@@ -262,7 +262,7 @@ public class RecordController {
                     List<RouteRecord> RrList = routeRepository.findByDr(dr);
                     if (RrList.size() > 15) {
                         Boolean isStaying = true;
-                        for (int i = 1; i < 16; i--) {
+                        for (int i = 1; i < 16; i++) {
                             if (recordService.getDistBtwRr(RrList.get(-i), RrList.get(-i - 1)) > 0.1) {
                                 isStaying = false;
                             }
