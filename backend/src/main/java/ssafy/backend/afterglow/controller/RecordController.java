@@ -129,7 +129,7 @@ public class RecordController {
     public ResponseEntity<List<ConsumptionRecord>> setConsumption(@RequestParam("day_id") Long dayId,
                                                                   @RequestParam("consumption_name") String conName,
                                                                   @RequestParam("consumption_money") Integer conMoney,
-                                                                  @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {\
+                                                                  @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
         dailyRepository
                 .findById(dayId)
                 .ifPresent(dr -> {
@@ -261,12 +261,9 @@ public class RecordController {
                             .build());
                     List<RouteRecord> RrList = routeRepository.findByDr(dr);
                     if (RrList.size() > 15) {
-                        List<RouteRecord> tempRrList = RrList.subList(-15, -1);
-                        tempRrList.add(RrList.get(-1));
-                        RrList = tempRrList;
                         Boolean isStaying = true;
-                        for (int i = 0; i <= RrList.size() - 1; i++) {
-                            if (recordService.getDistBtwRr(RrList.get(i), RrList.get(i + 1)) > 0.1) {
+                        for (int i = 1; i < 16; i--) {
+                            if (recordService.getDistBtwRr(RrList.get(-i), RrList.get(-i - 1)) > 0.1) {
                                 isStaying = false;
                             }
                         }
