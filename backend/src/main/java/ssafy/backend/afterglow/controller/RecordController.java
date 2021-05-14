@@ -255,6 +255,9 @@ public class RecordController {
     public ResponseEntity<Map<String, Object>> saveRoute(@RequestParam("dr_id") Long drId,
                                                          @RequestParam("rr_latitude") Double rrLat,
                                                          @RequestParam("rr_longitude") Double rrLong) {
+        var ref = new Object() {
+            TourDestination nearestTd;
+        };
         Map<String, Object> result = new HashMap<>();
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
@@ -276,17 +279,16 @@ public class RecordController {
                         }
                         result.put("isStaying", isStaying);
                         if (isStaying) {
-                            AtomicReference<TourDestination> nearestTd = null;
                             double nearestDist = 5;
                             RouteRecord curRr = RrList.get(size - 1);
                             tourDestinationRepository.findAll()
                                     .stream()
                                     .forEach(td -> {
                                         if (recordService.getDist(curRr.getRrLatitude(), curRr.getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
-                                            nearestTd.set(td);
+                                            ref.nearestTd = td;
                                         }
                                     });
-                            result.put("place", nearestTd);
+                            result.put("place", ref.nearestTd);
                         }
                     }
                 });
