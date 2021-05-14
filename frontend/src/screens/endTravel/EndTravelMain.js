@@ -60,6 +60,8 @@ class EndTravelMain extends React.Component {
 
   render() {
     // const { lat, lon } = this.props.route.params;
+
+    console.log(this.props.travelStatus)
     return (
       <ScrollView
         stickyHeaderIndices={[0]}
