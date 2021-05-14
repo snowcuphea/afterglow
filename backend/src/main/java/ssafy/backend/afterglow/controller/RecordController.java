@@ -265,10 +265,12 @@ public class RecordController {
                             .rrTime(LocalDateTime.now())
                             .build());
                     List<RouteRecord> RrList = routeRepository.findByDr(dr);
-                    if (RrList.size() > 15) {
+                    int size = RrList.size();
+                    if (size > 15) {
                         Boolean isStaying = true;
+
                         for (int i = 1; i < 16; i++) {
-                            if (recordService.getDistBtwRr(RrList.get(-i), RrList.get(-i - 1)) > 0.1) {
+                            if (recordService.getDistBtwRr(RrList.get(size - i), RrList.get(size - i - i)) > 0.1) {
                                 isStaying = false;
                             }
                         }
