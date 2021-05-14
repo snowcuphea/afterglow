@@ -69,3 +69,10 @@ export function sendLocationInfo(data) {
     payload: data
   }
 }
+
+export function saveVisitPlace(placeItem) {
+  return {
+    type: types.SAVE_VISIT_PLACE,
+    payload: placeItem
+  }
+}
