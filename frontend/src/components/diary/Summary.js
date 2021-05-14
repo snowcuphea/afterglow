@@ -14,7 +14,7 @@ class Summary extends React.Component {
   }
 
   componentDidMount(){
-    console.log("현재는",this.props.record)
+    // console.log("현재는",this.props.record)
   }
 
   dateForm(date) {
@@ -96,33 +96,42 @@ class Summary extends React.Component {
   }
 
   getSelectedPictures() {
+    var total = 0;
     const tempDayRecs = [
       {
         "routeRecs" : [
-          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
         ]
       },
       {
         "routeRecs" : [
-          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": null },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": null , "imgRecs": [] },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
         ]
       },
       {
         "routeRecs" : [
-          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": null }, { "rr_name": "어딘가" },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
         ]
       },
-      {
-        "routeRecs" : [
-          { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" },
-        ]
-      },
-      {
-        "routeRecs" : [
-          { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null },
-        ]
-      },
-    ]
+    ];
+    for ( var days of tempDayRecs){
+      for ( var day of days.routeRecs ) {
+        total += day.imgRecs.length
+      };
+    };
+    return total
   }
 
   render() {
@@ -153,7 +162,7 @@ class Summary extends React.Component {
           <Text style={{ marginTop: 20 }}>제주도에서</Text>
           <Text style={{ marginTop: 20 }}>{this.totalPlaces()}개의 관광지를 들르고</Text>
           <Text style={{ marginTop: 20 }}>1500장의 사진을 찍고</Text>
-          <Text style={{ marginTop: 20 }}>58장의 사진으로 <Text style={{ color: 'skyblue' }}>여운</Text>을 남겼어요</Text>
+          <Text style={{ marginTop: 20 }}>{this.getSelectedPictures()}장의 사진으로 <Text style={{ color: 'skyblue' }}>여운</Text>을 남겼어요</Text>
           
         </View>
 
@@ -196,7 +205,7 @@ const styles = StyleSheet.create({
     height: 700
   },
   textStyle: {
-    // fontFamily: 'RIDIBatang',
+    fontFamily: 'RIDIBatang',
     fontSize: 20,
   }
 })
