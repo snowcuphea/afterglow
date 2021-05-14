@@ -41,6 +41,9 @@ public class RouteRecord {
     //@JsonProperty("dr")
     private DailyRecord dr;
 
+    @JsonProperty("rr_staying_minute")
+    private Integer rrStaying_minute = 1;
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "rr", cascade = CascadeType.ALL)
     private List<ImageRecord> imgRecs = new ArrayList<>();

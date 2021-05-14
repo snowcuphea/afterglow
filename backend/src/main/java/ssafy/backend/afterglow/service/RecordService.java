@@ -7,8 +7,10 @@ import ssafy.backend.afterglow.dto.*;
 import ssafy.backend.afterglow.repository.*;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -48,19 +50,28 @@ public class RecordService {
             return null;
     }
 
+    public Boolean isUserMoving(RouteRecord latestRr, Double latitude, Double longitude) {
+        return getDist(latestRr.getRrLatitude(), latestRr.getRrLongitude(), latitude, longitude) > 0.1;
+    }
+
+    public RouteRecord getLatestRr(DailyRecord dr) {
+        List<RouteRecord> rrList = rouRepo.findByDr(dr);
+        return rrList.get(rrList.size() - 1);
+    }
+
     public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude, Timestamp timestamp) {
         var ref = new Object() {
             Optional<RouteRecord> result;
         };
         dayRepo.findById(drId).
                 ifPresent(dr -> {
+
                     ref.result = rouRepo.findByDr(dr)
                             .stream()
-                            .filter(rr -> getDist(rr.getRrLatitude(), rr.getRrLongitude(), latitude, longitude) < 0.1)
                             .min(new Comparator<RouteRecord>() {
                                 @Override
                                 public int compare(RouteRecord rr1, RouteRecord rr2) {
-                                    return rr1.getRrTime().compareTo(rr2.getRrTime());
+                                    return Duration.between(rr1.getRrTime(), (Temporal) timestamp).compareTo(Duration.between(rr2.getRrTime(), (Temporal) timestamp));
                                 }
                             });
                 });

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.ImageInputDto;
@@ -16,6 +17,7 @@ import ssafy.backend.afterglow.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,9 +49,9 @@ public class RecordController {
     @SneakyThrows
     @PostMapping(value = "/saveImg")
     public ResponseEntity<Integer> saveImg(@RequestParam("img") List<ImageInputDto> images,
+                                           @RequestParam("drId") Long drId,
                                            HttpServletRequest request,
-                                           HttpServletResponse response,
-                                           @RequestParam("drId") Long drId) {
+                                           HttpServletResponse response) {
         Optional<User> user = userService.findUserByToken(request, response);
         Optional<DailyRecord> dr = dailyRepository.findById(drId);
         images
@@ -256,43 +258,37 @@ public class RecordController {
                                                          @RequestParam("rr_latitude") Double rrLat,
                                                          @RequestParam("rr_longitude") Double rrLong) {
         var ref = new Object() {
-            TourDestination nearestTd;
+            TourDestination nearestTd = null;
         };
         Map<String, Object> result = new HashMap<>();
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
-                    routeRepository.save(RouteRecord.builder()
-                            .dr(dr)
-                            .rrLatitude(rrLat)
-                            .rrLongitude(rrLong)
-                            .rrTime(LocalDateTime.now())
-                            .build());
-                    List<RouteRecord> RrList = routeRepository.findByDr(dr);
-                    int size = RrList.size();
-                    if (size > 15) {
-                        Boolean isStaying = true;
+                    RouteRecord latestRr = recordService.getLatestRr(dr);
+                    if (!recordService.isUserMoving(latestRr, rrLat, rrLong)) {
+                        latestRr.setRrStaying_minute(latestRr.getRrStaying_minute() + 1);
 
-                        for (int i = 1; i < 15; i++) {
-                            if (recordService.getDistBtwRr(RrList.get(size - i), RrList.get(size - i - 1)) > 0.1) {
-                                isStaying = false;
-                            }
-                        }
-                        result.put("isStaying", isStaying);
-                        if (isStaying) {
+                        if (latestRr.getRrName() != null && latestRr.getRrStaying_minute() >= 15) {
                             double nearestDist = 5;
-                            RouteRecord curRr = RrList.get(size - 1);
                             tourDestinationRepository.findAll()
                                     .stream()
                                     .forEach(td -> {
-                                        if (recordService.getDist(curRr.getRrLatitude(), curRr.getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
+                                        if (recordService.getDist(latestRr.getRrLatitude(), latestRr.getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
                                             ref.nearestTd = td;
                                         }
                                     });
-                            result.put("place", ref.nearestTd);
+                            latestRr.setRrName(ref.nearestTd.getTdName());
                         }
+                        routeRepository.save(latestRr);
+                    } else {
+                        routeRepository.save(RouteRecord.builder()
+                                .dr(dr)
+                                .rrLatitude(rrLat)
+                                .rrLongitude(rrLong)
+                                .rrTime(LocalDateTime.now())
+                                .build());
+
                     }
                 });
-
         return ResponseEntity.ok(result);
     }
 
