@@ -6,12 +6,15 @@ import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.*;
 import ssafy.backend.afterglow.repository.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordService {
@@ -45,28 +48,26 @@ public class RecordService {
             return null;
     }
 
-    public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude) {
-        Optional<DailyRecord> dr = dayRepo.findById(drId);
-        if (dr.isPresent()) {
-            List<RouteRecord> rrList = rouRepo.findByDr(dr.get());
-            var ref = new Object() {
-                RouteRecord nearestRr = rrList.get(0);
-            };
-            Double nearestDist = getDist(ref.nearestRr.getRrLatitude(), ref.nearestRr.getRrLongitude(), latitude, longitude);
-            rrList
-                    .stream()
-                    .forEach(rr -> {
-                        if (getDist(rr.getRrLatitude(), rr.getRrLongitude(), latitude, longitude) < nearestDist) {
-                            ref.nearestRr = rr;
-                        }
-                    });
-            return Optional.ofNullable(ref.nearestRr);
-        } else {
-            return null;
-        }
+    public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude, Timestamp timestamp) {
+        var ref = new Object() {
+            Optional<RouteRecord> result;
+        };
+        dayRepo.findById(drId).
+                ifPresent(dr -> {
+                    ref.result = rouRepo.findByDr(dr)
+                            .stream()
+                            .filter(rr -> getDist(rr.getRrLatitude(), rr.getRrLongitude(), latitude, longitude) < 0.1)
+                            .min(new Comparator<RouteRecord>() {
+                                @Override
+                                public int compare(RouteRecord rr1, RouteRecord rr2) {
+                                    return rr1.getRrTime().compareTo(rr2.getRrTime());
+                                }
+                            });
+                });
+        return ref.result;
     }
 
-    public Double getDistBtwRr(RouteRecord rr1, RouteRecord rr2){
+    public Double getDistBtwRr(RouteRecord rr1, RouteRecord rr2) {
         return getDist(rr1.getRrLatitude(), rr1.getRrLongitude(), rr2.getRrLatitude(), rr2.getRrLongitude());
     }
 

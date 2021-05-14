@@ -63,7 +63,7 @@ public class RecordController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    recordService.findNearestRr(dr.get().getDrId(), image.getLongitude(), image.getLatitude())
+                    recordService.findNearestRr(dr.get().getDrId(), image.getLongitude(), image.getLatitude(), image.getTimestamp())
                             .ifPresent(rr -> {
                                 ir.setRr(rr);
                                 imageRepository.save(ir);

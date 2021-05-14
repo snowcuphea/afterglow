@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
+
 @Data
 @Getter
 @Setter
@@ -16,9 +18,10 @@ public class ImageInputDto {
     private Double latitude;
     private Integer height;
     private Integer width;
+    private Timestamp timestamp;
 
     @Builder
-    public ImageInputDto(Long imgId, MultipartFile irImage, Double longitude, Double latitude, Integer height, Integer width){
+    public ImageInputDto(Long imgId, MultipartFile irImage, Double longitude, Double latitude, Integer height, Integer width, Timestamp timestamp){
         super();
         this.imgId = imgId;
         this.irImage = irImage;
@@ -26,5 +29,6 @@ public class ImageInputDto {
         this.latitude = latitude;
         this.height = height;
         this.width = width;
+        this.timestamp = timestamp;
     }
 }
