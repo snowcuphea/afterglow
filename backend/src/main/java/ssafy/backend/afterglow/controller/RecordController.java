@@ -263,7 +263,7 @@ public class RecordController {
                     if (RrList.size() > 15) {
                         Boolean isStaying = true;
                         for (int i = 1; i < 16; i++) {
-                            if (recordService.getDistBtwRr(RrList.get(-i), RrList.get(-i - 1)) > 0.1) {
+                            if (recordService.getDistBtwRr(RrList.get((-1) * i), RrList.get((-1) * i - 1)) > 0.1) {
                                 isStaying = false;
                             }
                         }
