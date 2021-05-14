@@ -126,57 +126,60 @@ public class RecordController {
 
     // 가계부 등록
     @PostMapping("/consumption")
-    public ResponseEntity<Object> setConsumption(@RequestParam("day_id") Long dayId,
-                                                 @RequestParam("consumption_name") String conName,
-                                                 @RequestParam("consumption_money") Integer conMoney,
-                                                 @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
-        var ref = new Object() {
-            ConsumptionRecord result = null;
-        };
+    public ResponseEntity<List<ConsumptionRecord>> setConsumption(@RequestParam("day_id") Long dayId,
+                                                                  @RequestParam("consumption_name") String conName,
+                                                                  @RequestParam("consumption_money") Integer conMoney,
+                                                                  @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {\
         dailyRepository
                 .findById(dayId)
                 .ifPresent(dr -> {
-                    ref.result = conRepository.save(ConsumptionRecord.builder()
+                    conRepository.save(ConsumptionRecord.builder()
                             .dr(dr)
                             .crName(conName)
                             .crMoney(conMoney)
                             .crDatetime(conTime)
                             .build());
                 });
-        return ResponseEntity.ok(ref.result);
+        return ResponseEntity.ok(conRepository.findAllByDrId(dayId).get());
     }
 
 
     // 가계부 수정
     @PutMapping("/consumption")
-    public ResponseEntity<Object> modifyConsumption(@RequestParam("consumption_id") Long conId,
-                                                    @RequestParam("consumption_name") String conName,
-                                                    @RequestParam("consumption_money") Integer conMoney,
-                                                    @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
+    public ResponseEntity<List<ConsumptionRecord>> modifyConsumption(@RequestParam("consumption_id") Long conId,
+                                                                     @RequestParam("consumption_name") String conName,
+                                                                     @RequestParam("consumption_money") Integer conMoney,
+                                                                     @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
         var ref = new Object() {
-            ConsumptionRecord result = null;
+            Long drId;
         };
         conRepository
                 .findById(conId)
                 .ifPresent(cr -> {
-                    ref.result = conRepository.save(ConsumptionRecord.builder()
+                    conRepository.save(ConsumptionRecord.builder()
                             .crName(conName)
                             .crMoney(conMoney)
                             .crDatetime(conTime)
                             .build());
+                    ref.drId = cr.getDr().getDrId();
+
                 });
-        return ResponseEntity.ok(ref.result);
+        return ResponseEntity.ok(conRepository.findAllByDrId(ref.drId).get());
     }
 
     // 가계부 삭제
     @DeleteMapping("/consumption")
-    public ResponseEntity<Object> deleteConsumption(@RequestParam("consumption_id") Long conId) {
+    public ResponseEntity<List<ConsumptionRecord>> deleteConsumption(@RequestParam("consumption_id") Long conId) {
+        var ref = new Object() {
+            Long drId;
+        };
         conRepository
                 .findById(conId)
                 .ifPresent(cr -> {
                     conRepository.delete(cr);
+                    ref.drId = cr.getDr().getDrId();
                 });
-        return ResponseEntity.ok("DELETE CONSUMPTION");
+        return ResponseEntity.ok(conRepository.findAllByDrId(ref.drId).get());
     }
 
 
@@ -254,6 +257,7 @@ public class RecordController {
                             .dr(dr)
                             .rrLatitude(rrLat)
                             .rrLongitude(rrLong)
+                            .rrTime(LocalDateTime.now())
                             .build());
                     List<RouteRecord> RrList = routeRepository.findByDr(dr);
                     if (RrList.size() > 15) {
