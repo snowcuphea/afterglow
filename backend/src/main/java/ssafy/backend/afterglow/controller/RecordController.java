@@ -278,7 +278,7 @@ public class RecordController {
                         if (isStaying) {
                             AtomicReference<TourDestination> nearestTd = null;
                             double nearestDist = 5;
-                            RouteRecord curRr = RrList.get(-1);
+                            RouteRecord curRr = RrList.get(size - 1);
                             tourDestinationRepository.findAll()
                                     .stream()
                                     .forEach(td -> {
