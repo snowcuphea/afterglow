@@ -32,6 +32,8 @@ class OnTravelMain extends React.Component {
       startDate: '',
       passedTime: '',
       clickPin: false,
+      routeRecs : [],
+      pinList : [],
     }
   }
 
@@ -69,9 +71,21 @@ class OnTravelMain extends React.Component {
       return '여행을 시작했습니다.'
     }
   }
+
+  componentDidMount () {
+    const tempRouteRecs = this.props.todayTravel.routeRecs
+    const tempPinList = tempRouteRecs.filter(item => item.rr_name !== null)
+    this.setState({
+      routeRecs : tempRouteRecs,
+      pinList: tempPinList
+    })
+  }
+
   
   render() {
-
+    console.log("routout", this.state.routeRecs)
+    console.log("pinlist", this.state.pinList)
+    
     return (
       <ScrollView style={styles.container}>
         <Text>
@@ -100,6 +114,7 @@ class OnTravelMain extends React.Component {
               {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 중</Text>
 
             <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
+            
             <PlaceList />
             <Text style={styles.titleStyle}>오늘의 지출</Text>
             <MoneyBook />

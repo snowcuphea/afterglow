@@ -33,6 +33,7 @@ const initialState = {
     dr_date: 0,
     
   },
+  visitedPlace: [],
 
   recoPlace : [], // 여행 중 내 위치 기반 받아옴
 
@@ -81,6 +82,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         travelingList: [],
+        visitedPlace: [],
         travelingName: action.payload.rec_name,
         travelingId: action.payload.rec_id,
         todayTravel: today
