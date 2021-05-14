@@ -90,13 +90,13 @@ const styles= StyleSheet.create({
     paddingHorizontal: screenWidth/30,
   },
   txtTitle: {
-    fontFamily: 'RIDIBatang',
+    // fontFamily: 'RIDIBatang',
     textAlign: 'center',
     fontSize: 20,
     marginVertical: screenHeight/30,
   },
   txtInfo: {
-    fontFamily: 'RIDIBatang',
+    // fontFamily: 'RIDIBatang',
     textAlign: 'center',
     fontSize: 15,
     marginVertical: 3,
@@ -133,7 +133,7 @@ const styles= StyleSheet.create({
   txtEnd: {
     color: "white",
     fontWeight: 'bold',
-    fontFamily: 'RIDIBatang',
+    // fontFamily: 'RIDIBatang',
     fontSize: 20,
     justifyContent: "center",
     textAlign: "center",

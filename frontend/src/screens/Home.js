@@ -74,9 +74,7 @@ class HomeScreen extends React.Component {
 
 
   render() {
-    
 
-    
     return (
       <View style={styles.container}>
         { this.state.mode === "map" ? 
@@ -130,8 +128,6 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   segmentBtn: {
     flex: 0.5,

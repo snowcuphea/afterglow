@@ -119,7 +119,7 @@ const styles= StyleSheet.create({
   },
   txtCancel: {
     color: "white",
-    fontFamily: 'RIDIBatang',
+    // fontFamily: 'RIDIBatang',
     fontSize: 15,
     justifyContent: "center",
     textAlign: "center",
@@ -127,7 +127,7 @@ const styles= StyleSheet.create({
   txtStart: {
     color: "white",
     fontWeight: 'bold',
-    fontFamily: 'RIDIBatang',
+    // fontFamily: 'RIDIBatang',
     fontSize: 15,
     justifyContent: "center",
     textAlign: "center",

@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     height: 700
   },
   textStyle: {
-    fontFamily: 'RIDIBatang',
+    // fontFamily: 'RIDIBatang',
     fontSize: 20,
   }
 })
