@@ -14,7 +14,7 @@ class Summary extends React.Component {
   }
 
   componentDidMount(){
-    console.log("현재는",this.props.record)
+    // console.log("현재는",this.props.record)
   }
 
   dateForm(date) {

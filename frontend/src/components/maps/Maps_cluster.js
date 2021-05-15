@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import MapView from "react-native-map-clustering";
 import { Marker } from "react-native-maps";
 
+import { connect } from 'react-redux'
+import ActionCreator from '../../store/actions'
 
 const INITIAL_REGION = {
   latitude: 35.83463069429124, 
@@ -14,103 +16,13 @@ class Maps_cluster extends React.Component {
 
   constructor(props){
     super(props)
-    this.state = {
-      loca: [
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 37.50053382130016, longitude: 126.90218984745893
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        },
-        {
-          latitude: 33.38318664501014, longitude: 126.53454671251562
-        }
-    
-      ]
-    }
   }
 
+
+  toSingleHistory = (index) => {
+    this.props.selectIndex(index)
+    this.props.navigation.navigate("SingleTravelHistory")
+  }
 
   render() {
     return (
@@ -119,12 +31,18 @@ class Maps_cluster extends React.Component {
         style={{ flex: 1 }} 
       >
           {
-            this.state.loca.map((contact, i) => {
+            this.props.traveledList.map((travelItem, index) => {
+
+              console.log(JSON.stringify(travelItem,null,2))
+
                 return (
                     <Marker
-                        coordinate={{ latitude: contact.latitude + (i*0.01), longitude: contact.longitude + (i*0.01) }}
-                        onPress={() => this.props.navigation.navigate('EndTravelMain', {lat: contact.latitude+(i*0.01), lon:contact.longitude+(i*0.01)})}
-                        key={i}
+                        coordinate={{ 
+                          latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
+                          longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
+                        }}
+                        onPress={() => this.toSingleHistory(index) }
+                        key={index}
                     ></Marker>
                 )
             })
@@ -135,4 +53,19 @@ class Maps_cluster extends React.Component {
   }
 }
 
-export default Maps_cluster;
+function mapStateToProps(state){
+
+  return {
+    traveledList: state.accountRd.traveledList
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    selectIndex: (index) => {
+      dispatch(ActionCreator.selectIndex(index));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Maps_cluster);
