@@ -8,24 +8,17 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ssafy.backend.afterglow.service.KakaoOAuth2UserService;
+import ssafy.backend.afterglow.repository.RememberMeTokenRepository;
 import ssafy.backend.afterglow.service.UserService;
-
-import javax.sql.DataSource;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final KakaoOAuth2UserService kakaoOAuth2UserService;
     private final UserService userService;
-    private final DataSource dataSource;
 
     @Value("${remember_me_secret}")
     private String remember_me_secret;
@@ -33,23 +26,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .rememberMe()
-                    .alwaysRemember(true)
-                    .userDetailsService(userService)
+                    .cors()
                 .and()
                     .csrf().disable()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests()
-                    .antMatchers().hasRole("USER")
-                    .anyRequest().permitAll()
-                .and()
-                    .logout()
-                    .logoutSuccessUrl("/")
-                .and()
-                    .oauth2Login()
-                    .userInfoEndpoint()
-                    .userService(kakaoOAuth2UserService);
+                    .anyRequest().permitAll();
     }
 
     @Override
@@ -72,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PersistentTokenBasedRememberMeServices rememberMeServices() {
-        PersistentTokenBasedRememberMeServices rememberMeServices = new PersistentTokenBasedRememberMeServices(remember_me_secret, userService, tokenRepository());
+        PersistentTokenBasedRememberMeServices rememberMeServices = new PersistentTokenBasedRememberMeServices(remember_me_secret, userService, rememberMeTokenRepository());
         rememberMeServices.setAlwaysRemember(true);
         rememberMeServices.setCookieName("remember-me");
         rememberMeServices.setTokenValiditySeconds(60 * 60 * 24 * 90);
@@ -80,9 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PersistentTokenRepository tokenRepository() {
-        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
-        jdbcTokenRepository.setDataSource(dataSource);
-        return jdbcTokenRepository;
+    RememberMeTokenRepository rememberMeTokenRepository() {
+        RememberMeTokenRepository rememberMeTokenRepository = new RememberMeTokenRepository();
+        return rememberMeTokenRepository;
     }
 }

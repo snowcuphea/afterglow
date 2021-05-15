@@ -1,7 +1,9 @@
 package ssafy.backend.afterglow.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -13,7 +15,7 @@ import java.util.List;
 @Entity(name="record")
 @Getter @Setter
 @NoArgsConstructor
-@ToString(exclude = {"user", "dayRecs"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Record {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("rec_id")
