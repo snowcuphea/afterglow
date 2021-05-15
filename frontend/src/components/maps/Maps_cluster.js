@@ -25,32 +25,87 @@ class Maps_cluster extends React.Component {
   }
 
   render() {
-    return (
-      <MapView 
-        initialRegion={INITIAL_REGION} 
-        style={{ flex: 1 }} 
-      >
+    if (this.props.traveledList.length !== 0) {
+      return (
+        <MapView
+          initialRegion={INITIAL_REGION}
+          style={{ flex:1 }}
+        >
+          
+
+        </MapView>
+      )
+    } else {
+      return (
+        <MapView
+          initialRegion={INITIAL_REGION}
+          style={{ flex:1 }}
+        >
           {
-            this.props.traveledList.map((travelItem, index) => {
-
-              console.log(JSON.stringify(travelItem,null,2))
-
-                return (
-                    <Marker
-                        coordinate={{ 
-                          latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
-                          longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
-                        }}
-                        onPress={() => this.toSingleHistory(index) }
-                        key={index}
-                    ></Marker>
-                )
-            })
-          }
-      </MapView>
+              this.props.traveledList.map((travelItem, index) => {
   
-    )
+                console.log(JSON.stringify(travelItem,null,2))
+  
+                  return (
+                      <Marker
+                          coordinate={{ 
+                            latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
+                            longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
+                          }}
+                          onPress={() => this.toSingleHistory(index) }
+                          key={index}
+                      ></Marker>
+                  )
+              })
+            }
+
+        </MapView>
+      )
+    }
+    // return (
+    //   <MapView
+    //     initialRegion={INITIAL_REGION}
+    //     style={{ flex:1 }}
+    //   ></MapView>
+    // )
   }
+  //   if (this.props.traveledList.length !== 0) {
+  //     return (
+  //       <MapView 
+  //         initialRegion={INITIAL_REGION} 
+  //         style={{ flex: 1 }} 
+  //       >
+  //           {
+  //             this.props.traveledList.map((travelItem, index) => {
+  
+  //               console.log(JSON.stringify(travelItem,null,2))
+  
+  //                 return (
+  //                     <Marker
+  //                         coordinate={{ 
+  //                           latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
+  //                           longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
+  //                         }}
+  //                         onPress={() => this.toSingleHistory(index) }
+  //                         key={index}
+  //                     ></Marker>
+  //                 )
+  //             })
+  //           }
+  //       </MapView>
+    
+  //     )
+  //   } else {
+  //     return (
+  //       <MapView 
+  //           initialRegion={INITIAL_REGION} 
+  //           style={{ flex: 1 }} 
+  //         ></MapView>
+
+  //     )
+  //   }
+
+  // }
 }
 
 function mapStateToProps(state){
