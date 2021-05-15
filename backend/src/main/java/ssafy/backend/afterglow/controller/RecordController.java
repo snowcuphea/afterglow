@@ -265,8 +265,8 @@ public class RecordController {
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
                     Optional<RouteRecord> latestRr = recordService.getLatestRr(dr);
-                    if (latestRr.isPresent() && latestRr.get().getRrName() != null) {
-                        if (recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 3) {
+                    if (latestRr.isPresent()) {
+                        if (latestRr.get().getRrName() != null && recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 3) {
                             routeRepository.save(RouteRecord.builder()
                                     .dr(dr)
                                     .rrLatitude(rrLat)
@@ -275,40 +275,42 @@ public class RecordController {
                                     .latest_longitude(rrLong)
                                     .rrTime(LocalDateTime.now())
                                     .build());
+                        } else {
+                            if (!recordService.isUserMoving(latestRr.get(), rrLat, rrLong)) {
+                                latestRr.get().setRrStaying_minute(latestRr.get().getRrStaying_minute() + 1);
+                                latestRr.get().setLatest_latitude(rrLat);
+                                latestRr.get().setLatest_longitude(rrLong);
+
+                                if (latestRr.get().getRrName() != null && latestRr.get().getRrStaying_minute() >= 15) {
+                                    double nearestDist = 3;
+                                    tourDestinationRepository.findAll()
+                                            .stream()
+                                            .forEach(td -> {
+                                                if (recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
+                                                    ref.nearestTd = td;
+                                                }
+                                            });
+                                    if (ref.nearestTd != null) {
+                                        latestRr.get().setRrName(ref.nearestTd.getTdName());
+                                        latestRr.get().setRrLatitude(ref.nearestTd.getTdLatitude());
+                                        latestRr.get().setRrLongitude(ref.nearestTd.getTdLongitude());
+                                    }
+                                }
+                                routeRepository.save(latestRr.get());
+                            } else {
+
+
+                            }
                         }
                     } else {
-                        if (!recordService.isUserMoving(latestRr.get(), rrLat, rrLong)) {
-                            latestRr.get().setRrStaying_minute(latestRr.get().getRrStaying_minute() + 1);
-                            latestRr.get().setLatest_latitude(rrLat);
-                            latestRr.get().setLatest_longitude(rrLong);
-
-                            if (latestRr.get().getRrName() != null && latestRr.get().getRrStaying_minute() >= 15) {
-                                double nearestDist = 3;
-                                tourDestinationRepository.findAll()
-                                        .stream()
-                                        .forEach(td -> {
-                                            if (recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
-                                                ref.nearestTd = td;
-                                            }
-                                        });
-                                if (ref.nearestTd != null) {
-                                    latestRr.get().setRrName(ref.nearestTd.getTdName());
-                                    latestRr.get().setRrLatitude(ref.nearestTd.getTdLatitude());
-                                    latestRr.get().setRrLongitude(ref.nearestTd.getTdLongitude());
-                                }
-                            }
-                            routeRepository.save(latestRr.get());
-                        } else {
-                            routeRepository.save(RouteRecord.builder()
-                                    .dr(dr)
-                                    .rrLatitude(rrLat)
-                                    .rrLongitude(rrLong)
-                                    .latest_latitude(rrLat)
-                                    .latest_longitude(rrLong)
-                                    .rrTime(LocalDateTime.now())
-                                    .build());
-
-                        }
+                        routeRepository.save(RouteRecord.builder()
+                                .dr(dr)
+                                .rrLatitude(rrLat)
+                                .rrLongitude(rrLong)
+                                .latest_latitude(rrLat)
+                                .latest_longitude(rrLong)
+                                .rrTime(LocalDateTime.now())
+                                .build());
                     }
                 });
         return ResponseEntity.ok(result);
