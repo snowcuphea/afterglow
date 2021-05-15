@@ -264,9 +264,9 @@ public class RecordController {
         Map<String, Object> result = new HashMap<>();
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
-                    RouteRecord latestRr = recordService.getLatestRr(dr);
-                    if (latestRr.getRrName() != null) {
-                        if (recordService.getDist(latestRr.getLatest_latitude(), latestRr.getLatest_longitude(), rrLat, rrLong) > 3) {
+                    Optional<RouteRecord> latestRr = recordService.getLatestRr(dr);
+                    if (latestRr.isPresent() && latestRr.get().getRrName() != null) {
+                        if (recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 3) {
                             routeRepository.save(RouteRecord.builder()
                                     .dr(dr)
                                     .rrLatitude(rrLat)
@@ -277,27 +277,27 @@ public class RecordController {
                                     .build());
                         }
                     } else {
-                        if (!recordService.isUserMoving(latestRr, rrLat, rrLong)) {
-                            latestRr.setRrStaying_minute(latestRr.getRrStaying_minute() + 1);
-                            latestRr.setLatest_latitude(rrLat);
-                            latestRr.setLatest_longitude(rrLong);
+                        if (!recordService.isUserMoving(latestRr.get(), rrLat, rrLong)) {
+                            latestRr.get().setRrStaying_minute(latestRr.get().getRrStaying_minute() + 1);
+                            latestRr.get().setLatest_latitude(rrLat);
+                            latestRr.get().setLatest_longitude(rrLong);
 
-                            if (latestRr.getRrName() != null && latestRr.getRrStaying_minute() >= 15) {
+                            if (latestRr.get().getRrName() != null && latestRr.get().getRrStaying_minute() >= 15) {
                                 double nearestDist = 3;
                                 tourDestinationRepository.findAll()
                                         .stream()
                                         .forEach(td -> {
-                                            if (recordService.getDist(latestRr.getRrLatitude(), latestRr.getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
+                                            if (recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
                                                 ref.nearestTd = td;
                                             }
                                         });
                                 if (ref.nearestTd != null) {
-                                    latestRr.setRrName(ref.nearestTd.getTdName());
-                                    latestRr.setRrLatitude(ref.nearestTd.getTdLatitude());
-                                    latestRr.setRrLongitude(ref.nearestTd.getTdLongitude());
+                                    latestRr.get().setRrName(ref.nearestTd.getTdName());
+                                    latestRr.get().setRrLatitude(ref.nearestTd.getTdLatitude());
+                                    latestRr.get().setRrLongitude(ref.nearestTd.getTdLongitude());
                                 }
                             }
-                            routeRepository.save(latestRr);
+                            routeRepository.save(latestRr.get());
                         } else {
                             routeRepository.save(RouteRecord.builder()
                                     .dr(dr)
@@ -360,9 +360,12 @@ public class RecordController {
                     dailyRepository.findById(drId)
                             .ifPresent(dr -> {
                                 routeRepository.findByDr(dr)
-                                        .forEach(rr -> {
-                                            ref.result.addAll(imageRepository.findAllByRr(rr)
-                                                    .orElse(new ArrayList<>()));
+                                        .ifPresent(rrs -> {
+                                            rrs.stream()
+                                                    .forEach(rr -> {
+                                                        ref.result.addAll(imageRepository.findAllByRr(rr)
+                                                                .orElse(new ArrayList<>()));
+                                                    });
                                         });
                             });
                 });
@@ -380,15 +383,19 @@ public class RecordController {
                     dailyRepository.findByRec(rec)
                             .forEach(dr -> {
                                 routeRepository.findByDr(dr)
-                                        .forEach(rr -> {
-                                            if (result.containsKey(rr.getRrTime().toLocalDate())) {
-                                                result.get(rr.getRrTime().toLocalDate()).addAll(imageRepository.findAllByRr(rr)
-                                                        .orElse(new ArrayList<>()));
-                                            } else {
-                                                result.put(rr.getRrTime().toLocalDate(), imageRepository.findAllByRr(rr)
-                                                        .orElse(new ArrayList<>()));
-                                            }
-                                        });
+                                        .ifPresent(rrs -> {
+                                            rrs.stream()
+                                                    .forEach(rr -> {
+                                                        if (result.containsKey(rr.getRrTime().toLocalDate())) {
+                                                            result.get(rr.getRrTime().toLocalDate()).addAll(imageRepository.findAllByRr(rr)
+                                                                    .orElse(new ArrayList<>()));
+                                                        } else {
+                                                            result.put(rr.getRrTime().toLocalDate(), imageRepository.findAllByRr(rr)
+                                                                    .orElse(new ArrayList<>()));
+                                                        }
+                                                    });
+                                        })
+                                ;
                             });
                 });
         return ResponseEntity.ok(result);
@@ -418,10 +425,13 @@ public class RecordController {
         };
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
-                    ref.result = routeRepository.findByDr(dr)
-                            .stream()
-                            .filter(rr -> rr.getRrName() != null)
-                            .collect(Collectors.toList());
+                    routeRepository.findByDr(dr)
+                            .ifPresent(rrs -> {
+                                ref.result = rrs.stream()
+                                        .filter(rr -> rr.getRrName() != null)
+                                        .collect(Collectors.toList());
+                            });
+
                 });
         return ResponseEntity.ok(ref.result);
     }

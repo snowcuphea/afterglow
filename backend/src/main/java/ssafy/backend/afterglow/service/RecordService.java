@@ -11,10 +11,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -54,9 +51,13 @@ public class RecordService {
         return getDist(latestRr.getLatest_latitude(), latestRr.getLatest_longitude(), latitude, longitude) > 0.1;
     }
 
-    public RouteRecord getLatestRr(DailyRecord dr) {
-        List<RouteRecord> rrList = rouRepo.findByDr(dr);
-        return rrList.get(rrList.size() - 1);
+    public Optional<RouteRecord> getLatestRr(DailyRecord dr) {
+        Optional<List<RouteRecord>> rrList = rouRepo.findByDr(dr);
+        if (rrList.isPresent()) {
+            return null;
+        } else {
+            return Optional.ofNullable(rrList.get().get(rrList.get().size() - 1));
+        }
     }
 
     public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude, Timestamp timestamp) {
@@ -66,14 +67,16 @@ public class RecordService {
         dayRepo.findById(drId).
                 ifPresent(dr -> {
 
-                    ref.result = rouRepo.findByDr(dr)
-                            .stream()
-                            .filter(rr -> rr.getRrTime().compareTo(timestamp.toLocalDateTime()) < 0)
-                            .min(new Comparator<RouteRecord>() {
-                                @Override
-                                public int compare(RouteRecord rr1, RouteRecord rr2) {
-                                    return Duration.between(rr1.getRrTime(), (Temporal) timestamp).compareTo(Duration.between(rr2.getRrTime(), (Temporal) timestamp));
-                                }
+                    rouRepo.findByDr(dr)
+                            .ifPresent(rrs -> {
+                                ref.result = rrs.stream()
+                                        .filter(rr -> rr.getRrTime().compareTo(timestamp.toLocalDateTime()) < 0)
+                                        .min(new Comparator<RouteRecord>() {
+                                            @Override
+                                            public int compare(RouteRecord rr1, RouteRecord rr2) {
+                                                return Duration.between(rr1.getRrTime(), (Temporal) timestamp).compareTo(Duration.between(rr2.getRrTime(), (Temporal) timestamp));
+                                            }
+                                        });
                             });
                 });
         return ref.result;
