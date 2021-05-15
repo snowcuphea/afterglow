@@ -119,6 +119,12 @@ export default (state = initialState, action) => {
         ...state,
         visitedPlace: action.payload
       }
+    case types.UPDATE_MEMO:
+      // const itemIndex = visitedPlace.findIndex(element => element.rr_id === action.payload.rr_id)
+      return {
+        ...state,
+        // visitedPlace: [...state,visitedPlace, state.visitedPlace[itemIndex] = action.payload ]
+      }
     default:
       return state;
   }

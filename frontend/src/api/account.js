@@ -70,4 +70,9 @@ function sendLocationInfo( data ) {
   return instance.post("records/route", {}, { params: data })
 }
 
-export { login, getRecordList, startTrip, changeStatus, getTripInfo, startDay, endDay, getCurrentInfo, sendLocationInfo }
+function saveMemo( data ) {
+  return instance.post("records/memo/create", {}, { params: data })
+}
+
+export { login, getRecordList, startTrip, changeStatus, getTripInfo, startDay, endDay, getCurrentInfo, sendLocationInfo,
+  saveMemo }

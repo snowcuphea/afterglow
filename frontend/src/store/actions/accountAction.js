@@ -76,3 +76,10 @@ export function saveVisitPlace(placeItem) {
     payload: placeItem
   }
 }
+
+export function updateMemo(memoItem) {
+  return {
+    type: types.UPDATE_MEMO,
+    payload: memoItem
+  }
+}

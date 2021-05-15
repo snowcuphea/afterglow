@@ -44,6 +44,12 @@ class PinClickPage extends React.Component {
 	modifyComplete = () => {
 		this.switchStatus(false)
 		//이제 여기에 메모 저장하는 디스패치 필요 
+    const memoItem = {
+      "Rr_id" : this.props.selectedPin.rr_id,
+      "memo_content": this.state.newMemoText
+    }
+    console.log("memotiem?", memoItem)
+    this.props.updateMemo(memoItem)
 	}
 
 	componentDidMount() {
@@ -77,7 +83,7 @@ class PinClickPage extends React.Component {
 								? <Button title={"수정"} onPress={()=>this.switchStatus(true)}/>
 								: <View style={styles.btnContainer}>
 									<Button title={"취소"} onPress={this.modifyCancel}/>
-									<Button title={"완료"} onPress={()=>this.switchStatus(false)}/>
+									<Button title={"완료"} onPress={this.modifyComplete}/>
 									</View>
 							}
 							
@@ -123,6 +129,20 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(PinClickPage) 
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateMemo: (memoItem) => {
+      // console.log("mapDispatchToProps")
+      dispatch({
+        type: "SAVE_MEMO_ASYNC",
+        payload: memoItem
+      })
+    }
+
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PinClickPage) 
 
 
