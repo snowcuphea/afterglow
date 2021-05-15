@@ -14,6 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class RouteRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,23 +38,23 @@ public class RouteRecord {
     @JsonProperty("rr_memo")
     private String rrMemo;
 
+    @JsonProperty("latest_latitude")
+    private Double latest_latitude;
+
+    @JsonProperty("latest_longitude")
+    private Double latest_longitude;
+
     @ManyToOne @JoinColumn(name = "drId")
     @JsonIgnore
     //@JsonProperty("dr")
     private DailyRecord dr;
 
+    @JsonProperty("rr_staying_minute")
+    private Integer rrStaying_minute = 1;
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "rr", cascade = CascadeType.ALL)
     private List<ImageRecord> imgRecs = new ArrayList<>();
 
-    @Builder
-    public RouteRecord(DailyRecord dr, Double rrLatitude, Double rrLongitude, LocalDateTime rrTime, String rrName, String rrMemo){
-        super();
-        this.dr = dr;
-        this.rrLatitude = rrLatitude;
-        this.rrLongitude = rrLongitude;
-        this.rrTime = rrTime;
-        this.rrName = rrName;
-        this.rrMemo = rrMemo;
-    }
+
 }

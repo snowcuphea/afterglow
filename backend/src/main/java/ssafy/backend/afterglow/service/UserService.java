@@ -132,9 +132,18 @@ public class UserService implements UserDetailsService {
 
         String username = properties.getAsJsonObject().get("nickname").getAsString();
         String email = kakao_account.getAsJsonObject().get("email").getAsString();
-        String profile_img = properties.getAsJsonObject().get("profile_image").getAsString();
-        String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
-        String age_range = kakao_account.getAsJsonObject().get("age_range").getAsString();
+        String profile_img = null;
+        if (properties.getAsJsonObject().keySet().contains("profile_image") && properties.getAsJsonObject().get("profile_image") != null) {
+            profile_img = properties.getAsJsonObject().get("profile_image").getAsString();
+        }
+        String gender = null;
+        if (properties.getAsJsonObject().keySet().contains("gender") && properties.getAsJsonObject().get("gender") != null) {
+            gender = properties.getAsJsonObject().get("gender").getAsString();
+        }
+        String age_range = null;
+        if (properties.getAsJsonObject().keySet().contains("age_range") && properties.getAsJsonObject().get("age_range") != null) {
+            age_range = properties.getAsJsonObject().get("age_range").getAsString();
+        }
 
         User tempUser = User.builder()
                 .username(username)

@@ -6,12 +6,14 @@ import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.*;
 import ssafy.backend.afterglow.repository.*;
 
+import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.Temporal;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordService {
@@ -35,37 +37,74 @@ public class RecordService {
 
     public Long getRecTotalTime(Long recId) {
         Optional<Record> rec = recRepo.findById(recId);
-        if(rec.isPresent()){
+        if (rec.isPresent()) {
             List<DailyRecord> dayRec = dayRepo.findByRec(rec.get());
             Long totalTime = 0L;
-            for(DailyRecord day : dayRec)
+            for (DailyRecord day : dayRec)
                 totalTime += ChronoUnit.HOURS.between(day.getDrStartTime(), day.getDrEndTime());
             return totalTime;
-        }
-        else
+        } else
             return null;
     }
 
-    public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude) {
-        Optional<DailyRecord> dr = dayRepo.findById(drId);
-        if (dr.isPresent()) {
-            List<RouteRecord> rrList = rouRepo.findByDr(dr.get());
-            AtomicReference<RouteRecord> nearestRr = new AtomicReference<>(rrList.get(0));
-            Double nearestDist = getDist(nearestRr.get(), longitude, latitude);
-            rrList
-                    .stream()
-                    .forEach(rr -> {
-                        if (getDist(rr, longitude, latitude) < nearestDist) {
-                            nearestRr.set(rr);
-                        }
-                    });
-            return Optional.ofNullable(nearestRr.get());
+    public Boolean isUserMoving(RouteRecord latestRr, Double latitude, Double longitude) {
+        return getDist(latestRr.getLatest_latitude(), latestRr.getLatest_longitude(), latitude, longitude) > 0.1;
+    }
+
+    public Optional<RouteRecord> getLatestRr(DailyRecord dr) {
+        Optional<List<RouteRecord>> rrList = rouRepo.findByDr(dr);
+        if (rrList.isPresent()) {
+            return null;
         } else {
-            return null;
+            return Optional.ofNullable(rrList.get().get(rrList.get().size() - 1));
         }
     }
 
-    public Double getDist(RouteRecord rr, Double Longitude, Double Latitude) {
-        return Math.sqrt(Math.pow(rr.getRrLatitude() - Latitude, 2) + Math.pow(rr.getRrLongitude() - Longitude, 2));
+    public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude, Timestamp timestamp) {
+        var ref = new Object() {
+            Optional<RouteRecord> result;
+        };
+        dayRepo.findById(drId).
+                ifPresent(dr -> {
+
+                    rouRepo.findByDr(dr)
+                            .ifPresent(rrs -> {
+                                ref.result = rrs.stream()
+                                        .filter(rr -> rr.getRrTime().compareTo(timestamp.toLocalDateTime()) < 0)
+                                        .min(new Comparator<RouteRecord>() {
+                                            @Override
+                                            public int compare(RouteRecord rr1, RouteRecord rr2) {
+                                                return Duration.between(rr1.getRrTime(), (Temporal) timestamp).compareTo(Duration.between(rr2.getRrTime(), (Temporal) timestamp));
+                                            }
+                                        });
+                            });
+                });
+        return ref.result;
+    }
+
+    public Double getDistBtwRr(RouteRecord rr1, RouteRecord rr2) {
+        return getDist(rr1.getRrLatitude(), rr1.getRrLongitude(), rr2.getRrLatitude(), rr2.getRrLongitude());
+    }
+
+    public Double getDist(double lat1, double lon1, double lat2, double lon2) {
+
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+
+        dist = dist * 1.609344;
+
+        return (dist);
+    }
+
+    public static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    public static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
     }
 }

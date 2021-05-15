@@ -2,6 +2,7 @@ package ssafy.backend.afterglow.controller;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,10 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
-    private Authentication authentication;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -55,6 +56,7 @@ public class UserController {
         userService.findUserByToken(request,response)
                 .ifPresent(user -> {
                     user.setUsrTravelingState(status);
+                    userRepository.save(user);
                 });
         return ResponseEntity.ok(status);
     }
