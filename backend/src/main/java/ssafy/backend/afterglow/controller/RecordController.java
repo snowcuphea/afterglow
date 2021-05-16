@@ -343,6 +343,7 @@ public class RecordController {
                 .findById(RrId)
                 .ifPresent(rr -> {
                     rr.setRrMemo(memoContent);
+                    routeRepository.save(rr);
                     ref.result = rr;
                 });
         return ResponseEntity.ok(ref.result);
