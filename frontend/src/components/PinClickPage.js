@@ -64,10 +64,11 @@ class PinClickPage extends React.Component {
     
     return (
       <View>
-          <Text>여기는 핀 눌렀을 때 페이지 </Text>
-          <Button title={"핀창 끄고싶을때 "} onPress={() => this.props.selectPinFunc(false)}/>
+          <TouchableOpacity onPress={() => this.props.selectPinFunc(false)}>
+            <Ionicons name={"close-outline"} size={40}/>
+          </TouchableOpacity>
 
-          <Text>장소이름:{this.props.selectedPin.rr_name} </Text>
+          <Text style={{textAlign:'center'}}>{this.props.selectedPin.rr_name} </Text>
             <View style={styles.container}>
               <TextInput
                 editable={this.state.modifyStatus}
