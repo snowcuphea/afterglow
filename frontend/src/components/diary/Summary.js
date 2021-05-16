@@ -26,7 +26,7 @@ class Summary extends React.Component {
       const tempDate = date.split('-')
       return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return "이런"
     }
   }
@@ -49,7 +49,7 @@ class Summary extends React.Component {
       return _day > 0 ? ( _hours > 0 ? _days + '일 ' + _hours + '시간 ' + _mins + '분' : _days + '일 ' + _mins + '분' ) :
                         ( _hours > 0 ? _hours + '시간 ' + _mins + '분' : _mins + '분' )
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return 30
     }
   }

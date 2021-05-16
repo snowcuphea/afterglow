@@ -89,7 +89,7 @@ class Diary extends React.Component {
             luminosity: 'light',
             hue: 'blue'
           })
-          console.log(color)
+          // console.log(color)
           const pageForm = {
             "id": route.rr_id,
             "name": route.rr_name,
@@ -132,12 +132,12 @@ class Diary extends React.Component {
             alignItems: "center",
           }}
         >
-          {/* <Text style={{height: screenHeight/17, backgroundColor: "pink", textAlignVertical:"center"}}> {item.name} </Text>
+          <Text style={{height: screenHeight/17, backgroundColor: "pink", textAlignVertical:"center"}}> {item.name} </Text>
           <Text style={{height: screenHeight/17, backgroundColor: "skyblue", textAlignVertical:"center"}}> {item.time} </Text>
           <Image 
             style={{ width: pageWidth-40, height: screenHeight/2.2, backgroundColor: "pink", }} 
             source={{ uri: "../assets/pics/1.png" }}/>
-          <Text style={{height: screenHeight/10, backgroundColor: "green", textAlignVertical:"center"}}> {item.memo} </Text> */}
+          <Text style={{height: screenHeight/10, backgroundColor: "green", textAlignVertical:"center"}}> {item.memo} </Text>
         </View>
       )
     }
