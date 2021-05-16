@@ -48,7 +48,7 @@ class MoneyBook extends React.Component {
               <Text style={styles.moenyText}>{item.cr_money}</Text>
             </View>
             <TouchableOpacity style={styles.itemDelete}
-              onPress={this.deleteMoney(item.cr_id)}
+              onPress={() => this.deleteMoney(item.cr_id)}
               >
               <Ionicons name="close" size={20}/>
             </TouchableOpacity>
