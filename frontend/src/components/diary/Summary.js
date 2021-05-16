@@ -3,6 +3,8 @@ import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native'
 
 import { connect } from 'react-redux'
 
+import { Card } from 'react-native-elements'
+
 import ActionCreator from '../../store/actions'
 
 import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
@@ -24,7 +26,7 @@ class Summary extends React.Component {
       const tempDate = date.split('-')
       return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return "이런"
     }
   }
@@ -47,7 +49,7 @@ class Summary extends React.Component {
       return _day > 0 ? ( _hours > 0 ? _days + '일 ' + _hours + '시간 ' + _mins + '분' : _days + '일 ' + _mins + '분' ) :
                         ( _hours > 0 ? _hours + '시간 ' + _mins + '분' : _mins + '분' )
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return 30
     }
   }
@@ -120,48 +122,51 @@ class Summary extends React.Component {
     return(
       <ScrollView
         showsVerticalScrollIndicator={false}>
-        <View style={styles.dateContainer}>
+        <Card containerStyle={[{marginHorizontal:0}, styles.dateContainer]}>
+
           <Text style={styles.textStyle}> {this.dateForm(startDate)} ~ {this.dateForm(endDate)}</Text>
-        </View>
 
-        <View style={styles.mapContainer}>
-          <MapView
-            initialRegion={{
-              latitude: this.props.record.dayRecs[0].routeRecs[0].rr_latitude,
-              longitude: this.props.record.dayRecs[0].routeRecs[0].rr_longitude,
-              latitudeDelta: 0.1,
-              longitudeDelta: 0.1
-            }}
-            style={{ flex:1 }}
-          >
-            {/* <Polyline
-              coordinates={{"좌표값"}}
-              strokeColor='red'
-              strokeWidth={1}
+        </Card>
+
+        <Card containerStyle={{marginHorizontal:0, padding:0}}>
+          <View style={styles.mapContainer}>
+            <MapView
+              initialRegion={{
+                latitude: this.props.record.dayRecs[0].routeRecs[0].rr_latitude,
+                longitude: this.props.record.dayRecs[0].routeRecs[0].rr_longitude,
+                latitudeDelta: 0.1,
+                longitudeDelta: 0.1
+              }}
+              style={{ flex:1 }}
             >
+              {/* <Polyline
+                coordinates={{"좌표값"}}
+                strokeColor='red'
+                strokeWidth={1}
+              >
 
 
-            </Polyline> */}
+              </Polyline> */}
 
-          </MapView>
-        </View>
+            </MapView>
+          </View>
+        </Card>
 
-        <View style={styles.summaryContainer}>
-          <Text>"{title}" 여행을</Text>
-          <Text style={{ marginTop: 20 }}>{this.props.user_nickname}님과 함께</Text>
-          <Text style={{ marginTop: 20 }}>{this.totalTime()} 동안</Text>
-          <Text style={{ marginTop: 20 }}>제주도에서</Text>
-          <Text style={{ marginTop: 20 }}>{this.totalPlaces()}개의 관광지를 들르고</Text>
-          <Text style={{ marginTop: 20 }}>1500장의 사진을 찍고</Text>
-          <Text style={{ marginTop: 20 }}>{this.getSelectedPictures()}장의 사진으로 <Text style={{ color: 'skyblue' }}>여운</Text>을 남겼어요</Text>
-          
-        </View>
+        <Card containerStyle={[{marginHorizontal:0}, styles.summaryContainer]}>
+            <Text>"{title}" 여행을</Text>
+            <Text style={{ marginTop: 20 }}>{this.props.user_nickname}님과 함께</Text>
+            <Text style={{ marginTop: 20 }}>{this.totalTime()} 동안</Text>
+            <Text style={{ marginTop: 20 }}>제주도에서</Text>
+            <Text style={{ marginTop: 20 }}>{this.totalPlaces()}개의 관광지를 들르고</Text>
+            <Text style={{ marginTop: 20 }}>1500장의 사진을 찍고</Text>
+            <Text style={{ marginTop: 20 }}>{this.getSelectedPictures()}장의 사진으로 <Text style={{ color: 'skyblue' }}>여운</Text>을 남겼어요</Text>
+        </Card>
 
-        <View style={styles.bookContainer}>
+        <Card containerStyle={[{marginHorizontal:0}, styles.bookContainer]}>
           <Text>
             가계부 보여주는구역
           </Text>
-        </View>
+        </Card>
       </ScrollView>
     )
 
@@ -176,17 +181,14 @@ const styles = StyleSheet.create({
     flex:1,
   },
   dateContainer: {
-    backgroundColor: 'red',
     height: screenHeight/8,
     justifyContent: 'center',
     alignItems: 'center'
   },
   mapContainer: {
-    backgroundColor: 'skyblue',
-    height: 270
+    height: screenHeight/3
   },
   summaryContainer: {
-    backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,

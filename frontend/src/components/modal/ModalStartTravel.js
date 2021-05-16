@@ -7,6 +7,7 @@ import ActionCreator from '../../store/actions'
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { Button, Overlay,Input } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 
@@ -44,36 +45,44 @@ class ModalStartTravel extends React.Component {
     return (
 
       <View>
-      <Button
-      icon={<Ionicons name="airplane" size={25}/>} title="새로운 여행 시작" onPress={ () => this.setModalVisible(!this.state.modalVisible) } />
-
-      <Overlay 
-        overlayStyle={styles.container}
-        isVisible={this.state.modalVisible}
-        onBackdropPress={ () => this.setModalVisible(!this.state.modalVisible)}>
-        {/* <View> */}
-        <Text>여행 이름을 적어주세요!</Text>
-        <Input 
-            style={styles.textInputStyle}
-            onChangeText={(t) => this.setText(t)}
-            value={this.state.travelName}
-             />
-
-        <Text style={{textAlign:'center'}}>여행을 시작해볼까요?</Text>
-        <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.btnCancel} onPress={() => this.setModalVisible(!this.state.modalVisible)}>
-          <Text style={styles.txtCancel}>아니오</Text>
+        
+        <TouchableOpacity 
+          onPress={ () => this.setModalVisible(!this.state.modalVisible) } 
+          style={styles.startBtn}>
+          {/* <Ionicons name="airplane" size={80} color={"skyblue"}/> */}
+          <FontAwesome5Icon  name="plane-departure" style={{ height: 60, width: 60}} size={45} color={"skyblue"}/>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnStart}
-        onPress={ (this.state.travelName.trim().length === 0)
-          ? () => alert("여행 이름을 입력해주세요!")
-          : this.startTravel}>
-          <Text style={styles.txtStart}>시작해요!</Text>
-        </TouchableOpacity>
-        </View>
-        {/* </View> */}
-      </Overlay>
-    </View>
+
+        {/* <Button
+        icon={<Ionicons name="airplane" size={25}/>} title="새로운 여행 시작" onPress={ () => this.setModalVisible(!this.state.modalVisible) } /> */}
+
+        <Overlay 
+          overlayStyle={styles.container}
+          isVisible={this.state.modalVisible}
+          onBackdropPress={ () => this.setModalVisible(!this.state.modalVisible)}>
+          {/* <View> */}
+          <Text>여행 이름을 적어주세요!</Text>
+          <Input 
+              style={styles.textInputStyle}
+              onChangeText={(t) => this.setText(t)}
+              value={this.state.travelName}
+              />
+
+          <Text style={{textAlign:'center'}}>여행을 시작해볼까요?</Text>
+          <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.btnCancel} onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+            <Text style={styles.txtCancel}>아니오</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnStart}
+          onPress={ (this.state.travelName.trim().length === 0)
+            ? () => alert("여행 이름을 입력해주세요!")
+            : this.startTravel}>
+            <Text style={styles.txtStart}>시작해요!</Text>
+          </TouchableOpacity>
+          </View>
+          {/* </View> */}
+        </Overlay>
+      </View>
 
     )
   }
@@ -92,6 +101,13 @@ const styles= StyleSheet.create({
     paddingVertical: screenWidth/10,
     paddingHorizontal: screenWidth/30
   },
+  startBtn: {
+    backgroundColor: "blue",
+    borderColor: "black",
+    borderWidth: 3,
+    padding:20,
+    borderRadius: 180
+  }, 
   textInputStyle : {
     // fontSize : 15,
     // width : '100%'

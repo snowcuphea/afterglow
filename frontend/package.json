@@ -21,6 +21,7 @@
     "@voximplant/react-native-foreground-service": "^2.0.0",
     "axios": "^0.21.1",
     "fbjs": "^3.0.0",
+    "randomcolor": "^0.6.2",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-base64": "^0.2.1",
