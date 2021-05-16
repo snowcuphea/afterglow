@@ -58,8 +58,14 @@ class EndTravelMain extends React.Component {
     )
   }
 
+  componentDidMount () {
+    console.log('테스트', this.props.travelStatus)
+  }
+
   render() {
-    // const { lat, lon } = this.props.route.params;
+    // console 보고 .latitude 같은 것들 추가해야 함
+    // const lat = this.props.todayTravel.todaycoords.lat
+    // const lon = this.props.todayTravel.todaycoords.lon
     return (
       <ScrollView
         stickyHeaderIndices={[0]}
@@ -82,18 +88,34 @@ class EndTravelMain extends React.Component {
         </View>
 
         <View style={styles.mapContainer}>
-          {/* <MapView
+          {/* 지도, 폴리라인, 그날 여행에서 찍힌 마커 */}
+          <MapView
               style={{ flex:1 }}
-              initialRegion = {{
-                  latitude: lat,
-                  longitude: lon,
+              region = {{
+                  latitude: 128.1,
+                  longitude: 67.1,
                   latitudeDelta: 0.1,
                   longitudeDelta: 0.1
 
               }}
           >
+            {/* <Polyline
+            coordinates={{"좌표"}}
+            strokeColor='red'
+            strokeWidth={1}
+          ></Polyline> */}
 
-          </MapView> */}
+          {/* {
+            this.props.todayTravel.map((marker, index) => (
+              <Marker
+                coordinate={marker.tempPinList}
+                key={index}
+                title={marker.title}
+                onPress={()=> {}}
+              />
+            ))
+          } */}
+          </MapView>
         </View>
 
         <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>  
@@ -142,7 +164,11 @@ function mapStateToProps(state) {
   return {
     user_nickname: state.accountRd.user.usr_nickname,
     travelStatus: state.accountRd.travelStatus,
-    rec_id: state.accountRd.travelingId
+    rec_id: state.accountRd.travelingId,
+    
+    todayTravel: state.accountRd.todayTravel,
+    // lat: state.accountRd.todayTravel.todaycoords.lat,
+    // lon: state.accountRd.todayTravel.todaycoords.lon
   }
 }
 

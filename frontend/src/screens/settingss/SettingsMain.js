@@ -23,15 +23,18 @@ import CookieManager from '@react-native-cookies/cookies'
 const list = [
   {
     title: '프로필 및 계정관리',
-    icon: 'person-circle'
+    icon: 'person-circle',
+    navi: 'SettingsProfile'
   },
   {
     title: '이용약관',
-    icon: 'create'
+    icon: 'create',
+    navi: 'SettingsTou'
   },
   {
     title: '라이선스',
-    icon: 'eye'
+    icon: 'eye',
+    navi: 'SettingsLicense'
   },
 ]
 
@@ -54,6 +57,9 @@ class SettingsMain extends React.Component {
     super(props);
     this.state = {
       expanded: false,
+      navi1 : 'SettingsProfile',
+      navi2 : 'SettingsTou',
+      navi3 : 'SettingsLicense'
     };
   }
 
@@ -71,6 +77,10 @@ class SettingsMain extends React.Component {
 
   };
 
+  profile = () => {
+    this.props.navigation.navigate('SettingsProfile')
+  }
+
   render() {
 
     return (
@@ -78,10 +88,13 @@ class SettingsMain extends React.Component {
         <Divider/>
         {
           list.map((item, i) => (
-          <ListItem key={i} bottomDivider >
+          <ListItem 
+            key={i} 
+            bottomDivider
+            >
             <Ionicons name={item.icon} size={25} />
             <ListItem.Content>
-              <ListItem.Title>{item.title}</ListItem.Title>
+              <ListItem.Title onpress = {() => this.profile()}>{this.state.navi1}</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron />
           </ListItem>

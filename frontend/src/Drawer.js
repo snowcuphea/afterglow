@@ -69,17 +69,32 @@ const CustomDrawerContent = (props) => {
 
       <View style={styles.bottomIconContainer}>
         <View style={styles.bottomIcon}>
-          <Ionicons name={"notifications-outline"} size={40} color={"#555555"}></Ionicons>
+          <Ionicons 
+            name={"notifications-outline"} 
+            size={40} 
+            color={"#555555"}
+            onPress={() => props.navigation.navigate('SettingsNotice')}
+            ></Ionicons>
           <Text>공지사항</Text>
         </View>
 
         <View style={styles.bottomIcon}>
-          <Ionicons name={"people-outline"} size={40} color={"#555555"}></Ionicons>
+          <Ionicons 
+            name={"people-outline"} 
+            size={40} 
+            color={"#555555"}
+            onPress={() => props.navigation.navigate('SettingsContact')}
+            ></Ionicons>
           <Text>고객센터</Text>
         </View>
 
         <View style={styles.bottomIcon}>
-          <Ionicons name={"help-circle-outline"} size={40} color={"#555555"}></Ionicons>
+          <Ionicons 
+            name={"help-circle-outline"} 
+            size={40} 
+            color={"#555555"}
+            onPress={() => props.navigation.navigate('SettingsTutorial')}
+            ></Ionicons>
           <Text>튜토리얼</Text>
         </View>  
       </View>

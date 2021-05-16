@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 
 import ActionCreator from '../../store/actions'
 
+import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
+
 
 
 class Summary extends React.Component {
@@ -141,9 +143,25 @@ class Summary extends React.Component {
         </View>
 
         <View style={styles.mapContainer}>
-          <Text>
-            지도보여주는 영역
-          </Text>
+          <MapView
+            initialRegion={{
+              latitude: this.props.record.dayRecs[0].routeRecs[0].rr_latitude,
+              longitude: this.props.record.dayRecs[0].routeRecs[0].rr_longitude,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1
+            }}
+            style={{ flex:1 }}
+          >
+            {/* <Polyline
+              coordinates={{"좌표값"}}
+              strokeColor='red'
+              strokeWidth={1}
+            >
+
+
+            </Polyline> */}
+
+          </MapView>
         </View>
 
         <View style={styles.summaryContainer}>

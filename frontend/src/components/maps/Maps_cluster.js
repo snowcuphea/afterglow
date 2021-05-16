@@ -26,29 +26,28 @@ class Maps_cluster extends React.Component {
 
   render() {
     return (
-      <MapView 
-        initialRegion={INITIAL_REGION} 
-        style={{ flex: 1 }} 
+      <MapView
+        initialRegion={INITIAL_REGION}
+        style={{ flex:1 }}
       >
-          {
-            this.props.traveledList.map((travelItem, index) => {
+        {/* {
+          this.props.traveledList.map((travelItem, index) => {
+            return (
+              <Marker
+                coordinate={{
+                  latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
+                  longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
+                  }}
+                onPress={() => this.toSingleHistory(index) }
+                key={index}
+              >
 
-              console.log(JSON.stringify(travelItem,null,2))
+              </Marker>
+            )
+          })
+        } */}
 
-                return (
-                    <Marker
-                        coordinate={{ 
-                          latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
-                          longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
-                        }}
-                        onPress={() => this.toSingleHistory(index) }
-                        key={index}
-                    ></Marker>
-                )
-            })
-          }
       </MapView>
-  
     )
   }
 }
