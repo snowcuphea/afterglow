@@ -1,7 +1,8 @@
 import ActionCreator from '../actions'
 
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay, getCurrentInfo, sendLocationInfo } from '../../api/account'
+import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay, 
+          getCurrentInfo, sendLocationInfo, saveMemo } from '../../api/account'
 
 
 export function* loginAsync() {
@@ -101,6 +102,18 @@ export function* sendLocationInfoAsync(action) {
   }
 }
 
+export function* saveMemoAsync(action) {
+  try{
+    const { status, data } = yield call( saveMemo, action.payload ) 
+    console.log("메모저장성공",  status, data )
+
+    yield put(ActionCreator.updateMemo(data))
+
+  } catch (error) {
+    console.log("메모저장에러", error)
+  }
+}
+
 
 export const accountSagas = [
   takeLatest('LOGIN_ASYNC', loginAsync),
@@ -111,4 +124,5 @@ export const accountSagas = [
   takeLatest('START_DAY_ASYNC', startDayAsync),
   takeLatest('GET_CURRENT_INFO_ASYNC', getCurrentInfoAsync),
   takeLatest('SEND_LOCATION_INFO_ASYNC', sendLocationInfoAsync),
+  takeLatest('SAVE_MEMO_ASYNC', saveMemoAsync),
 ]

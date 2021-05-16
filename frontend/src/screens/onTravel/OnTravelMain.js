@@ -34,8 +34,6 @@ class OnTravelMain extends React.Component {
       startDate: '',
       passedTime: '',
       clickPin: false,
-      routeRecs : [],
-      pinList : [],
       selectedPin : null,
       lat : 0,
       lon : 0,
@@ -49,13 +47,16 @@ class OnTravelMain extends React.Component {
   }
 
   selectPinFunc = (val) => {
-    this.setState({ clickPin: val });
-    console.log("핀상태",this.state.clickPin )
+    this.setState({ ...this.state, clickPin: val });
+    // console.log("핀상태",this.state.clickPin )
   }
 
+
+
   newSelectPinFunc = (val) => {
-    console.log("val??", val)
+    console.log("newSelectPinFunc val??", val)
     this.setState({
+      ...this.state,
       selectedPin: val,
       clickPin: true,
     });
@@ -88,19 +89,6 @@ class OnTravelMain extends React.Component {
 
   componentDidMount () {
     
-    const tempRouteRecs = this.props.todayTravel.routeRecs
-    const tempPinList = tempRouteRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
-    
-    this.setState({
-      routeRecs : tempRouteRecs,
-      pinList: tempPinList
-    })
-    this.props.saveVisitPlace(tempPinList);
-
-    console.log("pinlist", JSON.stringify(this.state.pinList, null, 2))
-
-    
-
 
     Geolocation.getCurrentPosition(
       (position) => {
@@ -206,7 +194,7 @@ class OnTravelMain extends React.Component {
 
             <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
             
-            <PlaceList newSelectPinFunc={this.newSelectPinFunc}/>
+            <PlaceList newSelectPinFunc={this.newSelectPinFunc} />
             <Text style={styles.titleStyle}>오늘의 지출</Text>
             <MoneyBook />
             <AddMoneyItem />
@@ -263,9 +251,7 @@ function mapDispatchToProps(dispatch) {
     emptyList: () => {
       dispatch(ActionCreator.emptyList())
     },
-    saveVisitPlace: (place) => {
-      dispatch(ActionCreator.saveVisitPlace(place))
-    }
+    
 
   };
 }

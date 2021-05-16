@@ -15,14 +15,14 @@ class PinClickPage extends React.Component {
     super(props)
 		this.state = {
 			modifyStatus: false,
-			memoText:'우리의 추억',
+			memoText:'',
 			newMemoText:'',
 		}
   }
 
 
 	setText = (t) => {
-    this.setState({ newMemoText: t });
+    this.setState({ ...this.state, newMemoText: t });
 		console.log("memoText", this.state.memoText)
 		console.log("newMemoText", this.state.newMemoText)
   }
@@ -32,23 +32,30 @@ class PinClickPage extends React.Component {
 //   }
 
 	switchStatus = (val) => {
-		this.setState({ modifyStatus: val });
+		this.setState({ ...this.state, modifyStatus: val });
 	}
 
 	modifyCancel = () => {
 		const memoText = this.state.memoText
-		this.setState({ newMemoText: memoText });
+		this.setState({ ...this.state, newMemoText: memoText });
 		this.switchStatus(false)
 	}
 
 	modifyComplete = () => {
 		this.switchStatus(false)
 		//이제 여기에 메모 저장하는 디스패치 필요 
+    const memoItem = {
+      "Rr_id" : this.props.selectedPin.rr_id,
+      "memo_content": this.state.newMemoText
+    }
+    // console.log("memotiem?", memoItem)
+    this.props.updateMemo(memoItem)
 	}
 
 	componentDidMount() {
     const rr_memo = this.props.selectedPin.rr_memo
-    this.setState({ 
+    this.setState({
+      ...this.state,
       memoText: rr_memo,
       newMemoText: rr_memo });
   }
@@ -77,7 +84,7 @@ class PinClickPage extends React.Component {
 								? <Button title={"수정"} onPress={()=>this.switchStatus(true)}/>
 								: <View style={styles.btnContainer}>
 									<Button title={"취소"} onPress={this.modifyCancel}/>
-									<Button title={"완료"} onPress={()=>this.switchStatus(false)}/>
+									<Button title={"완료"} onPress={this.modifyComplete}/>
 									</View>
 							}
 							
@@ -123,6 +130,20 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(PinClickPage) 
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateMemo: (memoItem) => {
+      // console.log("mapDispatchToProps")
+      dispatch({
+        type: "SAVE_MEMO_ASYNC",
+        payload: memoItem
+      })
+    }
+
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PinClickPage) 
 
 

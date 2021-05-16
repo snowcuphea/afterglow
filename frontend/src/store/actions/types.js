@@ -18,6 +18,7 @@ const types = {
   SELECT_INDEX : 'SELECT_INDEX',
   SEND_LOCATION : 'SEND_LOCATION',
   SAVE_VISIT_PLACE : 'SAVE_VISIT_PLACE',
+  UPDATE_MEMO : 'UPDATE_MEMO',
 };
 
 export default types

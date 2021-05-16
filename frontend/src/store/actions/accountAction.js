@@ -14,7 +14,6 @@ export function logout() {
 }
 
 export function getRecordList(recordList) {
-  // console.log("asdfasdf", recordList)
   return {
     type: types.GET_RECORD_LIST,
     payload: recordList
@@ -74,5 +73,12 @@ export function saveVisitPlace(placeItem) {
   return {
     type: types.SAVE_VISIT_PLACE,
     payload: placeItem
+  }
+}
+
+export function updateMemo(memoItem) {
+  return {
+    type: types.UPDATE_MEMO,
+    payload: memoItem
   }
 }
