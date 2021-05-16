@@ -9,7 +9,8 @@ import {
   Dimensions
 } from 'react-native';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5' 
 import { connect } from 'react-redux'
 
 import ActionCreator from '.././store/actions'
@@ -58,11 +59,17 @@ class HomeScreen extends React.Component {
         }
 
         { this.state.mode === "map" ? 
-          <View style={{position: 'absolute', right:0, bottom:0}}>
+          <View style={{position: 'absolute', right:10, bottom:10}}>
             {
             this.props.travelStatus === "rest"
             ? <ModalStartTravel navigation={this.props.navigation} /> 
-            : <Button title={"여행이어서하기"} onPress={this.continueTravel}/>
+            : 
+            <TouchableOpacity 
+              onPress={this.continueTravel}
+              style={styles.startBtn}>
+              <Ionicons name="airplane" size={60} color={"skyblue"}/>
+            </TouchableOpacity>
+  
             }
           </View> :
           null  
@@ -104,7 +111,14 @@ const styles = StyleSheet.create({
   },
   segmentBtnText: {
     fontSize: 18,
-  }
+  },
+  startBtn: {
+    backgroundColor: "blue",
+    borderColor: "black",
+    borderWidth: 3,
+    padding:20,
+    borderRadius: 180
+  }, 
 
 })
 

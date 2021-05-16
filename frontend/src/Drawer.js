@@ -332,7 +332,11 @@ const DrawerComponent = () => {
       initialRouteName="Home"
       drawerType="front"
       drawerPosition='right'
+      screenOptions={{
+        gestureEnabled:false
+      }}
       drawerContent={props => <CustomDrawerContent {...props} />}
+
     >
       <Drawer.Screen name="Home" component={StackComponent}/>      
     </Drawer.Navigator>

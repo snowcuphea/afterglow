@@ -147,7 +147,7 @@ const StackComponent = (props) => {
         name="OnTravelMain"
         component={OnTravelMain}
         options={{
-          title: "여행 중"
+          title: "여운 남기는 중"
         }}
       />
       <Stack.Screen
@@ -162,14 +162,14 @@ const StackComponent = (props) => {
         name="EndTravelMain"
         component={EndTravelMain}
         options={{
-          title: <Text>기록</Text>
+          title: <Text>여운 남기기</Text>
         }}
       />
       <Stack.Screen
         name="SingleTravelHistory"
         component={SingleTravelHistory}
         options={{
-          title: <Text>선택한 여행 상세 기록</Text>
+          title: <Text>내 여운</Text>
         }}
       />
       <Stack.Screen 
@@ -184,7 +184,7 @@ const StackComponent = (props) => {
         name="SinglePicture"
         component={SinglePicture}
         options={{
-          title: "사진 보기",
+          title: "",
           headerRight: () => <SavePicture {...props} />,
         }}
       />

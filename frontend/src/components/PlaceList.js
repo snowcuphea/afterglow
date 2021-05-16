@@ -3,6 +3,7 @@ import React from 'react'
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 
+import randomColor from 'randomcolor'
 
 class PlaceList extends React.Component {
 
@@ -25,7 +26,13 @@ class PlaceList extends React.Component {
   render() {
   
 
-    const renderdata = ({item, index}) => {
+    const renderdata = async ({item, index}) => {
+    
+      const color = await randomColor({
+        count: 1,
+        luminosity: 'light',
+        hue: 'blue'
+      })
 
       return (
         <TouchableOpacity
@@ -33,11 +40,11 @@ class PlaceList extends React.Component {
               this.props.newSelectPinFunc(item)
               }
           >
-          <View style={styles.itemContainer}>
+          <View style={[styles.itemContainer, {backgroundColor:color}]}>
             <Text>{ item.rr_name }</Text>
           </View>
         </TouchableOpacity>
-      )
+        )
     }
 
     return (
@@ -64,7 +71,6 @@ const styles= StyleSheet.create({
   container: {
   },
   itemContainer: {
-    backgroundColor: 'green',
     justifyContent: 'center',
     marginHorizontal: screenWidth/40,
     marginVertical: screenHeight/60,
