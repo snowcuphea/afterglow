@@ -58,6 +58,10 @@ class EndTravelMain extends React.Component {
     )
   }
 
+  componentDidMount () {
+    console.log('테스트', this.props.travelStatus)
+  }
+
   render() {
     // console 보고 .latitude 같은 것들 추가해야 함
     // const lat = this.props.todayTravel.todaycoords.lat
