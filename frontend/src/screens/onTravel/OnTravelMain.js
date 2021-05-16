@@ -45,13 +45,14 @@ class OnTravelMain extends React.Component {
   }
 
   selectPinFunc = (val) => {
-    this.setState({ clickPin: val });
+    this.setState({ ...this.state, clickPin: val });
     console.log("핀상태",this.state.clickPin )
   }
 
   newSelectPinFunc = (val) => {
-    console.log("val??", val)
+    console.log("newSelectPinFunc val??", val)
     this.setState({
+      ...this.state,
       selectedPin: val,
       clickPin: true,
     });
@@ -77,7 +78,7 @@ class OnTravelMain extends React.Component {
       return hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
               ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' )
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return '여행을 시작했습니다.'
     }
   }
@@ -87,18 +88,18 @@ class OnTravelMain extends React.Component {
     const tempPinList = tempRouteRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
     
     this.setState({
+      ...this.state,
       routeRecs : tempRouteRecs,
       pinList: tempPinList
     })
     this.props.saveVisitPlace(tempPinList);
 
-    console.log("pinlist", JSON.stringify(this.state.pinList, null, 2))
 
   }
 
   
   render() {
-    
+    // console.log("투데이트래블adffasd",JSON.stringify(this.props.todayTravel, null,2) )
     
     return (
       <ScrollView style={styles.container}>
@@ -131,7 +132,7 @@ class OnTravelMain extends React.Component {
 
             <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
             
-            <PlaceList newSelectPinFunc={this.newSelectPinFunc}/>
+            <PlaceList newSelectPinFunc={this.newSelectPinFunc} pinList={this.state.pinList}/>
             <Text style={styles.titleStyle}>오늘의 지출</Text>
             <MoneyBook />
             <AddMoneyItem />

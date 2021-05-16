@@ -81,7 +81,7 @@ export function* startDayAsync(action) {
 export function* getCurrentInfoAsync(action) {
   try{
     const { status, data } = yield call(getCurrentInfo, action.payload) 
-    console.log( "getCurrentInfoAsync의 여행중 현재 상태\n",  status, JSON.stringify(data, null, 2) )
+    // console.log( "getCurrentInfoAsync의 여행중 현재 상태\n",  status, JSON.stringify(data, null, 2) )
 
     yield put(ActionCreator.startDay(data))
 

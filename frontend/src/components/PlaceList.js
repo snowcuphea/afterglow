@@ -1,26 +1,32 @@
 import React from 'react'
 
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import ThemedListItem from 'react-native-elements/dist/list/ListItem';
 import { connect } from 'react-redux'
 import ActionCreator from '../store/actions';
 
-// const places = [
-//   { id: 1, name: "애월 해변", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-//   { id: 2, name: "하르방 밀면", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-//   { id: 3, name: "한라산", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-//   { id: 4, name: "비밀의 숲", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-//   { id: 5, name: "우도", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-// ]
 
 class PlaceList extends React.Component {
 
   constructor(props){
     super(props)
+    this.state={
+      pinList:[]
+    }
+  }
+
+  async componentDidMount() {
+    await this.setState({
+      ...this.state,
+      pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
+    })
+
+    console.log("placelist에서", JSON.stringify(this.state.pinList,null,2))
   }
 
 
-
   render() {
+  
 
     const renderdata = ({item, index}) => {
 
@@ -41,9 +47,9 @@ class PlaceList extends React.Component {
 
       <View style={styles.container}>
         <FlatList
-          data={this.props.visitedPlace}
+          data={this.state.pinList}
           renderItem={renderdata}
-          keyExtractor = {(data) => data.rr_id}
+          keyExtractor = {(data) => data}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
@@ -74,9 +80,9 @@ const styles= StyleSheet.create({
 
 
 function mapStateToProps(state){
-  console.log("visitedPlacE?", state.accountRd.visitedPlace)
+  // console.log("visitedPlacE?", state.accountRd.visitedPlace)
   return {
-    visitedPlace: state.accountRd.visitedPlace
+    todayTravel: state.accountRd.todayTravel
   }
 }
 

@@ -39,6 +39,7 @@ const initialState = {
 
   historyIndex : 0,
 
+  selectedPin: {}
 };
 
 
@@ -120,10 +121,21 @@ export default (state = initialState, action) => {
         visitedPlace: action.payload
       }
     case types.UPDATE_MEMO:
-      // const itemIndex = visitedPlace.findIndex(element => element.rr_id === action.payload.rr_id)
+      // const itemIndex = state.todayTravel.routeRecs.findIndex(element => element.rr_id === action.payload.rr_id)
+      const newRouteRecs = state.todayTravel.routeRecs.map((item,i) => {
+        if (item.rr_id !== action.payload.rr_id ) {
+          return item
+        } else {
+          return action.payload
+        }
+      })
       return {
         ...state,
-        // visitedPlace: [...state,visitedPlace, state.visitedPlace[itemIndex] = action.payload ]
+        // routeRecs: [...state,visitedPlace, state.visitedPlace[itemIndex] = action.payload ]
+        todayTravel: {
+          ...state.todayTravel,
+          routeRecs: newRouteRecs
+        }
       }
     default:
       return state;

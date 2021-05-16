@@ -22,7 +22,7 @@ class PinClickPage extends React.Component {
 
 
 	setText = (t) => {
-    this.setState({ newMemoText: t });
+    this.setState({ ...this.state, newMemoText: t });
 		console.log("memoText", this.state.memoText)
 		console.log("newMemoText", this.state.newMemoText)
   }
@@ -32,12 +32,12 @@ class PinClickPage extends React.Component {
 //   }
 
 	switchStatus = (val) => {
-		this.setState({ modifyStatus: val });
+		this.setState({ ...this.state, modifyStatus: val });
 	}
 
 	modifyCancel = () => {
 		const memoText = this.state.memoText
-		this.setState({ newMemoText: memoText });
+		this.setState({ ...this.state, newMemoText: memoText });
 		this.switchStatus(false)
 	}
 
@@ -54,7 +54,8 @@ class PinClickPage extends React.Component {
 
 	componentDidMount() {
     const rr_memo = this.props.selectedPin.rr_memo
-    this.setState({ 
+    this.setState({
+      ...this.state,
       memoText: rr_memo,
       newMemoText: rr_memo });
   }
