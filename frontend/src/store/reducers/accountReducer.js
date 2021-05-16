@@ -29,7 +29,7 @@ const initialState = {
     dr_start_time: '',
     dr_end_time: '',      
     routeRecs : [],  // 방문한 장소 { imgRecs:{imgHeight,imgWidth,img_id,ir_image}, rr_id,rr_latitude,rr_longitude,rr_memo,rr_name,rr_time }
-    conRecs: [{ hour:11, min:40, what:'정직한돈', much:62000 }],    // 가계부 { cr_datetime,cr_id,cr_money,cr_name, }
+    conRecs: [],    // 가계부 { cr_datetime,cr_id,cr_money,cr_name, }
     dr_date: '2021-05-21',
     
   },
@@ -88,12 +88,7 @@ export default (state = initialState, action) => {
         travelingId: action.payload.rec_id,
         todayTravel: today
       }
-    case types.ADD_MONEY_ITEM:
-      return {
-        ...state,
-        todayTravel: {...state.todayTravel, conRecs : [ ...state.todayTravel.conRecs, action.payload ] }
-
-      }
+  
     case types.START_DAY:
       return {
         ...state,
@@ -135,6 +130,16 @@ export default (state = initialState, action) => {
           ...state.todayTravel,
           routeRecs: newRouteRecs
         }
+      }
+    case types.ADD_MONEY_ITEM:
+      return {
+       ...state,
+        todayTravel: {...state.todayTravel, conRecs : action.payload }
+      }
+    case types.DELETE_MONEY_ITEM:
+      return {
+        ...state,
+        todayTravel: {...state.todayTravel, conRecs : action.payload }
       }
     default:
       return state;

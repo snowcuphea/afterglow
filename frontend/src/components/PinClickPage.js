@@ -43,7 +43,6 @@ class PinClickPage extends React.Component {
 
 	modifyComplete = () => {
 		this.switchStatus(false)
-		//이제 여기에 메모 저장하는 디스패치 필요 
     const memoItem = {
       "Rr_id" : this.props.selectedPin.rr_id,
       "memo_content": this.state.newMemoText

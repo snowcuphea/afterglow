@@ -2,7 +2,7 @@ import ActionCreator from '../actions'
 
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay, 
-          getCurrentInfo, sendLocationInfo, saveMemo } from '../../api/account'
+          getCurrentInfo, sendLocationInfo, saveMemo, addConsumption } from '../../api/account'
 
 
 export function* loginAsync() {
@@ -118,6 +118,30 @@ export function* saveMemoAsync(action) {
   }
 }
 
+export function* addMoneyAsync(action) {
+  try{
+    const { status, data } = yield call( addConsumption, action.payload ) 
+    console.log("가계부저장성공",  status, data )
+
+    yield put(ActionCreator.addMoneyItem(data))
+
+  } catch (error) {
+    console.log("가계부저장 에러", error)
+  }
+}
+
+export function* deleteMoneyAsync(action) {
+  try{
+    const { status, data } = yield call( deleteConsumption, action.payload ) 
+    console.log("가계부삭ㅈ[ㅔ성공",  status, data )
+
+    yield put(ActionCreator.deleteMoneyItem(data))
+
+  } catch (error) {
+    console.log("가계부삭ㅈ[ㅔ 에러", error)
+  }
+}
+
 
 export const accountSagas = [
   takeLatest('LOGIN_ASYNC', loginAsync),
@@ -129,4 +153,6 @@ export const accountSagas = [
   takeLatest('GET_CURRENT_INFO_ASYNC', getCurrentInfoAsync),
   takeLatest('SEND_LOCATION_INFO_ASYNC', sendLocationInfoAsync),
   takeLatest('SAVE_MEMO_ASYNC', saveMemoAsync),
+  takeLatest('ADD_MONEY_ASYNC', addMoneyAsync),
+  takeLatest('DELETE_MONEY_ASYNC', deleteMoneyAsync),
 ]

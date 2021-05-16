@@ -34,12 +34,7 @@ export function setTravelName(data) {
   }
 }
 
-export function addMoneyItem(moneyItem) {
-  return {
-    type: types.ADD_MONEY_ITEM,
-    payload: moneyItem
-  }
-}
+
 
 export function startDay(todayInfo) {
   return {
@@ -80,5 +75,20 @@ export function updateMemo(memoItem) {
   return {
     type: types.UPDATE_MEMO,
     payload: memoItem
+  }
+}
+
+
+export function addMoneyItem(data) {
+  return {
+    type: types.ADD_MONEY_ITEM,
+    payload: data
+  }
+}
+
+export function deleteMoneyItem(data) {
+  return {
+    type: types.DELETE_MONEY_ITEM,
+    payload: data
   }
 }

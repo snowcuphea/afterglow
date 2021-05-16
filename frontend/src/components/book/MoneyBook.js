@@ -13,6 +13,16 @@ class MoneyBook extends React.Component {
     super(props)
   }
 
+  deleteMoney = (item_id) => {
+    console.log("삭제할 item_id", item_id)
+    const moneyitem = {
+      "consumption_id": item_id
+    }
+    console.log("삭제할인덱스랑같이", moneyitem)
+    this.props.deleteMoneyItem(moneyitem)
+
+  }
+
   render() {
     
     return (
@@ -20,28 +30,28 @@ class MoneyBook extends React.Component {
         
         <Card >
           <View style={styles.container}>
-            <Card.Title style={{flex:2}}>시간</Card.Title>
+            <Card.Title style={{flex:2}}>No</Card.Title>
             <Card.Title style={{flex:6}}>사용처</Card.Title>
             <Card.Title style={{flex:4}}>비용</Card.Title>
-            {/* <Card.Title style={{flex:1}}>관리</Card.Title> */}
           </View>
-          {/* <Card.Divider/> */}
         {
-        this.props.moneyBookList.map((item, i) => {
+        this.props.conRecs.map((item, i) => {
           return (
           <View key={i} style={styles.listContainer} >
             <View style={styles.itemWhen} >
-              <Text style={styles.moenyText}>{item.hour}:{item.min}</Text>
+              <Text style={styles.moenyText}>{i+1}</Text>
             </View>
             <View style={styles.itemWhat} >
-              <Text style={styles.moenyText}>{item.what}</Text>
+              <Text style={styles.moenyText}>{item.cr_name}</Text>
             </View>
             <View style={styles.itemMuch}>
-              <Text style={styles.moenyText}>{item.much}</Text>
+              <Text style={styles.moenyText}>{item.cr_money}</Text>
             </View>
-            <View style={styles.itemDelete}>
-              <Ionicons name="close"></Ionicons>
-            </View>
+            <TouchableOpacity style={styles.itemDelete}
+              onPress={() => this.deleteMoney(item.cr_id)}
+              >
+              <Ionicons name="close" size={20}/>
+            </TouchableOpacity>
           </View>
           );
          })
@@ -97,10 +107,21 @@ function mapStateToProps(state) {
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.usr_nickname,
-    moneyBookList: state.accountRd.todayTravel.conRecs
+    conRecs: state.accountRd.todayTravel.conRecs
   }
 }
 
-export default connect(mapStateToProps)(MoneyBook) 
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteMoneyItem: (moneyItem) => {
+      dispatch({
+        type: "DELETE_MONEY_ASYNC",
+        payload: moneyItem
+      })
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoneyBook) 
 
 
