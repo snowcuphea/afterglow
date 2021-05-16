@@ -113,7 +113,7 @@ export default (state = initialState, action) => {
     case types.SEND_LOCATION:
       return {
         ...state,
-        todayTravel: { ...state.todayTravel, todaycoords : [ ...state.todayTravel.todaycoords, { id: action.payload.rr_id, lat: action.payload.rr_latitude, lon: action.payload.rr_longitude}]}
+        // todayTravel: { ...state.todayTravel, todaycoords : [ ...state.todayTravel.todaycoords, { id: action.payload.rr_id, lat: action.payload.rr_latitude, lon: action.payload.rr_longitude}]}
         
       }
     case types.SAVE_VISIT_PLACE:
@@ -122,7 +122,6 @@ export default (state = initialState, action) => {
         visitedPlace: action.payload
       }
     case types.UPDATE_MEMO:
-      // const itemIndex = state.todayTravel.routeRecs.findIndex(element => element.rr_id === action.payload.rr_id)
       const newRouteRecs = state.todayTravel.routeRecs.map((item,i) => {
         if (item.rr_id !== action.payload.rr_id ) {
           return item
@@ -132,7 +131,6 @@ export default (state = initialState, action) => {
       })
       return {
         ...state,
-        // routeRecs: [...state,visitedPlace, state.visitedPlace[itemIndex] = action.payload ]
         todayTravel: {
           ...state.todayTravel,
           routeRecs: newRouteRecs

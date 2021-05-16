@@ -236,7 +236,7 @@ const DrawerComponent = () => {
           'rr_longitude': position.coords.longitude
         }
         // console.log('sendData 확인', sendData)
-        
+        // console.log("보냈다")
         if (dr_id !== undefined) {
           dispatch({
             type: 'SEND_LOCATION_INFO_ASYNC',
