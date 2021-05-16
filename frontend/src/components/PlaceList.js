@@ -26,13 +26,13 @@ class PlaceList extends React.Component {
   render() {
   
 
-    const renderdata = async ({item, index}) => {
+    const renderdata = ({item, index}) => {
     
-      const color = await randomColor({
-        count: 1,
-        luminosity: 'light',
-        hue: 'blue'
-      })
+      // const color = randomColor({
+      //   count: 1,
+      //   luminosity: 'light',
+      //   hue: 'blue'
+      // })
 
       return (
         <TouchableOpacity
@@ -40,7 +40,7 @@ class PlaceList extends React.Component {
               this.props.newSelectPinFunc(item)
               }
           >
-          <View style={[styles.itemContainer, {backgroundColor:color}]}>
+          <View style={[styles.itemContainer]}>
             <Text>{ item.rr_name }</Text>
           </View>
         </TouchableOpacity>
