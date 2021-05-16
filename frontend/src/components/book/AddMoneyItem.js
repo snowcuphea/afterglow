@@ -50,8 +50,8 @@ class AddMoneyItem extends React.Component {
     const moneyitem = {
       "day_id": this.props.todayTravel.dr_id,
       "consumption_name":this.state.nowWhat,
-      "consumption_money": this.state.nowMuch,
-      "consumption_time": new Date()
+      "consumption_money": parseInt(this.state.nowMuch),
+      // "consumption_time": new Date()
     }
     console.log("머니아이템", moneyitem)
     this.props.addMoneyItem(moneyitem)

@@ -88,12 +88,7 @@ export default (state = initialState, action) => {
         travelingId: action.payload.rec_id,
         todayTravel: today
       }
-    case types.ADD_MONEY_ITEM:
-      return {
-        ...state,
-        todayTravel: {...state.todayTravel, conRecs : action.payload }
-
-      }
+  
     case types.START_DAY:
       return {
         ...state,
@@ -135,6 +130,16 @@ export default (state = initialState, action) => {
           ...state.todayTravel,
           routeRecs: newRouteRecs
         }
+      }
+    case types.ADD_MONEY_ITEM:
+      return {
+       ...state,
+        todayTravel: {...state.todayTravel, conRecs : action.payload }
+      }
+    case types.DELETE_MONEY_ITEM:
+      return {
+        ...state,
+        todayTravel: {...state.todayTravel, conRecs : action.payload }
       }
     default:
       return state;

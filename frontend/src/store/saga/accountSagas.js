@@ -130,6 +130,18 @@ export function* addMoneyAsync(action) {
   }
 }
 
+export function* deleteMoneyAsync(action) {
+  try{
+    const { status, data } = yield call( deleteConsumption, action.payload ) 
+    console.log("가계부삭ㅈ[ㅔ성공",  status, data )
+
+    yield put(ActionCreator.deleteMoneyItem(data))
+
+  } catch (error) {
+    console.log("가계부삭ㅈ[ㅔ 에러", error)
+  }
+}
+
 
 export const accountSagas = [
   takeLatest('LOGIN_ASYNC', loginAsync),
@@ -142,4 +154,5 @@ export const accountSagas = [
   takeLatest('SEND_LOCATION_INFO_ASYNC', sendLocationInfoAsync),
   takeLatest('SAVE_MEMO_ASYNC', saveMemoAsync),
   takeLatest('ADD_MONEY_ASYNC', addMoneyAsync),
+  takeLatest('DELETE_MONEY_ASYNC', deleteMoneyAsync),
 ]

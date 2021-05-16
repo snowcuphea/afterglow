@@ -13,6 +13,16 @@ class MoneyBook extends React.Component {
     super(props)
   }
 
+  deleteMoney = (item_id) => {
+    console.log("삭제할 item_id", item_id)
+    const moneyitem = {
+      "consumption_id": item_id
+    }
+    console.log("삭제할인덱스랑같이", moneyitem)
+    this.props.deleteMoneyItem(moneyitem)
+
+  }
+
   render() {
     
     return (
@@ -37,9 +47,11 @@ class MoneyBook extends React.Component {
             <View style={styles.itemMuch}>
               <Text style={styles.moenyText}>{item.cr_money}</Text>
             </View>
-            <View style={styles.itemDelete}>
-              <Ionicons name="close" size={20}></Ionicons>
-            </View>
+            <TouchableOpacity style={styles.itemDelete}
+              onPress={this.deleteMoney(item.cr_id)}
+              >
+              <Ionicons name="close" size={20}/>
+            </TouchableOpacity>
           </View>
           );
          })
@@ -99,6 +111,17 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(MoneyBook) 
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteMoneyItem: (moneyItem) => {
+      dispatch({
+        type: "DELETE_MONEY_ASYNC",
+        payload: moneyItem
+      })
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoneyBook) 
 
 
