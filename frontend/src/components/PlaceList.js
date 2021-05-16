@@ -1,9 +1,7 @@
 import React from 'react'
 
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
-import ThemedListItem from 'react-native-elements/dist/list/ListItem';
 import { connect } from 'react-redux'
-import ActionCreator from '../store/actions';
 
 
 class PlaceList extends React.Component {
@@ -20,8 +18,7 @@ class PlaceList extends React.Component {
       ...this.state,
       pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
     })
-
-    console.log("placelist에서", JSON.stringify(this.state.pinList,null,2))
+    // console.log("placelist에서", JSON.stringify(this.state.pinList,null,2))
   }
 
 
@@ -80,7 +77,6 @@ const styles= StyleSheet.create({
 
 
 function mapStateToProps(state){
-  // console.log("visitedPlacE?", state.accountRd.visitedPlace)
   return {
     todayTravel: state.accountRd.todayTravel
   }

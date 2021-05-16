@@ -15,7 +15,7 @@ class PinClickPage extends React.Component {
     super(props)
 		this.state = {
 			modifyStatus: false,
-			memoText:'우리의 추억',
+			memoText:'',
 			newMemoText:'',
 		}
   }
