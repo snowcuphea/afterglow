@@ -44,7 +44,7 @@ class OnTravelMain extends React.Component {
 
   selectPinFunc = (val) => {
     this.setState({ ...this.state, clickPin: val });
-    console.log("핀상태",this.state.clickPin )
+    // console.log("핀상태",this.state.clickPin )
   }
 
 
