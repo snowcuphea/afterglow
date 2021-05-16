@@ -9,7 +9,7 @@ export function* loginAsync() {
   try {
     const { status, data } = yield call(login)
     console.log("로그인응답", status)
-    console.log("로그인데이터", data)
+    // console.log("로그인데이터", data)
     yield put(ActionCreator.login(data))
 
   } catch (error) {
@@ -20,7 +20,7 @@ export function* loginAsync() {
 export function* getRecordListAsync() {
   try {
     const res = yield call(getRecordList)
-    // console.log("여행리스트응답코드", res.status)
+    console.log("여행리스트응답코드", res.status)
     // console.log("여행리스트데이터", res.data)
     yield put(ActionCreator.getRecordList(res.data))
 
@@ -35,7 +35,7 @@ export function* startTravelAsync(action) {
     const { status, data } = yield call(startTrip, action.payload)
 
     console.log("여행시작 응답", status)
-    console.log("여행시작 데이터", data)
+    // console.log("여행시작 데이터", data)
 
     yield put(ActionCreator.setTravelName(data))
 
@@ -57,7 +57,8 @@ export function* changeStatusAsync(action) {
 export function* endDayAsync(action) {
   try{
     const { status, data } = yield call(endDay, action.payload) 
-    console.log( "하루가 끝나고 ",  status, data )
+    console.log( "하루가 끝나고 ",  status )
+    // console.log("하루가 끝나는", data)
 
     yield put(ActionCreator.endDay(data))
 
@@ -69,7 +70,8 @@ export function* endDayAsync(action) {
 export function* startDayAsync(action) {
   try{
     const { status, data } = yield call(startDay, action.payload) 
-    console.log( "하루가 시작 ",  status, data )
+    console.log( "하루가 시작 ",  status)
+    // console.log( "하루가 시작 ",  data)
 
     yield put(ActionCreator.startDay(data))
 
@@ -81,8 +83,8 @@ export function* startDayAsync(action) {
 export function* getCurrentInfoAsync(action) {
   try{
     const { status, data } = yield call(getCurrentInfo, action.payload) 
+    console.log("형재 여행 상태", status)
     // console.log( "getCurrentInfoAsync의 여행중 현재 상태\n",  status, JSON.stringify(data, null, 2) )
-
     yield put(ActionCreator.startDay(data))
 
   } catch (error) {
@@ -93,7 +95,8 @@ export function* getCurrentInfoAsync(action) {
 export function* sendLocationInfoAsync(action) {
   try{
     const { status, data } = yield call(sendLocationInfo, action.payload) 
-    console.log( "위치 성공",  status, data )
+    console.log( "위치 성공",  status)
+    // console.log( "위치 성공",   data )
 
     yield put(ActionCreator.sendLocationInfo(data))
 
@@ -105,7 +108,8 @@ export function* sendLocationInfoAsync(action) {
 export function* saveMemoAsync(action) {
   try{
     const { status, data } = yield call( saveMemo, action.payload ) 
-    console.log("메모저장성공",  status, data )
+    console.log("메모저장성공",  status )
+    // console.log("메모저장성공",  data )
 
     yield put(ActionCreator.updateMemo(data))
 
