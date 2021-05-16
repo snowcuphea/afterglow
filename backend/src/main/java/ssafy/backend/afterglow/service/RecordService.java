@@ -2,6 +2,7 @@ package ssafy.backend.afterglow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.RouteMatcher;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.*;
 import ssafy.backend.afterglow.repository.*;
@@ -106,5 +107,16 @@ public class RecordService {
 
     public static double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
+    }
+
+    public RouteRecord customBuilder(DailyRecord dr, Double lat, Double lng){
+        return RouteRecord.builder()
+                .dr(dr)
+                .latest_longitude(lng)
+                .latest_latitude(lat)
+                .rrLongitude(lng)
+                .rrLatitude(lat)
+                .rrTime(LocalDateTime.now())
+                .build();
     }
 }

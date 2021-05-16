@@ -265,16 +265,9 @@ public class RecordController {
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
                     Optional<RouteRecord> latestRr = recordService.getLatestRr(dr);
-                    if (latestRr.isPresent()) {
+                    if (latestRr != null) {
                         if (latestRr.get().getRrName() != null && recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 3) {
-                            routeRepository.save(RouteRecord.builder()
-                                    .dr(dr)
-                                    .rrLatitude(rrLat)
-                                    .rrLongitude(rrLong)
-                                    .latest_latitude(rrLat)
-                                    .latest_longitude(rrLong)
-                                    .rrTime(LocalDateTime.now())
-                                    .build());
+                            routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong));
                         } else {
                             if (!recordService.isUserMoving(latestRr.get(), rrLat, rrLong)) {
                                 latestRr.get().setRrStaying_minute(latestRr.get().getRrStaying_minute() + 1);
@@ -298,19 +291,11 @@ public class RecordController {
                                 }
                                 routeRepository.save(latestRr.get());
                             } else {
-
-
+                                routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong));
                             }
                         }
                     } else {
-                        routeRepository.save(RouteRecord.builder()
-                                .dr(dr)
-                                .rrLatitude(rrLat)
-                                .rrLongitude(rrLong)
-                                .latest_latitude(rrLat)
-                                .latest_longitude(rrLong)
-                                .rrTime(LocalDateTime.now())
-                                .build());
+                        routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong));
                     }
                 });
         return ResponseEntity.ok(result);
