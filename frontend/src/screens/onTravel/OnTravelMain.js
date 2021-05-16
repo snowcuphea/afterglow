@@ -181,7 +181,6 @@ class OnTravelMain extends React.Component {
           </MapView>
         </View>
         <ModalDayFinish navigation={this.props.navigation} /> 
-        <Button title={"핀을 눌렀을 때"} onPress={() => this.selectPinFunc(true)}/>
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
         { this.state.clickPin
         ? <PinClickPage 
