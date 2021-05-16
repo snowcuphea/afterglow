@@ -49,12 +49,7 @@ public class RecordController {
     // 이미지 저장
     @SneakyThrows
     @PostMapping(value = "/saveImg")
-    public ResponseEntity<Integer> saveImg(@RequestParam("img") List<ImageInputDto> images,
-                                           @RequestParam("drId") Long drId,
-                                           HttpServletRequest request,
-                                           HttpServletResponse response) {
-        Optional<User> user = userService.findUserByToken(request, response);
-        Optional<DailyRecord> dr = dailyRepository.findById(drId);
+    public ResponseEntity<Integer> saveImg(@RequestBody List<ImageInputDto> images) {
         images
                 .stream()
                 .forEach(image -> {
@@ -66,11 +61,8 @@ public class RecordController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    recordService.findNearestRr(dr.get().getDrId(), image.getLongitude(), image.getLatitude(), image.getTimestamp())
-                            .ifPresent(rr -> {
-                                ir.setRr(rr);
-                                imageRepository.save(ir);
-                            });
+                    ir.setRr(routeRepository.findById(image.getRrId()).get());
+                    imageRepository.save(ir);
                 });
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
     }
@@ -262,12 +254,14 @@ public class RecordController {
             TourDestination nearestTd = null;
         };
         Map<String, Object> result = new HashMap<>();
+        result.put("rr", null);
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
                     Optional<RouteRecord> latestRr = recordService.getLatestRr(dr);
                     if (latestRr != null) {
+                        result.put("isUserMoving", recordService.isUserMoving(latestRr.get(), rrLat, rrLong));
                         if (latestRr.get().getRrName() != null && recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 3) {
-                            routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong));
+                            result.replace("rr", routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong)));
                         } else {
                             if (!recordService.isUserMoving(latestRr.get(), rrLat, rrLong)) {
                                 latestRr.get().setRrStaying_minute(latestRr.get().getRrStaying_minute() + 1);
@@ -288,14 +282,16 @@ public class RecordController {
                                         latestRr.get().setRrLatitude(ref.nearestTd.getTdLatitude());
                                         latestRr.get().setRrLongitude(ref.nearestTd.getTdLongitude());
                                     }
+                                    result.put("place", ref.nearestTd);
                                 }
                                 routeRepository.save(latestRr.get());
                             } else {
-                                routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong));
+                                result.replace("rr", routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong)));
                             }
                         }
                     } else {
-                        routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong));
+                        result.put("isUserMoving", false);
+                        result.replace("rr", routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong)));
                     }
                 });
         return ResponseEntity.ok(result);
