@@ -77,12 +77,13 @@ class OnTravelMain extends React.Component {
       return hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
               ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' )
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return '여행을 시작했습니다.'
     }
   }
 
   componentDidMount () {
+    
     const tempRouteRecs = this.props.todayTravel.routeRecs
     const tempPinList = tempRouteRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
     

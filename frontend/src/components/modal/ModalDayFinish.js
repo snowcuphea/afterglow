@@ -157,9 +157,6 @@ function mapDispatchToProps(dispatch) {
         payload: status
       })
     },
-    setDate: () => {
-      dispatch(ActionCreator.setDate())
-    },
     modePicture: (mode) => {
       dispatch(ActionCreator.modePicture(mode))
     },

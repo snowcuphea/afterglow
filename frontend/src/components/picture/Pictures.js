@@ -30,6 +30,17 @@ class Pictures extends React.Component {
   }
 
   async componentDidMount(){
+
+    const nowTime = new Date()
+
+    const endTime = nowTime.getFullYear()+"-"
+                  + Number(nowTime.getMonth())+1+"-"
+                  + nowTime.getDate()+" "
+                  + "T"+nowTime.getHours()+":"
+                  + nowTime.getMinutes()+":"
+                  + nowTime.getSeconds()
+    
+
     if (Platform.OS === 'android') {
       const result = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
@@ -51,28 +62,64 @@ class Pictures extends React.Component {
       return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
     }
 
-    CameraRoll.getPhotos({
-      first: 50,
+    const tempPictures = []
+
+    const unsortedSet = {
+      id: "도로",
+      title: "미분류",
+      fromTime: this.props.dayRecs.dr_start_time,
+      toTime: endTime,
+      data: [{
+        id: "미분류",
+        list: []
+      }]
+    }
+
+    for ( var index in this.props.dayRecs.routeRecs) {
+
+      var route = this.props.dayRecs.routeRecs[index]
+      var fromTime = route.rr_time
+      var toTime = endTime
+      if ( index < this.props.dayRecs.routeRecs.length - 1 ) {
+        var toTime = this.props.dayRecs.routeRecs[Number(index)+1].rr_time
+      } 
+
+      // console.log("#",Number(index)+1,"   from: ", fromTime, "///to: ",toTime)
+      
+      if ( route.rr_name !== null) {
+        const pictureSet = {
+          id: route.rr_id,
+          title: route.rr_name,
+          fromTime: fromTime,
+          toTime: toTime,
+          data: [{
+            id: route.rr_name,
+            list: []
+          }]
+        }
+        tempPictures.push(pictureSet)
+      } else if ( unsortedSet.id === "도로") {
+        unsortedSet.id = route.rr_id
+      }
+    }
+
+    tempPictures.push(unsortedSet)
+
+    await CameraRoll.getPhotos({
+      first: 10000,
       assetType: 'Photos',
       include: [
         'location', 'imageSize'
       ],
-      fromTime: changeTime(this.props.startTime),
+      fromTime: changeTime(this.props.dayRecs.dr_start_time),
+      toTime: changeTime(endTime)
     })
     .then(res => {
-      const pictureSet = {
-        title: "구분",
-        id: "구분",
-        data: []
-      }
-      const tempData = {
-        id : "123",
-        list: []
-      }
       for (let picture of res.edges) {
         const pictureForm = {
           id: picture.node.timestamp,
-          timestamp : picture.node.timestamp,
+          rr_id: 0,
+          timestamp : picture.node.timestamp * 1000, // s 단위로 오는거 ms 단위로 바꿔줘야한다
           location : picture.node.location,
           uri: picture.node.image.uri,
           imageSize: {
@@ -80,14 +127,22 @@ class Pictures extends React.Component {
             width : picture.node.image.width
           },
         }
-        tempData.list.unshift(pictureForm)
+        for ( var tempPicture of tempPictures) {
+          if ( pictureForm.timestamp >= changeTime(tempPicture.fromTime) && pictureForm.timestamp <= changeTime(tempPicture.toTime) ) {
+            pictureForm.rr_id = tempPicture.id
+            tempPicture.data[0].list.unshift(pictureForm)
+            break
+          } 
+        }
+      } 
+      for ( var tempPicture of tempPictures) {
+        this.setState({ ...this.state, data: [ ...this.state.data, tempPicture]})
+        // console.log(JSON.stringify(this.state.data,null,2))
       }
-      pictureSet.data.push(tempData)
-      this.setState({ ...this.state, data: [ ...this.state.data, pictureSet ]})
     })
-    .catch((error) => {
-        console.log("에러",error);
-    });
+    .catch(error => {
+      console.log("하루에 대한 사진불러오기 에러", error)
+    })
   }
 
   toLargeScale = (item) => {
@@ -100,6 +155,15 @@ class Pictures extends React.Component {
     } else {
       return false
     }
+  }
+
+  selectPicture = (item) => {
+    this.props.select(item)
+    // console.log(JSON.stringify(item,null,2))
+  }
+
+  unselectPicture = () => {
+    this.props.unselect(id)
   }
 
   render(){
@@ -118,14 +182,14 @@ class Pictures extends React.Component {
           { this.props.mode === "look" ? null :
             <View style={styles.selectContainer}>
               { this.isSelected(item) ?  
-                <TouchableOpacity style={styles.selectArea} onPress={() => this.props.unselect(item.id)}>
+                <TouchableOpacity style={styles.selectArea} onPress={() => this.unselectPicture(item.id)}>
                   <Ionicons 
                     name="checkmark-circle" 
                     size={screenWidth/12}
                     style={styles.selectIcon1}
                     color={'pink'}/>
                 </TouchableOpacity> :
-                <TouchableOpacity style={styles.selectArea} onPress={() => this.props.select(item)}>
+                <TouchableOpacity style={styles.selectArea} onPress={() => this.selectPicture(item)}>
                   <Ionicons
                     name="ellipse"  
                     size={screenWidth/12}
@@ -206,8 +270,9 @@ function mapStateToProps(state) {
 
   return {
     selectedPictures: state.pictureRd.pictures,
-    startTime: state.accountRd.todayTravel.dr_start_time,
-    mode: state.pictureRd.mode
+    dayRecs: state.accountRd.todayTravel,
+    mode: state.pictureRd.mode,
+    
   };
 }
 

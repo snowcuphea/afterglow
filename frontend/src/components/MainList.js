@@ -63,6 +63,7 @@ class MainList extends React.Component{
         numColumns={2}
         renderItem={renderdata}
         keyExtractor={(data) => data.rec_name }
+        showsVerticalScrollIndicator={false}
       />
     )
   }
