@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.ImageInputDto;
@@ -17,12 +16,10 @@ import ssafy.backend.afterglow.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @RestController
@@ -123,8 +120,7 @@ public class RecordController {
     @PostMapping("/consumption")
     public ResponseEntity<List<ConsumptionRecord>> setConsumption(@RequestParam("day_id") Long dayId,
                                                                   @RequestParam("consumption_name") String conName,
-                                                                  @RequestParam("consumption_money") Integer conMoney,
-                                                                  @RequestParam("consumption_time") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime conTime) {
+                                                                  @RequestParam("consumption_money") Integer conMoney) {
         var ref = new Object() {
             List<ConsumptionRecord> result;
         };
@@ -135,7 +131,7 @@ public class RecordController {
                             .dr(dr)
                             .crName(conName)
                             .crMoney(conMoney)
-                            .crDatetime(conTime)
+                            .crDatetime(LocalDateTime.now())
                             .build());
                     ref.result = conRepository.findAllByDr(dr).get();
 
