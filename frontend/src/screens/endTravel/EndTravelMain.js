@@ -60,7 +60,7 @@ class EndTravelMain extends React.Component {
   }
 
   componentDidMount () {
-    console.log('테스트', this.props.travelStatus)
+    // console.log('테스트', this.props.travelStatus)
   }
 
   render() {

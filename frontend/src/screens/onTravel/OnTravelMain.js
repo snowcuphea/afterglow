@@ -103,10 +103,10 @@ class OnTravelMain extends React.Component {
 
 
         // 확인 완료
-        console.log('현재위치 확인용', this.state)
+        // console.log('현재위치 확인용', this.state)
 
 
-        console.log(position);
+        // console.log(position);
       },
       (error) => {
         Alert.alert(`Code ${error.code}`, error.message);
