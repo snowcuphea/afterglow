@@ -31,21 +31,11 @@ class Maps_cluster extends React.Component {
           initialRegion={INITIAL_REGION}
           style={{ flex:1 }}
         >
-          
-
-        </MapView>
-      )
-    } else {
-      return (
-        <MapView
-          initialRegion={INITIAL_REGION}
-          style={{ flex:1 }}
-        >
           {
               this.props.traveledList.map((travelItem, index) => {
-  
+    
                 console.log(JSON.stringify(travelItem,null,2))
-  
+    
                   return (
                       <Marker
                           coordinate={{ 
@@ -58,6 +48,16 @@ class Maps_cluster extends React.Component {
                   )
               })
             }
+          
+
+        </MapView>
+      )
+    } else {
+      return (
+        <MapView
+          initialRegion={INITIAL_REGION}
+          style={{ flex:1 }}
+        >
 
         </MapView>
       )

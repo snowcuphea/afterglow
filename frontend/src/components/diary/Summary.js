@@ -150,6 +150,7 @@ class Summary extends React.Component {
               latitudeDelta: 0.1,
               longitudeDelta: 0.1
             }}
+            style={{ flex:1 }}
           >
             {/* <Polyline
               coordinates={{"좌표값"}}
