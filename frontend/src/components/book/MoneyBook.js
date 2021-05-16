@@ -20,27 +20,25 @@ class MoneyBook extends React.Component {
         
         <Card >
           <View style={styles.container}>
-            <Card.Title style={{flex:2}}>시간</Card.Title>
+            <Card.Title style={{flex:2}}>No</Card.Title>
             <Card.Title style={{flex:6}}>사용처</Card.Title>
             <Card.Title style={{flex:4}}>비용</Card.Title>
-            {/* <Card.Title style={{flex:1}}>관리</Card.Title> */}
           </View>
-          {/* <Card.Divider/> */}
         {
-        this.props.moneyBookList.map((item, i) => {
+        this.props.conRecs.map((item, i) => {
           return (
           <View key={i} style={styles.listContainer} >
             <View style={styles.itemWhen} >
-              <Text style={styles.moenyText}>{item.hour}:{item.min}</Text>
+              <Text style={styles.moenyText}>{i+1}</Text>
             </View>
             <View style={styles.itemWhat} >
-              <Text style={styles.moenyText}>{item.what}</Text>
+              <Text style={styles.moenyText}>{item.cr_name}</Text>
             </View>
             <View style={styles.itemMuch}>
-              <Text style={styles.moenyText}>{item.much}</Text>
+              <Text style={styles.moenyText}>{item.cr_money}</Text>
             </View>
             <View style={styles.itemDelete}>
-              <Ionicons name="close"></Ionicons>
+              <Ionicons name="close" size={20}></Ionicons>
             </View>
           </View>
           );
@@ -97,7 +95,7 @@ function mapStateToProps(state) {
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.usr_nickname,
-    moneyBookList: state.accountRd.todayTravel.conRecs
+    conRecs: state.accountRd.todayTravel.conRecs
   }
 }
 

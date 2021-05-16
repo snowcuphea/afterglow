@@ -46,7 +46,7 @@ class PlaceList extends React.Component {
         <FlatList
           data={this.state.pinList}
           renderItem={renderdata}
-          keyExtractor = {(data) => data}
+          keyExtractor = {(data) => data.rr_id}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
