@@ -20,6 +20,7 @@ import ActionCreator from '../.././store/actions'
 
 
 import { CommonActions } from '@react-navigation/native'
+import { round } from 'react-native-reanimated';
 // import Map_In_Main from '../../components/Map_In_Main'
 
 class EndTravelMain extends React.Component {
