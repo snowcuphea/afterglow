@@ -1,6 +1,4 @@
 const types = {
-  COUNT_UP : 'COUNT_UP',
-  COUNT_DOWN : 'COUNT_DOWN',
   LOGIN : 'LOGIN',
   LOGOUT : 'LOGOUT',
   GET_RECORD_LIST : 'GET_RECORD_LIST',

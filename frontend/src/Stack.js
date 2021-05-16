@@ -2,7 +2,7 @@ import React from 'react'
 import { View, TouchableOpacity, Text, Button } from 'react-native'
 
 import { createStackNavigator, CardStyleInterpolators, HeaderBackButton} from '@react-navigation/stack' 
-import { NavigationContainer, DrawerActions, useNavigation, CommonActions } from '@react-navigation/native'
+import { DrawerActions, useNavigation, CommonActions } from '@react-navigation/native'
 import { connect } from 'react-redux'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,7 +10,6 @@ import LoginScreen from './screens/account/Login';
 import HomeScreen from './screens/Home';
 import OnTravelMain from './screens/onTravel/OnTravelMain';
 import SettingsMain from './screens/settingss/SettingsMain';
-import TravelHistoryMain from './screens/travelHistory/TravelHistoryMain';
 import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory';
 import SavePictures from './screens/common/SavePictures';
 import SinglePicture from './screens/common/SinglePicture';
@@ -18,12 +17,6 @@ import ShowPictures from './screens/common/ShowPictures';
 import EndTravelMain from './screens/endTravel/EndTravelMain';
 
 import ActionCreator from './store/actions'
-
-import Counter from './screens/Counter';
-
-import Map_In_Main from './components/Map_In_Main'
-import CurrentLocation from './screens/CurrentLocation'
-
 import SettingsNotice from './screens/settingss/SettingsNotice';
 import SettingsContact from './screens/settingss/SettingsContact';
 import SettingsLicense from './screens/settingss/SettingsLicense';
@@ -169,14 +162,7 @@ const StackComponent = (props) => {
         name="EndTravelMain"
         component={EndTravelMain}
         options={{
-          title: <Text>하루 기록 보는 화면</Text>
-        }}
-      />
-      <Stack.Screen
-        name="TravelHistoryMain"
-        component={TravelHistoryMain}
-        options={{
-          title: <Text>여행 전체 기록</Text>
+          title: <Text>기록</Text>
         }}
       />
       <Stack.Screen
@@ -209,18 +195,6 @@ const StackComponent = (props) => {
           title: props.mode === 'look' ? "사진 보기" : "사진 공유",
           headerRight: () => <SavePicture {...props} />,
         }}
-      />
-      <Stack.Screen
-        name="CurrentLocation"
-        component={CurrentLocation}
-      />
-      <Stack.Screen
-        name="Map_In_Main"
-        component={Map_In_Main}
-      />
-      <Stack.Screen
-        name="Counter"
-        component={Counter}
       />
       <Stack.Screen
         name="SettingsNotice"

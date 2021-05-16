@@ -14,7 +14,6 @@ import { connect } from 'react-redux'
 
 import ActionCreator from '.././store/actions'
 import ModalStartTravel from '../components/modal/ModalStartTravel'
-import { getRecordList as getRecordListAPI } from '../api/account'
 
 import MainList from '../components/MainList'
 import Maps_cluster from '../components/maps/Maps_cluster'
@@ -39,26 +38,6 @@ class HomeScreen extends React.Component {
     } else {
       console.warn(this.props.travelStatus)
     }
-  }
-
-  selectPin = () => {
-    this.props.navigation.navigate('TravelHistoryMain')
-  }
-
-  reduxTest = () => {
-    this.props.navigation.navigate('Counter')
-  }
-
-  maps_cluster = () => {
-    this.props.navigation.navigate('Maps_cluster')
-  }
-
-  current_location = () => {
-    this.props.navigation.navigate('CurrentLocation')
-  }
-
-  test = () => {
-    this.props.navigation.navigate('Test_Maps')
   }
 
   componentDidMount() {
@@ -103,14 +82,6 @@ class HomeScreen extends React.Component {
             <Text style={styles.segmentBtnText}>리스트</Text>
           </TouchableOpacity>
           
-        </View>
-
-        <View style={{position: 'absolute', left: 0, bottom: 0}}>
-          <Button title={"지도에서 핀 누르기"} onPress={this.selectPin}/>
-          <Button title={"REDUX TEST"} onPress={this.reduxTest}/>
-          {/* <Button title={"maps_cluster"} onPress={this.maps_cluster}/> */}
-          <Button title={"current_location"} onPress={this.current_location}/>
-          <Button title={"test"} onPress={this.test}/>
         </View>
         
       </View>

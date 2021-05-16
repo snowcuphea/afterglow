@@ -4,14 +4,13 @@ import { persistReducer } from 'redux-persist';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import countReducer from './countReducer';
 import accountReducer from './accountReducer';
 import pictureReducer from './pictureReducer';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  Whitelist: ['countReducer', 'accountReducer', 'pictureReducer']
+  Whitelist: ['accountReducer', 'pictureReducer']
 }
 
 

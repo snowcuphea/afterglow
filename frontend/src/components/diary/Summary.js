@@ -57,35 +57,8 @@ class Summary extends React.Component {
   }
 
   totalPlaces() {
-    const tempDayRecs = [
-      {
-        "routeRecs" : [
-          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null },
-        ]
-      },
-      {
-        "routeRecs" : [
-          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": null },
-        ]
-      },
-      {
-        "routeRecs" : [
-          { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": null }, { "rr_name": "어딘가" },
-        ]
-      },
-      {
-        "routeRecs" : [
-          { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" },
-        ]
-      },
-      {
-        "routeRecs" : [
-          { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": null }, { "rr_name": "어딘가" }, { "rr_name": "어딘가" }, { "rr_name": null },
-        ]
-      },
-    ]
     var total = 0
-    for ( var day of tempDayRecs ) {
+    for ( var day of this.props.record.dayRecs ) {
       for ( var route of day.routeRecs ){
         if ( route.rr_name !== null ) { total += 1 }
       }
@@ -99,36 +72,36 @@ class Summary extends React.Component {
 
   getSelectedPictures() {
     var total = 0;
-    const tempDayRecs = [
-      {
-        "routeRecs" : [
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-        ]
-      },
-      {
-        "routeRecs" : [
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": null , "imgRecs": [] },
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-        ]
-      },
-      {
-        "routeRecs" : [
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-          { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-        ]
-      },
-    ];
-    for ( var days of tempDayRecs){
+    // const tempDayRecs = [
+    //   {
+    //     "routeRecs" : [
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //     ]
+    //   },
+    //   {
+    //     "routeRecs" : [
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": null , "imgRecs": [] },
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //     ]
+    //   },
+    //   {
+    //     "routeRecs" : [
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
+    //     ]
+    //   },
+    // ];
+    for ( var days of this.props.record.dayRecs){
       for ( var day of days.routeRecs ) {
         total += day.imgRecs.length
       };
