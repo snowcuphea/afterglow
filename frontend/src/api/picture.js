@@ -5,12 +5,10 @@ const instance = createInstance()
 const instancePicture = createInstancePicture()
 
 
-function upload( pictures, success, fail) {
+function upload( pictures ) {
 
-  instancePicture
-    .post("records/route/name", pictures)
-    .then(success)
-    .catch(fail)
+  instance.post("records/saveImg", pictures)
+  // instancePicture.post("records/saveImg", pictures)
 
 }
 

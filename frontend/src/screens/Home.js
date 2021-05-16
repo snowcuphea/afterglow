@@ -28,12 +28,6 @@ class HomeScreen extends React.Component {
     }
   }
 
-  startTravel = () => {
-    this.props.navigation.navigate('OnTravelMain')
-    this.props.changeStatus('onTravel')
-    this.props.setDate()
-  }
-
   continueTravel = () => {
     if ( this.props.travelStatus === "onTravel" || 
         this.props.travelStatus === "dayEndd" || 
@@ -167,9 +161,6 @@ function mapDispatchToProps(dispatch) {
         type: "GET_CURRENT_INFO_ASYNC",
         payload: dr_id
       })
-    },
-    setDate: () => {
-      dispatch(ActionCreator.setDate())
     },
     getRecordListReq: () => {
       dispatch({

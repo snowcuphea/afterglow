@@ -6,12 +6,14 @@ import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.*;
 import ssafy.backend.afterglow.repository.*;
 
+import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.Temporal;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordService {
@@ -33,134 +35,76 @@ public class RecordService {
     @Autowired
     ImageRepository imgRepo;
 
-    public Optional<Record> insertRec(Long userId, String recName){
-        Optional<User> user = userRepo.findById(userId);
-        if(user.isPresent()){
-            Record rec = Record.builder().user(user.get()).recName(recName).build();
-            return Optional.ofNullable(recRepo.save(rec));
-        }
-        else{
-            return null;
-        }
-    }
-
-    public RecordDTO selectRecordInfo(Long recId){
-        Optional<Record> rec = recRepo.findById(recId);
-        if(rec.isPresent()){
-            Record rEntity = rec.get();
-            List<DailyRecord> dayEntity = rEntity.getDayRecs();
-            List<List<RouteRecord>> routeEntity = new ArrayList<>();
-            List<List<ConsumptionRecord>> conEntity = new ArrayList<>();
-            List<List<List<ImageRecord>>> imgEntity = new ArrayList<>();
-            for(DailyRecord dRec : dayEntity){
-                routeEntity.add(dRec.getRouteRecs());
-                conEntity.add(dRec.getConRecs());
-            }
-            for(List<RouteRecord> list : routeEntity){
-                List<List<ImageRecord>> iTemp = new ArrayList<>();
-                for(RouteRecord rRec : list){
-                    iTemp.add(rRec.getImgRecs());
-                }
-                imgEntity.add(iTemp);
-            }
-
-            List<List<List<ImageDTO>>> irDTO = new ArrayList<>();
-            List<List<RouteDTO>> rrDTO = new ArrayList<>();
-            List<List<ConsumptionDTO>> crDTO = new ArrayList<>();
-            List<DailyRecordDTO> drDTO = new ArrayList<>();
-            for(List<List<ImageRecord>> iDList : imgEntity){
-                List<List<ImageDTO>> dTemp = new ArrayList<>();
-                for(List<ImageRecord> iList : iDList){
-                    List<ImageDTO> temp = new ArrayList<>();
-                    for(ImageRecord ir : iList){
-                        temp.add(ImageDTO.builder()
-                                .imgId(ir.getImgId())
-                                .irImage(ir.getIrImage())
-                                .build());
-                    }
-                    dTemp.add(temp);
-                }
-                irDTO.add(dTemp);
-            }
-
-            for(int i=0; i<routeEntity.size(); i++){
-                List<RouteDTO> temp = new ArrayList<>();
-                for(int j=0; j<routeEntity.get(i).size(); j++){
-                    temp.add(RouteDTO.builder()
-                            .rrId(routeEntity.get(i).get(j).getRrId())
-                            .rrLatitude(routeEntity.get(i).get(j).getRrLatitude())
-                            .rrLongitude(routeEntity.get(i).get(j).getRrLongitude())
-                            .rrTime(routeEntity.get(i).get(j).getRrTime())
-                            .images(irDTO.get(i).get(j))
-                            .build());
-                }
-                rrDTO.add(temp);
-            }
-            for(int i=0; i<conEntity.size(); i++){
-                List<ConsumptionDTO> temp = new ArrayList<>();
-                for(int j=0; j<conEntity.get(i).size(); j++){
-                    temp.add(ConsumptionDTO.builder()
-                            .crId(conEntity.get(i).get(j).getCrId())
-                            .crName(conEntity.get(i).get(j).getCrName())
-                            .crMoney(conEntity.get(i).get(j).getCrMoney())
-                            .crDatetime(conEntity.get(i).get(j).getCrDatetime())
-                            .build());
-                }
-                crDTO.add(temp);
-            }
-            for(int i=0; i<dayEntity.size(); i++){
-                drDTO.add(DailyRecordDTO.builder()
-                        .drId(dayEntity.get(i).getDrId())
-                        .drDay(dayEntity.get(i).getDrDate())
-                        .drStartTime(dayEntity.get(i).getDrStartTime())
-                        .drEndTime(dayEntity.get(i).getDrEndTime())
-                        .routes(rrDTO.get(i))
-                        .cons(crDTO.get(i))
-                        .build());
-            }
-            return RecordDTO.builder()
-                    .recId(rEntity.getRecId())
-                    .recName(rEntity.getRecName())
-                    .days(drDTO)
-                    .build();
-        }
-        else
-            return null;
-    }
-
     public Long getRecTotalTime(Long recId) {
         Optional<Record> rec = recRepo.findById(recId);
-        if(rec.isPresent()){
+        if (rec.isPresent()) {
             List<DailyRecord> dayRec = dayRepo.findByRec(rec.get());
             Long totalTime = 0L;
-            for(DailyRecord day : dayRec)
+            for (DailyRecord day : dayRec)
                 totalTime += ChronoUnit.HOURS.between(day.getDrStartTime(), day.getDrEndTime());
             return totalTime;
-        }
-        else
+        } else
             return null;
     }
 
-    public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude) {
-        Optional<DailyRecord> dr = dayRepo.findById(drId);
-        if (dr.isPresent()) {
-            List<RouteRecord> rrList = rouRepo.findByDr(dr.get());
-            AtomicReference<RouteRecord> nearestRr = new AtomicReference<>(rrList.get(0));
-            Double nearestDist = getDist(nearestRr.get(), longitude, latitude);
-            rrList
-                    .stream()
-                    .forEach(rr -> {
-                        if (getDist(rr, longitude, latitude) < nearestDist) {
-                            nearestRr.set(rr);
-                        }
-                    });
-            return Optional.ofNullable(nearestRr.get());
+    public Boolean isUserMoving(RouteRecord latestRr, Double latitude, Double longitude) {
+        return getDist(latestRr.getLatest_latitude(), latestRr.getLatest_longitude(), latitude, longitude) > 0.1;
+    }
+
+    public Optional<RouteRecord> getLatestRr(DailyRecord dr) {
+        Optional<List<RouteRecord>> rrList = rouRepo.findByDr(dr);
+        if (rrList.isPresent()) {
+            return null;
         } else {
-            return null;
+            return Optional.ofNullable(rrList.get().get(rrList.get().size() - 1));
         }
     }
 
-    public Double getDist(RouteRecord rr, Double Longitude, Double Latitude) {
-        return Math.sqrt(Math.pow(rr.getRrLatitude() - Latitude, 2) + Math.pow(rr.getRrLongitude() - Longitude, 2));
+    public Optional<RouteRecord> findNearestRr(Long drId, Double longitude, Double latitude, Timestamp timestamp) {
+        var ref = new Object() {
+            Optional<RouteRecord> result;
+        };
+        dayRepo.findById(drId).
+                ifPresent(dr -> {
+
+                    rouRepo.findByDr(dr)
+                            .ifPresent(rrs -> {
+                                ref.result = rrs.stream()
+                                        .filter(rr -> rr.getRrTime().compareTo(timestamp.toLocalDateTime()) < 0)
+                                        .min(new Comparator<RouteRecord>() {
+                                            @Override
+                                            public int compare(RouteRecord rr1, RouteRecord rr2) {
+                                                return Duration.between(rr1.getRrTime(), (Temporal) timestamp).compareTo(Duration.between(rr2.getRrTime(), (Temporal) timestamp));
+                                            }
+                                        });
+                            });
+                });
+        return ref.result;
+    }
+
+    public Double getDistBtwRr(RouteRecord rr1, RouteRecord rr2) {
+        return getDist(rr1.getRrLatitude(), rr1.getRrLongitude(), rr2.getRrLatitude(), rr2.getRrLongitude());
+    }
+
+    public Double getDist(double lat1, double lon1, double lat2, double lon2) {
+
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+
+        dist = dist * 1.609344;
+
+        return (dist);
+    }
+
+    public static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    public static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
     }
 }

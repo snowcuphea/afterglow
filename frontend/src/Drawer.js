@@ -69,17 +69,32 @@ const CustomDrawerContent = (props) => {
 
       <View style={styles.bottomIconContainer}>
         <View style={styles.bottomIcon}>
-          <Ionicons name={"notifications-outline"} size={40} color={"#555555"}></Ionicons>
+          <Ionicons 
+            name={"notifications-outline"} 
+            size={40} 
+            color={"#555555"}
+            onPress={() => props.navigation.navigate('SettingsNotice')}
+            ></Ionicons>
           <Text>공지사항</Text>
         </View>
 
         <View style={styles.bottomIcon}>
-          <Ionicons name={"people-outline"} size={40} color={"#555555"}></Ionicons>
+          <Ionicons 
+            name={"people-outline"} 
+            size={40} 
+            color={"#555555"}
+            onPress={() => props.navigation.navigate('SettingsContact')}
+            ></Ionicons>
           <Text>고객센터</Text>
         </View>
 
         <View style={styles.bottomIcon}>
-          <Ionicons name={"help-circle-outline"} size={40} color={"#555555"}></Ionicons>
+          <Ionicons 
+            name={"help-circle-outline"} 
+            size={40} 
+            color={"#555555"}
+            onPress={() => props.navigation.navigate('SettingsTutorial')}
+            ></Ionicons>
           <Text>튜토리얼</Text>
         </View>  
       </View>
@@ -213,14 +228,14 @@ const DrawerComponent = () => {
     watchId.current = Geolocation.watchPosition(
       (position) => {
         setLocation(position);
-        console.log('이건가' , position);
+        // console.log('이건가' , position);
 
         const sendData = {
           'dr_id':dr_id,
           'rr_latitude': position.coords.latitude,
           'rr_longitude': position.coords.longitude
         }
-        console.log('sendData 확인', sendData)
+        // console.log('sendData 확인', sendData)
         
         if (dr_id !== undefined) {
           dispatch({

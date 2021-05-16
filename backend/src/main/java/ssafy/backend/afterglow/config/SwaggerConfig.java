@@ -18,7 +18,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("backend.server.salendar"))
+                .apis(RequestHandlerSelectors.basePackage("ssafy.backend.afterglow"))
                 .paths(PathSelectors.any())
                 .build();
 

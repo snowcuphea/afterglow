@@ -25,19 +25,21 @@ const initialState = {
   travelingList : [], // 여행 중 작성(전체)
   todayTravel : {     // 여행 중 작성(하루)
     dr_id: undefined,
-    dr_timespent : 0,      // 하루 총 여행 시간
+    dr_timespent : '0:0',      // 하루 총 여행 시간
     dr_start_time: '',
     dr_end_time: '',      
     routeRecs : [],  // 방문한 장소 { imgRecs:{imgHeight,imgWidth,img_id,ir_image}, rr_id,rr_latitude,rr_longitude,rr_memo,rr_name,rr_time }
     conRecs: [{ hour:11, min:40, what:'정직한돈', much:62000 }],    // 가계부 { cr_datetime,cr_id,cr_money,cr_name, }
-    dr_date: 0,
+    dr_date: '2021-05-21',
     
   },
+  visitedPlace: [], //하루에 해당하는 방문 리스트
 
   recoPlace : [], // 여행 중 내 위치 기반 받아옴
 
   historyIndex : 0,
 
+  selectedPin: {}
 };
 
 
@@ -81,6 +83,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         travelingList: [],
+        visitedPlace: [],
         travelingName: action.payload.rec_name,
         travelingId: action.payload.rec_id,
         todayTravel: today
@@ -110,7 +113,30 @@ export default (state = initialState, action) => {
     case types.SEND_LOCATION:
       return {
         ...state,
+        todayTravel: { ...state.todayTravel, todaycoords : [ ...state.todayTravel.todaycoords, { id: action.payload.rr_id, lat: action.payload.rr_latitude, lon: action.payload.rr_longitude}]}
         
+      }
+    case types.SAVE_VISIT_PLACE:
+      return {
+        ...state,
+        visitedPlace: action.payload
+      }
+    case types.UPDATE_MEMO:
+      // const itemIndex = state.todayTravel.routeRecs.findIndex(element => element.rr_id === action.payload.rr_id)
+      const newRouteRecs = state.todayTravel.routeRecs.map((item,i) => {
+        if (item.rr_id !== action.payload.rr_id ) {
+          return item
+        } else {
+          return action.payload
+        }
+      })
+      return {
+        ...state,
+        // routeRecs: [...state,visitedPlace, state.visitedPlace[itemIndex] = action.payload ]
+        todayTravel: {
+          ...state.todayTravel,
+          routeRecs: newRouteRecs
+        }
       }
     default:
       return state;

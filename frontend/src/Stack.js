@@ -24,6 +24,14 @@ import Counter from './screens/Counter';
 import Map_In_Main from './components/Map_In_Main'
 import CurrentLocation from './screens/CurrentLocation'
 
+import SettingsNotice from './screens/settingss/SettingsNotice';
+import SettingsContact from './screens/settingss/SettingsContact';
+import SettingsLicense from './screens/settingss/SettingsLicense';
+import SettingsTou from './screens/settingss/SettingsTou';
+import SettingsTutorial from './screens/settingss/SettingsTutorial';
+import SettingsProfile from './screens/settingss/SettingsProfile';
+
+
 const Stack = createStackNavigator();
 
 const MenuBar = () => {
@@ -49,15 +57,14 @@ const SavePicture = (props) => {
   const mode = props.mode
   const status = props.travelStatus
   const dr_id = props.dr_id
-  const uploadPicture = () => {
-    // console.log(props.selectedPictures)
+  const uploadPicture = async () => {
     if (status === "dayEndd") {
-      props.changeStatus('dayEnd')
+      await props.changeStatus('dayEnd')
     } else if (status === "travelEndd") {
-      props.changeStatus('travelEnd')
+      await props.changeStatus('travelEnd')
     }
-    props.endDay(dr_id)
-    props.savePictures()
+    await props.endDay(dr_id)
+    // await props.savePictures(props.selectedPictures)
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
@@ -215,7 +222,48 @@ const StackComponent = (props) => {
         name="Counter"
         component={Counter}
       />
-      
+      <Stack.Screen
+        name="SettingsNotice"
+        component={SettingsNotice}
+        options={{
+          title: '공지사항'
+        }}
+      />
+      <Stack.Screen
+        name="SettingsContact"
+        component={SettingsContact}
+        options={{
+          title: '고객센터'
+        }}
+      />
+      <Stack.Screen
+        name="SettingsLicense"
+        component={SettingsLicense}
+        options={{
+          title: '라이센스'
+        }}
+      />
+      <Stack.Screen
+        name="SettingsTou"
+        component={SettingsTou}
+        options={{
+          title: '이용약관'
+        }}
+      />
+      <Stack.Screen
+        name="SettingsTutorial"
+        component={SettingsTutorial}
+        options={{
+          title: '튜토리얼'
+        }}
+      />
+      <Stack.Screen
+        name="SettingsProfile"
+        component={SettingsProfile}
+        options={{
+          title: '프로필 및 계정관리'
+        }}
+      />
     </Stack.Navigator>
   )
 }
@@ -234,8 +282,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    savePictures: () => {
-      dispatch(ActionCreator.savePictures())
+    savePictures: (selectedPictures) => {
+      dispatch({
+        type: "SAVE_PICTURE_ASYNC",
+        payload: selectedPictures
+      })
     },
     changeStatus: (status) => {
       dispatch({

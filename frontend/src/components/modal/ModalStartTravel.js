@@ -30,10 +30,10 @@ class ModalStartTravel extends React.Component {
 
 
   startTravel = () => {
+    this.props.setTravelName(this.state.travelName)
     this.props.navigation.navigate('OnTravelMain')
     this.props.changeStatus('onTravel')
     this.setState({ modalVisible: false });
-    this.props.setTravelName(this.state.travelName)
   }
 
 
