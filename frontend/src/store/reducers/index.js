@@ -15,7 +15,6 @@ const persistConfig = {
 
 
 const rootReducer = combineReducers({
-  countRd: countReducer,
   accountRd: accountReducer,
   pictureRd: pictureReducer,
 })
