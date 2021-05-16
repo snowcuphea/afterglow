@@ -1,8 +1,6 @@
 package ssafy.backend.afterglow.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -16,7 +14,7 @@ import java.util.List;
 @Entity(name="daily_record")
 @Getter @Setter
 @NoArgsConstructor
-@ToString(exclude = {"rec"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class DailyRecord {
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,12 +46,16 @@ public class DailyRecord {
     @OneToMany(mappedBy = "dr", cascade = CascadeType.ALL)
     private List<ConsumptionRecord> conRecs = new ArrayList<>();
 
+    @JsonProperty("dr_time_spent")
+    private String drTimeSpent = "00:00";
+
     @Builder
-    public DailyRecord(Record rec, LocalDate drDate, LocalDateTime drStartTime, LocalDateTime drEndTime){
+    public DailyRecord(Record rec, LocalDate drDate, LocalDateTime drStartTime, LocalDateTime drEndTime, String drTimeSpent){
         super();
         this.rec = rec;
         this.drDate = drDate;
         this.drStartTime = drStartTime;
         this.drEndTime = drEndTime;
+        this.drTimeSpent = drTimeSpent;
     }
 }

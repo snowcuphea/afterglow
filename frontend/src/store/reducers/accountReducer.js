@@ -25,13 +25,12 @@ const initialState = {
   travelingList : [], // 여행 중 작성(전체)
   todayTravel : {     // 여행 중 작성(하루)
     dr_id: undefined,
-    dr_timespent : 0,      // 하루 총 여행 시간
+    dr_timespent : '0:0',      // 하루 총 여행 시간
     dr_start_time: '',
     dr_end_time: '',      
     routeRecs : [],  // 방문한 장소 { imgRecs:{imgHeight,imgWidth,img_id,ir_image}, rr_id,rr_latitude,rr_longitude,rr_memo,rr_name,rr_time }
     conRecs: [{ hour:11, min:40, what:'정직한돈', much:62000 }],    // 가계부 { cr_datetime,cr_id,cr_money,cr_name, }
-    dr_date: 0,
-    // todaycoords : [],
+    dr_date: '2021-05-21',
     
   },
   visitedPlace: [], //하루에 해당하는 방문 리스트
