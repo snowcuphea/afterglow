@@ -2,13 +2,8 @@ import React, { useRef } from "react";
 import MapView from "react-native-map-clustering";
 import { Marker } from "react-native-maps";
 
-<<<<<<< Updated upstream
 import { connect } from 'react-redux'
 import ActionCreator from '../../store/actions'
-=======
-import Summary from '../diary/Summary'
-
->>>>>>> Stashed changes
 
 const INITIAL_REGION = {
   latitude: 35.83463069429124, 
