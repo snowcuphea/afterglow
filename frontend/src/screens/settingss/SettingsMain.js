@@ -91,10 +91,12 @@ class SettingsMain extends React.Component {
           <ListItem 
             key={i} 
             bottomDivider
+            Button
+            onpress={() => {this.props.navigation.navigate(item.navi)}}
             >
             <Ionicons name={item.icon} size={25} />
             <ListItem.Content>
-              <ListItem.Title onpress = {() => this.profile()}>{this.state.navi1}</ListItem.Title>
+              <ListItem.Title>{item.title}</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron />
           </ListItem>

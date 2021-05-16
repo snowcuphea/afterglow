@@ -19,7 +19,7 @@ export default class SettingsTutorial extends Component {
             <View>
                 <Text
                     style={{ fontWeight: 'bold', fontSize: 30 }}
-                >여기는 공지사항 입니다</Text>
+                >여기는 튜토리얼 입니다</Text>
                 <Card.Divider/>
                 <Text>글을 적어봅시다</Text>
             </View>

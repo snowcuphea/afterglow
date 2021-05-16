@@ -228,14 +228,14 @@ const DrawerComponent = () => {
     watchId.current = Geolocation.watchPosition(
       (position) => {
         setLocation(position);
-        console.log('이건가' , position);
+        // console.log('이건가' , position);
 
         const sendData = {
           'dr_id':dr_id,
           'rr_latitude': position.coords.latitude,
           'rr_longitude': position.coords.longitude
         }
-        console.log('sendData 확인', sendData)
+        // console.log('sendData 확인', sendData)
         
         if (dr_id !== undefined) {
           dispatch({
