@@ -2,7 +2,7 @@ import ActionCreator from '../actions'
 
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay, 
-          getCurrentInfo, sendLocationInfo, saveMemo, addConsumption } from '../../api/account'
+          getCurrentInfo, sendLocationInfo, saveMemo, addConsumption, deleteConsumption } from '../../api/account'
 
 
 export function* loginAsync() {
@@ -121,7 +121,7 @@ export function* saveMemoAsync(action) {
 export function* addMoneyAsync(action) {
   try{
     const { status, data } = yield call( addConsumption, action.payload ) 
-    console.log("가계부저장성공",  status, data )
+    console.log("가계부저장성공",  status,  JSON.stringify(data, null, 2) )
 
     yield put(ActionCreator.addMoneyItem(data))
 
@@ -132,8 +132,9 @@ export function* addMoneyAsync(action) {
 
 export function* deleteMoneyAsync(action) {
   try{
+    console.log("action.payload",action.payload )
     const { status, data } = yield call( deleteConsumption, action.payload ) 
-    console.log("가계부삭ㅈ[ㅔ성공",  status, data )
+    console.log("가계부삭ㅈ[ㅔ성공",  status, JSON.stringify(data, null, 2) )
 
     yield put(ActionCreator.deleteMoneyItem(data))
 

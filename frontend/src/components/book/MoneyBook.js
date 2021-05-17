@@ -15,11 +15,12 @@ class MoneyBook extends React.Component {
 
   deleteMoney = (item_id) => {
     console.log("삭제할 item_id", item_id)
-    const moneyitem = {
-      "consumption_id": item_id
-    }
-    console.log("삭제할인덱스랑같이", moneyitem)
-    this.props.deleteMoneyItem(moneyitem)
+    // const moneyitem = {
+    //   'consumption_id': item_id
+    // }
+    // console.log("삭제할인덱스랑같이", moneyitem)
+    // this.props.deleteMoneyItem({"consumption_id":item_id})
+    this.props.deleteMoneyItem(item_id)
 
   }
 
