@@ -268,10 +268,10 @@ public class RecordController {
                                 latestRr.get().setLatest_latitude(rrLat);
                                 latestRr.get().setLatest_longitude(rrLong);
                             }
-                        // 1분에 400미터 이상 움직임 -> 이동수단으로 이동중
+                            // 1분에 400미터 이상 움직임 -> 이동수단으로 이동중
                         } else if (recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 0.4) {
                             result.replace("rr", routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong)));
-                        // 장소도 아니고 이동수단도 이용하지 않는 중
+                            // 장소도 아니고 이동수단도 이용하지 않는 중
                         } else {
                             // 1분에 100미터 이상 움직이지 않음 : 도보로 걷는중
                             if ((Boolean) result.get("isUserMoving") == false) {
@@ -281,23 +281,25 @@ public class RecordController {
 
                                 // 체류시간이 10분 지속 : 가장 가까운 관광지 탐색, 없으면 이름은 없지만 장소로 인식
                                 if (latestRr.get().getRrName() == null && latestRr.get().getRrStaying_minute() >= 10) {
-                                    double nearestDist = 3;
+                                    final double[] nearestDist = {3};
                                     tourDestinationRepository.findAll()
                                             .stream()
                                             .forEach(td -> {
-                                                if (recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), td.getTdLatitude(), td.getTdLongitude()) < nearestDist) {
+                                                System.out.println(td.getTdName());
+                                                double curDist = recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), td.getTdLatitude(), td.getTdLongitude());
+                                                if (curDist < nearestDist[0]) {
+                                                    nearestDist[0] = curDist;
                                                     ref.nearestTd = td;
                                                     ref.tdName = td.getTdName();
                                                 }
                                             });
                                     if (ref.nearestTd != null) {
-                                        latestRr.get().setRrName(ref.tdName);
                                         latestRr.get().setRrLatitude(ref.nearestTd.getTdLatitude());
                                         latestRr.get().setRrLongitude(ref.nearestTd.getTdLongitude());
                                         latestRr.get().setLatest_latitude(ref.nearestTd.getTdLatitude());
                                         latestRr.get().setLatest_longitude(ref.nearestTd.getTdLongitude());
-
                                     }
+                                    latestRr.get().setRrName(ref.tdName);
                                     result.put("place", ref.tdName);
                                 }
                                 routeRepository.save(latestRr.get());
