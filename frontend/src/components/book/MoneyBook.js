@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput} from 'react-native';
 
 import { Card, ListItem, Input  } from 'react-native-elements'
+import { Divider } from 'react-native-elements/dist/divider/Divider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
@@ -24,8 +25,30 @@ class MoneyBook extends React.Component {
 
   }
 
+
+  //rest일 경우에 전체를 보여주는 함수(summary전용)
+  countWholeMoney(){
+    let conArr = []
+    let conTotal = 0
+
+    if (this.props.travelStatus === 'rest'){
+      for (var value of this.props.record.dayRecs){
+        for (var item of value.conRecs) {
+          conArr.push(item)
+          conTotal += item.cr_money
+        }
+      }
+    }
+
+    return {conArr, conTotal}
+  }
+
+  
+
   render() {
     
+   
+
     return (
       <View >
         
@@ -36,27 +59,60 @@ class MoneyBook extends React.Component {
             <Card.Title style={{flex:4}}>비용</Card.Title>
           </View>
         {
-        this.props.conRecs.map((item, i) => {
-          return (
-          <View key={i} style={styles.listContainer} >
-            <View style={styles.itemWhen} >
-              <Text style={styles.moenyText}>{i+1}</Text>
+        
+          this.props.travelStatus !== 'rest'
+
+          ?
+
+          this.props.conRecs.map((item, i) => {
+            return (
+            <View key={i} style={styles.listContainer} >
+              <View style={styles.itemWhen} >
+                <Text style={styles.moenyText}>{i+1}</Text>
+              </View>
+              <View style={styles.itemWhat} >
+                <Text style={styles.moenyText}>{item.cr_name}</Text>
+              </View>
+              <View style={styles.itemMuch}>
+                <Text style={styles.moenyText}>{item.cr_money}</Text>
+              </View>
+              <TouchableOpacity style={styles.itemDelete}
+                onPress={() => this.deleteMoney(item.cr_id)}
+                >
+                <Ionicons name="close" size={20}/>
+              </TouchableOpacity>
             </View>
-            <View style={styles.itemWhat} >
-              <Text style={styles.moenyText}>{item.cr_name}</Text>
+            );
+          })
+
+          :
+
+          this.countWholeMoney().conArr.map((item, i) => {
+            return (
+            <View key={i} style={styles.listContainer} >
+              <View style={styles.itemWhen} >
+                <Text style={styles.moenyText}>{i+1}</Text>
+              </View>
+              <View style={styles.itemWhat} >
+                <Text style={styles.moenyText}>{item.cr_name}</Text>
+              </View>
+              <View style={styles.itemMuch}>
+                <Text style={styles.moenyText}>{item.cr_money}</Text>
+              </View>
+              <View style={styles.itemDelete}>
+                <Text style={styles.moenyText}>원</Text>
+              </View>
             </View>
-            <View style={styles.itemMuch}>
-              <Text style={styles.moenyText}>{item.cr_money}</Text>
-            </View>
-            <TouchableOpacity style={styles.itemDelete}
-              onPress={() => this.deleteMoney(item.cr_id)}
-              >
-              <Ionicons name="close" size={20}/>
-            </TouchableOpacity>
-          </View>
-          );
-         })
+
+            );
+          })
+         
         }
+        <Card.Divider/>
+
+      { this.props.travelStatus !== 'rest'
+      ? null
+      : <Text style={{textAlign:'right'}}>총 {this.countWholeMoney().conTotal}원</Text>}
       </Card>
       </View>
     )
@@ -108,7 +164,9 @@ function mapStateToProps(state) {
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.usr_nickname,
-    conRecs: state.accountRd.todayTravel.conRecs
+    conRecs: state.accountRd.todayTravel.conRecs,
+    travelStatus: state.accountRd.travelStatus,
+    record: state.accountRd.traveledList[state.accountRd.historyIndex],
   }
 }
 

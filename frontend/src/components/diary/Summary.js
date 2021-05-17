@@ -9,6 +9,7 @@ import ActionCreator from '../../store/actions'
 
 import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
 
+import MoneyBook from '../../components/book/MoneyBook'
 
 
 class Summary extends React.Component {
@@ -162,10 +163,8 @@ class Summary extends React.Component {
             <Text style={{ marginTop: 20 }}>{this.getSelectedPictures()}장의 사진으로 <Text style={{ color: 'skyblue' }}>여운</Text>을 남겼어요</Text>
         </Card>
 
-        <Card containerStyle={[{marginHorizontal:0}, styles.bookContainer]}>
-          <Text>
-            가계부 보여주는구역
-          </Text>
+        <Card containerStyle={[{marginHorizontal:0}, styles.bookContainer]}>     
+            <MoneyBook/>      
         </Card>
       </ScrollView>
     )
@@ -211,7 +210,7 @@ function mapStateToProps(state) {
   return {
     index: state.accountRd.historyIndex,
     user_nickname: state.accountRd.user.usr_nickname,
-    record: state.accountRd.traveledList[state.accountRd.historyIndex]
+    record: state.accountRd.traveledList[state.accountRd.historyIndex],
   };
 }
 
