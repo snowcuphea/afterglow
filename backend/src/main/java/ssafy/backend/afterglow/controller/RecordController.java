@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.ImageInputDto;
 import ssafy.backend.afterglow.repository.*;
@@ -48,19 +49,18 @@ public class RecordController {
     // 이미지 저장
     @SneakyThrows
     @PostMapping(value = "/saveImg")
-    public ResponseEntity<Integer> saveImg(@RequestBody List<ImageInputDto> images) {
+    public ResponseEntity<Integer> saveImg(@RequestBody List<MultipartFile> images,
+                                           @RequestParam("rr_id_list") List<Long> rr_id_list) {
         images
                 .stream()
                 .forEach(image -> {
                     ImageRecord ir = new ImageRecord();
                     try {
-                        ir.setIrImage(image.getIrImage().getBytes());
-                        ir.setImgHeight(image.getHeight());
-                        ir.setImgWidth(image.getWidth());
+                        ir.setIrImage(image.getBytes());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    ir.setRr(routeRepository.findById(image.getRrId()).get());
+                    ir.setRr(routeRepository.findById(rr_id_list.get(images.indexOf(image))).get());
                     imageRepository.save(ir);
                 });
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
