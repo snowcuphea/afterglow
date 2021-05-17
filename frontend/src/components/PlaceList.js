@@ -52,7 +52,7 @@ class PlaceList extends React.Component {
               // this.props.selectPin(item)
               }
             style={[styles.itemContainer, {backgroundColor: this.state.colorList[index] }]}
-            disabled={ this.props.rdPin.rr_id === item.rr_id ? true:false}
+            // disabled={ this.props.rdPin.rr_id === item.rr_id ? true:false}
           >
           <Text>{ item.rr_name }</Text>
         </TouchableOpacity>
@@ -97,7 +97,7 @@ const styles= StyleSheet.create({
 function mapStateToProps(state){
   return {
     todayTravel: state.accountRd.todayTravel,
-    rdPin : state.accountRd.selectedPin
+    // rdPin : state.accountRd.selectedPin
   }
 }
 
