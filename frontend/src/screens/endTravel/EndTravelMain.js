@@ -93,12 +93,12 @@ class EndTravelMain extends React.Component {
         <View style={styles.mapContainer}>
           {/* 지도, 폴리라인, 그날 여행에서 찍힌 마커 */}
           <MapView
-              style={{ flex:1 }}
+              style={{ flex:1}}
               region = {{
-                  latitude: 128.1,
-                  longitude: 67.1,
+                  latitude: 37.5172,
+                  longitude: 127.0473,
                   latitudeDelta: 0.1,
-                  longitudeDelta: 0.1
+                  longitudeDelta: 0.05
 
               }}
           >
@@ -170,8 +170,6 @@ function mapStateToProps(state) {
     rec_id: state.accountRd.travelingId,
     index: state.accountRd.traveledList.length-1,
     todayTravel: state.accountRd.todayTravel,
-    // lat: state.accountRd.todayTravel.todaycoords.lat,
-    // lon: state.accountRd.todayTravel.todaycoords.lon
   }
 }
 
