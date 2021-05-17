@@ -93,7 +93,7 @@ class OnTravelMain extends React.Component {
     Geolocation.getCurrentPosition(
       (position) => {
         // 확인 완료
-        // console.log('현재 위치 확인용', position)
+        console.log('현재 위치 확인용', position)
         // console.log('현재 위치 확인용2', position.coords.latitude)
 
         this.setState({
@@ -103,7 +103,7 @@ class OnTravelMain extends React.Component {
 
 
         // 확인 완료
-        // console.log('현재위치 확인용', this.state)
+        console.log('현재위치 확인용', this.state)
 
 
         // console.log(position);
@@ -131,12 +131,9 @@ class OnTravelMain extends React.Component {
 
   
   render() {
-    const lat = this.state.lat
-    const lon = this.state.lon
-
     const REGION = {
-      latitude: lat,
-      longitude: lon,
+      latitude: this.state.lat,
+      longitude: this.state.lon,
       latitudeDelta: 0.1,
       longitudeDelta: 0.05
     }
@@ -158,6 +155,7 @@ class OnTravelMain extends React.Component {
         >
 
           <MapView
+            // initialRegion={REGION}
             region = {REGION}
             style={{height:200}}
           >
@@ -233,6 +231,7 @@ function mapStateToProps(state) {
     travelingName: state.accountRd.travelingName,
     travelStatus: state.accountRd.travelStatus,
     todayTravel: state.accountRd.todayTravel,
+    todayTravelRoute: state.accountRd.todayTravel.routRecs,
   }
 }
 
