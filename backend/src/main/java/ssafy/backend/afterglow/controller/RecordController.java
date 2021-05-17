@@ -80,6 +80,7 @@ public class RecordController {
                     ref.record = recordRepository.save(Record.builder()
                             .user(user)
                             .recName(recTitle)
+                            .totalPhotoCount(0)
                             .build());
                     ref.dr = dailyRepository.save(DailyRecord.builder()
                             .rec(ref.record)
