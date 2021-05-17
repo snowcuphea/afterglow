@@ -124,13 +124,13 @@ export default (state = initialState, action) => {
     //       return item
     //     }
     //   })
-      return {
-        ...state,
-        todayTravel:{
-          ...state.todayTravel,
-          routeRecs : [newRoute]
-        }
-      }
+    // return {
+    //   ...state,
+    //   todayTravel:{
+    //     ...state.todayTravel,
+    //     routeRecs : [newRoute]
+    //   }
+    // }
     case types.SAVE_VISIT_PLACE:
       return {
         ...state,

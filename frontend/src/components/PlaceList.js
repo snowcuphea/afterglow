@@ -52,7 +52,9 @@ class PlaceList extends React.Component {
     })
   }
 
-
+  getPlace() {
+    return this.props.todayTravel.routeRecs.filter( (item) => item.rr_name !== null)
+  }
 
   render() {
 
@@ -78,7 +80,8 @@ class PlaceList extends React.Component {
       <View style={styles.container}>
         <FlatList
           // data={this.state.pinList}
-          data={this.props.rdVisitedPlace}
+          // data={this.props.rdVisitedPlace}
+          data={this.getPlace()}
           renderItem={renderdata}
           keyExtractor = {(data) => data.rr_id}
           horizontal

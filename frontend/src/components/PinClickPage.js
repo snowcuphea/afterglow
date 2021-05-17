@@ -48,7 +48,7 @@ class PinClickPage extends React.Component {
       "Rr_id" : this.props.rdPin.rr_id,
       "memo_content": this.state.newMemoText
     }
-    // console.log("memotiem?", memoItem)
+    console.log("memotiem?", memoItem)
     await this.props.updateMemo(memoItem)
     this.switchStatus(false)
     

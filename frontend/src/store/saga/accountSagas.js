@@ -113,7 +113,7 @@ export function* saveMemoAsync(action) {
   try{
     const { status, data } = yield call( saveMemo, action.payload ) 
     console.log("메모저장성공",  status )
-    // console.log("메모저장성공",  data )
+    console.log("메모저장성공",  data )
 
     yield put(ActionCreator.updateMemo(data))
 
