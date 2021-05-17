@@ -72,8 +72,9 @@ function addConsumption( data ) {
 }
 
 
-function deleteConsumption( con_id ) {
-  return instance.delete("records/consumption", {}, { params: con_id})
+function deleteConsumption( data ) {
+  // return instance.delete("records/consumption", {}, { params: data})
+  return instance.delete(`records/consumption?consumption_id=${data}`)
 }
 
 
