@@ -11,6 +11,7 @@ import {
 
 import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
 
+import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Card, ListItem,  Icon, Avatar } from 'react-native-elements'
@@ -99,30 +100,37 @@ class EndTravelMain extends React.Component {
     // const lat = this.props.todayTravel.todaycoords.lat
     // const lon = this.props.todayTravel.todaycoords.lon
     return (
+      // 먼저 적는게 위로 감
+      <LinearGradient 
+      // colors={[ '#355C7D','#355C7D','#6C5B7B','#C06C84','#F67280','#F8B195',]}>
+      colors={[ '#270F36','#642B6B','#C86B98','#F09F9C','#C06C84','#221122']}>
       <ScrollView
         stickyHeaderIndices={[0]}
         showsVerticalScrollIndicator={false}
         // style={{backgroundColor:'pink'}}
       >
+        
         {/* ================지도 위 버튼, 텍스트 시작================= */}
         <View >
           <View style={styles.dateContainer}>
-            <View style={{ marginLeft:5}}>
-              <Text style={styles.titleStyle}>여행 {this.props.travelingList.length}일 째</Text>
+            <View style={{ marginLeft:5, }}>
+              <Text style={styles.topTitleStyle}>여행 {this.props.travelingList.length}일 째</Text>
             </View>
             { this.props.travelStatus === "dayEnd" ? 
-              <TouchableOpacity style={styles.btnDayStartOrEnd} onPress={this.startDay}>
-                <Text>하루 시작</Text>
+              <TouchableOpacity style={[styles.btnDayStartOrEnd,styles.iconAndText]} onPress={this.startDay}>
+                <Ionicons name="sunny-sharp" size={25} color={"#333333"}/>
+                <Text style={{marginLeft:3}}>하루 시작</Text>
               </TouchableOpacity> :
-              <TouchableOpacity style={styles.btnDayStartOrEnd} onPress={this.saveRecord}>
-                <Text>여행 끝</Text>
+              <TouchableOpacity style={[styles.btnDayStartOrEnd,styles.iconAndText]} onPress={this.saveRecord}>
+                <Ionicons name="home" size={25} color={"#333333"}/>
+                <Text style={{marginLeft:3}}>여행 끝</Text>
               </TouchableOpacity>
             }
           </View>
         </View>
 
       <View style={{alignItems:'center', justifyContent:'center', marginTop:20}}>
-        <Text style={styles.titleStyle}>최근 {this.props.todayTravel.dr_date}의 기록</Text>
+        <Text style={styles.titleStyle}>행복했던 {this.props.todayTravel.dr_date}의 기록</Text>
       </View>
       {/* ================지도 위 버튼, 텍스트 끝================= */}   
       
@@ -192,7 +200,10 @@ class EndTravelMain extends React.Component {
 
 
         {/* <Button title={'사진 공유하기'} onPress={this.sharePicture}/> */}
+      
+      
       </ScrollView>
+        </LinearGradient>
     )
   }
 }
@@ -207,7 +218,7 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     height: screenHeight/15,
-    backgroundColor: 'aliceblue',
+    backgroundColor: '#270F36',
     alignItems: 'center',
     justifyContent: 'space-between',
     zIndex:100,
@@ -222,7 +233,7 @@ const styles = StyleSheet.create({
     height: screenHeight/3,
     // backgroundColor: 'green',
     borderWidth: 5, 
-    borderColor:'powderblue', 
+    borderColor:'beige', 
     borderStyle: 'solid',
     borderRadius: 10,
     
@@ -238,13 +249,20 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginLeft: 10,
   },
+  topTitleStyle: {
+    fontSize: 20,
+    marginLeft: 10,
+    color: 'white',
+  },
   titleStyle: {
     fontSize: 20,
     marginLeft: 10,
+    color: 'white',
+    // fontWeight:'bold',
   },
   btnDayStartOrEnd : {
     marginRight:10,
-    backgroundColor: "mediumturquoise",
+    backgroundColor: "#FFC19F",
     padding: 10,
     borderRadius: 15,
     elevation: 3,
