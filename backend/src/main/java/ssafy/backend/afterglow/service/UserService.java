@@ -89,6 +89,8 @@ public class UserService implements UserDetailsService {
             renewalConn.setRequestProperty("grant_type", "refresh_token");
             renewalConn.setRequestProperty("client_id", kakao_rest_api_key);
             renewalConn.setRequestProperty("refresh_token", (String) cookies.get("refresh_token"));
+            System.out.println("client_id : " + kakao_rest_api_key);
+            System.out.println("refresh_token : " + (String) cookies.get("refresh_token"));
 
             int renewalResponseCode = renewalConn.getResponseCode();
             BufferedReader br = new BufferedReader(new InputStreamReader(renewalConn.getInputStream()));
