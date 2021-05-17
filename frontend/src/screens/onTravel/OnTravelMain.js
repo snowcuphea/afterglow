@@ -88,7 +88,6 @@ class OnTravelMain extends React.Component {
   }
 
   componentDidMount () {
-    
 
     Geolocation.getCurrentPosition(
       (position) => {
@@ -129,7 +128,6 @@ class OnTravelMain extends React.Component {
 
   }
 
-  
   render() {
     const lat = this.state.lat
     const lon = this.state.lon

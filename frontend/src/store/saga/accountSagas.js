@@ -4,6 +4,7 @@ import { takeLatest, put, call } from 'redux-saga/effects';
 import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay, 
           getCurrentInfo, sendLocationInfo, saveMemo, addConsumption } from '../../api/account'
 
+import CookieManager from '@react-native-cookies/cookies'
 
 export function* loginAsync() {
   try {
@@ -22,6 +23,20 @@ export function* getRecordListAsync() {
     const res = yield call(getRecordList)
     console.log("여행리스트응답코드", res.status)
     // console.log("여행리스트데이터", res.data)
+    if ( res.status === "201" ) {
+      CookieManager.clearByName('http://k4a105.p.ssafy.io:8080', 'access_token')
+        .then( (success) => {
+          console.log("access-token 지우기", success)
+          CookieManager.set('http://k4a105.p.ssafy.io:8080', {
+            name: 'access_token',
+            value: res.config.headers.Cookies.access_token.value,
+          }).then( (success) => {
+            console.log("access-token 갱신", success)
+          }) 
+        })
+    }
+
+
     yield put(ActionCreator.getRecordList(res.data))
 
   } catch (error) {
@@ -95,8 +110,9 @@ export function* getCurrentInfoAsync(action) {
 export function* sendLocationInfoAsync(action) {
   try{
     const { status, data } = yield call(sendLocationInfo, action.payload) 
+    console.log("1")
     console.log( "위치 성공",  status)
-    // console.log( "위치 성공",   data )
+    console.log( "위치 성공",   data )
 
     yield put(ActionCreator.sendLocationInfo(data))
 

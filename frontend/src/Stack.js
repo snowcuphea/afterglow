@@ -51,24 +51,24 @@ const SavePicture = (props) => {
   const status = props.travelStatus
   const dr_id = props.dr_id
   const uploadPicture = async () => {
-    if (status === "dayEndd") {
-      await props.changeStatus('dayEnd')
-    } else if (status === "travelEndd") {
-      await props.changeStatus('travelEnd')
-    }
+    // if (status === "dayEndd") {
+    //   await props.changeStatus('dayEnd')
+    // } else if (status === "travelEndd") {
+    //   await props.changeStatus('travelEnd')
+    // }
     
-    await props.endDay({ "dr_id": dr_id, "count": props.pictureCount })
-    // await props.savePictures(props.selectedPictures)
-    await props.getRecordListReq()
-    await navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [
-          { name: 'Home' },
-          { name: 'EndTravelMain'},
-        ]
-      })
-    )
+    // await props.endDay({ "dr_id": dr_id, "count": props.pictureCount })
+    await props.savePictures(props.selectedPictures)
+    // await props.getRecordListReq()
+    // await navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [
+    //       { name: 'Home' },
+    //       { name: 'EndTravelMain'},
+    //     ]
+    //   })
+    // )
   }
 
   if ( mode === "save" ) {
