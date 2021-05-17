@@ -2,6 +2,7 @@ import React from 'react'
 
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
+import ActionCreator from '../store/actions';
 
 import randomColor from 'randomcolor'
 
@@ -13,6 +14,12 @@ class PlaceList extends React.Component {
       pinList:[],
       colorList: [],
     }
+  }
+
+  giveToParentPin = (item) => {
+    this.props.selectPin(item)
+    this.props.newSelectPinFunc(item)
+
   }
 
   async componentDidMount() {
@@ -40,8 +47,10 @@ class PlaceList extends React.Component {
 
       return (
         <TouchableOpacity
-            onPress={() => 
-              this.props.newSelectPinFunc(item)
+            onPress={ () =>
+              this.giveToParentPin(item)
+              // this.props.newSelectPinFunc(item)
+              // this.props.selectPin(item)
               }
             style={[styles.itemContainer, {backgroundColor: this.state.colorList[index] }]}
           >
@@ -91,6 +100,14 @@ function mapStateToProps(state){
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    selectPin: (pinData) => {
+      dispatch(ActionCreator.selectPin(pinData))
+    }
+  };
+}
 
 
-export default connect(mapStateToProps)(PlaceList)
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceList)

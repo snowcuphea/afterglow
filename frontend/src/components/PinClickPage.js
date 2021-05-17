@@ -5,6 +5,7 @@ import { Card, ListItem, Input  } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
+import ActionCreator from '../store/actions';
 
 import RoutePicturesHorz from './picture/RoutePictureHorz'
 
@@ -52,8 +53,10 @@ class PinClickPage extends React.Component {
     this.props.updateMemo(memoItem)
 	}
 
-	componentDidMount() {
-    const rr_memo = this.props.selectedPin.rr_memo
+
+
+	componentDidUpdate() {
+    const rr_memo = this.props.rdPin.rr_memo
     this.setState({
       ...this.state,
       memoText: rr_memo,
@@ -62,6 +65,8 @@ class PinClickPage extends React.Component {
 
 
   render() {
+  
+    
     
     return (
       <View>
@@ -128,6 +133,7 @@ function mapStateToProps(state) {
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.usr_nickname,
+    rdPin : state.accountRd.selectedPin
   }
 }
 
@@ -140,6 +146,9 @@ function mapDispatchToProps(dispatch) {
         type: "SAVE_MEMO_ASYNC",
         payload: memoItem
       })
+    },
+    selectPin: () => {
+      dispatch(ActionCreator.selectPin(pinData))
     }
 
   };

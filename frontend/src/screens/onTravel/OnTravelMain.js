@@ -46,13 +46,14 @@ class OnTravelMain extends React.Component {
     this.props.emptyList();
   }
 
+  //핀 눌렀을 때 끌지 안끌지만 설정하는 함수 
   selectPinFunc = (val) => {
     this.setState({ ...this.state, clickPin: val });
     // console.log("핀상태",this.state.clickPin )
   }
 
 
-
+  //핀 눌렀을 때 어떤 핀 눌렀는지까지 저장되는 함수
   newSelectPinFunc = (val) => {
     console.log("newSelectPinFunc val??", val)
     this.setState({
