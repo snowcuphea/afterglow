@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TouchableOpacity, Text, Button } from 'react-native'
+import { View, TouchableOpacity, Text, Button, StyleSheet } from 'react-native'
 
 import { createStackNavigator, CardStyleInterpolators, HeaderBackButton} from '@react-navigation/stack' 
 import { DrawerActions, useNavigation, CommonActions } from '@react-navigation/native'
@@ -140,14 +140,14 @@ const StackComponent = (props) => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: "여운",
+          title: <Text style={styles.screenText}>여운</Text>,
         }}
       />
       <Stack.Screen 
         name="OnTravelMain"
         component={OnTravelMain}
         options={{
-          title: "여운 남기는 중"
+          title: <Text style={styles.screenText}>"여운 남기는 중"</Text>
         }}
       />
       <Stack.Screen
@@ -162,21 +162,21 @@ const StackComponent = (props) => {
         name="EndTravelMain"
         component={EndTravelMain}
         options={{
-          title: <Text>여운 남기기</Text>
+          title: <Text style={styles.screenText}>여운 남기기</Text>
         }}
       />
       <Stack.Screen
         name="SingleTravelHistory"
         component={SingleTravelHistory}
         options={{
-          title: <Text>내 여운</Text>
+          title: <Text style={styles.screenText}>내 여운</Text>
         }}
       />
       <Stack.Screen 
         name="SavePictures"
         component={SavePictures}
         options={{
-          title: "사진 저장",
+          title: <Text style={styles.screenText}>사진 저장</Text>,
           headerRight: () => <SavePicture {...props} />,
         }}
       />
@@ -192,7 +192,7 @@ const StackComponent = (props) => {
         name="ShowPictures"
         component={ShowPictures}
         options={{
-          title: props.mode === 'look' ? "사진 보기" : "사진 공유",
+          title: props.mode === 'look' ? <Text style={styles.screenText}>사진 보기</Text> : <Text style={styles.screenText}>사진 공유</Text>,
           headerRight: () => <SavePicture {...props} />,
         }}
       />
@@ -241,6 +241,11 @@ const StackComponent = (props) => {
     </Stack.Navigator>
   )
 }
+
+const styles= StyleSheet.create({
+  screenText: {fontFamily:'RIDIBatang', fontSize:20},
+})
+
 
 function mapStateToProps(state) {
 

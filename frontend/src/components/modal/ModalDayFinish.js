@@ -44,8 +44,10 @@ class ModalDayFinish extends React.Component {
     return (
 
       <View>
-      <Button
-      icon={<Ionicons name="airplane" size={25}/>} title="하루 끝" onPress={ () => this.setModalVisible(!this.state.modalVisible) } />
+      <TouchableOpacity style={styles.btnDayEndModal}
+        onPress={ () => this.setModalVisible(!this.state.modalVisible) } >
+        <Text>하루 끝</Text>
+      </TouchableOpacity>
 
       <Overlay 
         overlayStyle={styles.container}
@@ -137,6 +139,15 @@ const styles= StyleSheet.create({
     fontSize: 20,
     justifyContent: "center",
     textAlign: "center",
+  },
+  btnDayEndModal: {
+    // width: screenWidth/2.5,
+    // marginTop: 20,
+    marginRight:10,
+    backgroundColor: "mediumturquoise",
+    padding: 10,
+    borderRadius: 15,
+    elevation: 3,
   },
   
 })

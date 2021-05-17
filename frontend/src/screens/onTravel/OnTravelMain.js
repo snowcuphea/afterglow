@@ -142,9 +142,15 @@ class OnTravelMain extends React.Component {
     }
     return (
       <ScrollView style={styles.container}>
-        <Text>
-          {this.dateForm(this.props.todayTravel.dr_date)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
-        </Text>
+        <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+          <Text style={{marginLeft:10}}>
+            {this.dateForm(this.props.todayTravel.dr_date)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
+          </Text>
+
+          <ModalDayFinish navigation={this.props.navigation}
+           /> 
+        </View>
+
         {/* 지도, 폴리라인, 마커, 추천여행지 this.props.todaytravel */}
         {/* 지도가 처음에 0 갔다가 뿅하고 이동함 */}
         <View
@@ -180,7 +186,7 @@ class OnTravelMain extends React.Component {
 
           </MapView>
         </View>
-        <ModalDayFinish navigation={this.props.navigation} /> 
+        
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
         { this.state.clickPin
         ? <PinClickPage 
