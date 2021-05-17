@@ -48,9 +48,9 @@ public class RecordController {
 
     // 이미지 저장
     @SneakyThrows
-    @PostMapping(value = "/saveImg")
-    public ResponseEntity<Integer> saveImg(@RequestBody List<MultipartFile> images,
-                                           @RequestParam("rr_id_list") List<Long> rr_id_list) {
+    @PostMapping(value = "/save/images")
+    public ResponseEntity<Integer> saveImgs(@RequestBody List<MultipartFile> images,
+                                            @RequestParam("rr_id_list") List<Long> rr_id_list) {
         images
                 .stream()
                 .forEach(image -> {
@@ -63,6 +63,24 @@ public class RecordController {
                     ir.setRr(routeRepository.findById(rr_id_list.get(images.indexOf(image))).get());
                     imageRepository.save(ir);
                 });
+        return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
+    }
+
+    // 단일 이미지 저장
+    @SneakyThrows
+    @PostMapping(value = "/save/image")
+    public ResponseEntity<Integer> saveImg(@RequestBody MultipartFile image,
+                                           @RequestParam("rr_id") Long rr_id) {
+
+        ImageRecord ir = new ImageRecord();
+        try {
+            ir.setIrImage(image.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ir.setRr(routeRepository.findById(rr_id).get());
+        imageRepository.save(ir);
+
         return new ResponseEntity<Integer>(SUCCESS, HttpStatus.OK);
     }
 
@@ -242,7 +260,7 @@ public class RecordController {
                     recordRepository.save(rec);
                 });
         return ResponseEntity.ok(ref.result);
-}
+    }
 
     // 여행 중 위치 저장
     @PostMapping("/route")
