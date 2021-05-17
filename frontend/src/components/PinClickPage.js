@@ -46,7 +46,7 @@ class PinClickPage extends React.Component {
 	modifyComplete = () => {
 		this.switchStatus(false)
     const memoItem = {
-      "Rr_id" : this.props.selectedPin.rr_id,
+      "Rr_id" : this.props.rdPin.rr_id,
       "memo_content": this.state.newMemoText
     }
     // console.log("memotiem?", memoItem)
@@ -74,7 +74,7 @@ class PinClickPage extends React.Component {
             <Ionicons name={"close-outline"} size={40}/>
           </TouchableOpacity>
 
-          <Text style={{textAlign:'center'}}>{this.props.selectedPin.rr_name} </Text>
+          <Text style={{textAlign:'center'}}>{this.props.rdPin.rr_name} </Text>
             <View style={styles.container}>
               <TextInput
                 editable={this.state.modifyStatus}

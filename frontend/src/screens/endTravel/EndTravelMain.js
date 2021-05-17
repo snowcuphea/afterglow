@@ -32,7 +32,6 @@ class EndTravelMain extends React.Component {
     super(props)
     this.state = {
       clickPin: false,
-      selectedPin : null,
     }
   }
 
@@ -68,6 +67,7 @@ class EndTravelMain extends React.Component {
 
 
   //핀 눌렀을 때 끌지 안끌지만 설정하는 함수 
+  //자식에서 핀창 끄는용도다.
   selectPinFunc = (val) => {
     this.setState({ ...this.state, clickPin: val });
   }
@@ -75,13 +75,11 @@ class EndTravelMain extends React.Component {
   //핀 눌렀을 때 어떤 핀 눌렀는지까지 저장되는 함수
   newSelectPinFunc = async (val) => {
     console.log("newSelectPinFunc val??", val)
-    await this.props.selectPin(val)
-    await console.log("selectPin val??", this.props.rdPin)
-    await this.setState({
+     await this.props.selectPin(val) //리듀서에서 state핀정보 바꾼다. 
+     this.setState({
       ...this.state,
-      selectedPin: val,
       clickPin: true,
-    });   
+    });
   }
 
 
@@ -149,7 +147,6 @@ class EndTravelMain extends React.Component {
          <PlaceList newSelectPinFunc={this.newSelectPinFunc} />
         { this.state.clickPin
         ? <PinClickPage 
-        selectedPin={this.state.selectedPin}
         selectPinFunc={this.selectPinFunc}/>
         : null}
 

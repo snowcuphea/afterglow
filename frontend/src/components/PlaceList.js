@@ -16,10 +16,9 @@ class PlaceList extends React.Component {
     }
   }
 
-  giveToParentPin = (item) => {
-    this.props.selectPin(item)
-    this.props.newSelectPinFunc(item)
-
+  giveToParentPin = async (item) => {
+    await this.props.newSelectPinFunc(item)
+    // await this.props.selectPin(item)
   }
 
   async componentDidMount() {
@@ -48,8 +47,8 @@ class PlaceList extends React.Component {
       return (
         <TouchableOpacity
             onPress={ () =>
-              this.giveToParentPin(item)
-              // this.props.newSelectPinFunc(item)
+              this.props.newSelectPinFunc(item)
+              // this.props.giveToParentPin(item)
               // this.props.selectPin(item)
               }
             style={[styles.itemContainer, {backgroundColor: this.state.colorList[index] }]}
