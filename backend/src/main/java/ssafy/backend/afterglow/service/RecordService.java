@@ -54,7 +54,7 @@ public class RecordService {
 
     public Optional<RouteRecord> getLatestRr(DailyRecord dr) {
         Optional<List<RouteRecord>> rrList = rouRepo.findByDr(dr);
-        if (rrList.isPresent()) {
+        if (rrList != null) {
             return null;
         } else {
             return Optional.ofNullable(rrList.get().get(rrList.get().size() - 1));

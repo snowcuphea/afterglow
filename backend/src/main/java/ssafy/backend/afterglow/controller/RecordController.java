@@ -259,7 +259,7 @@ public class RecordController {
                         if (latestRr.get().getRrName() != null && recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 3) {
                             result.replace("rr", routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong)));
                         } else {
-                            if (!recordService.isUserMoving(latestRr.get(), rrLat, rrLong)) {
+                            if ((Boolean) result.get("isUserMoving") == false) {
                                 latestRr.get().setRrStaying_minute(latestRr.get().getRrStaying_minute() + 1);
                                 latestRr.get().setLatest_latitude(rrLat);
                                 latestRr.get().setLatest_longitude(rrLong);
