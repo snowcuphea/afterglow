@@ -15,6 +15,7 @@ import ssafy.backend.afterglow.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -166,6 +167,7 @@ public class RecordController {
     }
 
     // 가계부 삭제
+    @Transactional
     @DeleteMapping("/consumption")
     public ResponseEntity<List<ConsumptionRecord>> deleteConsumption(@RequestParam("consumption_id") Long conId) {
         var ref = new Object() {
