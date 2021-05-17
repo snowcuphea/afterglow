@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ssafy.backend.afterglow.domain.*;
 import ssafy.backend.afterglow.dto.ImageInputDto;
 import ssafy.backend.afterglow.repository.*;
@@ -69,9 +70,10 @@ public class RecordController {
     // 단일 이미지 저장
     @SneakyThrows
     @PostMapping(value = "/save/image")
-    public ResponseEntity<Integer> saveImg(@RequestBody MultipartFile image,
+    public ResponseEntity<Integer> saveImg(MultipartHttpServletRequest request,
+                                           @RequestBody MultipartFile image,
                                            @RequestParam("rr_id") Long rr_id) {
-
+        System.out.println(request.getFile("file"));
         ImageRecord ir = new ImageRecord();
         try {
             ir.setIrImage(image.getBytes());
