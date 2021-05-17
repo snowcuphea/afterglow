@@ -35,7 +35,7 @@ export function* startTravelAsync(action) {
     const { status, data } = yield call(startTrip, action.payload)
 
     console.log("여행시작 응답", status)
-    console.log("여행시작 데이터", data)
+    // console.log("여행시작 데이터", data)
 
     yield put(ActionCreator.setTravelName(data))
 
@@ -58,7 +58,7 @@ export function* endDayAsync(action) {
   try{
     const { status, data } = yield call(endDay, action.payload) 
     console.log( "하루가 끝나고 ",  status )
-    console.log("하루가 끝나는", data)
+    // console.log("하루가 끝나는", data)
 
     yield put(ActionCreator.endDay(data))
 
@@ -71,7 +71,7 @@ export function* startDayAsync(action) {
   try{
     const { status, data } = yield call(startDay, action.payload) 
     console.log( "하루가 시작 ",  status)
-    console.log( "하루가 시작 ",  data)
+    // console.log( "하루가 시작 ",  data)
 
     yield put(ActionCreator.startDay(data))
 
@@ -94,10 +94,9 @@ export function* getCurrentInfoAsync(action) {
 
 export function* sendLocationInfoAsync(action) {
   try{
-    console.log("보낸위차",action)
     const { status, data } = yield call(sendLocationInfo, action.payload) 
     console.log( "위치 성공",  status)
-    console.log( "위치 성공",   data )
+    // console.log( "위치 성공",   data )
 
     yield put(ActionCreator.sendLocationInfo(data))
 
