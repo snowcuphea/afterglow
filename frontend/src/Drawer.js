@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { View, TouchableOpacity, Text, Button, StyleSheet, Image, PermissionsAndroid, Platform, ToastAndroid  } from 'react-native'
+import { View, TouchableOpacity, Text, Button, StyleSheet, Image, FlatList, PermissionsAndroid, Platform, ToastAndroid  } from 'react-native'
 
 import Geolocation from 'react-native-geolocation-service';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
@@ -15,7 +15,7 @@ import {
  import { DrawerActions } from '@react-navigation/native'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Card, ListItem,  Icon } from 'react-native-elements'
+import { Card, ListItem,  Icon, Avatar } from 'react-native-elements'
 
 import StackComponent from './Stack'
 
@@ -25,10 +25,65 @@ import ActionCreator from './store/actions'
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props) => {
-
   
-  const userDetail = useSelector(state => state.accountRd.user )
+  const userDetail = useSelector(state => state.accountRd )
   // console.log(JSON.stringify(userDetail,null,2))
+
+  const naviInfo = [
+    {
+      title: "공지사항",
+      icon: "notifications-sharp",
+      url: "SettingsNotice"
+    },
+    {
+      title: "고객센터",
+      icon: "people-sharp",
+      url: "SettingsContact"
+    },
+    {
+      title: "튜토리얼",
+      icon: "help-circle",
+      url: "SettingsTutorial"
+    },
+    {
+      title: '설정',
+      icon: 'settings-sharp',
+      url: 'SettingsMain'
+    }
+  ]
+
+  const myInfo = [
+    {
+      title: '총 여행',
+      url: userDetail.traveledList.length
+    },
+    {
+      title: '지금까지 찍은 사진',
+      url: userDetail.traveledList.length
+    },
+    {
+      title: '지금까지 여행한 시간',
+      url: userDetail.traveledList.length
+    }
+  ]
+
+  const renderItem = ({ item }) => {
+    return (
+        <View style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }}>
+            <Ionicons name={item.icon} style={{ paddingRight: 20 }} size={30} color={"#555555"}></Ionicons>
+            <Text style={{ fontSize: 25 }} onPress={() => props.navigation.navigate(item.url)}>{item.title}</Text>
+        </View>
+    )
+  }
+
+  const renderItemInfo = ({ item }) => {
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text style={{ fontSize: 13, marginLeft: 20, marginRight:15, marginBottom: 15 }}>{item.title}</Text>
+        <Text style={{ fontSize: 15, marginLeft: 35, marginRight:15, marginBottom: 15 }}>{item.url}</Text>
+      </View>
+    )
+  }
 
   return (
     <DrawerContentScrollView {...props} style={{flex: 1}}>
@@ -37,32 +92,63 @@ const CustomDrawerContent = (props) => {
           <Ionicons name={"close-outline"} size={30}></Ionicons>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingBtn} onPress={() => props.navigation.navigate("SettingsMain")}>
+        {/* <TouchableOpacity style={styles.settingBtn} onPress={() => props.navigation.navigate("SettingsMain")}>
           <Ionicons name={"settings-outline"} size={30} color={"#555555"}></Ionicons>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
-      <View style={styles.userContainer}>
-        <View style={styles.userItem}>
-          <Text>{userDetail.usr_nickname}</Text>
-          <Text>{userDetail.usr_email}</Text>
+      <View style={{
+        flex: 3,
+        marginTop: 30,
+        marginBottom: 30,
+        margin: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      }}>
+        <View style={{ paddingLeft:15 }}>
+          <Text style={{ paddingBottom: 10 }}>{userDetail.user.usr_nickname}</Text>
+          <Text>{userDetail.user.usr_email}</Text>
         </View>
+        <Avatar
+          rounded
+          source={{
+            uri:
+              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+          }}
+        />
         <View>
-          { userDetail.usr_profile_img === undefined ? null:
+          { userDetail.user.usr_profile_img === undefined ? null:
             <Image
               style={styles.image}
               resizeMode="cover"
-              source={{ uri : userDetail.usr_profile_img }}
+              source={{ uri : userDetail.user.usr_profile_img }}
             />
           }
         </View>
       </View>
+      <FlatList
+        data={myInfo}
+        renderItem={renderItemInfo}
+        keyExtractor={(item) => item.title}
+      ></FlatList>
+      <Card.Divider />
 
 
-      <View style={styles.infoContainer}>
+
+      <View>
+        <FlatList
+          data={naviInfo}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.title}        
+        >
+
+        </FlatList>
+
+      </View>
+      {/* <View style={styles.infoContainer}>
         <View style={styles.infoItem}>
           <Text>내 추억 : </Text>
-          <Text>5</Text>
+          <Text>{userDetail.traveledList.length}</Text>
         </View>
       </View>
       <Card.Divider/>
@@ -97,7 +183,7 @@ const CustomDrawerContent = (props) => {
             ></Ionicons>
           <Text>튜토리얼</Text>
         </View>  
-      </View>
+      </View> */}
       
     </DrawerContentScrollView>
   )
@@ -403,7 +489,9 @@ function mapStateToProps(state) {
   return {
     nickname: state.accountRd.user.usr_nickname,
     profilePicture: state.accountRd.user.usr_profile_img,
-    email: state.accountRd.user.usr_email
+    email: state.accountRd.user.usr_email,
+
+    traveled: state.accountRd.traveledList
   }
 }
 

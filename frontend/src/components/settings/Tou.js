@@ -30,15 +30,18 @@ export default class Tou extends Component{
                     {
                         this.props.content.map((l,index) => {
                             return (
-                                <Text style={{ fontSize: 16, paddingBottom: 5 }} key={index}>{l}</Text>
+                                <View key={l}>
+                                    <Text style={{ fontSize: 16, paddingBottom: 5 }} >{l}</Text>
+
+                                </View>
                             )
                         })
                     }
                     {
                         this.props.sub_title.map((l,index) => {
                             return (
-                                <View>
-                                    <Text style={{ fontSize: 14, paddingBottom: 5 }} key={index}>{l}</Text>
+                                <View key={l}>
+                                    <Text style={{ fontSize: 14, paddingBottom: 5 }} >{l}</Text>
                                 </View>
                             )
                         })
@@ -48,7 +51,7 @@ export default class Tou extends Component{
                             if (this.props.check === true){
                                 return l.map((ll,indexx) => {
                                     return (
-                                        <View key={indexx}>
+                                        <View key={ll}>
                                             <Text style={{ fontSize: 12 }}>{ll}</Text>
                                         </View>
                                     )
@@ -56,7 +59,7 @@ export default class Tou extends Component{
  
                             } else {
                                 return (
-                                    <View key={index}>
+                                    <View key={l}>
                                         <Text style={{ fontSize: 12 }}>{l}</Text>
                                     </View>
                                 )
