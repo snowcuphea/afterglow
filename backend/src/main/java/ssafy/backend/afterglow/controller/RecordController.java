@@ -285,8 +285,8 @@ public class RecordController {
                                     tourDestinationRepository.findAll()
                                             .stream()
                                             .forEach(td -> {
-                                                System.out.println(td.getTdName());
                                                 double curDist = recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), td.getTdLatitude(), td.getTdLongitude());
+                                                System.out.println(td.getTdName() + " : " + curDist);
                                                 if (curDist < nearestDist[0]) {
                                                     nearestDist[0] = curDist;
                                                     ref.nearestTd = td;

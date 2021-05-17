@@ -99,6 +99,7 @@ public class UserService implements UserDetailsService {
             }
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(res);
+            System.out.println(element);
             cookies.replace("access_token", element.getAsJsonObject().get("access_token").getAsString());
             cookies.replace("refresh_token", element.getAsJsonObject().get("refresh_token").getAsString());
             response.addCookie(new Cookie("access_token", (String) cookies.get("access_token")));
