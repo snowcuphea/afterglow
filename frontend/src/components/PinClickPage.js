@@ -5,6 +5,7 @@ import { Card, ListItem, Input  } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
+import ActionCreator from '../store/actions';
 
 import RoutePicturesHorz from './picture/RoutePictureHorz'
 
@@ -42,18 +43,21 @@ class PinClickPage extends React.Component {
 		this.switchStatus(false)
 	}
 
-	modifyComplete = () => {
-		this.switchStatus(false)
+	modifyComplete = async () => {
     const memoItem = {
-      "Rr_id" : this.props.selectedPin.rr_id,
+      "Rr_id" : this.props.rdPin.rr_id,
       "memo_content": this.state.newMemoText
     }
     // console.log("memotiem?", memoItem)
-    this.props.updateMemo(memoItem)
+    await this.props.updateMemo(memoItem)
+    this.switchStatus(false)
+    
 	}
 
+
+
 	componentDidMount() {
-    const rr_memo = this.props.selectedPin.rr_memo
+    const rr_memo = this.props.rdPin.rr_memo
     this.setState({
       ...this.state,
       memoText: rr_memo,
@@ -61,7 +65,20 @@ class PinClickPage extends React.Component {
   }
 
 
+  componentDidUpdate(prevProps) {
+    if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id) {
+      const rr_memo = this.props.rdPin.rr_memo
+      this.setState({
+      ...this.state,
+      memoText: rr_memo,
+      newMemoText: rr_memo });
+    } 
+  }
+
   render() {
+  
+    // const rr_memo = this.props.rdPin.rr_memo
+    
     
     return (
       <View>
@@ -69,7 +86,7 @@ class PinClickPage extends React.Component {
             <Ionicons name={"close-outline"} size={40}/>
           </TouchableOpacity>
 
-          <Text style={{textAlign:'center'}}>{this.props.selectedPin.rr_name} </Text>
+          <Text style={{textAlign:'center'}}>{this.props.rdPin.rr_name} </Text>
             <View style={styles.container}>
               <TextInput
                 editable={this.state.modifyStatus}
@@ -128,6 +145,7 @@ function mapStateToProps(state) {
   return {
     isLogin: state.accountRd.isLogin,
     user_nickname: state.accountRd.user.usr_nickname,
+    rdPin : state.accountRd.selectedPin
   }
 }
 
@@ -140,6 +158,9 @@ function mapDispatchToProps(dispatch) {
         type: "SAVE_MEMO_ASYNC",
         payload: memoItem
       })
+    },
+    selectPin: () => {
+      dispatch(ActionCreator.selectPin(pinData))
     }
 
   };

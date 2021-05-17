@@ -14,6 +14,7 @@ import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-nativ
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import PlaceList from '../../components/PlaceList'
+import PinClickPage from '../../components/PinClickPage'
 
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
@@ -29,6 +30,9 @@ class EndTravelMain extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      clickPin: false,
+    }
   }
 
   startDay = async () => {
@@ -61,8 +65,28 @@ class EndTravelMain extends React.Component {
     )
   }
 
+
+  //핀 눌렀을 때 끌지 안끌지만 설정하는 함수 
+  //자식에서 핀창 끄는용도다.
+  selectPinFunc = (val) => {
+    this.setState({ ...this.state, clickPin: val });
+  }
+
+  //핀 눌렀을 때 어떤 핀 눌렀는지까지 저장되는 함수
+  newSelectPinFunc = async (val) => {
+    console.log("newSelectPinFunc val??", val)
+     await this.props.selectPin(val) //리듀서에서 state핀정보 바꾼다. 
+     this.setState({
+      ...this.state,
+      clickPin: true,
+    });
+  }
+
+
   componentDidMount () {
     // console.log('테스트', this.props.travelStatus)
+    this.props.getCurrentInfo(this.props.todayTravel.dr_id)
+    console.log("엔드트래블 커렌트", JSON.stringify(this.props.todayTravel, null, 2))
   }
 
   render() {
@@ -122,7 +146,11 @@ class EndTravelMain extends React.Component {
         </View>
 
         <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>  
-        <PlaceList />
+         <PlaceList newSelectPinFunc={this.newSelectPinFunc} />
+        { this.state.clickPin
+        ? <PinClickPage 
+        selectPinFunc={this.selectPinFunc}/>
+        : null}
 
         <View style={styles.bookContainer}>
           <Text>가계부 보여주는 영역</Text>
@@ -170,6 +198,7 @@ function mapStateToProps(state) {
     rec_id: state.accountRd.travelingId,
     index: state.accountRd.traveledList.length-1,
     todayTravel: state.accountRd.todayTravel,
+    rdPin : state.accountRd.selectedPin,
   }
 }
 
@@ -194,7 +223,16 @@ function mapDispatchToProps(dispatch) {
       dispatch({
         type: 'GET_RECORD_LIST_ASYNC'
       })
-    }
+    },
+    selectPin: (pinData) => {
+      dispatch(ActionCreator.selectPin(pinData))
+    },
+    getCurrentInfo: (dr_id)=>{
+      dispatch({
+        type: "GET_CURRENT_INFO_ASYNC",
+        payload: dr_id
+      })
+    },
   };
 }
 

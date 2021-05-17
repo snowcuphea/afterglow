@@ -92,6 +92,7 @@ export default (state = initialState, action) => {
     case types.START_DAY:
       return {
         ...state,
+        visitedPlace: [],
         todayTravel: action.payload
       }
     case types.END_DAY:
@@ -159,6 +160,11 @@ export default (state = initialState, action) => {
         ...state,
         todayTravel: {...state.todayTravel, conRecs : action.payload }
       }
+      case types.SELECT_PIN:
+        return {
+          ...state,
+          selectedPin : action.payload
+        }
     default:
       return state;
   }

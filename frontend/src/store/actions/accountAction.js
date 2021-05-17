@@ -99,3 +99,11 @@ export function deleteMoneyItem(data) {
     payload: data
   }
 }
+
+
+export function selectPin(data) {
+  return {
+    type: types.SELECT_PIN,
+    payload: data
+  }
+}

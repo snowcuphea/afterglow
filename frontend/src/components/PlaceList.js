@@ -2,6 +2,7 @@ import React from 'react'
 
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
+import ActionCreator from '../store/actions';
 
 import randomColor from 'randomcolor'
 
@@ -14,6 +15,21 @@ class PlaceList extends React.Component {
       colorList: [],
     }
   }
+
+  giveToParentPin = async (item) => {
+    await this.props.newSelectPinFunc(item)
+    // await this.props.selectPin(item)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id) {
+      this.setState({
+        ...this.state,
+        pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
+      })
+    } 
+  }
+
 
   async componentDidMount() {
     await this.setState({
@@ -34,16 +50,21 @@ class PlaceList extends React.Component {
     })
   }
 
+
+
   render() {
 
     const renderdata = ({item, index}) => {
 
       return (
         <TouchableOpacity
-            onPress={() => 
+            onPress={ () =>
               this.props.newSelectPinFunc(item)
+              // this.props.giveToParentPin(item)
+              // this.props.selectPin(item)
               }
             style={[styles.itemContainer, {backgroundColor: this.state.colorList[index] }]}
+            // disabled={ this.props.rdPin.rr_id === item.rr_id ? true:false}
           >
           <Text>{ item.rr_name }</Text>
         </TouchableOpacity>
@@ -87,10 +108,19 @@ const styles= StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-    todayTravel: state.accountRd.todayTravel
+    todayTravel: state.accountRd.todayTravel,
+    rdPin : state.accountRd.selectedPin
   }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    selectPin: (pinData) => {
+      dispatch(ActionCreator.selectPin(pinData))
+    }
+  };
 }
 
 
 
-export default connect(mapStateToProps)(PlaceList)
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceList)
