@@ -30,22 +30,27 @@ class Maps_cluster extends React.Component {
         initialRegion={INITIAL_REGION}
         style={{ flex:1 }}
       >
-        {/* {
+        {
           this.props.traveledList.map((travelItem, index) => {
-            return (
-              <Marker
-                coordinate={{
-                  latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
-                  longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
-                  }}
-                onPress={() => this.toSingleHistory(index) }
-                key={index}
-              >
-
-              </Marker>
-            )
+            // console.log("도대체왜", JSON.stringify(travelItem,null,2))
+            if ( travelItem.dayRecs[0].routeRecs.length === 0 || travelItem.dayRecs[0].routeRecs[0].rr_latitude === undefined) {
+              return null
+            } else {
+              return (
+                <Marker
+                  coordinate={{
+                    latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
+                    longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
+                    }}
+                  onPress={() => this.toSingleHistory(index) }
+                  key={index}
+                >
+  
+                </Marker>
+              )
+            }
           })
-        } */}
+        }
 
       </MapView>
     )

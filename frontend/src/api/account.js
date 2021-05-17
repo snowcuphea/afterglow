@@ -29,9 +29,8 @@ function startDay( rec_id ) {
 }
 
 
-function endDay(dr_id) {
-  console.log("axios endDay", dr_id)
-  return instance.get(`records/dayEnd?drId=${dr_id}`)
+function endDay(payload) {
+  return instance.get(`records/dayEnd?drId=${payload.dr_id}&photo_count=${payload.count}`)
 }
 
 

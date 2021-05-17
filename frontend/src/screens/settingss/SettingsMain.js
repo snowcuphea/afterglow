@@ -77,10 +77,6 @@ class SettingsMain extends React.Component {
 
   };
 
-  profile = () => {
-    this.props.navigation.navigate('SettingsProfile')
-  }
-
   render() {
 
     return (
@@ -92,7 +88,7 @@ class SettingsMain extends React.Component {
             key={i} 
             bottomDivider
             Button
-            onpress={() => {this.props.navigation.navigate(item.navi)}}
+            onPress={()=>this.props.navigation.navigate(item.navi)}
             >
             <Ionicons name={item.icon} size={25} />
             <ListItem.Content>

@@ -132,8 +132,8 @@ class Summary extends React.Component {
           <View style={styles.mapContainer}>
             <MapView
               initialRegion={{
-                latitude: this.props.record.dayRecs[0].routeRecs[0].rr_latitude,
-                longitude: this.props.record.dayRecs[0].routeRecs[0].rr_longitude,
+                latitude: this.props.record.dayRecs[0].routeRecs.length === 0 || this.props.record.dayRecs[0].routeRecs[0].rr_latitude === undefined ? 126.3128 :this.props.record.dayRecs[0].routeRecs[0].rr_latitude,
+                longitude: this.props.record.dayRecs[0].routeRecs.length === 0 || this.props.record.dayRecs[0].routeRecs[0].rr_latitude === undefined ? 33.2364 : this.props.record.dayRecs[0].routeRecs[0].rr_longitude,
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1
               }}
@@ -152,7 +152,7 @@ class Summary extends React.Component {
           </View>
         </Card>
 
-        <Card containerStyle={[{marginHorizontal:0}, styles.summaryContainer]}>
+        <Card containerStyle={[{marginHorizontal:0}]} wrapperStyle={ styles.summaryContainer}>
             <Text>"{title}" 여행을</Text>
             <Text style={{ marginTop: 20 }}>{this.props.user_nickname}님과 함께</Text>
             <Text style={{ marginTop: 20 }}>{this.totalTime()} 동안</Text>

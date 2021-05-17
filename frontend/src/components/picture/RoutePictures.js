@@ -20,7 +20,7 @@ import ActionCreator from '../../store/actions';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-class Pictures extends React.Component {
+class RoutePictures extends React.Component {
 
   constructor(props) {
     super(props);
@@ -62,49 +62,6 @@ class Pictures extends React.Component {
       return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
     }
 
-    const tempPictures = []
-
-    const unsortedSet = {
-      id: "도로",
-      title: "미분류",
-      fromTime: this.props.dayRecs.dr_start_time,
-      toTime: endTime,
-      data: [{
-        id: "미분류",
-        list: []
-      }]
-    }
-
-    for ( var index in this.props.dayRecs.routeRecs) {
-
-      var route = this.props.dayRecs.routeRecs[index]
-      var fromTime = route.rr_time
-      var toTime = endTime
-      if ( index < this.props.dayRecs.routeRecs.length - 1 ) {
-        var toTime = this.props.dayRecs.routeRecs[Number(index)+1].rr_time
-      } 
-
-      // console.log("#",Number(index)+1,"   from: ", fromTime, "///to: ",toTime)
-      
-      if ( route.rr_name !== null) {
-        const pictureSet = {
-          id: route.rr_id,
-          title: route.rr_name,
-          fromTime: fromTime,
-          toTime: toTime,
-          data: [{
-            id: route.rr_name,
-            list: []
-          }]
-        }
-        tempPictures.push(pictureSet)
-      } else if ( unsortedSet.id === "도로") {
-        unsortedSet.id = route.rr_id
-      }
-    }
-
-    tempPictures.push(unsortedSet)
-
     await CameraRoll.getPhotos({
       first: 10000,
       assetType: 'Photos',
@@ -115,7 +72,6 @@ class Pictures extends React.Component {
       toTime: changeTime(endTime)
     })
     .then(res => {
-      this.props.sendCount(res.edges.length)
       for (let picture of res.edges) {
         const pictureForm = {
           id: picture.node.timestamp,
@@ -214,19 +170,10 @@ class Pictures extends React.Component {
   
     return(
       <View style={this.props.selectedPictures.length > 0 ? {height: screenHeight*0.825} : {}}>
-        <SectionList
-          sections={this.state.data}
-          keyExtractor = {(data) => data.id}
-          renderItem={({ item }) => (
-            <FlatList
-              data={item.list}
-              numColumns={3}
-              renderItem={renderdata}
-            />
-          )}
-          renderSectionHeader={({ section : { title }}) => (
-            <Text> { title } </Text>
-          )}
+        <FlatList
+          data={this.state.data}
+          numColumns={3}
+          renderItem={renderdata}
         />
       </View>
     )
@@ -285,10 +232,7 @@ function mapDispatchToProps(dispatch) {
     unselect: (picture_id) => {
       dispatch(ActionCreator.unselectPicture(picture_id));
     },
-    sendCount: (count) => {
-      dispatch(ActionCreator.sendTotalPictures(count));
-    }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pictures);
+export default connect(mapStateToProps, mapDispatchToProps)(RoutePictures);

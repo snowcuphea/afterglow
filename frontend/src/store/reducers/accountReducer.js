@@ -97,7 +97,7 @@ export default (state = initialState, action) => {
     case types.END_DAY:
       return {
         ...state,
-        travelingList: [...state.traveledList, action.payload],
+        travelingList: [...state.travelingList, action.payload],
         todayTravel: action.payload
       }
     case types.SELECT_INDEX:

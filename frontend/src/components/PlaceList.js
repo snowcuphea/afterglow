@@ -10,7 +10,8 @@ class PlaceList extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      pinList:[]
+      pinList:[],
+      colorList: [],
     }
   }
 
@@ -20,29 +21,31 @@ class PlaceList extends React.Component {
       pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
     })
     // console.log("placelist에서", JSON.stringify(this.state.pinList,null,2))
+
+    const color = await randomColor({
+      count: 20,
+      luminosity: 'light',
+      hue: 'blue'
+    })
+
+    await this.setState({
+      ...this.state,
+      colorList: color,
+    })
   }
 
-
   render() {
-  
 
     const renderdata = ({item, index}) => {
-    
-      // const color = randomColor({
-      //   count: 1,
-      //   luminosity: 'light',
-      //   hue: 'blue'
-      // })
 
       return (
         <TouchableOpacity
             onPress={() => 
               this.props.newSelectPinFunc(item)
               }
+            style={[styles.itemContainer, {backgroundColor: this.state.colorList[index] }]}
           >
-          <View style={[styles.itemContainer]}>
-            <Text>{ item.rr_name }</Text>
-          </View>
+          <Text>{ item.rr_name }</Text>
         </TouchableOpacity>
         )
     }
