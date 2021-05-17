@@ -39,6 +39,7 @@ public class RecordController {
     private final RecordRepository recordRepository;
     private final DailyRepository dailyRepository;
     private final RouteRepository routeRepository;
+    @Autowired
     private final ConsumptionRepository conRepository;
     private final TourDestinationRepository tourDestinationRepository;
 
