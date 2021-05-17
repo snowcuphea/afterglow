@@ -136,7 +136,7 @@ export default class SettingsLicense extends Component {
 
             <View>
                 <FlatList
-                    data={this.state.DATA}
+                    data={this.state}
                     renderItem={this.renderItem}
                     keyExtractor={(item) => item.id}
                 >

@@ -70,8 +70,8 @@ const CustomDrawerContent = (props) => {
   const renderItem = ({ item }) => {
     return (
         <View style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }}>
-            <Ionicons name={item.icon} style={{ paddingRight: 20 }} size={30} color={"#555555"}></Ionicons>
-            <Text style={{ fontSize: 25 }} onPress={() => props.navigation.navigate(item.url)}>{item.title}</Text>
+            <Ionicons name={item.icon} style={{ paddingRight: 20 }} size={25} color={"#555555"}></Ionicons>
+            <Text style={{ fontSize: 22 }} onPress={() => props.navigation.navigate(item.url)}>{item.title}</Text>
         </View>
     )
   }
@@ -109,13 +109,6 @@ const CustomDrawerContent = (props) => {
           <Text style={{ paddingBottom: 10 }}>{userDetail.user.usr_nickname}</Text>
           <Text>{userDetail.user.usr_email}</Text>
         </View>
-        <Avatar
-          rounded
-          source={{
-            uri:
-              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-          }}
-        />
         <View>
           { userDetail.user.usr_profile_img === undefined ? null:
             <Image
@@ -126,25 +119,24 @@ const CustomDrawerContent = (props) => {
           }
         </View>
       </View>
-      <FlatList
-        data={myInfo}
-        renderItem={renderItemInfo}
-        keyExtractor={(item) => item.title}
-      ></FlatList>
+        {/* <FlatList
+          data={myInfo}
+          renderItem={renderItemInfo}
+          keyExtractor={(item) => item.title}
+        ></FlatList> */}
+
       <Card.Divider />
 
 
 
-      <View>
-        <FlatList
+        {/* <FlatList
           data={naviInfo}
           renderItem={renderItem}
           keyExtractor={(item) => item.title}        
         >
 
-        </FlatList>
+        </FlatList> */}
 
-      </View>
       {/* <View style={styles.infoContainer}>
         <View style={styles.infoItem}>
           <Text>내 추억 : </Text>
@@ -491,7 +483,9 @@ function mapStateToProps(state) {
     profilePicture: state.accountRd.user.usr_profile_img,
     email: state.accountRd.user.usr_email,
 
-    traveled: state.accountRd.traveledList
+    traveled: state.accountRd.traveledList,
+    traveledList: state.accountRd.traveledList
+
   }
 }
 
