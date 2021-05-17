@@ -83,11 +83,11 @@ class EndTravelMain extends React.Component {
   }
 
 
-  componentDidMount () {
-    // console.log('테스트', this.props.travelStatus)
-    this.props.getCurrentInfo(this.props.todayTravel.dr_id)
-    console.log("엔드트래블 커렌트", JSON.stringify(this.props.todayTravel, null, 2))
-  }
+  // componentDidMount () {
+  //   // console.log('테스트', this.props.travelStatus)
+  //   this.props.getCurrentInfo(this.props.todayTravel.dr_id)
+  //   console.log("엔드트래블 커렌트", JSON.stringify(this.props.todayTravel, null, 2))
+  // }
 
   render() {
     // console 보고 .latitude 같은 것들 추가해야 함
@@ -199,6 +199,7 @@ function mapStateToProps(state) {
     index: state.accountRd.traveledList.length-1,
     todayTravel: state.accountRd.todayTravel,
     rdPin : state.accountRd.selectedPin,
+    rdVisitedPlace : state.accountRd.rdVisitedPlace,
   }
 }
 

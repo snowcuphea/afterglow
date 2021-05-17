@@ -11,7 +11,7 @@ class PlaceList extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      pinList:[],
+      // pinList:[],
       colorList: [],
     }
   }
@@ -21,21 +21,23 @@ class PlaceList extends React.Component {
     // await this.props.selectPin(item)
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id) {
-      this.setState({
-        ...this.state,
-        pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
-      })
-    } 
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id) {
+  //     this.setState({
+  //       ...this.state,
+  //       pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
+  //     })
+  //   } 
+  // }
 
 
   async componentDidMount() {
-    await this.setState({
-      ...this.state,
-      pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
-    })
+    // console.log("todayTravlelellll;", JSON.stringify(this.props.todayTravel, null, 2))
+    // console.log("비지트플레이스", this.props.rdVisitedPlace)
+    // await this.setState({
+    //   ...this.state,
+    //   pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
+    // })
     // console.log("placelist에서", JSON.stringify(this.state.pinList,null,2))
 
     const color = await randomColor({
@@ -75,7 +77,8 @@ class PlaceList extends React.Component {
 
       <View style={styles.container}>
         <FlatList
-          data={this.state.pinList}
+          // data={this.state.pinList}
+          data={this.props.rdVisitedPlace}
           renderItem={renderdata}
           keyExtractor = {(data) => data.rr_id}
           horizontal
@@ -109,7 +112,8 @@ const styles= StyleSheet.create({
 function mapStateToProps(state){
   return {
     todayTravel: state.accountRd.todayTravel,
-    rdPin : state.accountRd.selectedPin
+    rdPin : state.accountRd.selectedPin,
+    rdVisitedPlace : state.accountRd.visitedPlace,
   }
 }
 

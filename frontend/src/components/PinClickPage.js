@@ -66,7 +66,7 @@ class PinClickPage extends React.Component {
 
 
   componentDidUpdate(prevProps) {
-    if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id) {
+    if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id  ) {
       const rr_memo = this.props.rdPin.rr_memo
       this.setState({
       ...this.state,

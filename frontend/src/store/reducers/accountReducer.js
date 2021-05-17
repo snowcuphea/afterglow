@@ -71,7 +71,8 @@ export default (state = initialState, action) => {
         travelingName : action.payload.length > 0 ? action.payload[action.payload.length-1].rec_name: null,
         travelingId: action.payload.length > 0 ? action.payload[action.payload.length-1].rec_id: null,
         travelingList: action.payload.length > 0 ? action.payload[action.payload.length-1].dayRecs: [],
-        todayTravel: today !== null ? today : { ...initialState.todayTravel }
+        todayTravel: today !== null ? today : { ...initialState.todayTravel },
+        visitedPlace: today !== null ? today.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" ) : { ...initialState.visitedPlace }
       }
     case types.CHANGE_STATUS:
       return {
