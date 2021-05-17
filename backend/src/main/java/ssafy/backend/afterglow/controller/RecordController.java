@@ -123,7 +123,7 @@ public class RecordController {
                                                                   @RequestParam("consumption_name") String conName,
                                                                   @RequestParam("consumption_money") Integer conMoney) {
         var ref = new Object() {
-            List<ConsumptionRecord> result;
+            List<ConsumptionRecord> result = null;
         };
         dailyRepository
                 .findById(dayId)
