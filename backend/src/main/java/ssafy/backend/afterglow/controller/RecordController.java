@@ -174,6 +174,7 @@ public class RecordController {
                 .findById(conId)
                 .ifPresent(cr -> {
                     DailyRecord dr = cr.getDr();
+                    System.out.println(conId);
                     conRepository.deleteById(conId);
                     ref.result = conRepository.findAllByDr(dr).get();
                 });
