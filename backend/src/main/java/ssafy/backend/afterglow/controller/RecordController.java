@@ -287,6 +287,9 @@ public class RecordController {
                                             .forEach(td -> {
                                                 double curDist = recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), td.getTdLatitude(), td.getTdLongitude());
                                                 System.out.println(td.getTdName() + " : " + curDist);
+                                                System.out.println("latitude : " + td.getTdLatitude());
+                                                System.out.println("latitude.doublevalue : " + td.getTdLatitude().doubleValue());
+
                                                 if (curDist < nearestDist[0]) {
                                                     nearestDist[0] = curDist;
                                                     ref.nearestTd = td;

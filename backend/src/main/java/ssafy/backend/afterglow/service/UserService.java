@@ -85,7 +85,7 @@ public class UserService implements UserDetailsService {
             String reqRenewalURL = "https://kapi.kakao.com/oauth/token";
             URL renewalURL = new URL(reqRenewalURL);
             HttpURLConnection renewalConn = (HttpURLConnection) renewalURL.openConnection();
-            renewalConn.setRequestMethod("GET");
+            renewalConn.setRequestMethod("POST");
             renewalConn.setRequestProperty("grant_type", "refresh_token");
             renewalConn.setRequestProperty("client_id", kakao_rest_api_key);
             renewalConn.setRequestProperty("refresh_token", (String) cookies.get("refresh_token"));

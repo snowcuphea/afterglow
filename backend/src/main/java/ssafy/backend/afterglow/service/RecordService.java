@@ -98,7 +98,7 @@ public class RecordService {
 
         dist = dist * 1.609344;
 
-        return (dist);
+        return dist;
     }
 
     public static double deg2rad(double deg) {
