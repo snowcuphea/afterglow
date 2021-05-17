@@ -219,27 +219,25 @@ public class RecordController {
 
     // 하루끝
     @GetMapping("/dayEnd")
-    public ResponseEntity<DailyRecord> dayEnd(HttpServletRequest request,
-                                              HttpServletResponse response,
-                                              @RequestParam("drId") Long drId) throws IOException {
+    public ResponseEntity<DailyRecord> dayEnd(@RequestParam("drId") Long drId,
+                                              @RequestParam("photo_count") Integer photoCount) throws IOException {
         var ref = new Object() {
             DailyRecord result;
         };
-        userService
-                .findUserByToken(request, response)
-                .ifPresent(user -> {
-                    dailyRepository.findById(drId)
-                            .ifPresent(dr -> {
-                                dr.setDrEndTime(LocalDateTime.now());
-                                Duration duration = Duration.between(dr.getDrStartTime(), dr.getDrEndTime());
-                                long hours = Math.floorDiv(duration.getSeconds(), 3600);
-                                long minutes = Math.floorDiv(duration.getSeconds() - 3600 * hours, 60);
-                                dr.setDrTimeSpent(String.format("%d:%d", hours, minutes));
-                                ref.result = dailyRepository.save(dr);
-                            });
+        dailyRepository.findById(drId)
+                .ifPresent(dr -> {
+                    dr.setDrEndTime(LocalDateTime.now());
+                    Duration duration = Duration.between(dr.getDrStartTime(), dr.getDrEndTime());
+                    long hours = Math.floorDiv(duration.getSeconds(), 3600);
+                    long minutes = Math.floorDiv(duration.getSeconds() - 3600 * hours, 60);
+                    dr.setDrTimeSpent(String.format("%d:%d", hours, minutes));
+                    ref.result = dailyRepository.save(dr);
+                    Record rec = dr.getRec();
+                    rec.setTotalPhotoCount(rec.getTotalPhotoCount() + photoCount);
+                    recordRepository.save(rec);
                 });
         return ResponseEntity.ok(ref.result);
-    }
+}
 
     // 여행 중 위치 저장
     @PostMapping("/route")
