@@ -80,10 +80,10 @@ class OnTravelMain extends React.Component {
       const mins = Number(tempTime[1])
     
       return hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
-              ( mins > 0 ? mins + '분' : '여행을 시작했습니다.' )
+              ( mins > 0 ? mins + '분' : '첫 걸음' )
     } catch (error) {
       // console.log(error)
-      return '여행을 시작했습니다.'
+      return '첫 걸음'
     }
   }
 
@@ -146,7 +146,6 @@ class OnTravelMain extends React.Component {
           <Text style={{marginLeft:10}}>
             {this.dateForm(this.props.todayTravel.dr_date)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
           </Text>
-
           <ModalDayFinish navigation={this.props.navigation}
            /> 
         </View>

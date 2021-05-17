@@ -105,11 +105,29 @@ export default (state = initialState, action) => {
         ...state,
         historyIndex: action.payload
       }
-    case types.SEND_LOCATION:
+    // case types.SEND_LOCATION:
+    //   return {
+    //     ...state,
+    //     todayTravel: {
+    //       ...state.todayTravel,
+    //       routeRecs : [...state.todayTravel.routeRecs, action.payload]
+    //     }
+    //   }
+    // case types.SET_ROUTE_NAME:
+    //   const newRoute = state.todayTravel.routeRecs.map((item,i) => {
+    //     if ( i === state.todayTravel.routeRecs.length -1 ) {
+    //       item.rr_name = action.payload
+    //       return item
+    //     } else {
+    //       return item
+    //     }
+    //   })
       return {
         ...state,
-        // todayTravel: { ...state.todayTravel, todaycoords : [ ...state.todayTravel.todaycoords, { id: action.payload.rr_id, lat: action.payload.rr_latitude, lon: action.payload.rr_longitude}]}
-        
+        todayTravel:{
+          ...state.todayTravel,
+          routeRecs : [newRoute]
+        }
       }
     case types.SAVE_VISIT_PLACE:
       return {
