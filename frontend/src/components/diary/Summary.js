@@ -152,7 +152,7 @@ class Summary extends React.Component {
           </View>
         </Card>
 
-        <Card containerStyle={[{marginHorizontal:0}, styles.summaryContainer]}>
+        <Card containerStyle={[{marginHorizontal:0}]} wrapperStyle={ styles.summaryContainer}>
             <Text>"{title}" 여행을</Text>
             <Text style={{ marginTop: 20 }}>{this.props.user_nickname}님과 함께</Text>
             <Text style={{ marginTop: 20 }}>{this.totalTime()} 동안</Text>

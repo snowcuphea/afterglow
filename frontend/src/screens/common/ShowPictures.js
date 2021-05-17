@@ -3,7 +3,7 @@ import {
   View, Text
 } from 'react-native';
 
-import Pictures from '../../components/picture/Pictures'
+import Pictures from '../../components/picture/RoutePictures'
 import PicturesHorz from '../../components/picture/PicturesHorz'
 
 import { connect } from 'react-redux';

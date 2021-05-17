@@ -30,7 +30,7 @@ class Maps_cluster extends React.Component {
         initialRegion={INITIAL_REGION}
         style={{ flex:1 }}
       >
-        {/* {
+        {
           this.props.traveledList.map((travelItem, index) => {
             return (
               <Marker
@@ -45,7 +45,7 @@ class Maps_cluster extends React.Component {
               </Marker>
             )
           })
-        } */}
+        }
 
       </MapView>
     )

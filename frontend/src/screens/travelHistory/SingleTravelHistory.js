@@ -38,16 +38,16 @@ export default class SingleTravelHistory extends React.Component {
     return (
       <View style={styles.container}>
         {this.state.content[this.state.page]}
-        <View style={styles.btnContainer}>
+        {/* <View style={styles.btnContainer}> */}
           <TouchableOpacity style={this.state.page == 0 ? {display : 'none'}: styles.backBtn}
             onPress={() => this.setState({...this.state, page: this.state.page - 1})}>
-            <Text>이전</Text>
+            <Text style={{ color: 'grey'}}>이전</Text>
           </TouchableOpacity>
           <TouchableOpacity style={this.state.page == 2 ? {display : 'none'}: styles.nextBtn}
             onPress={() => this.setState({...this.state, page: this.state.page + 1})}>
-            <Text>다음</Text>
+            <Text style={{ color: 'skyblue' }}>다음</Text>
           </TouchableOpacity>
-        </View>
+        {/* </View> */}
       </View>
     )
   }
@@ -62,22 +62,22 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   backBtn: {
-    backgroundColor: 'grey',
+    // backgroundColor: 'grey',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 15,
     position: 'absolute',
-    left: 60,
-    bottom: 15,
+    left: 15,
+    bottom: 10,
   },
   nextBtn: {
-    backgroundColor: 'skyblue',
+    // backgroundColor: 'skyblue',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 15,
     position: 'absolute',
-    right: 60,
-    bottom: 15,
+    right: 15,
+    bottom: 10,
   },
 
 })
