@@ -264,7 +264,7 @@ public class RecordController {
                                 latestRr.get().setLatest_latitude(rrLat);
                                 latestRr.get().setLatest_longitude(rrLong);
 
-                                if (latestRr.get().getRrName() != null && latestRr.get().getRrStaying_minute() >= 15) {
+                                if (latestRr.get().getRrName() != null && latestRr.get().getRrStaying_minute() >= 10) {
                                     double nearestDist = 3;
                                     tourDestinationRepository.findAll()
                                             .stream()
