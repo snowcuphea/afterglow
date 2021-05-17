@@ -12,9 +12,12 @@ import {
 import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Card, ListItem,  Icon, Avatar } from 'react-native-elements'
 import PlaceList from '../../components/PlaceList'
 import PinClickPage from '../../components/PinClickPage'
+import MoneyBook from '../../components/book/MoneyBook'
+import AddMoneyItem from '../../components/book/AddMoneyItem'
 
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
@@ -90,6 +93,8 @@ class EndTravelMain extends React.Component {
   // }
 
   render() {
+    // console.log("EndTravelMain의 렌더 todayTravel", this.props.todayTravel)
+    console.log("EndTravelMain의 렌더 travellingList", JSON.stringify(this.props.travelingList, null, 2))
     // console 보고 .latitude 같은 것들 추가해야 함
     // const lat = this.props.todayTravel.todaycoords.lat
     // const lon = this.props.todayTravel.todaycoords.lon
@@ -97,27 +102,37 @@ class EndTravelMain extends React.Component {
       <ScrollView
         stickyHeaderIndices={[0]}
         showsVerticalScrollIndicator={false}
+        // style={{backgroundColor:'pink'}}
       >
-        <View>
+        {/* ================지도 위 버튼, 텍스트 시작================= */}
+        <View >
           <View style={styles.dateContainer}>
-            <View style={{ marginLeft:5, backgroundColor : 'pink'}}>
-              <Text>날짜와 버튼 보여주는 영역</Text>
+            <View style={{ marginLeft:5}}>
+              <Text style={styles.titleStyle}>여행 {this.props.travelingList.length}일 째</Text>
             </View>
             { this.props.travelStatus === "dayEnd" ? 
-              <TouchableOpacity style={{ marginRight:5, backgroundColor:'purple'}} onPress={this.startDay}>
+              <TouchableOpacity style={styles.btnDayStartOrEnd} onPress={this.startDay}>
                 <Text>하루 시작</Text>
               </TouchableOpacity> :
-              <TouchableOpacity style={{ marginRight:5, backgroundColor:'purple'}} onPress={this.saveRecord}>
+              <TouchableOpacity style={styles.btnDayStartOrEnd} onPress={this.saveRecord}>
                 <Text>여행 끝</Text>
               </TouchableOpacity>
             }
           </View>
         </View>
 
+      <View style={{alignItems:'center', justifyContent:'center', marginTop:20}}>
+        <Text style={styles.titleStyle}>최근 {this.props.todayTravel.dr_date}의 기록</Text>
+      </View>
+      {/* ================지도 위 버튼, 텍스트 끝================= */}   
+      
+
+
+      {/* ====================지도 ================================= */}  
         <View style={styles.mapContainer}>
           {/* 지도, 폴리라인, 그날 여행에서 찍힌 마커 */}
           <MapView
-              style={{ flex:1}}
+              style={{ flex:1, margin: 10, }}
               region = {{
                   latitude: 37.5172,
                   longitude: 127.0473,
@@ -144,17 +159,37 @@ class EndTravelMain extends React.Component {
           } */}
           </MapView>
         </View>
+        {/* =================== 지도 ================================= */}  
 
-        <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>  
-         <PlaceList newSelectPinFunc={this.newSelectPinFunc} />
-        { this.state.clickPin
-        ? <PinClickPage 
-        selectPinFunc={this.selectPinFunc}/>
-        : null}
-
-        <View style={styles.bookContainer}>
-          <Text>가계부 보여주는 영역</Text>
+        {/* ================ 방문장소 시작================================= */}
+        <View style = {styles.subContainer}>
+          <View style={styles.iconAndText}> 
+            {/* <Ionicons name="footsteps-sharp" size={25} color={"#333333"}/> */}
+           <MaterialIcons name="auto-awesome" size={25} color={"#333333"}/>
+            <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
+          </View>
+          <PlaceList newSelectPinFunc={this.newSelectPinFunc} />
+          { this.state.clickPin
+          ? <PinClickPage 
+          selectPinFunc={this.selectPinFunc}/>
+          : null}
         </View>
+        {/* ================ 방문장소 끝================================= */}  
+
+
+
+        {/* ================ 가계부 시작================================= */}  
+        <View style={styles.subContainer}>
+          <View style={styles.iconAndText}> 
+            <Ionicons name="flag-sharp" size={25} color={"#333333"}/>
+            <Text style={styles.titleStyle}>{this.props.todayTravel.dr_date}의 지출</Text>
+          </View>
+          <MoneyBook />
+          <AddMoneyItem />
+        </View>
+        {/* ================ 가계부 끝================================= */}  
+
+
 
         {/* <Button title={'사진 공유하기'} onPress={this.sharePicture}/> */}
       </ScrollView>
@@ -172,20 +207,47 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     height: screenHeight/15,
-    backgroundColor: 'blue',
+    backgroundColor: 'aliceblue',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    zIndex:100,
+    elevation: 5, 
+  },
+  mapBorder:{
+    
+
   },
   mapContainer: {
+    margin: 10,
     height: screenHeight/3,
-    backgroundColor: 'green'
+    // backgroundColor: 'green',
+    borderWidth: 5, 
+    borderColor:'powderblue', 
+    borderStyle: 'solid',
+    borderRadius: 10,
+    
+    
+    
   },
-  bookContainer: {
-    height: 500,
-    backgroundColor: 'red'
+  subContainer: {
+    marginVertical: 10, 
+    // 
+  },
+  iconAndText: {
+    flexDirection:'row',
+    alignItems:'center',
+    marginLeft: 10,
   },
   titleStyle: {
-    fontSize: 20, marginLeft: 20, marginTop: 10,
+    fontSize: 20,
+    marginLeft: 10,
+  },
+  btnDayStartOrEnd : {
+    marginRight:10,
+    backgroundColor: "mediumturquoise",
+    padding: 10,
+    borderRadius: 15,
+    elevation: 3,
   }
 })
 
@@ -200,6 +262,7 @@ function mapStateToProps(state) {
     todayTravel: state.accountRd.todayTravel,
     rdPin : state.accountRd.selectedPin,
     rdVisitedPlace : state.accountRd.visitedPlace,
+    travelingList : state.accountRd.travelingList,
   }
 }
 

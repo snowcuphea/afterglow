@@ -20,6 +20,8 @@ import PinClickPage from '../../components/PinClickPage'
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
 import { createIconSetFromFontello } from 'react-native-vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
 
 import Geolocation from 'react-native-geolocation-service';
@@ -190,17 +192,50 @@ class OnTravelMain extends React.Component {
           selectPinFunc={this.selectPinFunc}/>
         : 
           <View>
-            <Text style={styles.titleStyle}>
-              {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 중</Text>
 
-            <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
-            
-            <PlaceList newSelectPinFunc={this.newSelectPinFunc} />
-            <Text style={styles.titleStyle}>오늘의 지출</Text>
-            <MoneyBook />
-            <AddMoneyItem />
-            <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
+            {/* ================ 여행 안내================================= */}
+            {/* <View style = {styles.subContainer}> */}
+              <View style={[styles.iconAndText, {justifyContent:'center'}]}> 
+                {/* <FontAwesome name="plane" size={25} color={"#333333"}/> */}
+                <Text style={{marginVertical:20, fontSize:20, textAlign:'center' }}>
+                  {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 {this.props.travelingList.length}일 째</Text>
+              </View>
+            {/* </View> */}
+            {/* ================ 여행 안내 끝 ================================= */}
+
+
+            {/* ================ 방문장소 시작================================= */}
+            <View style = {styles.subContainer}>
+              <View style={styles.iconAndText}> 
+                {/* <Ionicons name="footsteps" size={25} color={"#333333"}/> */}
+                <MaterialIcons name="auto-awesome" size={25} color={"#333333"}/>
+                <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
+              </View>
+              { (this.props.todayTravel.routeRecs.filter( (item) => item.rr_name !== null && item.rr_name !== "")).length === 0
+                ? <Text style={{marginLeft:20, marginTop:10, color:'grey'}}>이동 중이에요!</Text>
+                : <PlaceList newSelectPinFunc={this.newSelectPinFunc} />
+              }
+            </View>
+            {/* ================ 방문장소 끝================================= */}  
+
+
+            {/* ================ 가계부 시작================================= */} 
+            <View style={styles.subContainer}>
+              <View style={styles.iconAndText}> 
+                <Ionicons name="wallet-sharp" size={25} color={"#333333"}/>
+                <Text style={styles.titleStyle}>{this.props.todayTravel.dr_date}의 지출</Text>
+              </View>
+              <MoneyBook />
+              <AddMoneyItem />
+            </View>
+            {/* ================ 가계부 끝================================= */}  
+          <View style={styles.subContainer}>
+            <View style={styles.iconAndText}> 
+              <Ionicons name="flag-sharp" size={25} color={"#333333"}/>
+              <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
+            </View>
             <RecPlaceList />
+            </View>
           </View>
       }
       </ScrollView>
@@ -214,10 +249,19 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center'
   },
+  subContainer: {
+    marginVertical: 15, 
+    // 
+  },
+  iconAndText: {
+    flexDirection:'row',
+    alignItems:'center',
+    marginLeft: 10,
+  },
   titleStyle: {
-    fontSize: 20, marginLeft: 20, marginTop: 30,
-
-  }
+    fontSize: 20,
+    marginLeft: 10,
+  },
 })
 
 
@@ -231,6 +275,7 @@ function mapStateToProps(state) {
     todayTravel: state.accountRd.todayTravel,
     todayTravelRoute: state.accountRd.todayTravel.routRecs,
     rdPin : state.accountRd.selectedPin,
+    travelingList : state.accountRd.travelingList,
   }
 }
 
