@@ -130,7 +130,7 @@ class Summary extends React.Component {
 
         <Card containerStyle={{marginHorizontal:0, padding:0}}>
           <View style={styles.mapContainer}>
-            <MapView
+            {/* <MapView
               initialRegion={{
                 latitude: this.props.record.dayRecs[0].routeRecs[0].rr_latitude,
                 longitude: this.props.record.dayRecs[0].routeRecs[0].rr_longitude,
@@ -139,16 +139,16 @@ class Summary extends React.Component {
               }}
               style={{ flex:1 }}
             >
-              {/* <Polyline
+              <Polyline
                 coordinates={{"좌표값"}}
                 strokeColor='red'
                 strokeWidth={1}
               >
 
 
-              </Polyline> */}
+              </Polyline>
 
-            </MapView>
+            </MapView> */}
           </View>
         </Card>
 

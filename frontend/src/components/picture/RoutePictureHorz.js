@@ -15,7 +15,7 @@ import ActionCreator from '../../store/actions';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-class PicturesHorz extends React.Component {
+class RoutePicturesHorz extends React.Component {
 
   constructor(props, context) {
     super(props, context);
@@ -85,4 +85,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PicturesHorz);
+export default connect(mapStateToProps, mapDispatchToProps)(RoutePicturesHorz);

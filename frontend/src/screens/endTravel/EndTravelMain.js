@@ -46,8 +46,9 @@ class EndTravelMain extends React.Component {
 
   }
 
-  saveRecord = () => {
+  saveRecord = async () => {
     this.props.changeStatus('rest')
+    await this.props.selectIndex(this.props.index)
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
@@ -166,7 +167,7 @@ function mapStateToProps(state) {
     user_nickname: state.accountRd.user.usr_nickname,
     travelStatus: state.accountRd.travelStatus,
     rec_id: state.accountRd.travelingId,
-    
+    index: state.accountRd.traveledList.length-1,
     todayTravel: state.accountRd.todayTravel,
     // lat: state.accountRd.todayTravel.todaycoords.lat,
     // lon: state.accountRd.todayTravel.todaycoords.lon
@@ -186,6 +187,9 @@ function mapDispatchToProps(dispatch) {
         type: "START_DAY_ASYNC",
         payload: rec_id
       })
+    },
+    selectIndex: (index) => {
+      dispatch(ActionCreator.selectIndex(index))
     }
   };
 }

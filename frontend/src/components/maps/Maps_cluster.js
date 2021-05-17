@@ -32,18 +32,18 @@ class Maps_cluster extends React.Component {
       >
         {
           this.props.traveledList.map((travelItem, index) => {
-            return (
-              <Marker
-                coordinate={{
-                  latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
-                  longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
-                  }}
-                onPress={() => this.toSingleHistory(index) }
-                key={index}
-              >
+            // return (
+            //   <Marker
+            //     coordinate={{
+            //       latitude: travelItem.dayRecs[0].routeRecs[0].rr_latitude, 
+            //       longitude: travelItem.dayRecs[0].routeRecs[0].rr_longitude
+            //       }}
+            //     onPress={() => this.toSingleHistory(index) }
+            //     key={index}
+            //   >
 
-              </Marker>
-            )
+            //   </Marker>
+            // )
           })
         }
 

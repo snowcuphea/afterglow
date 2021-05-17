@@ -20,7 +20,7 @@ import ActionCreator from '../../store/actions';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-class Pictures extends React.Component {
+class RoutePictures extends React.Component {
 
   constructor(props) {
     super(props);
@@ -235,4 +235,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pictures);
+export default connect(mapStateToProps, mapDispatchToProps)(RoutePictures);

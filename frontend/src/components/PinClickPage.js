@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
 
+import RoutePicturesHorz from './picture/RoutePictureHorz'
 
 class PinClickPage extends React.Component {
 
