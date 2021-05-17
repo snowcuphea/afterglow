@@ -55,7 +55,7 @@ class PinClickPage extends React.Component {
 
 
 
-	componentDidUpdate() {
+	componentDidMount() {
     const rr_memo = this.props.rdPin.rr_memo
     this.setState({
       ...this.state,
@@ -63,6 +63,14 @@ class PinClickPage extends React.Component {
       newMemoText: rr_memo });
   }
 
+  shouldComponentUpdate( nextProps, nextState) {
+
+    if (nextProps.rdPin.rr_id != this.props.rdPin.rr_id ) {
+      return true
+    } else {
+      return false
+    }
+  }
 
   render() {
   
