@@ -43,14 +43,15 @@ class PinClickPage extends React.Component {
 		this.switchStatus(false)
 	}
 
-	modifyComplete = () => {
-		this.switchStatus(false)
+	modifyComplete = async () => {
     const memoItem = {
       "Rr_id" : this.props.rdPin.rr_id,
       "memo_content": this.state.newMemoText
     }
     // console.log("memotiem?", memoItem)
-    this.props.updateMemo(memoItem)
+    await this.props.updateMemo(memoItem)
+    this.switchStatus(false)
+    
 	}
 
 
@@ -63,17 +64,20 @@ class PinClickPage extends React.Component {
       newMemoText: rr_memo });
   }
 
-  shouldComponentUpdate( nextProps, nextState) {
 
-    if (nextProps.rdPin.rr_id != this.props.rdPin.rr_id ) {
-      return true
-    } else {
-      return false
-    }
+  componentDidUpdate(prevProps) {
+    if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id) {
+      const rr_memo = this.props.rdPin.rr_memo
+      this.setState({
+      ...this.state,
+      memoText: rr_memo,
+      newMemoText: rr_memo });
+    } 
   }
 
   render() {
   
+    // const rr_memo = this.props.rdPin.rr_memo
     
     
     return (

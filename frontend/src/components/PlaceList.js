@@ -21,6 +21,16 @@ class PlaceList extends React.Component {
     // await this.props.selectPin(item)
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id) {
+      this.setState({
+        ...this.state,
+        pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
+      })
+    } 
+  }
+
+
   async componentDidMount() {
     await this.setState({
       ...this.state,
@@ -39,6 +49,8 @@ class PlaceList extends React.Component {
       colorList: color,
     })
   }
+
+
 
   render() {
 
@@ -97,7 +109,7 @@ const styles= StyleSheet.create({
 function mapStateToProps(state){
   return {
     todayTravel: state.accountRd.todayTravel,
-    // rdPin : state.accountRd.selectedPin
+    rdPin : state.accountRd.selectedPin
   }
 }
 

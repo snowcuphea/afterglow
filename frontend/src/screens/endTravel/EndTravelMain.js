@@ -85,6 +85,8 @@ class EndTravelMain extends React.Component {
 
   componentDidMount () {
     // console.log('테스트', this.props.travelStatus)
+    this.props.getCurrentInfo(this.props.todayTravel.dr_id)
+    console.log("엔드트래블 커렌트", JSON.stringify(this.props.todayTravel, null, 2))
   }
 
   render() {
@@ -226,7 +228,13 @@ function mapDispatchToProps(dispatch) {
     },
     selectPin: (pinData) => {
       dispatch(ActionCreator.selectPin(pinData))
-    }
+    },
+    getCurrentInfo: (dr_id)=>{
+      dispatch({
+        type: "GET_CURRENT_INFO_ASYNC",
+        payload: dr_id
+      })
+    },
   };
 }
 
