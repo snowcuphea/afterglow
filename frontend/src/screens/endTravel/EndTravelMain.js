@@ -31,10 +31,10 @@ class EndTravelMain extends React.Component {
     super(props)
   }
 
-  startDay = () => {
-    this.props.changeStatus('onTravel')
-    this.props.startNewDay(this.props.rec_id)
-    this.props.navigation.dispatch(
+  startDay = async () => {
+    await this.props.startNewDay(this.props.rec_id)
+    await this.props.changeStatus('onTravel')
+    await this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
         routes: [
@@ -48,8 +48,9 @@ class EndTravelMain extends React.Component {
 
   saveRecord = async () => {
     this.props.changeStatus('rest')
+    await this.props.getRecordListReq()
     await this.props.selectIndex(this.props.index)
-    this.props.navigation.dispatch(
+    await this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
         routes: [
@@ -190,6 +191,11 @@ function mapDispatchToProps(dispatch) {
     },
     selectIndex: (index) => {
       dispatch(ActionCreator.selectIndex(index))
+    },
+    getRecordListReq: () => {
+      dispatch({
+        type: 'GET_RECORD_LIST_ASYNC'
+      })
     }
   };
 }

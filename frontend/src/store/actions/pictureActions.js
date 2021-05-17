@@ -38,3 +38,10 @@ export function savePictures() {
     type: types.SAVE_PICTURES
   }
 }
+
+export function sendTotalPictures(count) {
+  return {
+    type: types.SEND_TOTAL_PICTURES,
+    payload: count
+  }
+}

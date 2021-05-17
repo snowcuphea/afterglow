@@ -56,9 +56,11 @@ const SavePicture = (props) => {
     } else if (status === "travelEndd") {
       await props.changeStatus('travelEnd')
     }
-    await props.endDay(dr_id)
+    
+    await props.endDay({ "dr_id": dr_id, "count": props.pictureCount })
     // await props.savePictures(props.selectedPictures)
-    navigation.dispatch(
+    await props.getRecordListReq()
+    await navigation.dispatch(
       CommonActions.reset({
         index: 1,
         routes: [
@@ -255,7 +257,8 @@ function mapStateToProps(state) {
     selectedPictures: state.pictureRd.pictures,
     travelStatus: state.accountRd.travelStatus,
     mode: state.pictureRd.mode,
-    dr_id: state.accountRd.todayTravel.dr_id
+    dr_id: state.accountRd.todayTravel.dr_id,
+    pictureCount: state.pictureRd.totalCount,
   }
 }
 
@@ -276,10 +279,15 @@ function mapDispatchToProps(dispatch) {
     modePicture: (mode) => {
       dispatch(ActionCreator.modePicture(mode))
     },
-    endDay: (dr_id) => {
+    endDay: (data) => {
       dispatch({
         type: "END_DAY_ASYNC",
-        payload: dr_id
+        payload: data
+      })
+    },
+    getRecordListReq: () => {
+      dispatch({
+        type: 'GET_RECORD_LIST_ASYNC'
       })
     }
   };

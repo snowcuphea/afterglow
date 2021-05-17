@@ -28,14 +28,16 @@ class HomeScreen extends React.Component {
     }
   }
 
-  continueTravel = () => {
+  continueTravel = async () => {
     if ( this.props.travelStatus === "onTravel" || 
         this.props.travelStatus === "dayEndd" || 
         this.props.travelStatus === "travelEndd" ) {
-      this.props.getCurrentInfo(this.props.dr_id)
-      this.props.navigation.navigate('OnTravelMain')
+      await this.props.getCurrentInfo(this.props.dr_id)
+      // await this.props.getRecordListReq()
+      await this.props.navigation.navigate('OnTravelMain')
     } else if ( this.props.travelStatus === "dayEnd" || this.props.travelStatus === "travelEnd" ) {
-      this.props.navigation.navigate('EndTravelMain')
+      // await this.props.getRecordListReq()
+      await this.props.navigation.navigate('EndTravelMain')
     } else {
       console.warn(this.props.travelStatus)
     }

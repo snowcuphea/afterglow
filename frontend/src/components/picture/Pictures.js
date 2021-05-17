@@ -115,6 +115,7 @@ class Pictures extends React.Component {
       toTime: changeTime(endTime)
     })
     .then(res => {
+      this.props.sendCount(res.edges.length)
       for (let picture of res.edges) {
         const pictureForm = {
           id: picture.node.timestamp,
@@ -284,6 +285,9 @@ function mapDispatchToProps(dispatch) {
     unselect: (picture_id) => {
       dispatch(ActionCreator.unselectPicture(picture_id));
     },
+    sendCount: (count) => {
+      dispatch(ActionCreator.sendTotalPictures(count));
+    }
   };
 }
 

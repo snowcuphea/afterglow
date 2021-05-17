@@ -105,9 +105,9 @@ const CustomDrawerContent = (props) => {
 
 
 const DrawerComponent = () => {
+  const dr_id = useSelector(state => state.accountRd.todayTravel.dr_id)
   const travelStatus = useSelector(state => state.accountRd.travelStatus)
   const dispatch = useDispatch()
-  const dr_id = useSelector(state => state.accountRd.todayTravel.dr_id)
 
   const [forceLocation, setForceLocation] = useState(true);
   const [highAccuracy, setHighAccuracy] = useState(true);
@@ -225,7 +225,7 @@ const DrawerComponent = () => {
     setObserving(true);
 
     // 현재 위치 보고 있다가
-    watchId.current = Geolocation.watchPosition(
+    watchId.current = await Geolocation.watchPosition(
       (position) => {
         setLocation(position);
         // console.log('이건가' , position);

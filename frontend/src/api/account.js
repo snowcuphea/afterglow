@@ -29,10 +29,11 @@ function startDay( rec_id ) {
 }
 
 
-function endDay(dr_id) {
+function endDay(payload) {
   // 파라미터에 phto_count=개수 보내면된다
-  console.log("axios endDay", dr_id)
-  return instance.get(`records/dayEnd?drId=${dr_id}`)
+  console.log(payload)
+
+  return instance.get(`records/dayEnd?drId=${payload.dr_id}&photo_count=${payload.count}`)
 }
 
 

@@ -4,6 +4,7 @@ const initialState = {
   mode: 'look',
   pictures : [],
   singlePicture : {},
+  totalCount : 0,
 };
 
 export default (state = initialState, action) => {
@@ -34,7 +35,13 @@ export default (state = initialState, action) => {
     case types.SAVE_PICTURES:
       return {
         ...state,
-        pictures: []
+        pictures: [],
+        totalCount: 0,
+      }
+    case types.SEND_TOTAL_PICTURES:
+      return {
+        ...state,
+        totalCount: action.payload
       }
     default:
       return state;
