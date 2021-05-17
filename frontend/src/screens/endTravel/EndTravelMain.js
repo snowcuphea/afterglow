@@ -199,7 +199,7 @@ function mapStateToProps(state) {
     index: state.accountRd.traveledList.length-1,
     todayTravel: state.accountRd.todayTravel,
     rdPin : state.accountRd.selectedPin,
-    rdVisitedPlace : state.accountRd.rdVisitedPlace,
+    rdVisitedPlace : state.accountRd.visitedPlace,
   }
 }
 

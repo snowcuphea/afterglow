@@ -87,14 +87,16 @@ export default (state = initialState, action) => {
         visitedPlace: [],
         travelingName: action.payload.rec_name,
         travelingId: action.payload.rec_id,
-        todayTravel: today
+        todayTravel: today,
+        selectedPin : {},
       }
   
     case types.START_DAY:
       return {
         ...state,
         visitedPlace: [],
-        todayTravel: action.payload
+        todayTravel: action.payload,
+        selectedPin : {},
       }
     case types.END_DAY:
       return {

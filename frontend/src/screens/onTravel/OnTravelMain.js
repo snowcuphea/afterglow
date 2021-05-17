@@ -34,7 +34,6 @@ class OnTravelMain extends React.Component {
       startDate: '',
       passedTime: '',
       clickPin: false,
-      selectedPin : null,
       lat : 0,
       lon : 0,
     }
@@ -54,11 +53,11 @@ class OnTravelMain extends React.Component {
 
 
   //핀 눌렀을 때 어떤 핀 눌렀는지까지 저장되는 함수
-  newSelectPinFunc = (val) => {
-    console.log("newSelectPinFunc val??", val)
+  newSelectPinFunc = async (val) => {
+    await this.props.selectPin(val) //리듀서에서 state핀정보 바꾼다. 
+    // console.log("newSelectPinFunc val??", this.props.rdPin)
     this.setState({
       ...this.state,
-      selectedPin: val,
       clickPin: true,
     });
     
@@ -188,7 +187,6 @@ class OnTravelMain extends React.Component {
         <Button title={"사진 모아보기"} onPress={this.allPictures}/>
         { this.state.clickPin
         ? <PinClickPage 
-          selectedPin={this.state.selectedPin}
           selectPinFunc={this.selectPinFunc}/>
         : 
           <View>
@@ -232,6 +230,7 @@ function mapStateToProps(state) {
     travelStatus: state.accountRd.travelStatus,
     todayTravel: state.accountRd.todayTravel,
     todayTravelRoute: state.accountRd.todayTravel.routRecs,
+    rdPin : state.accountRd.selectedPin,
   }
 }
 
@@ -254,6 +253,9 @@ function mapDispatchToProps(dispatch) {
     },
     emptyList: () => {
       dispatch(ActionCreator.emptyList())
+    },
+    selectPin: (pinData) => {
+      dispatch(ActionCreator.selectPin(pinData))
     },
     
 

@@ -53,7 +53,7 @@ class PlaceList extends React.Component {
   }
 
   getPlace() {
-    return this.props.todayTravel.routeRecs.filter( (item) => item.rr_name !== null)
+    return this.props.todayTravel.routeRecs.filter( (item) => item.rr_name !== null && item.rr_name !== "")
   }
 
   render() {
@@ -107,6 +107,7 @@ const styles= StyleSheet.create({
     paddingVertical: screenWidth/40,
     paddingHorizontal: screenHeight/50,
     borderRadius: 35,
+    elevation : 2,
   }
 })
 
