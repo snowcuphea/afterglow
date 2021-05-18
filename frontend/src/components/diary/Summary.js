@@ -11,6 +11,7 @@ import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-nativ
 
 import MoneyBook from '../../components/book/MoneyBook'
 
+import { getRecordPicture } from '../../api/picture'
 
 class Summary extends React.Component {
 
@@ -76,11 +77,16 @@ class Summary extends React.Component {
   getSelectedPictures() {
     var total = 0;
 
-    for ( var days of this.props.record.dayRecs){
-      for ( var day of days.routeRecs ) {
-        total += day.imgRecs.length
-      };
-    };
+    // getRecordPicture(
+    //   this.props.record.rec_id,
+    //   (res) => {
+    //     // console.log(JSON.stringify(res.data,null,2))
+    //     total += res.data.length
+    //   },
+    //   (err) => {
+    //     console.log(err)
+    //   }
+    // )
     return total
   }
 
