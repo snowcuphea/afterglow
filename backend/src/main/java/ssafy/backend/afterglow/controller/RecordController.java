@@ -194,7 +194,7 @@ public class RecordController {
                 .findById(conId)
                 .ifPresent(cr -> {
                     DailyRecord dr = cr.getDr();
-                    conRepository.deleteByCrId(conId);
+                    conRepository.deleteInBatch(Arrays.asList(new ConsumptionRecord[]{cr}));
                     ref.result = conRepository.findAllByDr(dr).get();
                 });
         return ResponseEntity.ok(ref.result);
@@ -468,7 +468,7 @@ public class RecordController {
     @GetMapping("/tours")
     public ResponseEntity<List<TourDestination>> getCloseTours(@RequestParam("limit_radius") Double radius,
                                                                @RequestParam("cur_latitude") Double latitude,
-                                                               @RequestParam("cur_longitude") Double longitude){
+                                                               @RequestParam("cur_longitude") Double longitude) {
         var ref = new Object() {
             List<TourDestination> result;
         };

@@ -43,7 +43,7 @@ public class DailyRecord {
     private List<RouteRecord> routeRecs = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "dr", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dr", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ConsumptionRecord> conRecs = new ArrayList<>();
 
     @JsonProperty("dr_time_spent")
