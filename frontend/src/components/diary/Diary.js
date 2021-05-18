@@ -81,7 +81,8 @@ class Diary extends React.Component {
       ]
     }
 
-    for ( var day of records.dayRecs) {
+    // for ( var day of records.dayRecs) {
+    for ( var day of this.props.record.dayRecs) {
       for ( var route of day.routeRecs ) {
         if ( route.rr_name !== null) {          //여기 나중에 이미지 없으면 포함 안하는 route.imgRecs.length !== 0 추가
           const color = await randomColor({
