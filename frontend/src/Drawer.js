@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { View, TouchableOpacity, Text, Button, StyleSheet, Image, FlatList, PermissionsAndroid, Platform, ToastAndroid  } from 'react-native'
+import { SafeAreaView, View, TouchableOpacity, Text, Button, StyleSheet, Image, FlatList, PermissionsAndroid, Platform, ToastAndroid  } from 'react-native'
 
 import Geolocation from 'react-native-geolocation-service';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
@@ -21,6 +21,10 @@ import StackComponent from './Stack'
 
 import { connect, useSelector, useDispatch } from 'react-redux'
 import ActionCreator from './store/actions'
+
+import { logout, unlink } from '@react-native-seoul/kakao-login'
+
+import CookieManager from '@react-native-cookies/cookies'
 
 const Drawer = createDrawerNavigator();
 
@@ -67,117 +71,139 @@ const CustomDrawerContent = (props) => {
     }
   ]
 
-  const renderItem = ({ item }) => {
-    return (
-        <View style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }}>
-            <Ionicons name={item.icon} style={{ paddingRight: 20 }} size={25} color={"#555555"}></Ionicons>
-            <Text style={{ fontSize: 22 }} onPress={() => props.navigation.navigate(item.url)}>{item.title}</Text>
-        </View>
+  const signOutWithKakao = async () => {
+    await logout()
+    .then(res => {
+      console.log(res)
+      this.props.logout()
+      this.props.initialPicture()
+      CookieManager.clearAll().then((success) => { console.log("cookie clear ", success)})
+      this.props.navigation.navigate("Login")
+    }) .catch(err => 
+      console.log(err)
     )
-  }
 
-  const renderItemInfo = ({ item }) => {
-    return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={{ fontSize: 13, marginLeft: 20, marginRight:15, marginBottom: 15 }}>{item.title}</Text>
-        <Text style={{ fontSize: 15, marginLeft: 35, marginRight:15, marginBottom: 15 }}>{item.url}</Text>
-      </View>
-    )
-  }
+  };
 
   return (
-    <DrawerContentScrollView {...props} style={{flex: 1}}>
-      <View style={styles.TopIconContainer} >
-        <TouchableOpacity style={styles.closeBtn} onPress={() => {props.navigation.dispatch(DrawerActions.closeDrawer())}}>
-          <Ionicons name={"close-outline"} size={30}></Ionicons>
-        </TouchableOpacity>
+    <SafeAreaView style={{flex:1}}>
+      <DrawerContentScrollView {...props} style={{flex: 1}}>
+        <View style={styles.TopIconContainer} >
+          <TouchableOpacity style={styles.closeBtn} onPress={() => {props.navigation.dispatch(DrawerActions.closeDrawer())}}>
+            <Ionicons name={"close-outline"} size={30}></Ionicons>
+          </TouchableOpacity>
 
-        {/* <TouchableOpacity style={styles.settingBtn} onPress={() => props.navigation.navigate("SettingsMain")}>
-          <Ionicons name={"settings-outline"} size={30} color={"#555555"}></Ionicons>
-        </TouchableOpacity> */}
+          {/* <TouchableOpacity style={styles.settingBtn} onPress={() => props.navigation.navigate("SettingsMain")}>
+            <Ionicons name={"settings-outline"} size={30} color={"#555555"}></Ionicons>
+          </TouchableOpacity> */}
+        </View>
+
+        <View style={{
+          flex: 3,
+          marginTop: 30,
+          marginBottom: 30,
+          margin: 10,
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+        }}>
+          <View>
+            <Text style={{ paddingBottom: 10 }}>{userDetail.user.usr_nickname}</Text>
+            <Text>{userDetail.user.usr_email}</Text>
+          </View>
+          <View>
+            { userDetail.user.usr_profile_img === undefined ? null:
+              <Image
+                style={styles.image}
+                resizeMode="cover"
+                source={{ uri : userDetail.user.usr_profile_img }}
+              />
+            }
+          </View>
+        </View>
+        {
+          myInfo.map((item, index) => {
+            return (
+              <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={{ fontSize: 13, marginLeft: 20, marginRight:15, marginBottom: 15 }}>{item.title}</Text>
+                <Text style={{ fontSize: 15, marginLeft: 35, marginRight:15, marginBottom: 15 }}>{item.url}</Text>
+              </View>
+            )
+          })
+        }
+          {/* <FlatList
+            data={myInfo}
+            renderItem={renderItemInfo}
+            keyExtractor={(item) => item.title}
+          ></FlatList> */}
+
+        <Card.Divider />
+        {
+          naviInfo.map((item,index) => {
+            return (
+              <View key={index} style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }}>
+                  <Ionicons name={item.icon} style={{ paddingRight: 20 }} size={25} color={"#555555"}></Ionicons>
+                  <Text style={{ fontSize: 22 }} onPress={() => props.navigation.navigate(item.url)}>{item.title}</Text>
+              </View>
+
+            )
+          })
+        }
+        
+
+          {/* <FlatList
+            data={naviInfo}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.title}        
+          >
+
+          </FlatList> */}
+
+        {/* <View style={styles.infoContainer}>
+          <View style={styles.infoItem}>
+            <Text>내 추억 : </Text>
+            <Text>{userDetail.traveledList.length}</Text>
+          </View>
+        </View>
+        <Card.Divider/>
+
+        <View style={styles.bottomIconContainer}>
+          <View style={styles.bottomIcon}>
+            <Ionicons 
+              name={"notifications-outline"} 
+              size={40} 
+              color={"#555555"}
+              onPress={() => props.navigation.navigate('SettingsNotice')}
+              ></Ionicons>
+            <Text>공지사항</Text>
+          </View>
+
+          <View style={styles.bottomIcon}>
+            <Ionicons 
+              name={"people-outline"} 
+              size={40} 
+              color={"#555555"}
+              onPress={() => props.navigation.navigate('SettingsContact')}
+              ></Ionicons>
+            <Text>고객센터</Text>
+          </View>
+
+          <View style={styles.bottomIcon}>
+            <Ionicons 
+              name={"help-circle-outline"} 
+              size={40} 
+              color={"#555555"}
+              onPress={() => props.navigation.navigate('SettingsTutorial')}
+              ></Ionicons>
+            <Text>튜토리얼</Text>
+          </View>  
+        </View> */}
+        
+      </DrawerContentScrollView>
+      <View style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }}>
+        <Ionicons name={'log-out-sharp'} style={{ paddingRight: 20 }} size={18} color={"#555555"} onPress={() => signOutWithKakao()} ></Ionicons>
+        <Text style={{ fontSize: 15 }} onPress={() => signOutWithKakao()}>로그아웃</Text>
       </View>
-
-      <View style={{
-        flex: 3,
-        marginTop: 30,
-        marginBottom: 30,
-        margin: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-      }}>
-        <View style={{ paddingLeft:15 }}>
-          <Text style={{ paddingBottom: 10 }}>{userDetail.user.usr_nickname}</Text>
-          <Text>{userDetail.user.usr_email}</Text>
-        </View>
-        <View>
-          { userDetail.user.usr_profile_img === undefined ? null:
-            <Image
-              style={styles.image}
-              resizeMode="cover"
-              source={{ uri : userDetail.user.usr_profile_img }}
-            />
-          }
-        </View>
-      </View>
-        {/* <FlatList
-          data={myInfo}
-          renderItem={renderItemInfo}
-          keyExtractor={(item) => item.title}
-        ></FlatList> */}
-
-      <Card.Divider />
-
-
-
-        {/* <FlatList
-          data={naviInfo}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.title}        
-        >
-
-        </FlatList> */}
-
-      {/* <View style={styles.infoContainer}>
-        <View style={styles.infoItem}>
-          <Text>내 추억 : </Text>
-          <Text>{userDetail.traveledList.length}</Text>
-        </View>
-      </View>
-      <Card.Divider/>
-
-      <View style={styles.bottomIconContainer}>
-        <View style={styles.bottomIcon}>
-          <Ionicons 
-            name={"notifications-outline"} 
-            size={40} 
-            color={"#555555"}
-            onPress={() => props.navigation.navigate('SettingsNotice')}
-            ></Ionicons>
-          <Text>공지사항</Text>
-        </View>
-
-        <View style={styles.bottomIcon}>
-          <Ionicons 
-            name={"people-outline"} 
-            size={40} 
-            color={"#555555"}
-            onPress={() => props.navigation.navigate('SettingsContact')}
-            ></Ionicons>
-          <Text>고객센터</Text>
-        </View>
-
-        <View style={styles.bottomIcon}>
-          <Ionicons 
-            name={"help-circle-outline"} 
-            size={40} 
-            color={"#555555"}
-            onPress={() => props.navigation.navigate('SettingsTutorial')}
-            ></Ionicons>
-          <Text>튜토리얼</Text>
-        </View>  
-      </View> */}
-      
-    </DrawerContentScrollView>
+    </SafeAreaView>
   )
 }
 
@@ -491,7 +517,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    logout: () => {
+      dispatch(ActionCreator.logout())
+    },
+    initialPicture: () => {
+      dispatch(ActionCreator.initialPicture())
+    }
   };
 }
 
