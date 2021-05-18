@@ -19,6 +19,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import CameraRoll from "@react-native-community/cameraroll";
 
+import { getRoutePicture } from '../../api/picture'
+
 class RoutePicturesHorz extends React.Component {
 
   constructor(props) {
@@ -106,7 +108,34 @@ class RoutePicturesHorz extends React.Component {
       })
 
     } else {
-      console.log(this.props.todayRoutes)
+      if (this.props.rr_id !== undefined) {
+        getRoutePicture(
+          this.props.rr_id,
+          async (res) => {
+            // console.log(res.data)
+            for ( var data of res.data) {
+              // var newBlob = new Blob([data.ir_image], {type: "image/jpeg"})
+              // console.log(newBlob)
+              // var newUri = "blob:http://k4a105.p.ssafy.io:8080" + newBlob._data.blobId
+              // const pictureForm = {
+              //   id: data.img_id,
+              //   uri: newUri
+              // }
+              // await this.setState({ ...this.state, data: [ ...this.state.data, pictureForm ]})
+              // console.log(this.state)
+              const fileReader = new FileReader();
+              fileReader.readAsDataURL(data.ir_image);
+              fileReader.onload = () => {
+                const base64data = fileReader.result
+                console.log(base64data)
+              }
+            }
+          },
+          (err) => {
+            console.log(err)
+          }
+        )
+      }
     }
 
   }
@@ -160,7 +189,8 @@ function mapStateToProps(state) {
   return {
     rr_id : state.accountRd.selectedPin.rr_id,
     todayRoutes : state.accountRd.todayTravel.routeRecs,
-    travelStatus: state.accountRd.travelStatus
+    travelStatus: state.accountRd.travelStatus,
+    todayTravel: state.accountRd.todayTravel
   };
 }
 

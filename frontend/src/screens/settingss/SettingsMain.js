@@ -20,6 +20,8 @@ import { logout, unlink } from '@react-native-seoul/kakao-login'
 
 import CookieManager from '@react-native-cookies/cookies'
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const list = [
   {
     title: '프로필 및 계정관리',
@@ -69,6 +71,7 @@ class SettingsMain extends React.Component {
       console.log(res)
       this.props.logout()
       this.props.initialPicture()
+      AsyncStorage.clear()
       CookieManager.clearAll().then((success) => { console.log("cookie clear ", success)})
       this.props.navigation.navigate("Login")
     }) .catch(err => 

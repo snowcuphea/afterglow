@@ -1,8 +1,4 @@
 import types from '../actions/types'
-import { Platform } from 'react-native';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const initialState = {
   isLogin : false,    // 로그인 할 때 받아옴

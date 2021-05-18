@@ -1,22 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Geolocation from 'react-native-geolocation-service';
-import VIForegroundService from '@voximplant/react-native-foreground-service';
+import React from 'react';
+
 import appConfig from './app.json';
-
-
-import {
-  Alert,
-  Button,
-  Linking,
-  PermissionsAndroid,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  Text,
-  ToastAndroid,
-  View,
-} from 'react-native';
 
 import { connect, Provider } from 'react-redux'
 import { persistStore } from 'redux-persist'
@@ -47,8 +31,6 @@ export default class App extends React.Component {
 
   render() {
     
-
-
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
