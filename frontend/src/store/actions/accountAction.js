@@ -57,12 +57,19 @@ export function selectIndex(index) {
   }
 }
 
-export function sendLocationInfo(data) {
-  return {
-    type: types.SEND_LOCATION,
-    payload: data
-  }
-}
+// export function sendLocationInfo(data) {
+//   return {
+//     type: types.SEND_LOCATION,
+//     payload: data
+//   }
+// }
+
+// export function setRouteName(name) {
+//   return {
+//     type: types.SET_ROUTE_NAME,
+//     payload: name
+//   }
+// }
 
 export function saveVisitPlace(placeItem) {
   return {
@@ -89,6 +96,14 @@ export function addMoneyItem(data) {
 export function deleteMoneyItem(data) {
   return {
     type: types.DELETE_MONEY_ITEM,
+    payload: data
+  }
+}
+
+
+export function selectPin(data) {
+  return {
+    type: types.SELECT_PIN,
     payload: data
   }
 }

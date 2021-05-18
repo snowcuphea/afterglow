@@ -6,8 +6,26 @@ import {
   Button,
   ScrollView,
   TouchableOpacity,
+  FlatList
 } from 'react-native';
 import { Card, ListItem,  Icon } from 'react-native-elements'
+
+
+const list = [
+    {
+        title : '첫 번째 공지입니다.',
+        content : '1번'
+    },
+    {
+        title : '두 번째 공지입니다.',
+        content : '2번'
+    },
+    {
+        title : '세 번째 공지입니다.',
+        content : '3번'
+    },
+
+]
 
 
 export default class SettingsNotice extends Component {
@@ -16,12 +34,10 @@ export default class SettingsNotice extends Component {
 
         return (
 
-            <View>
-                <Text
-                    style={{ fontWeight: 'bold', fontSize: 30 }}
-                >여기는 공지사항 입니다</Text>
-                <Card.Divider/>
-                <Text>글을 적어봅시다</Text>
+            <View
+                style={{ paddingHorizontal: 20}}
+            >
+                
             </View>
 
         )

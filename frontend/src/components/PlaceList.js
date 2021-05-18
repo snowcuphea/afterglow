@@ -2,6 +2,7 @@ import React from 'react'
 
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
+import ActionCreator from '../store/actions';
 
 import randomColor from 'randomcolor'
 
@@ -10,16 +11,33 @@ class PlaceList extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      pinList:[],
+      // pinList:[],
       colorList: [],
     }
   }
 
+  giveToParentPin = async (item) => {
+    await this.props.newSelectPinFunc(item)
+    // await this.props.selectPin(item)
+  }
+
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.rdPin.rr_id !== prevProps.rdPin.rr_id) {
+  //     this.setState({
+  //       ...this.state,
+  //       pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
+  //     })
+  //   } 
+  // }
+
+
   async componentDidMount() {
-    await this.setState({
-      ...this.state,
-      pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
-    })
+    // console.log("todayTravlelellll;", JSON.stringify(this.props.todayTravel, null, 2))
+    // console.log("비지트플레이스", this.props.rdVisitedPlace)
+    // await this.setState({
+    //   ...this.state,
+    //   pinList: this.props.todayTravel.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" )
+    // })
     // console.log("placelist에서", JSON.stringify(this.state.pinList,null,2))
 
     const color = await randomColor({
@@ -34,16 +52,23 @@ class PlaceList extends React.Component {
     })
   }
 
+  getPlace() {
+    return this.props.todayTravel.routeRecs.filter( (item) => item.rr_name !== null && item.rr_name !== "")
+  }
+
   render() {
 
     const renderdata = ({item, index}) => {
 
       return (
         <TouchableOpacity
-            onPress={() => 
+            onPress={ () =>
               this.props.newSelectPinFunc(item)
+              // this.props.giveToParentPin(item)
+              // this.props.selectPin(item)
               }
             style={[styles.itemContainer, {backgroundColor: this.state.colorList[index] }]}
+            // disabled={ this.props.rdPin.rr_id === item.rr_id ? true:false}
           >
           <Text>{ item.rr_name }</Text>
         </TouchableOpacity>
@@ -54,7 +79,9 @@ class PlaceList extends React.Component {
 
       <View style={styles.container}>
         <FlatList
-          data={this.state.pinList}
+          // data={this.state.pinList}
+          // data={this.props.rdVisitedPlace}
+          data={this.getPlace()}
           renderItem={renderdata}
           keyExtractor = {(data) => data.rr_id}
           horizontal
@@ -80,6 +107,7 @@ const styles= StyleSheet.create({
     paddingVertical: screenWidth/40,
     paddingHorizontal: screenHeight/50,
     borderRadius: 35,
+    elevation : 2,
   }
 })
 
@@ -87,10 +115,20 @@ const styles= StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-    todayTravel: state.accountRd.todayTravel
+    todayTravel: state.accountRd.todayTravel,
+    rdPin : state.accountRd.selectedPin,
+    rdVisitedPlace : state.accountRd.visitedPlace,
   }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    selectPin: (pinData) => {
+      dispatch(ActionCreator.selectPin(pinData))
+    }
+  };
 }
 
 
 
-export default connect(mapStateToProps)(PlaceList)
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceList)

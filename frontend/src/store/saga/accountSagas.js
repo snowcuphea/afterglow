@@ -2,7 +2,7 @@ import ActionCreator from '../actions'
 
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay, 
-          getCurrentInfo, sendLocationInfo, saveMemo, addConsumption } from '../../api/account'
+          getCurrentInfo, sendLocationInfo, saveMemo, addConsumption, deleteConsumption } from '../../api/account'
 
 import CookieManager from '@react-native-cookies/cookies'
 
@@ -98,7 +98,7 @@ export function* startDayAsync(action) {
 export function* getCurrentInfoAsync(action) {
   try{
     const { status, data } = yield call(getCurrentInfo, action.payload) 
-    console.log("형재 여행 상태", status)
+    console.log("현재 여행 상태", status)
     // console.log( "getCurrentInfoAsync의 여행중 현재 상태\n",  status, JSON.stringify(data, null, 2) )
     yield put(ActionCreator.startDay(data))
 
@@ -112,9 +112,13 @@ export function* sendLocationInfoAsync(action) {
     const { status, data } = yield call(sendLocationInfo, action.payload) 
     console.log("1")
     console.log( "위치 성공",  status)
-    console.log( "위치 성공",   data )
-
-    yield put(ActionCreator.sendLocationInfo(data))
+    // console.log( "위치 성공",   data )
+    if (data.rr !== null || data.place !== undefined) {       // data.isUserMoving (만약 이동중이면 추가) 그런데 지금 이부분 에러있는것 같아서 안넣었음
+      console.log("추가 또는 이름 갱신")
+      const { status, data } = yield call(getCurrentInfo, action.payload.dr_id) 
+      console.log("추가 또는 이름 갱신 후 현재 상태 갱신", status)
+      yield put(ActionCreator.startDay(data))
+    }
 
   } catch (error) {
     console.log("위치 에러", error)
@@ -125,7 +129,7 @@ export function* saveMemoAsync(action) {
   try{
     const { status, data } = yield call( saveMemo, action.payload ) 
     console.log("메모저장성공",  status )
-    // console.log("메모저장성공",  data )
+    console.log("메모저장성공",  data )
 
     yield put(ActionCreator.updateMemo(data))
 
@@ -137,7 +141,7 @@ export function* saveMemoAsync(action) {
 export function* addMoneyAsync(action) {
   try{
     const { status, data } = yield call( addConsumption, action.payload ) 
-    console.log("가계부저장성공",  status, data )
+    console.log("가계부저장성공",  status,  JSON.stringify(data, null, 2) )
 
     yield put(ActionCreator.addMoneyItem(data))
 
@@ -148,8 +152,9 @@ export function* addMoneyAsync(action) {
 
 export function* deleteMoneyAsync(action) {
   try{
+    console.log("action.payload",action.payload )
     const { status, data } = yield call( deleteConsumption, action.payload ) 
-    console.log("가계부삭ㅈ[ㅔ성공",  status, data )
+    console.log("가계부삭ㅈ[ㅔ성공",  status, JSON.stringify(data, null, 2) )
 
     yield put(ActionCreator.deleteMoneyItem(data))
 

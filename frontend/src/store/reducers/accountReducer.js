@@ -71,7 +71,8 @@ export default (state = initialState, action) => {
         travelingName : action.payload.length > 0 ? action.payload[action.payload.length-1].rec_name: null,
         travelingId: action.payload.length > 0 ? action.payload[action.payload.length-1].rec_id: null,
         travelingList: action.payload.length > 0 ? action.payload[action.payload.length-1].dayRecs: [],
-        todayTravel: today !== null ? today : { ...initialState.todayTravel }
+        todayTravel: today !== null ? today : { ...initialState.todayTravel },
+        visitedPlace: today !== null ? today.routeRecs.filter(item => item.rr_name !== null && item.rr_name !== "" ) : { ...initialState.visitedPlace }
       }
     case types.CHANGE_STATUS:
       return {
@@ -86,13 +87,16 @@ export default (state = initialState, action) => {
         visitedPlace: [],
         travelingName: action.payload.rec_name,
         travelingId: action.payload.rec_id,
-        todayTravel: today
+        todayTravel: today,
+        selectedPin : {},
       }
   
     case types.START_DAY:
       return {
         ...state,
-        todayTravel: action.payload
+        visitedPlace: [],
+        todayTravel: action.payload,
+        selectedPin : {},
       }
     case types.END_DAY:
       return {
@@ -105,12 +109,30 @@ export default (state = initialState, action) => {
         ...state,
         historyIndex: action.payload
       }
-    case types.SEND_LOCATION:
-      return {
-        ...state,
-        // todayTravel: { ...state.todayTravel, todaycoords : [ ...state.todayTravel.todaycoords, { id: action.payload.rr_id, lat: action.payload.rr_latitude, lon: action.payload.rr_longitude}]}
-        
-      }
+    // case types.SEND_LOCATION:
+    //   return {
+    //     ...state,
+    //     todayTravel: {
+    //       ...state.todayTravel,
+    //       routeRecs : [...state.todayTravel.routeRecs, action.payload]
+    //     }
+    //   }
+    // case types.SET_ROUTE_NAME:
+    //   const newRoute = state.todayTravel.routeRecs.map((item,i) => {
+    //     if ( i === state.todayTravel.routeRecs.length -1 ) {
+    //       item.rr_name = action.payload
+    //       return item
+    //     } else {
+    //       return item
+    //     }
+    //   })
+    // return {
+    //   ...state,
+    //   todayTravel:{
+    //     ...state.todayTravel,
+    //     routeRecs : [newRoute]
+    //   }
+    // }
     case types.SAVE_VISIT_PLACE:
       return {
         ...state,
@@ -141,6 +163,11 @@ export default (state = initialState, action) => {
         ...state,
         todayTravel: {...state.todayTravel, conRecs : action.payload }
       }
+      case types.SELECT_PIN:
+        return {
+          ...state,
+          selectedPin : action.payload
+        }
     default:
       return state;
   }
