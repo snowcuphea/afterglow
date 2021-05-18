@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import ActionCreator from '../../store/actions'
 
 const INITIAL_REGION = {
-  latitude: 35.83463069429124, 
+  latitude: 35.43463069429124, 
   longitude: 127.75646977566188,
   latitudeDelta: 6.3,
   longitudeDelta: 1,
@@ -29,6 +29,7 @@ class Maps_cluster extends React.Component {
       <MapView
         initialRegion={INITIAL_REGION}
         style={{ flex:1 }}
+        zoomControlEnabled
       >
         {
           this.props.traveledList.map((travelItem, index) => {

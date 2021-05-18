@@ -71,19 +71,19 @@ const CustomDrawerContent = (props) => {
     }
   ]
 
-  const signOutWithKakao = async () => {
-    await logout()
-    .then(res => {
-      console.log(res)
-      this.props.logout()
-      this.props.initialPicture()
-      CookieManager.clearAll().then((success) => { console.log("cookie clear ", success)})
-      this.props.navigation.navigate("Login")
-    }) .catch(err => 
-      console.log(err)
-    )
+  // const signOutWithKakao = async () => {
+  //   await logout()
+  //   .then(res => {
+  //     console.log(res)
+  //     this.props.logout()
+  //     this.props.initialPicture()
+  //     CookieManager.clearAll().then((success) => { console.log("cookie clear ", success)})
+  //     this.props.navigation.navigate("Login")
+  //   }) .catch(err => 
+  //     console.log(err)
+  //   )
 
-  };
+  // };
 
   return (
     <SafeAreaView style={{flex:1}}>
@@ -145,10 +145,10 @@ const CustomDrawerContent = (props) => {
         }
         <Text onPress={() => {Linking.openURL(`mailto:test@mail.com`)}}>하이</Text>
       </DrawerContentScrollView>
-      <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }} onPress={() => signOutWithKakao()}>
+      {/* <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }} onPress={() => signOutWithKakao()}>
         <Ionicons name={'log-out-sharp'} style={{ paddingRight: 20 }} size={18} color={"#555555"}></Ionicons>
         <Text style={{ fontSize: 15 }}>로그아웃</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </SafeAreaView>
   )
 }
@@ -463,12 +463,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: () => {
-      dispatch(ActionCreator.logout())
-    },
-    initialPicture: () => {
-      dispatch(ActionCreator.initialPicture())
-    }
+    // logout: () => {
+    //   dispatch(ActionCreator.logout())
+    // },
+    // initialPicture: () => {
+    //   dispatch(ActionCreator.initialPicture())
+    // }
   };
 }
 
