@@ -73,16 +73,12 @@ public class RecordController {
     public ResponseEntity<Integer> saveImg(MultipartHttpServletRequest request,
                                            @RequestBody MultipartFile image,
                                            @RequestParam("rr_id") Long rr_id) {
-        System.out.println(request.getFile("file"));
         try {
-            System.out.println(image.getName());
-            System.out.println(image.getBytes());
-            System.out.println(image.getInputStream());
         } catch (Exception e) {
         }
         ImageRecord ir = new ImageRecord();
         try {
-            ir.setIrImage(image.getBytes());
+            ir.setIrImage(request.getFile("file").getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -416,6 +412,19 @@ public class RecordController {
                                         })
                                 ;
                             });
+                });
+        return ResponseEntity.ok(result);
+    }
+
+    // 단일 사진
+    @GetMapping("/picture")
+    public ResponseEntity<List<ImageRecord>> picture(@RequestParam("rr_id") Long rrId) {
+        List<ImageRecord> result = null;
+        routeRepository
+                .findById(rrId)
+                .ifPresent(rr -> {
+                    result.addAll(imageRepository.findAllByRr(rr)
+                            .orElse(new ArrayList<>()));
                 });
         return ResponseEntity.ok(result);
     }

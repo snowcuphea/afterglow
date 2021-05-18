@@ -49,6 +49,12 @@ public class RouteRecord {
     //@JsonProperty("dr")
     private DailyRecord dr;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany
+    @JoinColumn(name = "imgId")
+    @JsonIgnore
+    private List<ImageRecord> images = new ArrayList<>();
+
     @JsonProperty("rr_staying_minute")
     @Builder.Default
     private Integer rrStaying_minute = 1;
