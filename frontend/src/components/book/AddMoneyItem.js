@@ -66,10 +66,11 @@ class AddMoneyItem extends React.Component {
 
   render() { 
     return (
-      <Card >
-      <View styles={styles.inputContainer}>
-        <View>
-          <Input
+      // <Card containerStyle={{}} >
+      <Card styles={styles.inputContainer} >
+        <View style={styles.inputWrap}>
+          
+          <TextInput
             placeholder='사용처'
             value={this.state.nowWhat}
             onChangeText={(t) => this.setName(t)}
@@ -78,6 +79,7 @@ class AddMoneyItem extends React.Component {
             returnKeyType="next"
             style={{fontSize:15}} />
         </View>
+
         <View>
           <Input
             placeholder='비용(원)'
@@ -101,8 +103,8 @@ class AddMoneyItem extends React.Component {
           >
           <Text>추가</Text>
         </TouchableOpacity>
-      </View>
       </Card>
+      // </Card>
 
     )
   }
@@ -110,9 +112,18 @@ class AddMoneyItem extends React.Component {
 }
 
 const styles = StyleSheet.create({
+
+  inputWrap:{
+    flex: 1,
+    borderColor: "#cccccc",
+    borderBottomWidth: 1,
+    marginBottom: 10
+  },
  
   inputContainer: {
+    flex: 1,
     flexDirection: 'row',
+
     // alignItems: 'center'
   },
   

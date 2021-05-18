@@ -16,11 +16,11 @@ class SinglePicture extends React.Component {
   constructor(props) {
     super(props)
   }
-  
+
   render() {
     
     const {picture} = this.props.route.params
-    console.log(picture.imageSize.width, picture.imageSize.height )
+    // console.log(picture.imageSize.width, picture.imageSize.height )
     let screenWidth = Dimensions.get('window').width;
     let screenHeight = Dimensions.get('window').height;
 

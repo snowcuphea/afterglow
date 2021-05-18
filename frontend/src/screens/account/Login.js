@@ -21,6 +21,7 @@ class LoginScreen extends React.Component {
   signInWithKakao = async () => {
     await kakaoLogin()
     .then(res => {
+      console.log(JSON.stringify(res, null, 2))
       CookieManager.set('http://k4a105.p.ssafy.io:8080', {
         name: 'access_token',
         value: res.accessToken,
@@ -45,14 +46,6 @@ class LoginScreen extends React.Component {
     }) .catch(err => 
       console.log("카카오로그인 에러", err)
     )
-
-    // this.props.login()
-    // this.props.navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [{name: 'Home'}]
-    //   })
-    // )
   };
 
 

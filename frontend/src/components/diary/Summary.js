@@ -9,6 +9,7 @@ import ActionCreator from '../../store/actions'
 
 import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-native-maps";
 
+import MoneyBook from '../../components/book/MoneyBook'
 
 
 class Summary extends React.Component {
@@ -124,11 +125,11 @@ class Summary extends React.Component {
         showsVerticalScrollIndicator={false}>
         <Card containerStyle={[{marginHorizontal:0}, styles.dateContainer]}>
 
-          <Text style={styles.textStyle}> {this.dateForm(startDate)} ~ {this.dateForm(endDate)}</Text>
+          <Text style={styles.dateStyle}> {this.dateForm(startDate)} ~ {this.dateForm(endDate)}</Text>
 
         </Card>
 
-        <Card containerStyle={{marginHorizontal:0, padding:0}}>
+        <Card containerStyle={{marginHorizontal:0, padding:0, borderRadius: 10}}>
           <View style={styles.mapContainer}>
             <MapView
               initialRegion={{
@@ -137,7 +138,7 @@ class Summary extends React.Component {
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1
               }}
-              style={{ flex:1 }}
+              style={{ flex:1, margin: 10 }}
             >
               {/* <Polyline
                 coordinates={{"좌표값"}}
@@ -153,19 +154,18 @@ class Summary extends React.Component {
         </Card>
 
         <Card containerStyle={[{marginHorizontal:0}]} wrapperStyle={ styles.summaryContainer}>
-            <Text>"{title}" 여행을</Text>
-            <Text style={{ marginTop: 20 }}>{this.props.user_nickname}님과 함께</Text>
-            <Text style={{ marginTop: 20 }}>{this.totalTime()} 동안</Text>
-            <Text style={{ marginTop: 20 }}>제주도에서</Text>
-            <Text style={{ marginTop: 20 }}>{this.totalPlaces()}개의 관광지를 들르고</Text>
-            <Text style={{ marginTop: 20 }}>1500장의 사진을 찍고</Text>
-            <Text style={{ marginTop: 20 }}>{this.getSelectedPictures()}장의 사진으로 <Text style={{ color: 'skyblue' }}>여운</Text>을 남겼어요</Text>
+            <Text style={styles.textStyle}><Text style={{backgroundColor:'paleturquoise'}}>"{title}"</Text> 여행을</Text>
+            {/* <Text style={styles.textStyle}>{this.props.user_nickname}님과 함께</Text> */}
+            <Text style={styles.textStyle}><Text style={{ color: 'mediumslateblue'}}>제주도</Text>에서 시작해</Text>
+            <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.totalTime()}</Text> 동안</Text>
+            <Text style={styles.textStyle}><Text style={{ color: 'royalblue'}}>{this.totalPlaces()}</Text>개의 관광지를 들르고</Text>
+            <Text style={styles.textStyle}><Text style={{ color: 'salmon' }}>1500</Text>장의 사진을 찍고</Text>
+            <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.getSelectedPictures()}</Text>장의 사진으로 <Text style={{backgroundColor:'cornsilk'}}>여운</Text>을 남겼어요.</Text>
         </Card>
 
         <Card containerStyle={[{marginHorizontal:0}, styles.bookContainer]}>
-          <Text>
-            가계부 보여주는구역
-          </Text>
+          <Text style={styles.textStyle}>얼마를 썼나요?</Text>  
+            <MoneyBook/>      
         </Card>
       </ScrollView>
     )
@@ -186,7 +186,11 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   mapContainer: {
-    height: screenHeight/3
+    height: screenHeight/3,
+    borderWidth: 5, 
+    borderColor:'beige', 
+    borderStyle: 'solid',
+    borderRadius: 10,
   },
   summaryContainer: {
     justifyContent: 'center',
@@ -197,9 +201,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     height: 700
   },
-  textStyle: {
-    fontFamily: 'RIDIBatang',
+  dateStyle: {
     fontSize: 20,
+  },
+  textStyle:{
+    margin: 10,
   }
 })
 
@@ -211,7 +217,7 @@ function mapStateToProps(state) {
   return {
     index: state.accountRd.historyIndex,
     user_nickname: state.accountRd.user.usr_nickname,
-    record: state.accountRd.traveledList[state.accountRd.historyIndex]
+    record: state.accountRd.traveledList[state.accountRd.historyIndex],
   };
 }
 

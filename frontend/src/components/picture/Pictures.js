@@ -109,7 +109,7 @@ class Pictures extends React.Component {
       first: 10000,
       assetType: 'Photos',
       include: [
-        'location', 'imageSize'
+        'location', 'imageSize', 'filename'
       ],
       fromTime: changeTime(this.props.dayRecs.dr_start_time),
       toTime: changeTime(endTime)
@@ -123,6 +123,8 @@ class Pictures extends React.Component {
           timestamp : picture.node.timestamp * 1000, // s 단위로 오는거 ms 단위로 바꿔줘야한다
           location : picture.node.location,
           uri: picture.node.image.uri,
+          type: picture.node.type,
+          filename: picture.node.image.filename,
           imageSize: {
             height : picture.node.image.height,
             width : picture.node.image.width
@@ -163,7 +165,7 @@ class Pictures extends React.Component {
     // console.log(JSON.stringify(item,null,2))
   }
 
-  unselectPicture = () => {
+  unselectPicture = (id) => {
     this.props.unselect(id)
   }
 
@@ -213,7 +215,7 @@ class Pictures extends React.Component {
     let screenHeight = Dimensions.get('window').height;
   
     return(
-      <View style={this.props.selectedPictures.length > 0 ? {height: screenHeight*0.825} : {}}>
+      <View style={this.props.selectedPictures.length > 0 ? {height: screenHeight*0.824} : {}}>
         <SectionList
           sections={this.state.data}
           keyExtractor = {(data) => data.id}
@@ -224,8 +226,10 @@ class Pictures extends React.Component {
               renderItem={renderdata}
             />
           )}
-          renderSectionHeader={({ section : { title }}) => (
-            <Text> { title } </Text>
+          renderSectionHeader={({section}) => (
+            section.data[0].list.length > 0 ? 
+            <Text> { section.title } </Text> :
+            <Text> { section.title }에서 찍은 사진은 없습니다. </Text>
           )}
         />
       </View>

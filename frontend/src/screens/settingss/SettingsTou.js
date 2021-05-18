@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, ScrollView} from 'react-native';
-import Tou from '../../components/settings/Tou'
 
 export default class SettingsTou extends Component {
 
