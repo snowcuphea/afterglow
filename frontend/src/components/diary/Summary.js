@@ -124,6 +124,7 @@ class Summary extends React.Component {
 
       }
     }
+  }
 
   render() {
 
