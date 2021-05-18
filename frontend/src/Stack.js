@@ -24,6 +24,7 @@ import SettingsTou from './screens/settingss/SettingsTou';
 import SettingsTutorial from './screens/settingss/SettingsTutorial';
 import SettingsProfile from './screens/settingss/SettingsProfile';
 
+import { upload } from './api/picture'
 
 const Stack = createStackNavigator();
 
@@ -58,7 +59,7 @@ const SavePicture = (props) => {
     }
     
     await props.endDay({ "dr_id": dr_id, "count": props.pictureCount })
-    // await props.savePictures(props.selectedPictures)
+    await props.savePictures(props.selectedPictures)
     await props.getRecordListReq()
     await navigation.dispatch(
       CommonActions.reset({
@@ -69,6 +70,7 @@ const SavePicture = (props) => {
         ]
       })
     )
+
   }
 
   if ( mode === "save" ) {

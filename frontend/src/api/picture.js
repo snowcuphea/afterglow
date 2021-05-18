@@ -1,16 +1,12 @@
-import { createInstance, createInstancePicture } from "./index.js"
+import { createInstance } from "./index.js"
 
 const instance = createInstance()
 
-const instancePicture = createInstancePicture()
+function upload( data ) {
 
+  instance.defaults.headers["Content-Type"] = "multipart/form-data"
 
-function upload( pictures ) {
-
-  console.log("요청은 옴", JSON.stringify(pictures,null,2))
-  // instance.post(`records/save/image?rr_id=${pictures.rr_id}`, pictures.pictures)
-  instancePicture.post(`records/save/image?rr_id=${pictures.rr_id}`, pictures.picture)
-  // instancePicture.post(`records/save/images?rr_id_list=${pictures.rr_id}`, pictures.pictures)
+  return instance.post(`records/save/image?rr_id=${data.rr_id}`, data.picture)
 
 }
 

@@ -95,7 +95,7 @@ class EndTravelMain extends React.Component {
 
   render() {
     // console.log("EndTravelMain의 렌더 todayTravel", this.props.todayTravel)
-    console.log("EndTravelMain의 렌더 travellingList", JSON.stringify(this.props.travelingList, null, 2))
+    // console.log("EndTravelMain의 렌더 travellingList", JSON.stringify(this.props.travelingList, null, 2))
     // console 보고 .latitude 같은 것들 추가해야 함
     // const lat = this.props.todayTravel.todaycoords.lat
     // const lon = this.props.todayTravel.todaycoords.lon

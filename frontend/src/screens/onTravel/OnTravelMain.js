@@ -42,9 +42,10 @@ class OnTravelMain extends React.Component {
   }
 
   allPictures = () => {
-    this.props.navigation.navigate('ShowPictures');
-    this.props.modePicture('look');
-    this.props.emptyList();
+    console.log("눌렀을때", JSON.stringify(this.props.todayTravel,null,2))
+    // this.props.navigation.navigate('ShowPictures');
+    // this.props.modePicture('look');
+    // this.props.emptyList();
   }
 
   //핀 눌렀을 때 끌지 안끌지만 설정하는 함수 
@@ -76,25 +77,22 @@ class OnTravelMain extends React.Component {
   }
 
   timeForm(time) {
-    try {
+    if ( time !== null ) {
       const tempTime = time.split(':')
       const hours = Number(tempTime[0])
       const mins = Number(tempTime[1])
-    
       return hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
               ( mins > 0 ? mins + '분' : '첫 걸음' )
-    } catch (error) {
-      // console.log(error)
+    } else {
       return '첫 걸음'
     }
   }
 
   componentDidMount () {
-
     Geolocation.getCurrentPosition(
       (position) => {
         // 확인 완료
-        console.log('현재 위치 확인용', position)
+        // console.log('현재 위치 확인용', position)
         // console.log('현재 위치 확인용2', position.coords.latitude)
 
         this.setState({
@@ -104,7 +102,7 @@ class OnTravelMain extends React.Component {
 
 
         // 확인 완료
-        console.log('현재위치 확인용', this.state)
+        // console.log('현재위치 확인용', this.state)
 
 
         // console.log(position);
@@ -271,7 +269,7 @@ function mapStateToProps(state) {
     travelingName: state.accountRd.travelingName,
     travelStatus: state.accountRd.travelStatus,
     todayTravel: state.accountRd.todayTravel,
-    todayTravelRoute: state.accountRd.todayTravel.routRecs,
+    // todayTravelRoute: state.accountRd.todayTravel.routRecs,
     rdPin : state.accountRd.selectedPin,
     travelingList : state.accountRd.travelingList,
   }

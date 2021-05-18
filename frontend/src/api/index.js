@@ -26,22 +26,4 @@ function createInstance() {
 
 }
 
-
-function createInstancePicture() {
-  const instance = axios.create({
-    baseURL: API_BASE_URL,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    }
-  })
-
-  CookieManager.get("http://k4a105.p.ssafy.io:8080")
-    .then((cookies) => {
-      // console.log(cookies)
-      instance.defaults.headers["Cookies"] = cookies
-    })
-
-  return instance
-}
-
-export { createInstance, createInstancePicture }
+export { createInstance }

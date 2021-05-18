@@ -22,7 +22,7 @@ export function* getRecordListAsync() {
   try {
     const res = yield call(getRecordList)
     console.log("여행리스트응답코드", res.status)
-    // console.log("여행리스트데이터", res.data)
+    // console.log("여행리스트데이터",res.data)
     if ( res.status === "201" ) {
       CookieManager.clearByName('http://k4a105.p.ssafy.io:8080', 'access_token')
         .then( (success) => {
@@ -110,7 +110,7 @@ export function* getCurrentInfoAsync(action) {
 export function* sendLocationInfoAsync(action) {
   try{
     const { status, data } = yield call(sendLocationInfo, action.payload) 
-    console.log("1")
+    console.log("======================================================================================")
     console.log( "위치 성공",  status)
     // console.log( "위치 성공",   data )
     if (data.rr !== null || data.place !== undefined) {       // data.isUserMoving (만약 이동중이면 추가) 그런데 지금 이부분 에러있는것 같아서 안넣었음
