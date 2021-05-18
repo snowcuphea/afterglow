@@ -278,7 +278,7 @@ public class RecordController {
         dailyRepository.findById(drId)
                 .ifPresent(dr -> {
                     Optional<RouteRecord> latestRr = recordService.getLatestRr(dr);
-                    // 전의 기록이 없을 때
+                    // 전의 기록이 있을 때
                     if (latestRr != null) {
                         result.put("isUserMoving", recordService.isUserMoving(latestRr.get(), rrLat, rrLong));
                         // 전의 기록이 장소 일 때

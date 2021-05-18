@@ -35,6 +35,8 @@ public class UserService implements UserDetailsService {
 
     @Value("${kakao_rest_api_key}")
     private String kakao_rest_api_key;
+    @Value("${kakao_secret}")
+    private String kakao_secret;
 
 
     @Override
@@ -82,13 +84,14 @@ public class UserService implements UserDetailsService {
         conn.setRequestProperty("Authorization", "Bearer " + (String) cookies.get("access_token"));
         int responseCode = conn.getResponseCode();
         if (responseCode == 401) {
-            String reqRenewalURL = "https://kapi.kakao.com/oauth/token";
+            String reqRenewalURL = "https://kauth.kakao.com/oauth/token";
             URL renewalURL = new URL(reqRenewalURL);
             HttpURLConnection renewalConn = (HttpURLConnection) renewalURL.openConnection();
             renewalConn.setRequestMethod("POST");
             renewalConn.setRequestProperty("grant_type", "refresh_token");
             renewalConn.setRequestProperty("client_id", kakao_rest_api_key);
             renewalConn.setRequestProperty("refresh_token", (String) cookies.get("refresh_token"));
+            renewalConn.setRequestProperty("client_secret", kakao_secret);
             System.out.println("client_id : " + kakao_rest_api_key);
             System.out.println("refresh_token : " + (String) cookies.get("refresh_token"));
 
