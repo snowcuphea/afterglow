@@ -218,6 +218,7 @@ function mapStateToProps(state) {
     index: state.accountRd.historyIndex,
     user_nickname: state.accountRd.user.usr_nickname,
     record: state.accountRd.traveledList[state.accountRd.historyIndex],
+    // 여행 정보
   };
 }
 

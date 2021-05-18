@@ -86,6 +86,23 @@ class EndTravelMain extends React.Component {
     });
   }
 
+  getPolyLine (day) {
+
+    console.log(this.props.travelingList)
+
+    var polyArr = [];
+
+    for (var route of day.routeRecs) {
+      var coordForm = {
+        latitude: route.rr_latitude,
+        longitude: route.rr_longitude
+      }
+      polyArr.push(coordForm)
+    }
+
+    return polyArr
+  }
+
 
   // componentDidMount () {
   //   // console.log('테스트', this.props.travelStatus)
@@ -142,18 +159,25 @@ class EndTravelMain extends React.Component {
           <MapView
               style={{ flex:1, margin: 10, }}
               region = {{
-                  latitude: 37.5172,
-                  longitude: 127.0473,
+                  latitude: this.props.todayTravel.routeRecs[0].rr_latitude,
+                  longitude: this.props.todayTravel.routeRecs[0].rr_longitude,
                   latitudeDelta: 0.1,
                   longitudeDelta: 0.05
 
               }}
           >
-            {/* <Polyline
-            coordinates={{"좌표"}}
-            strokeColor='red'
-            strokeWidth={1}
-          ></Polyline> */}
+            {
+              this.props.travelingList.map((day, dayindex) => {
+                  <Polyline
+                    coordinates={this.getPolyLine(day)}
+                    strokeColor='red'
+                    strokeWidth={1}
+                  >
+
+                  </Polyline>
+                })
+              }
+
 
           {/* {
             this.props.todayTravel.map((marker, index) => (

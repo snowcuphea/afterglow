@@ -128,6 +128,34 @@ class OnTravelMain extends React.Component {
 
   }
 
+  getPolyLine () {
+    var polyArr = [];
+
+    for (var route of this.props.todayTravel.routeRecs) {
+      var coordForm = {
+        latitude: route.rr_latitude,
+        longitude: route.rr_longitude
+      }
+      polyArr.push(coordForm)
+    }
+
+    return polyArr
+  }
+
+  // getMarker () {
+  //   var markerArr = [];
+
+  //   for (var route of this.props.todayTravel.routeRecs) {
+  //     var coordForm = {
+  //       latitude: route.rr_latitude,
+  //       longitude: route.rr_longitude
+  //     }
+  //     markerArr.push(coordForm)
+  //   }
+
+  //   return markerArr
+  // }
+
   render() {
     const REGION = {
       latitude: this.state.lat,
@@ -157,22 +185,29 @@ class OnTravelMain extends React.Component {
             style={{height:200}}
             showsUserLocation = {true}
           >
-            {/* <Polyline
-              coordinates={{"좌표"}}
+            <Polyline
+              coordinates={this.getPolyLine()}
               strokeColor='red'
               strokeWidth={1}
             ></Polyline>
 
             {
-              this.props.todayTravel.map((marker, index) => (
-                <Marker
-                  coordinate={marker.tempPinList}
-                  key={index}
-                  title={marker.title}
-                  onPress={()=> {}}
-                />
-              ))
-            } */}
+              this.props.todayTravel.routeRecs.map((marker, index) => 
+                {
+                  if (marker.rr_name !== null) {
+                    return (
+                      <Marker
+                        coordinate={{latitude: marker.rr_latitude, longitude: marker.rr_longitude}}
+                        key={index}
+                        title={marker.rr_name}
+                        onPress={()=> {}}
+                      />
+
+                    )
+                  } 
+                }
+              )
+            }
 
             {/* 추천 여행지 관련 마커
             {
