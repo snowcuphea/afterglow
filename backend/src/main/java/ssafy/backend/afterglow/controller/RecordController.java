@@ -74,6 +74,12 @@ public class RecordController {
                                            @RequestBody MultipartFile image,
                                            @RequestParam("rr_id") Long rr_id) {
         System.out.println(request.getFile("file"));
+        try {
+            System.out.println(image.getName());
+            System.out.println(image.getBytes());
+            System.out.println(image.getInputStream());
+        } catch (Exception e) {
+        }
         ImageRecord ir = new ImageRecord();
         try {
             ir.setIrImage(image.getBytes());
@@ -110,7 +116,7 @@ public class RecordController {
                             .drStartTime(LocalDateTime.now())
                             .build());
                 });
-        return ResponseEntity.ok(recordRepository.findById(ref.record.getRecId()).get());
+        return new ResponseEntity(recordRepository.findById(ref.record.getRecId()).get(), HttpStatus.valueOf(response.getStatus()));
     }
 
     // 하루 시작
@@ -122,20 +128,15 @@ public class RecordController {
             DailyRecord dr = null;
         };
 
-        userService
-                .findUserByToken(request, response)
-                .ifPresent(user -> {
-                    recordRepository.findById(recId)
-                            .ifPresent(record -> {
-                                ref.dr = dailyRepository.save(DailyRecord.builder()
-                                        .drDate(LocalDate.now())
-                                        .rec(record)
-                                        .drStartTime(LocalDateTime.now())
-                                        .build());
-                            });
+        recordRepository.findById(recId)
+                .ifPresent(record -> {
+                    ref.dr = dailyRepository.save(DailyRecord.builder()
+                            .drDate(LocalDate.now())
+                            .rec(record)
+                            .drStartTime(LocalDateTime.now())
+                            .build());
                 });
         return ResponseEntity.ok(ref.dr);
-
     }
 
 
@@ -215,28 +216,22 @@ public class RecordController {
                 .ifPresent(user -> {
                     ref.result = recordRepository.findByUser(user);
                 });
-        return ResponseEntity.ok(ref.result);
+        return new ResponseEntity(ref.result, HttpStatus.valueOf(response.getStatus()));
     }
 
     // 하루 기준 현 시간까지의 실시간 정보 받아오기
     @GetMapping("/current")
-    public ResponseEntity<Object> currentInfo(@RequestParam("drId") Long drId,
-                                              HttpServletRequest request,
-                                              HttpServletResponse response) throws IOException {
+    public ResponseEntity<Object> currentInfo(@RequestParam("drId") Long drId) throws IOException {
         var ref = new Object() {
             DailyRecord result = null;
         };
-        userService
-                .findUserByToken(request, response)
-                .ifPresent(user -> {
-                    dailyRepository.findById(drId)
-                            .ifPresent(dr -> {
-                                Duration duration = Duration.between(dr.getDrStartTime(), LocalDateTime.now());
-                                long hours = Math.floorDiv(duration.getSeconds(), 3600);
-                                long minutes = Math.floorDiv(duration.getSeconds() - 3600 * hours, 60);
-                                dr.setDrTimeSpent(String.format("%d:%d", hours, minutes));
-                                ref.result = dr;
-                            });
+        dailyRepository.findById(drId)
+                .ifPresent(dr -> {
+                    Duration duration = Duration.between(dr.getDrStartTime(), LocalDateTime.now());
+                    long hours = Math.floorDiv(duration.getSeconds(), 3600);
+                    long minutes = Math.floorDiv(duration.getSeconds() - 3600 * hours, 60);
+                    dr.setDrTimeSpent(String.format("%d:%d", hours, minutes));
+                    ref.result = dr;
                 });
         return ResponseEntity.ok(ref.result);
     }
