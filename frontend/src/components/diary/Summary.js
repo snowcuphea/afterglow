@@ -112,6 +112,39 @@ class Summary extends React.Component {
     return total
   }
 
+  getPolyLine () {
+
+    var polyArr = [];
+
+    for (var day of this.props.record.dayRecs) {
+      for (var route of day.routeRecs) {
+        var coordForm = {
+          latitude: route.rr_latitude,
+          longitude: route.rr_longitude
+        }
+        polyArr.push(coordForm)
+
+      }
+    }
+
+    return polyArr
+  }
+
+  getMarker () {
+
+    var markerArr = [];
+
+    for (var markerDay of this.props.record.dayRecs) {
+      for (var markerRoute of markerDay.routeRecs) {
+        var markerForm = {
+          latitude: markerRoute.rr_latitude,
+          longitude: markerRoute.rr_longitude
+        }
+        markerArr.push(markerForm)
+
+      }
+    }
+
   render() {
 
     const history = this.props.record
@@ -141,13 +174,23 @@ class Summary extends React.Component {
               style={{ flex:1, margin: 10 }}
             >
               {/* <Polyline
-                coordinates={{"좌표값"}}
+                coordinates={this.getPolyLine()}
                 strokeColor='red'
                 strokeWidth={1}
               >
+              </Polyline>
+              {
+                this.getMarker().map((marker, markerIndex) => {
+                  return (
+                    <MapView.Marker
+                      coordinate={marker}
+                      key={markerIndex}
+                    />
+                  )
+                })
+              } */}
 
 
-              </Polyline> */}
 
             </MapView>
           </View>

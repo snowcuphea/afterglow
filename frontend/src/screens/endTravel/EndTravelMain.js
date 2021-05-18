@@ -86,22 +86,58 @@ class EndTravelMain extends React.Component {
     });
   }
 
-  getPolyLine (day) {
-
-    console.log(this.props.travelingList)
+  getPolyLine () {
 
     var polyArr = [];
 
-    for (var route of day.routeRecs) {
-      var coordForm = {
-        latitude: route.rr_latitude,
-        longitude: route.rr_longitude
+    for (var day of this.props.travelingList) {
+      for (var route of day.routeRecs) {
+        var coordForm = {
+          latitude: route.rr_latitude,
+          longitude: route.rr_longitude
+        }
+        polyArr.push(coordForm)
+
       }
-      polyArr.push(coordForm)
     }
 
     return polyArr
   }
+
+  getMarker () {
+
+    var markerArr = [];
+
+    for (var markerDay of this.props.travelingList) {
+      for (var markerRoute of markerDay.routeRecs) {
+        var markerForm = {
+          latitude: markerRoute.rr_latitude,
+          longitude: markerRoute.rr_longitude
+        }
+        markerArr.push(markerForm)
+
+      }
+    }
+    
+// 
+    return markerArr
+  }
+
+  // getTitle () {
+  //   var markerTitle = []
+
+  //   for (var markerDay of this.props.travelingList) {
+  //     for (var markerRoute of markerDay.routeRecs) {
+  //       var titleForm = {
+  //         title: markerRoute.rr_name
+  //       }
+  //       markerTitle.push(titleForm)
+
+  //     }
+  //   }
+
+  //   return markerTitle
+  // }
 
 
   // componentDidMount () {
@@ -111,6 +147,8 @@ class EndTravelMain extends React.Component {
   // }
 
   render() {
+    // console.log(JSON.stringify(this.props.travelingList, null, 2))
+    // console.log(JSON.stringify(this.props.travelingList.routeRecs, null, 2))
     // console.log("EndTravelMain의 렌더 todayTravel", this.props.todayTravel)
     // console.log("EndTravelMain의 렌더 travellingList", JSON.stringify(this.props.travelingList, null, 2))
     // console 보고 .latitude 같은 것들 추가해야 함
@@ -159,36 +197,53 @@ class EndTravelMain extends React.Component {
           <MapView
               style={{ flex:1, margin: 10, }}
               region = {{
-                  latitude: this.props.todayTravel.routeRecs[0].rr_latitude,
-                  longitude: this.props.todayTravel.routeRecs[0].rr_longitude,
+                  latitude: this.props.todayTravel.routeRecs.length === 0 || this.props.todayTravel.routeRecs[0].rr_latitude === undefined ? 37.57982954633664 : this.props.todayTravel.routeRecs[0].rr_latitude,
+                  longitude: this.props.todayTravel.routeRecs.length === 0 || this.props.todayTravel.routeRecs[0].rr_longitude === undefined ? 126.9770088111815 : this.props.todayTravel.routeRecs[0].rr_latitude,
                   latitudeDelta: 0.1,
                   longitudeDelta: 0.05
 
               }}
           >
+           
+            <Polyline
+              coordinates={this.getPolyLine()}
+              strokeColor='red'
+              strokeWidth={1}
+            >
+
+            </Polyline>
             {
-              this.props.travelingList.map((day, dayindex) => {
-                  <Polyline
-                    coordinates={this.getPolyLine(day)}
-                    strokeColor='red'
-                    strokeWidth={1}
-                  >
+              this.getMarker().map((marker, markerIndex) => {
+                return (
+                  <MapView.Marker
+                    coordinate={marker}
+                    key={markerIndex}
+                    // title={this.props.travelingList.routeRecs[markerIndex].rr_name}
+                  />
+                )
+              })
+            }
 
-                  </Polyline>
+
+          
+
+            {/* {
+              this.props.travelingList.map((days, dayIndex) => {
+                days.routeRecs.map((marker, markerIndex) => {
+                  if (marker.rr_name !== null) {
+                    return (
+                      <Marker
+                        coordinate={{latitude: marker.rr_latitude, longitude: marker.rr_longitude}}
+                        key={markerIndex}
+                        title={marker.rr_name}
+                        onPress={()=> {}}
+                      />
+
+                    )
+                  } 
                 })
-              }
-
-
-          {/* {
-            this.props.todayTravel.map((marker, index) => (
-              <Marker
-                coordinate={marker.tempPinList}
-                key={index}
-                title={marker.title}
-                onPress={()=> {}}
-              />
-            ))
-          } */}
+              })
+            } */}
           </MapView>
         </View>
         {/* =================== 지도 ================================= */}  
