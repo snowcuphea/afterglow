@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { SafeAreaView, View, TouchableOpacity, Text, Button, StyleSheet, Image, FlatList, PermissionsAndroid, Platform, ToastAndroid  } from 'react-native'
+import { SafeAreaView, View, TouchableOpacity, Text, Button, StyleSheet, Image, FlatList, PermissionsAndroid, Platform, ToastAndroid, Linking  } from 'react-native'
 
 import Geolocation from 'react-native-geolocation-service';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
@@ -130,11 +130,6 @@ const CustomDrawerContent = (props) => {
             )
           })
         }
-          {/* <FlatList
-            data={myInfo}
-            renderItem={renderItemInfo}
-            keyExtractor={(item) => item.title}
-          ></FlatList> */}
 
         <Card.Divider />
         {
@@ -148,61 +143,12 @@ const CustomDrawerContent = (props) => {
             )
           })
         }
-        
-
-          {/* <FlatList
-            data={naviInfo}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.title}        
-          >
-
-          </FlatList> */}
-
-        {/* <View style={styles.infoContainer}>
-          <View style={styles.infoItem}>
-            <Text>내 추억 : </Text>
-            <Text>{userDetail.traveledList.length}</Text>
-          </View>
-        </View>
-        <Card.Divider/>
-
-        <View style={styles.bottomIconContainer}>
-          <View style={styles.bottomIcon}>
-            <Ionicons 
-              name={"notifications-outline"} 
-              size={40} 
-              color={"#555555"}
-              onPress={() => props.navigation.navigate('SettingsNotice')}
-              ></Ionicons>
-            <Text>공지사항</Text>
-          </View>
-
-          <View style={styles.bottomIcon}>
-            <Ionicons 
-              name={"people-outline"} 
-              size={40} 
-              color={"#555555"}
-              onPress={() => props.navigation.navigate('SettingsContact')}
-              ></Ionicons>
-            <Text>고객센터</Text>
-          </View>
-
-          <View style={styles.bottomIcon}>
-            <Ionicons 
-              name={"help-circle-outline"} 
-              size={40} 
-              color={"#555555"}
-              onPress={() => props.navigation.navigate('SettingsTutorial')}
-              ></Ionicons>
-            <Text>튜토리얼</Text>
-          </View>  
-        </View> */}
-        
+        <Text onPress={() => {Linking.openURL(`mailto:test@mail.com`)}}>하이</Text>
       </DrawerContentScrollView>
-      <View style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }}>
-        <Ionicons name={'log-out-sharp'} style={{ paddingRight: 20 }} size={18} color={"#555555"} onPress={() => signOutWithKakao()} ></Ionicons>
-        <Text style={{ fontSize: 15 }} onPress={() => signOutWithKakao()}>로그아웃</Text>
-      </View>
+      <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }} onPress={() => signOutWithKakao()}>
+        <Ionicons name={'log-out-sharp'} style={{ paddingRight: 20 }} size={18} color={"#555555"}></Ionicons>
+        <Text style={{ fontSize: 15 }}>로그아웃</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }
