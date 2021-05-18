@@ -463,4 +463,16 @@ public class RecordController {
                 });
         return ResponseEntity.ok(ref.result);
     }
+
+    // 현 위치에서 가까운 여행지 목록
+    @GetMapping("/tours")
+    public ResponseEntity<List<TourDestination>> getCloseTours(@RequestParam("limit_radius") Double radius,
+                                                               @RequestParam("cur_latitude") Double latitude,
+                                                               @RequestParam("cur_longitude") Double longitude){
+        var ref = new Object() {
+            List<TourDestination> result;
+        };
+        ref.result = recordService.getToursInRange(radius, latitude, longitude);
+        return ResponseEntity.ok(ref.result);
+    }
 }
