@@ -367,7 +367,7 @@ public class RecordController {
                                                           HttpServletResponse response,
                                                           @RequestParam("drId") Long drId) throws IOException {
         var ref = new Object() {
-            List<ImageRecord> result = null;
+            List<ImageRecord> result = new ArrayList<>();
         };
         userService
                 .findUserByToken(request, response)
@@ -391,7 +391,7 @@ public class RecordController {
     // 전체 사진
     @GetMapping("/trip/picture")
     public ResponseEntity<Map<LocalDate, List<ImageRecord>>> tripPicture(@RequestParam("rec_id") Long recId) {
-        Map<LocalDate, List<ImageRecord>> result = null;
+        Map<LocalDate, List<ImageRecord>> result = new ArrayList<>();
         recordRepository
                 .findById(recId)
                 .ifPresent(rec -> {
