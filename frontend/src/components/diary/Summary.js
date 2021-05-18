@@ -11,6 +11,7 @@ import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-nativ
 
 import MoneyBook from '../../components/book/MoneyBook'
 
+import { getRecordPicture } from '../../api/picture'
 
 class Summary extends React.Component {
 
@@ -70,45 +71,24 @@ class Summary extends React.Component {
   }
 
   getTotalPictures() {
+    // console.log(JSON.stringify(this.props.record, null, 2))
     // 지금까지 몇개의 사진을 찍었는지도 db에 저장해야한다
+    return this.props.record.total_img_count
   }
 
   getSelectedPictures() {
     var total = 0;
-    // const tempDayRecs = [
-    //   {
-    //     "routeRecs" : [
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //     ]
+
+    // getRecordPicture(
+    //   this.props.record.rec_id,
+    //   (res) => {
+    //     // console.log(JSON.stringify(res.data,null,2))
+    //     total += res.data.length
     //   },
-    //   {
-    //     "routeRecs" : [
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": null , "imgRecs": [] },
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //     ]
-    //   },
-    //   {
-    //     "routeRecs" : [
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": null , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //       { "rr_name": "어딘가" , "imgRecs": [{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},{ ir_image: ["string"]},] },
-    //     ]
-    //   },
-    // ];
-    for ( var days of this.props.record.dayRecs){
-      for ( var day of days.routeRecs ) {
-        total += day.imgRecs.length
-      };
-    };
+    //   (err) => {
+    //     console.log(err)
+    //   }
+    // )
     return total
   }
 
@@ -202,7 +182,7 @@ class Summary extends React.Component {
             <Text style={styles.textStyle}><Text style={{ color: 'mediumslateblue'}}>제주도</Text>에서 시작해</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.totalTime()}</Text> 동안</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'royalblue'}}>{this.totalPlaces()}</Text>개의 관광지를 들르고</Text>
-            <Text style={styles.textStyle}><Text style={{ color: 'salmon' }}>1500</Text>장의 사진을 찍고</Text>
+            <Text style={styles.textStyle}><Text style={{ color: 'salmon' }}>{this.getTotalPictures()}</Text>장의 사진을 찍고</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.getSelectedPictures()}</Text>장의 사진으로 <Text style={{backgroundColor:'cornsilk'}}>여운</Text>을 남겼어요.</Text>
         </Card>
 

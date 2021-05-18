@@ -3,7 +3,7 @@ import {
   View, Text
 } from 'react-native';
 
-import Pictures from '../../components/picture/RoutePictures'
+import RoutePictures from '../../components/picture/RoutePictures'
 import PicturesHorz from '../../components/picture/PicturesHorz'
 
 import { connect } from 'react-redux';
@@ -23,7 +23,7 @@ class ShowPictures extends React.Component {
         { this.props.mode !== "look" ? 
          <PicturesHorz /> : null
         }
-        <Pictures navigation={this.props.navigation}/>
+        <RoutePictures  data={this.props.route.params.pictures} navigation={this.props.navigation}/>
       </View>
     )
 
@@ -34,7 +34,7 @@ class ShowPictures extends React.Component {
 function mapStateToProps(state) {
 
   return {
-    mode: state.pictureRd.mode
+    mode: state.pictureRd.mode,
   }
 }
 

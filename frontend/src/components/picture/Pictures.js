@@ -34,7 +34,7 @@ class Pictures extends React.Component {
     const nowTime = new Date()
 
     const endTime = nowTime.getFullYear()+"-"
-                  + Number(nowTime.getMonth())+1+"-"
+                  + (Number(nowTime.getMonth())+1)+"-"
                   + nowTime.getDate()+" "
                   + "T"+nowTime.getHours()+":"
                   + nowTime.getMinutes()+":"
@@ -66,7 +66,7 @@ class Pictures extends React.Component {
 
     const unsortedSet = {
       id: "도로",
-      title: "미분류",
+      title: "중간중간",
       fromTime: this.props.dayRecs.dr_start_time,
       toTime: endTime,
       data: [{
@@ -227,9 +227,12 @@ class Pictures extends React.Component {
             />
           )}
           renderSectionHeader={({section}) => (
-            section.data[0].list.length > 0 ? 
-            <Text> { section.title } </Text> :
-            <Text> { section.title }에서 찍은 사진은 없습니다. </Text>
+            <View style={{ height: 40, justifyContent: 'center', marginLeft: 10}}>
+              { section.data[0].list.length > 0 ? 
+              ( section.title !== "중간중간" ? <Text> { section.title }에서 찍은 사진 </Text> : <Text> { section.title } 찍은 사진  </Text> ) :
+              ( section.title !== "중간중간" ? <Text> { section.title }에서 찍은 사진은 없습니다. </Text> : <Text> { section.title } 찍은 사진은 없습니다. </Text> )
+            }
+            </View>
           )}
         />
       </View>

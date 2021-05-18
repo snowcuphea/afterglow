@@ -1,15 +1,9 @@
-import ActionCreator from '../actions'
-
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { upload } from '../../api/picture'
-
-import base64 from "react-native-base64"
 
 export function* savePictureAsync(action) {
   try {
 
-    const formBody = []
-    const rr_id_body = []
     for ( var picture of action.payload) {
       const form = new FormData()
       const name = picture.filename;

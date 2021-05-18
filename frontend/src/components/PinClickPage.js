@@ -107,6 +107,11 @@ class PinClickPage extends React.Component {
 							}
 							
 							</View>
+
+              <View>
+                <RoutePicturesHorz navigation={this.props.navigation}/>
+              </View>
+
         		</View>
       </View>
     )

@@ -41,13 +41,6 @@ class OnTravelMain extends React.Component {
     }
   }
 
-  allPictures = () => {
-    console.log("눌렀을때", JSON.stringify(this.props.todayTravel,null,2))
-    // this.props.navigation.navigate('ShowPictures');
-    // this.props.modePicture('look');
-    // this.props.emptyList();
-  }
-
   //핀 눌렀을 때 끌지 안끌지만 설정하는 함수 
   selectPinFunc = (val) => {
     this.setState({ ...this.state, clickPin: val });
@@ -89,6 +82,7 @@ class OnTravelMain extends React.Component {
   }
 
   componentDidMount () {
+
     Geolocation.getCurrentPosition(
       (position) => {
         // 확인 완료
@@ -157,6 +151,7 @@ class OnTravelMain extends React.Component {
   // }
 
   render() {
+
     const REGION = {
       latitude: this.state.lat,
       longitude: this.state.lon,
@@ -218,10 +213,10 @@ class OnTravelMain extends React.Component {
           </MapView>
         </View>
         
-        <Button title={"사진 모아보기"} onPress={this.allPictures}/>
         { this.state.clickPin
         ? <PinClickPage 
-          selectPinFunc={this.selectPinFunc}/>
+          selectPinFunc={this.selectPinFunc}
+          navigation={this.props.navigation}/>
         : 
           <View>
 

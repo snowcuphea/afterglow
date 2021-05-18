@@ -255,9 +255,10 @@ class EndTravelMain extends React.Component {
            <MaterialIcons name="auto-awesome" size={25} color={"#333333"}/>
             <Text style={styles.titleStyle}>{this.props.user_nickname}님이 방문한 장소 </Text>
           </View>
-          <PlaceList newSelectPinFunc={this.newSelectPinFunc} />
+          <PlaceList navigation={this.props.navigation} newSelectPinFunc={this.newSelectPinFunc} />
           { this.state.clickPin
           ? <PinClickPage 
+          navigation={this.props.navigation}
           selectPinFunc={this.selectPinFunc}/>
           : null}
         </View>
