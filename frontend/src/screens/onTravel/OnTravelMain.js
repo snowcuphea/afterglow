@@ -155,6 +155,7 @@ class OnTravelMain extends React.Component {
             // initialRegion={REGION}
             region = {REGION}
             style={{height:200}}
+            showsUserLocation = {true}
           >
             {/* <Polyline
               coordinates={{"좌표"}}

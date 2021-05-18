@@ -45,7 +45,9 @@ export default class SettingsContact extends Component {
                 <View style={{ flexDirection: 'row' }}>
                     <Ionicons name='call' size={20} />
                     <Text style={{ color: 'blue', fontSize: 20, paddingLeft: 10 }} onPress={() => {Linking.openURL('tel:1588-1234')}}>{this.state.tel}</Text>
-                    
+                    <Text>
+                        
+                    </Text>
                 </View>
                 <Text>{this.state.mail}</Text>
                 <Text>{this.state.contact}</Text>
