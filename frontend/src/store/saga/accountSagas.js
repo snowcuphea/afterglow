@@ -40,7 +40,7 @@ export function* getRecordListAsync() {
     yield put(ActionCreator.getRecordList(res.data))
 
   } catch (error) {
-    console.log(error)
+    console.log("토큰",error)
   }
 }
 

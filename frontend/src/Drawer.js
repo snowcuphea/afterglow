@@ -92,9 +92,9 @@ const CustomDrawerContent = (props) => {
           <Ionicons name={"close-outline"} size={30}></Ionicons>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity style={styles.settingBtn} onPress={() => props.navigation.navigate("SettingsMain")}>
+        <TouchableOpacity style={styles.settingBtn} onPress={() => props.navigation.navigate("SettingsMain")}>
           <Ionicons name={"settings-outline"} size={30} color={"#555555"}></Ionicons>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
 
       <View style={{
