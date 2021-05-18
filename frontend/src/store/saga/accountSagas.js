@@ -112,7 +112,7 @@ export function* sendLocationInfoAsync(action) {
     const { status, data } = yield call(sendLocationInfo, action.payload) 
     console.log("======================================================================================")
     console.log( "위치 성공",  status)
-    // console.log( "위치 성공",   data )
+    console.log( "위치 성공",   data )
     if (data.rr !== null || data.place !== undefined) {       // data.isUserMoving (만약 이동중이면 추가) 그런데 지금 이부분 에러있는것 같아서 안넣었음
       console.log("추가 또는 이름 갱신")
       const { status, data } = yield call(getCurrentInfo, action.payload.dr_id) 

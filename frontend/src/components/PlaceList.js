@@ -62,11 +62,13 @@ class PlaceList extends React.Component {
 
       return (
         <TouchableOpacity
-            onPress={ () =>
+            onPress={ () => {
               this.props.newSelectPinFunc(item)
               // this.props.giveToParentPin(item)
               // this.props.selectPin(item)
-              }
+              this.props.getCurrentInfo(this.props.dr_id)
+            }}
+              
             style={[styles.itemContainer, {backgroundColor: this.state.colorList[index] }]}
             // disabled={ this.props.rdPin.rr_id === item.rr_id ? true:false}
           >
@@ -118,6 +120,7 @@ function mapStateToProps(state){
     todayTravel: state.accountRd.todayTravel,
     rdPin : state.accountRd.selectedPin,
     rdVisitedPlace : state.accountRd.visitedPlace,
+    dr_id: state.accountRd.todayTravel.dr_id
   }
 }
 
@@ -125,7 +128,13 @@ function mapDispatchToProps(dispatch) {
   return {
     selectPin: (pinData) => {
       dispatch(ActionCreator.selectPin(pinData))
-    }
+    },
+    getCurrentInfo: (dr_id)=>{
+      dispatch({
+        type: "GET_CURRENT_INFO_ASYNC",
+        payload: dr_id
+      })
+    },
   };
 }
 

@@ -1,19 +1,13 @@
 import React from 'react';
 
 import {
-  Platform,
-  PermissionsAndroid,
   View,
   Image,
   FlatList,
-  SectionList,
   StyleSheet,
-  Text,
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-
-import CameraRoll from "@react-native-community/cameraroll";
 
 import { connect } from 'react-redux';
 import ActionCreator from '../../store/actions';
@@ -24,82 +18,6 @@ class RoutePictures extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-        data: [],
-    };
-  }
-
-  async componentDidMount(){
-
-    const nowTime = new Date()
-
-    const endTime = nowTime.getFullYear()+"-"
-                  + Number(nowTime.getMonth())+1+"-"
-                  + nowTime.getDate()+" "
-                  + "T"+nowTime.getHours()+":"
-                  + nowTime.getMinutes()+":"
-                  + nowTime.getSeconds()
-    
-
-    if (Platform.OS === 'android') {
-      const result = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        {
-          title: 'Permission Explanation',
-          message: 'ReactNativeForYou would like to access your photos!',
-        },
-      );
-      if (result !== 'granted') {
-        console.log('Access to pictures was denied');
-        return;
-      }
-    }
-
-    function changeTime(time) {
-      const tempTime = time.split(' ')
-      const toDate = tempTime[0].split('-')
-      const toTime = tempTime[1].split(':')
-      return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
-    }
-
-    await CameraRoll.getPhotos({
-      first: 10000,
-      assetType: 'Photos',
-      include: [
-        'location', 'imageSize'
-      ],
-      fromTime: changeTime(this.props.dayRecs.dr_start_time),
-      toTime: changeTime(endTime)
-    })
-    .then(res => {
-      for (let picture of res.edges) {
-        const pictureForm = {
-          id: picture.node.timestamp,
-          rr_id: 0,
-          timestamp : picture.node.timestamp * 1000, // s 단위로 오는거 ms 단위로 바꿔줘야한다
-          location : picture.node.location,
-          uri: picture.node.image.uri,
-          imageSize: {
-            height : picture.node.image.height,
-            width : picture.node.image.width
-          },
-        }
-        for ( var tempPicture of tempPictures) {
-          if ( pictureForm.timestamp >= changeTime(tempPicture.fromTime) && pictureForm.timestamp <= changeTime(tempPicture.toTime) ) {
-            pictureForm.rr_id = tempPicture.id
-            tempPicture.data[0].list.unshift(pictureForm)
-            break
-          } 
-        }
-      } 
-      for ( var tempPicture of tempPictures) {
-        this.setState({ ...this.state, data: [ ...this.state.data, tempPicture]})
-        // console.log(JSON.stringify(this.state.data,null,2))
-      }
-    })
-    .catch(error => {
-      console.log("하루에 대한 사진불러오기 에러", error)
-    })
   }
 
   toLargeScale = (item) => {
@@ -171,7 +89,7 @@ class RoutePictures extends React.Component {
     return(
       <View style={this.props.selectedPictures.length > 0 ? {height: screenHeight*0.825} : {}}>
         <FlatList
-          data={this.state.data}
+          data={this.props.data}
           numColumns={3}
           renderItem={renderdata}
         />
