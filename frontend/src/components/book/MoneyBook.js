@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flexDirection: 'row',
-    marginBottom:5,
+    margin:5,
   },
   moneyText:{
     fontSize: 20,
