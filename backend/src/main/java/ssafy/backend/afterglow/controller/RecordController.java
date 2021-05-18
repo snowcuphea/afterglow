@@ -419,7 +419,7 @@ public class RecordController {
     // 단일 사진
     @GetMapping("/picture")
     public ResponseEntity<List<ImageRecord>> picture(@RequestParam("rr_id") Long rrId) {
-        List<ImageRecord> result = null;
+        List<ImageRecord> result = new ArrayList<>();
         routeRepository
                 .findById(rrId)
                 .ifPresent(rr -> {
