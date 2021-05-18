@@ -391,7 +391,7 @@ public class RecordController {
     // 전체 사진
     @GetMapping("/trip/picture")
     public ResponseEntity<Map<LocalDate, List<ImageRecord>>> tripPicture(@RequestParam("rec_id") Long recId) {
-        Map<LocalDate, List<ImageRecord>> result = new ArrayList<>();
+        Map<LocalDate, List<ImageRecord>> result = new HashMap<>();
         recordRepository
                 .findById(recId)
                 .ifPresent(rec -> {
