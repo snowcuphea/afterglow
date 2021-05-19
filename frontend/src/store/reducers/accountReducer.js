@@ -125,6 +125,24 @@ export default (state = initialState, action) => {
           routeRecs: newRouteRecs
         }
       }
+      case types.CHANGE_PLACE_NAME:
+        const newRouteRecsAsName = state.todayTravel.routeRecs.map((item,i) => {
+          if (item.rr_id !== action.payload.rr_id ) {
+            return item
+          } else {
+            return action.payload
+          }
+        })
+        return {
+          ...state,
+          todayTravel: {
+            ...state.todayTravel,
+            routeRecs: newRouteRecsAsName
+          },
+          selectedPin: action.payload
+        }
+
+
     case types.ADD_MONEY_ITEM:
       return {
        ...state,
@@ -135,11 +153,16 @@ export default (state = initialState, action) => {
         ...state,
         todayTravel: {...state.todayTravel, conRecs : action.payload }
       }
-      case types.SELECT_PIN:
-        return {
-          ...state,
-          selectedPin : action.payload
-        }
+    case types.SELECT_PIN:
+      return {
+        ...state,
+        selectedPin : action.payload
+      }
+    case types.GET_RECO_PLACE:
+      return {
+        ...state,
+        recoPlace : action.payload.slice(0,6)
+      }
     default:
       return state;
   }

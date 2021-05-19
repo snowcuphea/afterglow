@@ -76,7 +76,15 @@ function deleteConsumption( data ) {
   return instance.delete(`records/consumption?consumption_id=${data}`)
 }
 
+function getRecoPlace( data ) {
+  return instance.get("records/tours", { params : data })
+}
+
+
+function changePlaceName( data ) {
+  return instance.post("records/route/name",{},  { params : data })
+}
 
 
 export { login, getRecordList, startTrip, changeStatus, getTripInfo, startDay, endDay, getCurrentInfo, sendLocationInfo,
-  saveMemo, addConsumption, deleteConsumption  }
+  saveMemo, addConsumption, deleteConsumption,getRecoPlace, changePlaceName   }

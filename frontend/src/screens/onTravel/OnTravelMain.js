@@ -130,6 +130,14 @@ class OnTravelMain extends React.Component {
       },
     );
 
+
+    //=====================이거는 추천관광지=================
+    // this.props.getRecoPlace({
+    //   "limit_radius": 1,
+    //   "cur_latitude": this.state.lat,
+    //   "cur_longitude": this.state.lon,
+    // });
+
   }
 
   getPolyLine () {
@@ -344,6 +352,11 @@ function mapDispatchToProps(dispatch) {
     selectPin: (pinData) => {
       dispatch(ActionCreator.selectPin(pinData))
     },
+    getRecoPlace: (data) => {
+      dispatch({
+        type:"GET_RECO_PLACE_ASYNC", 
+      payload:data})
+    }
     
 
   };

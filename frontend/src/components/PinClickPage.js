@@ -6,8 +6,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
 import ActionCreator from '../store/actions';
+import { getRecoPlaceAsync } from '../store/saga/accountSagas';
 
 import RoutePicturesHorz from './picture/RoutePictureHorz'
+import ModalNameModify from '../components/modal/ModalNameModify'
 
 class PinClickPage extends React.Component {
 
@@ -19,6 +21,7 @@ class PinClickPage extends React.Component {
 			modifyStatus: false,
 			memoText:'',
 			newMemoText:'',
+      modalStatus: false,
 		}
   }
 
@@ -56,6 +59,7 @@ class PinClickPage extends React.Component {
 
 
 
+
 	componentDidMount() {
     const rr_memo = this.props.rdPin.rr_memo
     this.setState({
@@ -81,14 +85,31 @@ class PinClickPage extends React.Component {
     
     return (
       <View>
-          <TouchableOpacity onPress={() => this.props.selectPinFunc(false)}>
+          <TouchableOpacity 
+          style={{ margin : 10}}
+          onPress={() => this.props.selectPinFunc(false)}>
             <Ionicons name={"close-outline"} size={40}/>
           </TouchableOpacity>
+        <View style={{flexDirection:'row', justifyContent:'center'}}>
+          <Text style={{textAlign:'center',fontSize:25}} key={this.props.rdPin.rr_name}>{this.props.rdPin.rr_name} </Text>
+          <ModalNameModify navigation={this.props.navigation}
+           /> 
+        </View>
 
-          <Text style={{textAlign:'center'}}>{this.props.rdPin.rr_name} </Text>
+
             <View style={styles.container}>
+              {this.state.modifyStatus
+              ? <Text style={{
+                fontSize:15,
+                color: 'grey',
+                textAlign:'right'
+              }}>메모 수정 후 완료 버튼을 눌러주세요!</Text>
+              : <Text style={{ fontSize:15,color: 'grey',textAlign:'right'}}> </Text>
+              }
+              
               <TextInput
                 editable={this.state.modifyStatus}
+                autoFocus={this.state.modifyStatus}
             		multiline={true}
 								style={styles.memoInput}
 								value={(this.state.newMemoText)}
@@ -98,7 +119,7 @@ class PinClickPage extends React.Component {
 							
 							{
 								!(this.state.modifyStatus)
-								? <Button title={"수정"} onPress={()=>this.switchStatus(true)}/>
+								? <Button title={"메모수정"} onPress={()=>this.switchStatus(true)}/>
 								: <View style={styles.btnContainer}>
 									<Button title={"취소"} onPress={this.modifyCancel}/>
 									<Button title={"완료"} onPress={this.modifyComplete}/>
