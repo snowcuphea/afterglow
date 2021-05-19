@@ -73,7 +73,7 @@ public class RecordController {
     public ResponseEntity<Integer> saveImg(MultipartHttpServletRequest request,
                                            @RequestParam("rr_id") Long rr_id,
                                            @RequestParam("height") Integer height,
-                                           @RequestParam("height") Integer width) {
+                                           @RequestParam("width") Integer width) {
         try {
         } catch (Exception e) {
         }
