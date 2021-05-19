@@ -43,7 +43,6 @@ class RoutePictures extends React.Component {
 
   render(){
 
-
     const renderdata = ({ item }) => {
 
       return (
@@ -138,7 +137,6 @@ function mapStateToProps(state) {
     selectedPictures: state.pictureRd.pictures,
     dayRecs: state.accountRd.todayTravel,
     mode: state.pictureRd.mode,
-    
   };
 }
 

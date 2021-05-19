@@ -23,7 +23,7 @@ class Summary extends React.Component {
   }
 
   componentDidMount(){
-    console.log("현재는",JSON.stringify(this.props.record,null,2))
+    // console.log("현재는",JSON.stringify(this.props.record,null,2))
     this.getSelectedPictures()
   }
 
@@ -237,8 +237,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   bookContainer: {
-    backgroundColor: 'pink',
-    height: 700
+    // backgroundColor: 'pink',
+    // height: 700,
+    marginBottom: 50
   },
   dateStyle: {
     fontSize: 20,

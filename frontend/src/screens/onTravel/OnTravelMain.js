@@ -70,14 +70,14 @@ class OnTravelMain extends React.Component {
   }
 
   timeForm(time) {
-    if ( time !== null || time !== undefined ) {
+    if ( time === null || time === undefined ) {
+      return '첫 걸음'
+    } else {
       const tempTime = time.split(':')
       const hours = Number(tempTime[0])
       const mins = Number(tempTime[1])
       return hours > 0 ? ( mins > 0 ? hours + '시간 ' + mins + '분' : hours+'시간') :
               ( mins > 0 ? mins + '분' : '첫 걸음' )
-    } else {
-      return '첫 걸음'
     }
   }
 

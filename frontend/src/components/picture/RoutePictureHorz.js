@@ -112,23 +112,16 @@ class RoutePicturesHorz extends React.Component {
         getRoutePicture(
           this.props.rr_id,
           async (res) => {
-            // console.log(res.data)
             for ( var data of res.data) {
-              var newBlob = new Blob([data.ir_image], {type: "image/jpeg"})
-              console.log(newBlob)
-              // var newUri = "blob:http://k4a105.p.ssafy.io:8080" + newBlob._data.blobId
-              // const pictureForm = {
-              //   id: data.img_id,
-              //   uri: newUri
-              // }
-              // await this.setState({ ...this.state, data: [ ...this.state.data, pictureForm ]})
-              // console.log(this.state)
-              // const fileReader = new FileReader();
-              // fileReader.readAsDataURL(data.ir_image);
-              // fileReader.onload = () => {
-              //   const base64data = fileReader.result
-              //   console.log(base64data)
-              // }
+              // console.log(data)
+              var base64Image = `data:image/png;base64,${data.ir_image}`
+              const pictureForm = {
+                id: data.img_id,
+                uri: base64Image,
+                width: data.width,
+                height: data.height
+              }
+              await this.setState({ ...this.state, data: [ ...this.state.data, pictureForm ]})
             }
           },
           (err) => {
@@ -141,7 +134,7 @@ class RoutePicturesHorz extends React.Component {
   }
 
   toFullPage() {
-    this.props.navigation.navigate('ShowPictures', { pictures: this.state.data});
+    this.props.navigation.navigate('ShowPictures', { pictures: this.state.data });
     this.props.modePicture('look');
     this.props.emptyList();
   }
