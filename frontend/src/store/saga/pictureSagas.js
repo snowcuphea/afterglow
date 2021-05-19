@@ -16,6 +16,8 @@ export function* savePictureAsync(action) {
 
       const sendData= {
         "rr_id" : picture.rr_id,
+        "width" : picture.imageSize.width,
+        "height": picture.imageSize.height,
         picture : form
       }
       const { status,data } = yield call(upload, sendData)

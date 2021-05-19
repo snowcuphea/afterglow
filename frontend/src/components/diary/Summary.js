@@ -17,10 +17,14 @@ class Summary extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state={
+      savedPicture: 0
+    }
   }
 
   componentDidMount(){
-    // console.log("현재는",this.props.record)
+    console.log("현재는",JSON.stringify(this.props.record,null,2))
+    this.getSelectedPictures()
   }
 
   dateForm(date) {
@@ -37,7 +41,12 @@ class Summary extends React.Component {
     try {
       var totalTime = 0
       for ( var day of this.props.record.dayRecs){
-        var tempTime = day.dr_time_spent.split(":")
+        if (day.dr_time_spent !== null) {
+          var tempTime = day.dr_time_spent.split(":")
+        } else {
+          var give = "0:0"
+          tempTime = give.split(":")
+        }
         var hours = Number(tempTime[0])
         var mins = Number(tempTime[1])
   
@@ -47,12 +56,12 @@ class Summary extends React.Component {
       const _day = Math.floor(totalTime/1440)
       const _hours = Math.floor(totalTime%1440/60)
       const _mins = Math.floor(totalTime%60)
-  
+      
       return _day > 0 ? ( _hours > 0 ? _days + '일 ' + _hours + '시간 ' + _mins + '분' : _days + '일 ' + _mins + '분' ) :
                         ( _hours > 0 ? _hours + '시간 ' + _mins + '분' : _mins + '분' )
     } catch (error) {
       // console.log(error)
-      return 30
+      return 0
     }
   }
 
@@ -77,19 +86,25 @@ class Summary extends React.Component {
   }
 
   getSelectedPictures() {
-    var total = 0;
 
-    // getRecordPicture(
-    //   this.props.record.rec_id,
-    //   (res) => {
-    //     // console.log(JSON.stringify(res.data,null,2))
-    //     total += res.data.length
-    //   },
-    //   (err) => {
-    //     console.log(err)
-    //   }
-    // )
-    return total
+    getRecordPicture(
+      this.props.record.rec_id,
+      (res) => {
+        const tempDate = []
+        for ( var date of this.props.record.dayRecs) {
+          if ( !tempDate.includes(date.dr_date) ) {
+            tempDate.push(date.dr_date)
+          }
+        }
+        for ( var date of tempDate) {
+          this.setState({ ...this.state, savedPicture: this.state.savedPicture + res.data[date].length})
+        }
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+
   }
 
   getPolyLine () {
@@ -184,7 +199,7 @@ class Summary extends React.Component {
             <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.totalTime()}</Text> 동안</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'royalblue'}}>{this.totalPlaces()}</Text>개의 관광지를 들르고</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'salmon' }}>{this.getTotalPictures()}</Text>장의 사진을 찍고</Text>
-            <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.getSelectedPictures()}</Text>장의 사진으로 <Text style={{backgroundColor:'cornsilk'}}>여운</Text>을 남겼어요.</Text>
+            <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.state.savedPicture}</Text>장의 사진으로 <Text style={{backgroundColor:'cornsilk'}}>여운</Text>을 남겼어요.</Text>
         </Card>
 
         <Card containerStyle={[{marginHorizontal:0}, styles.bookContainer]}>

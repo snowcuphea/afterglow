@@ -114,8 +114,8 @@ class RoutePicturesHorz extends React.Component {
           async (res) => {
             // console.log(res.data)
             for ( var data of res.data) {
-              // var newBlob = new Blob([data.ir_image], {type: "image/jpeg"})
-              // console.log(newBlob)
+              var newBlob = new Blob([data.ir_image], {type: "image/jpeg"})
+              console.log(newBlob)
               // var newUri = "blob:http://k4a105.p.ssafy.io:8080" + newBlob._data.blobId
               // const pictureForm = {
               //   id: data.img_id,
@@ -123,12 +123,12 @@ class RoutePicturesHorz extends React.Component {
               // }
               // await this.setState({ ...this.state, data: [ ...this.state.data, pictureForm ]})
               // console.log(this.state)
-              const fileReader = new FileReader();
-              fileReader.readAsDataURL(data.ir_image);
-              fileReader.onload = () => {
-                const base64data = fileReader.result
-                console.log(base64data)
-              }
+              // const fileReader = new FileReader();
+              // fileReader.readAsDataURL(data.ir_image);
+              // fileReader.onload = () => {
+              //   const base64data = fileReader.result
+              //   console.log(base64data)
+              // }
             }
           },
           (err) => {

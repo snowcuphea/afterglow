@@ -6,7 +6,7 @@ function upload( data ) {
 
   instance.defaults.headers["Content-Type"] = "multipart/form-data"
 
-  return instance.post(`records/save/image?rr_id=${data.rr_id}`, data.picture)
+  return instance.post(`records/save/image?rr_id=${data.rr_id}&width=${data.width}&height=${data.height}`, data.picture)
 
 }
 

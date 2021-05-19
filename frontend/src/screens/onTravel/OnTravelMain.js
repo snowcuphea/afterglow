@@ -70,7 +70,7 @@ class OnTravelMain extends React.Component {
   }
 
   timeForm(time) {
-    if ( time !== null ) {
+    if ( time !== null || time !== undefined ) {
       const tempTime = time.split(':')
       const hours = Number(tempTime[0])
       const mins = Number(tempTime[1])
