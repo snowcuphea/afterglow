@@ -115,47 +115,47 @@ class PicturesFromDB extends React.Component {
     )
 
 
-    await CameraRoll.getPhotos({
-      first: 10000,
-      assetType: 'Photos',
-      include: [
-        'location', 'imageSize', 'filename'
-      ],
-      fromTime: changeTime(this.props.dayRecs.dr_start_time),
-      toTime: changeTime(endTime)
-    })
-    .then(res => {
+    // await CameraRoll.getPhotos({
+    //   first: 10000,
+    //   assetType: 'Photos',
+    //   include: [
+    //     'location', 'imageSize', 'filename'
+    //   ],
+    //   fromTime: changeTime(this.props.dayRecs.dr_start_time),
+    //   toTime: changeTime(endTime)
+    // })
+    // .then(res => {
       
-      for (let picture of res.edges) {
-        const pictureForm = {
-          id: picture.node.timestamp,
-          rr_id: 0,
-          timestamp : picture.node.timestamp * 1000, // s 단위로 오는거 ms 단위로 바꿔줘야한다
-          location : picture.node.location,
-          uri: picture.node.image.uri,
-          type: picture.node.type,
-          filename: picture.node.image.filename,
-          imageSize: {
-            height : picture.node.image.height,
-            width : picture.node.image.width
-          },
-        }
-        for ( var tempPicture of tempPictures) {
-          if ( pictureForm.timestamp >= changeTime(tempPicture.fromTime) && pictureForm.timestamp <= changeTime(tempPicture.toTime) ) {
-            pictureForm.rr_id = tempPicture.id
-            tempPicture.data[0].list.unshift(pictureForm)
-            break
-          } 
-        }
-      } 
-      for ( var tempPicture of tempPictures) {
-        this.setState({ ...this.state, data: [ ...this.state.data, tempPicture]})
-        // console.log(JSON.stringify(this.state.data,null,2))
-      }
-    })
-    .catch(error => {
-      console.log("하루에 대한 사진불러오기 에러", error)
-    })
+    //   for (let picture of res.edges) {
+    //     const pictureForm = {
+    //       id: picture.node.timestamp,
+    //       rr_id: 0,
+    //       timestamp : picture.node.timestamp * 1000, // s 단위로 오는거 ms 단위로 바꿔줘야한다
+    //       location : picture.node.location,
+    //       uri: picture.node.image.uri,
+    //       type: picture.node.type,
+    //       filename: picture.node.image.filename,
+    //       imageSize: {
+    //         height : picture.node.image.height,
+    //         width : picture.node.image.width
+    //       },
+    //     }
+    //     for ( var tempPicture of tempPictures) {
+    //       if ( pictureForm.timestamp >= changeTime(tempPicture.fromTime) && pictureForm.timestamp <= changeTime(tempPicture.toTime) ) {
+    //         pictureForm.rr_id = tempPicture.id
+    //         tempPicture.data[0].list.unshift(pictureForm)
+    //         break
+    //       } 
+    //     }
+    //   } 
+    //   for ( var tempPicture of tempPictures) {
+    //     this.setState({ ...this.state, data: [ ...this.state.data, tempPicture]})
+    //     // console.log(JSON.stringify(this.state.data,null,2))
+    //   }
+    // })
+    // .catch(error => {
+    //   console.log("하루에 대한 사진불러오기 에러", error)
+    // })
   }
 
   toLargeScale = (item) => {
