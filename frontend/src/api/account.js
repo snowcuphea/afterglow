@@ -82,7 +82,7 @@ function getRecoPlace( data ) {
 
 
 function changePlaceName( data ) {
-  return instance.get("records/route/name",{},  { params : data })
+  return instance.post("records/route/name",{},  { params : data })
 }
 
 

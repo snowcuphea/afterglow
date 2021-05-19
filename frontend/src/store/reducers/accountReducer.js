@@ -138,7 +138,8 @@ export default (state = initialState, action) => {
           todayTravel: {
             ...state.todayTravel,
             routeRecs: newRouteRecsAsName
-          }
+          },
+          selectedPin: action.payload
         }
 
 

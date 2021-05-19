@@ -70,7 +70,7 @@ class AddMoneyItem extends React.Component {
       <Card styles={styles.inputContainer} >
         <View style={styles.inputWrap}>
           
-          <TextInput
+          <Input
             placeholder='사용처'
             value={this.state.nowWhat}
             onChangeText={(t) => this.setName(t)}
