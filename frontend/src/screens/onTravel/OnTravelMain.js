@@ -59,11 +59,21 @@ class OnTravelMain extends React.Component {
     
   }
 
+  changeToTimezone(time) {
+    const nowTime = new Date()
+    const tempTime = time.split(' ')
+    const toDate = tempTime[0].split('-')
+    const toTime = tempTime[1].split(':')
+    const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
+    const changedTimezone = new Date(tempTimeStamp)
+    const changedDate = changedTimezone.toISOString().split('T')
+    return this.dateForm(changedDate[0])
+  }
 
   dateForm(date) {
     try {
       const tempDate = date.split('-')
-      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일'
     } catch (error) {
       return null
     }
@@ -81,16 +91,8 @@ class OnTravelMain extends React.Component {
     }
   }
 
-  // toLocalTimezone(time) {
-  //   const offset = new Date().getTimezoneOffset();
-  //   const temp = time.
-  // }
-
-
   componentDidMount () {
-
-    // console.log("현재 시간은", new Date().toLocaleString())
-
+    console.log(this.changeToTimezone(this.props.todayTravel.dr_start_time))
     Geolocation.getCurrentPosition(
       (position) => {
         // 확인 완료
@@ -157,20 +159,20 @@ class OnTravelMain extends React.Component {
 
   //   return markerArr
   // }
-
+  
   render() {
+    // const REGION = {
+    //   latitude: this.state.lat,
+    //   longitude: this.state.lon,
+    //   latitudeDelta: 0.1,
+    //   longitudeDelta: 0.05
+    // }
 
-    const REGION = {
-      latitude: this.state.lat,
-      longitude: this.state.lon,
-      latitudeDelta: 0.1,
-      longitudeDelta: 0.05
-    }
     return (
       <ScrollView style={styles.container}>
         <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
           <Text style={{marginLeft:10}}>
-            {this.dateForm(this.props.todayTravel.dr_date)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
+            {this.changeToTimezone(this.props.todayTravel.dr_start_time)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
           </Text>
           <ModalDayFinish navigation={this.props.navigation}
            /> 
@@ -184,7 +186,12 @@ class OnTravelMain extends React.Component {
 
           <MapView
             // initialRegion={REGION}
-            region = {REGION}
+            region = {{
+              latitude: this.state.lat,
+              longitude: this.state.lon,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.05
+            }}
             style={{height:200}}
             showsUserLocation = {true}
           >
@@ -258,7 +265,7 @@ class OnTravelMain extends React.Component {
             <View style={styles.subContainer}>
               <View style={styles.iconAndText}> 
                 <Ionicons name="wallet-sharp" size={25} color={"#333333"}/>
-                <Text style={styles.titleStyle}>{this.props.todayTravel.dr_date}의 지출</Text>
+                <Text style={styles.titleStyle}>{this.changeToTimezone(this.props.todayTravel.dr_start_time)}의 지출</Text>
               </View>
               <MoneyBook />
               <AddMoneyItem />

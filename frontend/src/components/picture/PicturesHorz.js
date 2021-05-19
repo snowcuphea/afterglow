@@ -34,7 +34,7 @@ class PicturesHorz extends React.Component {
               <Ionicons 
                 name="close-circle" 
                 size={screenWidth/20}
-                color={'black'} />
+                color={'#FFBE58'} />
             </View>
           </View>
       </TouchableOpacity>

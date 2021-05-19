@@ -39,7 +39,6 @@ class Pictures extends React.Component {
                   + "T"+nowTime.getHours()+":"
                   + nowTime.getMinutes()+":"
                   + nowTime.getSeconds()
-    
 
     if (Platform.OS === 'android') {
       const result = await PermissionsAndroid.request(
@@ -76,14 +75,12 @@ class Pictures extends React.Component {
     }
 
     for ( var index in this.props.dayRecs.routeRecs) {
-
       var route = this.props.dayRecs.routeRecs[index]
       var fromTime = route.rr_time
       var toTime = endTime
       if ( index < this.props.dayRecs.routeRecs.length - 1 ) {
         var toTime = this.props.dayRecs.routeRecs[Number(index)+1].rr_time
       } 
-
       if ( route.rr_name !== null) {
         const pictureSet = {
           id: route.rr_id,
@@ -102,14 +99,13 @@ class Pictures extends React.Component {
     }
 
     tempPictures.push(unsortedSet)
-
     await CameraRoll.getPhotos({
       first: 10000,
       assetType: 'Photos',
       include: [
         'location', 'imageSize', 'filename'
       ],
-      fromTime: changeTime(this.props.dayRecs.dr_start_time),
+      fromTime: changeTime(this.props.dayRecs.dr_start_time)+(-1*nowTime.getTimezoneOffset()*60000),
       toTime: changeTime(endTime)
     })
     .then(res => {
@@ -129,7 +125,7 @@ class Pictures extends React.Component {
           },
         }
         for ( var tempPicture of tempPictures) {
-          if ( pictureForm.timestamp >= changeTime(tempPicture.fromTime) && pictureForm.timestamp <= changeTime(tempPicture.toTime) ) {
+          if ( pictureForm.timestamp >= changeTime(tempPicture.fromTime)+(-1*nowTime.getTimezoneOffset()*60000) && pictureForm.timestamp <= changeTime(tempPicture.toTime)+(-1*nowTime.getTimezoneOffset()*60000) ) {
             pictureForm.rr_id = tempPicture.id
             tempPicture.data[0].list.unshift(pictureForm)
             break
@@ -188,7 +184,7 @@ class Pictures extends React.Component {
                     name="checkmark-circle" 
                     size={screenWidth/12}
                     style={styles.selectIcon1}
-                    color={'pink'}/>
+                    color={'#FFBE58'}/>
                 </TouchableOpacity> :
                 <TouchableOpacity style={styles.selectArea} onPress={() => this.selectPicture(item)}>
                   <Ionicons
@@ -267,7 +263,7 @@ const styles = StyleSheet.create({
   },
   selectedBorder: {
     borderWidth: 6,
-    borderColor: 'black'
+    borderColor: '#FFBE58'
   }
 });
 

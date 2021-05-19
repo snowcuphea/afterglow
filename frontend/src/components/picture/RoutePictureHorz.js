@@ -70,7 +70,7 @@ class RoutePicturesHorz extends React.Component {
       const nowIndex = this.props.todayRoutes.findIndex( (route) => route.rr_id === this.props.rr_id)
       const nextIndex = Number(nowIndex) +1
       
-      const fromTime = changeTime(this.props.todayRoutes[nowIndex].rr_time)
+      const fromTime = changeTime(this.props.todayRoutes[nowIndex].rr_time)+(-1*nowTime.getTimezoneOffset()*60000)
       var toTime = changeTime(endTime)
       if ( nextIndex < this.props.todayRoutes.length) {
         toTime = changeTime(this.props.todayRoutes[nextIndex].rr_time)
@@ -108,7 +108,7 @@ class RoutePicturesHorz extends React.Component {
               width : width
             },
           }
-          this.setState({ ...this.state, data : [ ...this.state.data, pictureForm ]})
+          this.setState({ ...this.state, data : [ pictureForm, ...this.state.data ]})
         }
       })
       .catch(error => {
@@ -122,7 +122,7 @@ class RoutePicturesHorz extends React.Component {
           async (res) => {
             for ( var data of res.data) {
               // console.log(data)
-              var base64Image = `data:image/png;base64,${data.ir_image}`
+              var base64Image = `data:image/jpeg;base64,${data.ir_image}`
               const pictureForm = {
                 id: data.img_id,
                 uri: base64Image,
@@ -131,7 +131,7 @@ class RoutePicturesHorz extends React.Component {
                   height: data.height
                 }
               }
-              await this.setState({ ...this.state, data: [ ...this.state.data, pictureForm ]})
+              await this.setState({ ...this.state, data: [ pictureForm, ...this.state.data ]})
             }
           },
           (err) => {

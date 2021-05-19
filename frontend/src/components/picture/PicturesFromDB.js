@@ -54,7 +54,7 @@ class PicturesFromDB extends React.Component {
             }]
           }
           for ( var data of res.data[day.dr_date] ){
-            var base64Image = `data:image/png;base64,${data.ir_image}`
+            var base64Image = `data:image/jpeg;base64,${data.ir_image}`
             const pictureForm = {
               id: data.img_id,
               uri: base64Image,
