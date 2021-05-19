@@ -66,7 +66,7 @@ class PlaceList extends React.Component {
               this.props.newSelectPinFunc(item)
               // this.props.giveToParentPin(item)
               // this.props.selectPin(item)
-              this.props.getCurrentInfo(this.props.dr_id)
+              // this.props.getCurrentInfo(this.props.dr_id)
             }}
               
             style={[styles.itemContainer, {backgroundColor: this.state.colorList[index] }]}

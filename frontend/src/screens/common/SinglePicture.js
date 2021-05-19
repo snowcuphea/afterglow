@@ -24,15 +24,15 @@ class SinglePicture extends React.Component {
     let screenWidth = Dimensions.get('window').width;
     let screenHeight = Dimensions.get('window').height;
 
-    const tempScale1 = picture.width/screenWidth
-    const tempScale2 = picture.height/screenHeight
+    const tempScale1 = picture.imageSize.width/screenWidth
+    const tempScale2 = picture.imageSize.height/screenHeight
 
     const scale = tempScale1 >= tempScale2 ? tempScale1 : tempScale2
 
     return (
       <View style={styles.container}>
         <Image 
-          style={{ width: picture.width/scale , height: picture.height/scale }} 
+          style={{ width: picture.imageSize.width/scale , height: picture.imageSize.height/scale }} 
           source={{ uri: picture.uri }} />
         { this.props.mode === "look" ? 
           null :

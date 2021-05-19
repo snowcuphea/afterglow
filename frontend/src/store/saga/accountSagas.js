@@ -110,7 +110,8 @@ export function* getCurrentInfoAsync(action) {
 export function* sendLocationInfoAsync(action) {
   try{
     const { status, data } = yield call(sendLocationInfo, action.payload) 
-    // console.log("======================================================================================")
+    console.log("======================================================================================")
+    console.log("send data", action.payload)
     console.log( "위치 성공",  status,data)
     // console.log( "위치 성공",   data )
     if (data.rr !== null || data.place !== undefined) {       // data.isUserMoving (만약 이동중이면 추가) 그런데 지금 이부분 에러있는것 같아서 안넣었음

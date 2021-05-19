@@ -285,8 +285,8 @@ const DrawerComponent = () => {
           'rr_latitude': position.coords.latitude,
           'rr_longitude': position.coords.longitude
         }
-        console.log("==============================================================================================")
-        console.log('sendData 확인', sendData)
+        // console.log("==============================================================================================")
+        // console.log('sendData 확인', sendData)
         // console.log("보냈다")
         if (dr_id !== undefined) {
           dispatch({
