@@ -2,7 +2,8 @@ import ActionCreator from '../actions'
 
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { login, startTrip, getRecordList, changeStatus, getTripInfo, startDay, endDay, 
-          getCurrentInfo, sendLocationInfo, saveMemo, addConsumption, deleteConsumption } from '../../api/account'
+          getCurrentInfo, sendLocationInfo, saveMemo, addConsumption, deleteConsumption,
+          getRecoPlace, changePlaceName } from '../../api/account'
 
 import CookieManager from '@react-native-cookies/cookies'
 
@@ -165,6 +166,28 @@ export function* deleteMoneyAsync(action) {
 }
 
 
+export function* getRecoPlaceAsync(action) {
+  try{
+    const { status, data } = yield call( getRecoPlace, action.payload ) 
+    console.log("추천여행지 받아오기 성공 saga에서찍음",  status,  data.length )
+    yield put(ActionCreator.getRecoPlace(data))
+  } catch (error) {
+    console.log("추천여행지 받아오기 실패", error)
+  }
+}
+
+
+export function* changePlaceNameAsync(action) {
+  try{
+    const { status, data } = yield call( changePlaceName, action.payload ) 
+    console.log("[saga에서찍음] 바뀐 장소 이름 ",  status,  data )
+    yield put(ActionCreator.changePlaceName(data))
+  } catch (error) {
+    console.log("[saga에서찍음] 장소 이름바꾸기 실패", error)
+  }
+}
+
+
 export const accountSagas = [
   takeLatest('LOGIN_ASYNC', loginAsync),
   takeLatest('GET_RECORD_LIST_ASYNC', getRecordListAsync),
@@ -177,4 +200,6 @@ export const accountSagas = [
   takeLatest('SAVE_MEMO_ASYNC', saveMemoAsync),
   takeLatest('ADD_MONEY_ASYNC', addMoneyAsync),
   takeLatest('DELETE_MONEY_ASYNC', deleteMoneyAsync),
+  takeLatest('GET_RECO_PLACE_ASYNC', getRecoPlaceAsync),
+  takeLatest('CHANGE_PLACE_NAME_ASYNC', changePlaceNameAsync),
 ]

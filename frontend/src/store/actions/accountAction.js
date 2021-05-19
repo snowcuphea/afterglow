@@ -107,3 +107,20 @@ export function selectPin(data) {
     payload: data
   }
 }
+
+
+export function getRecoPlace(data) {
+  return {
+    type: types.GET_RECO_PLACE,
+    payload: data
+  }
+}
+
+
+export function changePlaceName(data) {
+  return {
+    type: types.CHANGE_PLACE_NAME,
+    payload: data
+  }
+}
+

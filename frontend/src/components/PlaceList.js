@@ -104,11 +104,11 @@ const styles= StyleSheet.create({
   },
   itemContainer: {
     justifyContent: 'center',
-    marginHorizontal: screenWidth/40,
-    marginVertical: screenHeight/60,
-    paddingVertical: screenWidth/40,
-    paddingHorizontal: screenHeight/50,
-    borderRadius: 35,
+    marginHorizontal: 15,
+    marginVertical: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 25,
     elevation : 2,
   }
 })
