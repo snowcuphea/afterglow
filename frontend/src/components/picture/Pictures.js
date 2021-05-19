@@ -84,8 +84,6 @@ class Pictures extends React.Component {
         var toTime = this.props.dayRecs.routeRecs[Number(index)+1].rr_time
       } 
 
-      // console.log("#",Number(index)+1,"   from: ", fromTime, "///to: ",toTime)
-      
       if ( route.rr_name !== null) {
         const pictureSet = {
           id: route.rr_id,

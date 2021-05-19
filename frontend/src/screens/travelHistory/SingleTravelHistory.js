@@ -24,9 +24,9 @@ export default class SingleTravelHistory extends React.Component {
 
   componentDidMount() {
     const content = [
-      <Summary />,
-      <Diary />,
-      <Gallery />,
+      <Summary navigation={this.props.navigation}/>,
+      <Diary navigation={this.props.navigation}/>,
+      <Gallery navigation={this.props.navigation}/>,
     ]
     this.setState({
       ...this.state,

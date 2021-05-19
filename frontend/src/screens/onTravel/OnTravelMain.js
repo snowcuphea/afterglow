@@ -81,7 +81,15 @@ class OnTravelMain extends React.Component {
     }
   }
 
+  // toLocalTimezone(time) {
+  //   const offset = new Date().getTimezoneOffset();
+  //   const temp = time.
+  // }
+
+
   componentDidMount () {
+
+    // console.log("현재 시간은", new Date().toLocaleString())
 
     Geolocation.getCurrentPosition(
       (position) => {

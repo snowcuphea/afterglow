@@ -33,150 +33,59 @@ class PicturesFromDB extends React.Component {
 
   async componentDidMount(){
 
-    const nowTime = new Date()
-
-    const endTime = nowTime.getFullYear()+"-"
-                  + (Number(nowTime.getMonth())+1)+"-"
-                  + nowTime.getDate()+" "
-                  + "T"+nowTime.getHours()+":"
-                  + nowTime.getMinutes()+":"
-                  + nowTime.getSeconds()
-    
-
-    if (Platform.OS === 'android') {
-      const result = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        {
-          title: 'Permission Explanation',
-          message: 'ReactNativeForYou would like to access your photos!',
-        },
-      );
-      if (result !== 'granted') {
-        console.log('Access to pictures was denied');
-        return;
-      }
-    }
-
-    function changeTime(time) {
-      const tempTime = time.split(' ')
-      const toDate = tempTime[0].split('-')
-      const toTime = tempTime[1].split(':')
-      return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
-    }
-
-    const tempPictures = []
-
-    for ( var index in this.props.dayRecs.routeRecs) {
-
-      var route = this.props.dayRecs.routeRecs[index]
-      var fromTime = route.rr_time
-      var toTime = endTime
-      if ( index < this.props.dayRecs.routeRecs.length - 1 ) {
-        var toTime = this.props.dayRecs.routeRecs[Number(index)+1].rr_time
-      } 
-
-      // console.log("#",Number(index)+1,"   from: ", fromTime, "///to: ",toTime)
-      
-      if ( route.rr_name !== null) {
-        const pictureSet = {
-          id: route.rr_id,
-          title: route.rr_name,
-          fromTime: fromTime,
-          toTime: toTime,
-          data: [{
-            id: route.rr_name,
-            list: []
-          }]
-        }
-        tempPictures.push(pictureSet)
-      } else if ( unsortedSet.id === "도로") {
-        unsortedSet.id = route.rr_id
-      }
-    }
-
-    tempPictures.push(unsortedSet)
+    console.log(JSON.stringify(this.props.record.dayRecs,null,2))
 
     getRecordPicture(
       this.props.record.rec_id,
       (res) => {
         const tempDate = []
-        for ( var date of this.props.record.dayRecs) {
-          if ( !tempDate.includes(date.dr_date) ) {
-            tempDate.push(date.dr_date)
+        for ( var day of this.props.record.dayRecs) {
+          if (tempDate.includes(day.dr_date)) {
+            continue
+          } else {
+            tempDate.push(day.dr_date)
           }
-        }
-        for ( var date of tempDate) {
-          this.setState({ ...this.state, savedPicture: this.state.savedPicture + res.data[date].length})
+          const pictureSet = {
+            id : day.dr_id,
+            title : day.dr_date,
+            data : [{
+              id : day.dr_date,
+              list: []
+            }]
+          }
+          for ( var data of res.data[day.dr_date] ){
+            var base64Image = `data:image/png;base64,${data.ir_image}`
+            const pictureForm = {
+              id: data.img_id,
+              uri: base64Image,
+              imageSize: {
+                width: data.width,
+                height: data.height
+              }
+            }
+            pictureSet.data[0].list.unshift(pictureForm)
+          }
+          this.setState({ ...this.state, data: [...this.state.data, pictureSet]})
         }
       },
       (err) => {
         console.log(err)
       }
     )
-
-
-    // await CameraRoll.getPhotos({
-    //   first: 10000,
-    //   assetType: 'Photos',
-    //   include: [
-    //     'location', 'imageSize', 'filename'
-    //   ],
-    //   fromTime: changeTime(this.props.dayRecs.dr_start_time),
-    //   toTime: changeTime(endTime)
-    // })
-    // .then(res => {
-      
-    //   for (let picture of res.edges) {
-    //     const pictureForm = {
-    //       id: picture.node.timestamp,
-    //       rr_id: 0,
-    //       timestamp : picture.node.timestamp * 1000, // s 단위로 오는거 ms 단위로 바꿔줘야한다
-    //       location : picture.node.location,
-    //       uri: picture.node.image.uri,
-    //       type: picture.node.type,
-    //       filename: picture.node.image.filename,
-    //       imageSize: {
-    //         height : picture.node.image.height,
-    //         width : picture.node.image.width
-    //       },
-    //     }
-    //     for ( var tempPicture of tempPictures) {
-    //       if ( pictureForm.timestamp >= changeTime(tempPicture.fromTime) && pictureForm.timestamp <= changeTime(tempPicture.toTime) ) {
-    //         pictureForm.rr_id = tempPicture.id
-    //         tempPicture.data[0].list.unshift(pictureForm)
-    //         break
-    //       } 
-    //     }
-    //   } 
-    //   for ( var tempPicture of tempPictures) {
-    //     this.setState({ ...this.state, data: [ ...this.state.data, tempPicture]})
-    //     // console.log(JSON.stringify(this.state.data,null,2))
-    //   }
-    // })
-    // .catch(error => {
-    //   console.log("하루에 대한 사진불러오기 에러", error)
-    // })
   }
 
-  toLargeScale = (item) => {
-    this.props.navigation.navigate("SinglePicture", { picture : item })
-  }
-
-  isSelected = (item) => {
-    if (this.props.selectedPictures.filter((select) => select.id !== item.id).length !== this.props.selectedPictures.length) {
-      return true
-    } else {
-      return false
+  dateForm(date) {
+    try {
+      const tempDate = date.split('-')
+      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+    } catch (error) {
+      return null
     }
   }
 
-  selectPicture = (item) => {
-    this.props.select(item)
-    // console.log(JSON.stringify(item,null,2))
-  }
-
-  unselectPicture = (id) => {
-    this.props.unselect(id)
+  toLargeScale = (item) => {
+    this.props.modePicture('look')
+    this.props.navigation.navigate("SinglePicture", { picture : item })
   }
 
   render(){
@@ -188,35 +97,9 @@ class PicturesFromDB extends React.Component {
         <View>
           <TouchableOpacity onPress={() => this.toLargeScale(item)} style={{margin:1}}>
             <Image 
-              style={[{ width: (screenWidth-6)/3, height: (screenWidth-6)/3}, 
-                this.isSelected(item) ? styles.selectedBorder : '']} 
+              style={{ width: (screenWidth-6)/3, height: (screenWidth-6)/3}} 
               source={{ uri: item.uri }} />
           </TouchableOpacity>
-          { this.props.mode === "look" ? null :
-            <View style={styles.selectContainer}>
-              { this.isSelected(item) ?  
-                <TouchableOpacity style={styles.selectArea} onPress={() => this.unselectPicture(item.id)}>
-                  <Ionicons 
-                    name="checkmark-circle" 
-                    size={screenWidth/12}
-                    style={styles.selectIcon1}
-                    color={'pink'}/>
-                </TouchableOpacity> :
-                <TouchableOpacity style={styles.selectArea} onPress={() => this.selectPicture(item)}>
-                  <Ionicons
-                    name="ellipse"  
-                    size={screenWidth/12}
-                    style={styles.selectIcon2}
-                    color={'black'}/>
-                  <Ionicons
-                    name="ellipse-outline"  
-                    size={screenWidth/12}
-                    style={styles.selectIcon3}
-                    color={'black'}/>
-                </TouchableOpacity>
-              }
-            </View>
-          } 
         </View> 
       )
     }
@@ -225,7 +108,7 @@ class PicturesFromDB extends React.Component {
     let screenHeight = Dimensions.get('window').height;
   
     return(
-      <View style={this.props.selectedPictures.length > 0 ? {height: screenHeight*0.824} : {}}>
+      <View>
         <SectionList
           sections={this.state.data}
           keyExtractor = {(data) => data.id}
@@ -238,7 +121,7 @@ class PicturesFromDB extends React.Component {
           )}
           renderSectionHeader={({section}) => (
             <View style={{ height: 40, justifyContent: 'center', marginLeft: 10}}>
-              <Text> 날짜 구분 선 </Text>
+              <Text> {this.dateForm(section.title)} </Text>
             </View>
           )}
         />
@@ -248,36 +131,7 @@ class PicturesFromDB extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  selectContainer: {
-    margin: Dimensions.get('window').width/50,
-    position: "absolute",
-    top: 0,
-    right: 0,
-    width: Dimensions.get('window').width/6,
-    height: Dimensions.get('window').width/6,
-  },
-  selectArea: {
-    height: Dimensions.get('window').width/6,
-    width: Dimensions.get('window').width/6,
-  },
-  selectIcon1: {
-    position: 'absolute', 
-    right: 0,
-  },
-  selectIcon2: {
-    position: 'absolute', 
-    right: 0,
-    opacity: 0.4,
-  },
-  selectIcon3: {
-    position: 'absolute', 
-    right: 0,
-    opacity: 0.5,
-  },
-  selectedBorder: {
-    borderWidth: 6,
-    borderColor: 'black'
-  }
+
 });
 
 
@@ -294,15 +148,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    select: (picture) => {
-      dispatch(ActionCreator.selectPicture(picture));
+    modePicture: (mode) => {
+      dispatch(ActionCreator.modePicture(mode))
     },
-    unselect: (picture_id) => {
-      dispatch(ActionCreator.unselectPicture(picture_id));
-    },
-    sendCount: (count) => {
-      dispatch(ActionCreator.sendTotalPictures(count));
-    }
   };
 }
 
