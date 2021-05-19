@@ -30,6 +30,12 @@ public class ImageRecord {
     @JsonIgnore
     private RouteRecord rr;
 
+    @JsonProperty("height")
+    private Integer height;
+
+    @JsonProperty("width")
+    private Integer width;
+
 
     @Builder
     public ImageRecord(RouteRecord rr, byte[] irImage){

@@ -71,14 +71,17 @@ public class RecordController {
     @SneakyThrows
     @PostMapping(value = "/save/image")
     public ResponseEntity<Integer> saveImg(MultipartHttpServletRequest request,
-                                           @RequestBody MultipartFile image,
-                                           @RequestParam("rr_id") Long rr_id) {
+                                           @RequestParam("rr_id") Long rr_id,
+                                           @RequestParam("height") Integer height,
+                                           @RequestParam("height") Integer width) {
         try {
         } catch (Exception e) {
         }
         ImageRecord ir = new ImageRecord();
         try {
             ir.setIrImage(request.getFile("file").getBytes());
+            ir.setHeight(height);
+            ir.setWidth(width);
         } catch (IOException e) {
             e.printStackTrace();
         }
