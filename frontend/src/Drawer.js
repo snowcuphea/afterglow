@@ -354,13 +354,14 @@ const DrawerComponent = () => {
 
 
   if ((travelStatus === 'onTravel' || travelStatus === 'dayEndd' || travelStatus === 'travelEndd')&&(foregroundService === false && observing === false)) {
-    startForegroundService()
-    getLocationUpdates()
-
-    setForegroundService(true)
-    setObserving(true)
-
-    console.log('기록시작')
+    
+    setTimeout(()=>{
+      startForegroundService()
+      getLocationUpdates()
+      setForegroundService(true)
+      setObserving(true)
+      console.log('기록시작')
+    }, 5000)
   }
 
   if ((travelStatus === 'dayEnd' || travelStatus === 'travelEnd')&&(foregroundService === true && observing === true)) {
