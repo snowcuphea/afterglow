@@ -79,7 +79,6 @@ class PinClickPage extends React.Component {
   
     // const rr_memo = this.props.rdPin.rr_memo
     
-    
     return (
       <View>
           <TouchableOpacity onPress={() => this.props.selectPinFunc(false)}>

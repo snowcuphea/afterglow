@@ -21,6 +21,7 @@ class RoutePictures extends React.Component {
   }
 
   toLargeScale = (item) => {
+    console.log(item)
     this.props.navigation.navigate("SinglePicture", { picture : item })
   }
 
@@ -37,12 +38,11 @@ class RoutePictures extends React.Component {
     // console.log(JSON.stringify(item,null,2))
   }
 
-  unselectPicture = () => {
+  unselectPicture = (id) => {
     this.props.unselect(id)
   }
 
   render(){
-
 
     const renderdata = ({ item }) => {
 
@@ -138,7 +138,6 @@ function mapStateToProps(state) {
     selectedPictures: state.pictureRd.pictures,
     dayRecs: state.accountRd.todayTravel,
     mode: state.pictureRd.mode,
-    
   };
 }
 

@@ -29,37 +29,31 @@ class SinglePicture extends React.Component {
 
     const scale = tempScale1 >= tempScale2 ? tempScale1 : tempScale2
 
-    if ( this.props.mode === "look" ) {
-      return (
-        <View style={styles.container}>
-          <Image 
-            style={{ width: picture.imageSize.width/scale , height: picture.imageSize.height/scale }} 
-            source={{ uri: picture.uri }} />
+    return (
+      <View style={styles.container}>
+        <Image 
+          style={{ width: picture.imageSize.width/scale , height: picture.imageSize.height/scale }} 
+          source={{ uri: picture.uri }} />
+        { this.props.mode === "look" ? 
+          null :
+        <View style={styles.selectContainer}>
+          { this.props.selectedPictures.filter((select) => select.id !== picture.id).length !== this.props.selectedPictures.length ?  
+            <Ionicons 
+              name="checkmark-circle" 
+              size={screenWidth/8}
+              color={'pink'}
+              onPress={() => this.props.unselect(picture.id)}/> :
+            <Ionicons
+              name="ellipse-outline"  
+              size={screenWidth/8}
+              color={'grey'}
+              onPress={() => this.props.select(picture)}/>
+          }
         </View>
-      )
-    } else {
-      return (
-        <View style={styles.container}>
-          <Image 
-            style={{ width: picture.imageSize.width/scale , height: picture.imageSize.height/scale }} 
-            source={{ uri: picture.uri }} />
-          <View style={styles.selectContainer}>
-            { this.props.selectedPictures.filter((select) => select.id !== picture.id).length !== this.props.selectedPictures.length ?  
-              <Ionicons 
-                name="checkmark-circle" 
-                size={screenWidth/8}
-                color={'pink'}
-                onPress={() => this.props.unselect(picture.id)}/> :
-              <Ionicons
-                name="ellipse-outline"  
-                size={screenWidth/8}
-                color={'grey'}
-                onPress={() => this.props.select(picture)}/>
-            }
-          </View>
-        </View>
-      )
-    }
+        }
+      </View>
+    )
+    
   }
 }
 

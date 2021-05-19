@@ -7,6 +7,9 @@ import ActionCreator from '../../store/actions'
 
 import randomColor from 'randomcolor'
 
+import { getRoutePicture } from '../../api/picture'
+
+
 class Diary extends React.Component {
 
   constructor(props) {
@@ -27,13 +30,34 @@ class Diary extends React.Component {
             luminosity: 'light',
             hue: 'blue'
           })
-          // console.log(color)
+          var base64Image = ''
+          await getRoutePicture(
+            route.rr_id,
+            (res) => {
+              // 이미지중 랜덤으로 하나 선택
+              var imageArr = []
+              if ( res.data.length !== 0) {
+                for ( var data of res.data) {
+                  // console.log(data)
+                  var tempImage = `data:image/png;base64,${data.ir_image}`
+                  imageArr.push(tempImage)
+                }
+                base64Image = imageArr[Math.floor(Math.random() * imageArr.length)]
+              } else {
+                base64Image = "no"
+              }
+            },
+            (err) => {
+              console.log(err)
+            }
+          )
           const pageForm = {
             "id": route.rr_id,
             "name": route.rr_name,
             "memo": route.rr_memo,
             "time": route.rr_time,
             "color": color[0],
+            "uri": base64Image
           }
           await this.setState({
             ...this.state,
@@ -44,6 +68,20 @@ class Diary extends React.Component {
       }
     }
   }
+
+  dateForm(date) {
+    try {
+      const tempDateTime = date.split(' T')
+      const tempDate = tempDateTime[0].split("-")
+      const tempTime = tempDateTime[1].split(":")
+      
+      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '+ tempTime[0] + '시 ' + tempTime[1] + '분'
+    } catch (error) {
+      // console.log(error)
+      return "이런"
+    }
+  }
+  
 
   render() {
 
@@ -70,12 +108,17 @@ class Diary extends React.Component {
             alignItems: "center",
           }}
         >
-          <Text style={{height: screenHeight/17, backgroundColor: "pink", textAlignVertical:"center"}}> {item.name} </Text>
-          <Text style={{height: screenHeight/17, backgroundColor: "skyblue", textAlignVertical:"center"}}> {item.time} </Text>
+          <Text style={{height: screenHeight/17, textAlignVertical:"center"}}> {this.dateForm(item.time)} </Text>
+          <Text style={{height: screenHeight/17, textAlignVertical:"center"}}> {item.name} </Text>
           <Image 
             style={{ width: pageWidth-40, height: screenHeight/2.2, backgroundColor: "pink", }} 
-            source={{ uri: "../assets/pics/1.png" }}/>
-          <Text style={{height: screenHeight/10, backgroundColor: "green", textAlignVertical:"center"}}> {item.memo} </Text>
+            source={{ uri: item.uri }}/>
+          { item.memo === null ? 
+            <Text style={{height: screenHeight/10, textAlignVertical:"center"}}>
+              {item.name}에 여운을 남기고 왔다. 
+            </Text> :
+            <Text style={{height: screenHeight/10, textAlignVertical:"center"}}> {item.memo} </Text>
+          }
         </View>
       )
     }

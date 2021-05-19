@@ -285,7 +285,8 @@ const DrawerComponent = () => {
           'rr_latitude': position.coords.latitude,
           'rr_longitude': position.coords.longitude
         }
-        console.log('sendData 확인', sendData)
+        // console.log("==============================================================================================")
+        // console.log('sendData 확인', sendData)
         // console.log("보냈다")
         if (dr_id !== undefined) {
           dispatch({
@@ -353,13 +354,14 @@ const DrawerComponent = () => {
 
 
   if ((travelStatus === 'onTravel' || travelStatus === 'dayEndd' || travelStatus === 'travelEndd')&&(foregroundService === false && observing === false)) {
-    startForegroundService()
-    getLocationUpdates()
-
-    setForegroundService(true)
-    setObserving(true)
-
-    console.log('기록시작')
+    
+    setTimeout(()=>{
+      startForegroundService()
+      getLocationUpdates()
+      setForegroundService(true)
+      setObserving(true)
+      console.log('기록시작')
+    }, 5000)
   }
 
   if ((travelStatus === 'dayEnd' || travelStatus === 'travelEnd')&&(foregroundService === true && observing === true)) {

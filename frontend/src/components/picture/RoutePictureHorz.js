@@ -80,13 +80,21 @@ class RoutePicturesHorz extends React.Component {
         first: 10000,
         assetType: 'Photos',
         include: [
-          'location', 'imageSize', 'filename'
+          'location', 'imageSize', 'filename',
         ],
         fromTime: fromTime,
         toTime: toTime
       })
       .then(res => {
         for (let picture of res.edges) {
+          if ( picture.node.image.height > picture.node.image.width ) {
+            var height = picture.node.image.height
+            var width = picture.node.image.width
+          } else {
+            var width = picture.node.image.height
+            var height = picture.node.image.width
+          }
+          // console.log(picture)
           const pictureForm = {
             id: picture.node.timestamp,
             rr_id: this.props.rr_id,
@@ -96,8 +104,8 @@ class RoutePicturesHorz extends React.Component {
             type: picture.node.type,
             filename: picture.node.image.filename,
             imageSize: {
-              height : picture.node.image.height,
-              width : picture.node.image.width
+              height : height,
+              width : width
             },
           }
           this.setState({ ...this.state, data : [ ...this.state.data, pictureForm ]})
@@ -112,23 +120,18 @@ class RoutePicturesHorz extends React.Component {
         getRoutePicture(
           this.props.rr_id,
           async (res) => {
-            // console.log(res.data)
             for ( var data of res.data) {
-              var newBlob = new Blob([data.ir_image], {type: "image/jpeg"})
-              console.log(newBlob)
-              // var newUri = "blob:http://k4a105.p.ssafy.io:8080" + newBlob._data.blobId
-              // const pictureForm = {
-              //   id: data.img_id,
-              //   uri: newUri
-              // }
-              // await this.setState({ ...this.state, data: [ ...this.state.data, pictureForm ]})
-              // console.log(this.state)
-              // const fileReader = new FileReader();
-              // fileReader.readAsDataURL(data.ir_image);
-              // fileReader.onload = () => {
-              //   const base64data = fileReader.result
-              //   console.log(base64data)
-              // }
+              // console.log(data)
+              var base64Image = `data:image/png;base64,${data.ir_image}`
+              const pictureForm = {
+                id: data.img_id,
+                uri: base64Image,
+                imageSize: {
+                  width: data.width,
+                  height: data.height
+                }
+              }
+              await this.setState({ ...this.state, data: [ ...this.state.data, pictureForm ]})
             }
           },
           (err) => {
@@ -141,7 +144,7 @@ class RoutePicturesHorz extends React.Component {
   }
 
   toFullPage() {
-    this.props.navigation.navigate('ShowPictures', { pictures: this.state.data});
+    this.props.navigation.navigate('ShowPictures', { pictures: this.state.data });
     this.props.modePicture('look');
     this.props.emptyList();
   }

@@ -20,64 +20,142 @@ import ActionCreator from '../../store/actions';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import { getRecordPicture } from '../../api/picture'
+
 class PicturesFromDB extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      result: 0,
+        data: [],
     };
   }
 
   async componentDidMount(){
+
+    const nowTime = new Date()
+
+    const endTime = nowTime.getFullYear()+"-"
+                  + (Number(nowTime.getMonth())+1)+"-"
+                  + nowTime.getDate()+" "
+                  + "T"+nowTime.getHours()+":"
+                  + nowTime.getMinutes()+":"
+                  + nowTime.getSeconds()
     
-    const tempData = [
-      { id : 0, timestamp: 1620159970, uri: require('../../assets/pics/1.png') },
-      { id : 1, timestamp: 1620159970, uri: require('../../assets/pics/2.png') },
-      { id : 2, timestamp: 1620246370, uri: require('../../assets/pics/3.png') },
-      { id : 3, timestamp: 1620246370, uri: require('../../assets/pics/4.png') },
-      { id : 4, timestamp: 1620332770, uri: require('../../assets/pics/5.png') },
-      { id : 5, timestamp: 1620332770, uri: require('../../assets/pics/1.png') },
-      { id : 6, timestamp: 1620419170, uri: require('../../assets/pics/2.png') },
-      { id : 7, timestamp: 1620419170, uri: require('../../assets/pics/3.png') },
-      { id : 8, timestamp: 1620505570, uri: require('../../assets/pics/4.png') },
-      { id : 9, timestamp: 1620505570, uri: require('../../assets/pics/5.png') },
-    ]
-    
-    const startTime = new Date( tempData[0].timestamp * 1000 ).toISOString()
+
+    if (Platform.OS === 'android') {
+      const result = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        {
+          title: 'Permission Explanation',
+          message: 'ReactNativeForYou would like to access your photos!',
+        },
+      );
+      if (result !== 'granted') {
+        console.log('Access to pictures was denied');
+        return;
+      }
+    }
+
+    function changeTime(time) {
+      const tempTime = time.split(' ')
+      const toDate = tempTime[0].split('-')
+      const toTime = tempTime[1].split(':')
+      return new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()
+    }
+
+    const tempPictures = []
+
+    for ( var index in this.props.dayRecs.routeRecs) {
+
+      var route = this.props.dayRecs.routeRecs[index]
+      var fromTime = route.rr_time
+      var toTime = endTime
+      if ( index < this.props.dayRecs.routeRecs.length - 1 ) {
+        var toTime = this.props.dayRecs.routeRecs[Number(index)+1].rr_time
+      } 
+
+      // console.log("#",Number(index)+1,"   from: ", fromTime, "///to: ",toTime)
+      
+      if ( route.rr_name !== null) {
+        const pictureSet = {
+          id: route.rr_id,
+          title: route.rr_name,
+          fromTime: fromTime,
+          toTime: toTime,
+          data: [{
+            id: route.rr_name,
+            list: []
+          }]
+        }
+        tempPictures.push(pictureSet)
+      } else if ( unsortedSet.id === "도로") {
+        unsortedSet.id = route.rr_id
+      }
+    }
+
+    tempPictures.push(unsortedSet)
+
+    getRecordPicture(
+      this.props.record.rec_id,
+      (res) => {
+        const tempDate = []
+        for ( var date of this.props.record.dayRecs) {
+          if ( !tempDate.includes(date.dr_date) ) {
+            tempDate.push(date.dr_date)
+          }
+        }
+        for ( var date of tempDate) {
+          this.setState({ ...this.state, savedPicture: this.state.savedPicture + res.data[date].length})
+        }
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
 
 
-    this.setState({
-      ...this.state,
-      result: startTime,
-    })
-
-    //   const pictureSet = {
-    //     title: "구분",
-    //     id: "구분",
-    //     data: []
-    //   }
-    //   const tempData = {
-    //     id : "123",
-    //     list: []
-    //   }
+    // await CameraRoll.getPhotos({
+    //   first: 10000,
+    //   assetType: 'Photos',
+    //   include: [
+    //     'location', 'imageSize', 'filename'
+    //   ],
+    //   fromTime: changeTime(this.props.dayRecs.dr_start_time),
+    //   toTime: changeTime(endTime)
+    // })
+    // .then(res => {
+      
     //   for (let picture of res.edges) {
     //     const pictureForm = {
     //       id: picture.node.timestamp,
-    //       timestamp : picture.node.timestamp,
+    //       rr_id: 0,
+    //       timestamp : picture.node.timestamp * 1000, // s 단위로 오는거 ms 단위로 바꿔줘야한다
     //       location : picture.node.location,
     //       uri: picture.node.image.uri,
+    //       type: picture.node.type,
+    //       filename: picture.node.image.filename,
     //       imageSize: {
     //         height : picture.node.image.height,
     //         width : picture.node.image.width
     //       },
     //     }
-    //     tempData.list.unshift(pictureForm)
+    //     for ( var tempPicture of tempPictures) {
+    //       if ( pictureForm.timestamp >= changeTime(tempPicture.fromTime) && pictureForm.timestamp <= changeTime(tempPicture.toTime) ) {
+    //         pictureForm.rr_id = tempPicture.id
+    //         tempPicture.data[0].list.unshift(pictureForm)
+    //         break
+    //       } 
+    //     }
+    //   } 
+    //   for ( var tempPicture of tempPictures) {
+    //     this.setState({ ...this.state, data: [ ...this.state.data, tempPicture]})
+    //     // console.log(JSON.stringify(this.state.data,null,2))
     //   }
-    //   pictureSet.data.push(tempData)
-    //   this.setState({ ...this.state, data: [ ...this.state.data, pictureSet ]})
-
+    // })
+    // .catch(error => {
+    //   console.log("하루에 대한 사진불러오기 에러", error)
+    // })
   }
 
   toLargeScale = (item) => {
@@ -92,30 +170,39 @@ class PicturesFromDB extends React.Component {
     }
   }
 
+  selectPicture = (item) => {
+    this.props.select(item)
+    // console.log(JSON.stringify(item,null,2))
+  }
+
+  unselectPicture = (id) => {
+    this.props.unselect(id)
+  }
+
   render(){
 
 
     const renderdata = ({ item }) => {
-      
+
       return (
         <View>
-          <TouchableOpacity onPress={() => this.toLargeScale(item)}>
+          <TouchableOpacity onPress={() => this.toLargeScale(item)} style={{margin:1}}>
             <Image 
-              style={[{ width: (screenWidth-6)/3, height: (screenWidth-6)/3, margin:1}, 
+              style={[{ width: (screenWidth-6)/3, height: (screenWidth-6)/3}, 
                 this.isSelected(item) ? styles.selectedBorder : '']} 
               source={{ uri: item.uri }} />
           </TouchableOpacity>
           { this.props.mode === "look" ? null :
             <View style={styles.selectContainer}>
               { this.isSelected(item) ?  
-                <TouchableOpacity style={styles.selectArea} onPress={() => this.props.unselect(item.id)}>
+                <TouchableOpacity style={styles.selectArea} onPress={() => this.unselectPicture(item.id)}>
                   <Ionicons 
                     name="checkmark-circle" 
                     size={screenWidth/12}
                     style={styles.selectIcon1}
                     color={'pink'}/>
                 </TouchableOpacity> :
-                <TouchableOpacity style={styles.selectArea} onPress={() => this.props.select(item)}>
+                <TouchableOpacity style={styles.selectArea} onPress={() => this.selectPicture(item)}>
                   <Ionicons
                     name="ellipse"  
                     size={screenWidth/12}
@@ -130,7 +217,7 @@ class PicturesFromDB extends React.Component {
               }
             </View>
           } 
-        </View>
+        </View> 
       )
     }
 
@@ -138,8 +225,8 @@ class PicturesFromDB extends React.Component {
     let screenHeight = Dimensions.get('window').height;
   
     return(
-      <View style={this.props.selectedPictures.length > 0 ? {height: screenHeight*0.825} : {}}>
-        {/* <SectionList
+      <View style={this.props.selectedPictures.length > 0 ? {height: screenHeight*0.824} : {}}>
+        <SectionList
           sections={this.state.data}
           keyExtractor = {(data) => data.id}
           renderItem={({ item }) => (
@@ -149,12 +236,12 @@ class PicturesFromDB extends React.Component {
               renderItem={renderdata}
             />
           )}
-          renderSectionHeader={({ section : { title }}) => (
-            <Text> { title } </Text>
+          renderSectionHeader={({section}) => (
+            <View style={{ height: 40, justifyContent: 'center', marginLeft: 10}}>
+              <Text> 날짜 구분 선 </Text>
+            </View>
           )}
-        /> */}
-        <Text style={{ margin: 20, fontSize: 50}}>{this.state.result}</Text> 
-        <Text> pictures from db </Text>
+        />
       </View>
     )
   }
@@ -185,7 +272,7 @@ const styles = StyleSheet.create({
   selectIcon3: {
     position: 'absolute', 
     right: 0,
-    opacity: 0.8,
+    opacity: 0.5,
   },
   selectedBorder: {
     borderWidth: 6,
@@ -198,8 +285,10 @@ function mapStateToProps(state) {
 
   return {
     selectedPictures: state.pictureRd.pictures,
-    startTime: state.accountRd.todayTravel.dr_start_time,
-    mode: state.pictureRd.mode
+    dayRecs: state.accountRd.todayTravel,
+    mode: state.pictureRd.mode,
+    record: state.accountRd.traveledList[state.accountRd.historyIndex],
+    
   };
 }
 
@@ -211,6 +300,9 @@ function mapDispatchToProps(dispatch) {
     unselect: (picture_id) => {
       dispatch(ActionCreator.unselectPicture(picture_id));
     },
+    sendCount: (count) => {
+      dispatch(ActionCreator.sendTotalPictures(count));
+    }
   };
 }
 

@@ -16,7 +16,7 @@ class Gallery extends React.Component {
 
     return(
       <View style={styles.container}>
-        <PicturesFromDB />
+        {/* <PicturesFromDB /> */}
       </View>
     )
 
