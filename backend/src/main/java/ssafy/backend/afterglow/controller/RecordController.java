@@ -298,12 +298,12 @@ public class RecordController {
 
                                 // 체류시간이 10분 지속 : 가장 가까운 관광지 탐색, 없으면 이름은 없지만 장소로 인식
                                 if (latestRr.get().getRrName() == null && latestRr.get().getRrStaying_minute() >= 10) {
-                                    final double[] nearestDist = {3};
+                                    final double[] nearestDist = {0.35};
                                     tourDestinationRepository.findAll()
                                             .stream()
                                             .forEach(td -> {
                                                 Double curDist = recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), td.getTdLatitude(), td.getTdLongitude());
-                                                if (curDist < nearestDist[0]) {
+                                                if (!td.getTdName().endsWith("축제") && curDist < nearestDist[0]) {
                                                     nearestDist[0] = curDist;
                                                     ref.nearestTd = td;
                                                     ref.tdName = td.getTdName();
