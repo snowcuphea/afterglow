@@ -47,7 +47,7 @@ class PicturesFromDB extends React.Component {
           }
           const pictureSet = {
             id : day.dr_id,
-            title : day.dr_date,
+            title : day.dr_start_time,
             data : [{
               id : day.dr_date,
               list: []
@@ -77,12 +77,22 @@ class PicturesFromDB extends React.Component {
   dateForm(date) {
     try {
       const tempDate = date.split('-')
-      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일'
     } catch (error) {
       return null
     }
   }
 
+  changeToTimezone(time) {
+    const nowTime = new Date()
+    const tempTime = time.split(' ')
+    const toDate = tempTime[0].split('-')
+    const toTime = tempTime[1].split(':')
+    const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
+    const changedTimezone = new Date(tempTimeStamp)
+    const changedDate = changedTimezone.toISOString().split('T')
+    return this.dateForm(changedDate[0])
+  }
   toLargeScale = (item) => {
     this.props.modePicture('look')
     this.props.navigation.navigate("SinglePicture", { picture : item })
@@ -121,7 +131,10 @@ class PicturesFromDB extends React.Component {
           )}
           renderSectionHeader={({section}) => (
             <View style={{ height: 40, justifyContent: 'center', marginLeft: 10}}>
-              <Text> {this.dateForm(section.title)} </Text>
+              { section.data[0].list.length > 0 ? 
+                <Text> {this.changeToTimezone(section.title)}에 찍은 사진  </Text> :
+                <Text> {this.changeToTimezone(section.title)}에 찍은 사진은 없습니다. </Text>
+              }
             </View>
           )}
         />

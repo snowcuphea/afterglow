@@ -99,7 +99,7 @@ class OnTravelMain extends React.Component {
   }
 
   timeForm(time) {
-    if ( time === null || time === unde4d ) {
+    if ( time === null || time === undefined ) {
       return '첫 걸음'
     } else {
       const tempTime = time.split(':')
