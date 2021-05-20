@@ -71,11 +71,12 @@ class RoutePicturesHorz extends React.Component {
       const nextIndex = Number(nowIndex) +1
       
       const fromTime = changeTime(this.props.todayRoutes[nowIndex].rr_time)+(-1*nowTime.getTimezoneOffset()*60000)
-      var toTime = changeTime(endTime)
+      var toTime = changeTime(endTime)+(-1*nowTime.getTimezoneOffset()*60000)
       if ( nextIndex < this.props.todayRoutes.length) {
-        toTime = changeTime(this.props.todayRoutes[nextIndex].rr_time)
+        toTime = changeTime(this.props.todayRoutes[nextIndex].rr_time)+(-1*nowTime.getTimezoneOffset()*60000)
       }
-  
+      console.log("================================")
+      console.log(fromTime, toTime)
       await CameraRoll.getPhotos({
         first: 10000,
         assetType: 'Photos',
@@ -87,6 +88,7 @@ class RoutePicturesHorz extends React.Component {
       })
       .then(res => {
         for (let picture of res.edges) {
+          // console.log("사진들", JSON.stringify(picture.node,null,2))
           if ( picture.node.image.height > picture.node.image.width ) {
             var height = picture.node.image.height
             var width = picture.node.image.width

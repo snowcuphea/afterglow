@@ -111,6 +111,13 @@ class Pictures extends React.Component {
     .then(res => {
       this.props.sendCount(res.edges.length)
       for (let picture of res.edges) {
+        if ( picture.node.image.height > picture.node.image.width ) {
+          var height = picture.node.image.height
+          var width = picture.node.image.width
+        } else {
+          var width = picture.node.image.height
+          var height = picture.node.image.width
+        }
         const pictureForm = {
           id: picture.node.timestamp,
           rr_id: 0,
@@ -120,8 +127,8 @@ class Pictures extends React.Component {
           type: picture.node.type,
           filename: picture.node.image.filename,
           imageSize: {
-            height : picture.node.image.height,
-            width : picture.node.image.width
+            height : height,
+            width : width
           },
         }
         for ( var tempPicture of tempPictures) {
