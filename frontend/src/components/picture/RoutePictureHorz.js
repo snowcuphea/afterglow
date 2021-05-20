@@ -81,7 +81,7 @@ class RoutePicturesHorz extends React.Component {
         first: 10000,
         assetType: 'Photos',
         include: [
-          'location', 'imageSize', 'filename',
+          'location', 'imageSize', 'filename', 'fileSize'
         ],
         fromTime: fromTime,
         toTime: toTime

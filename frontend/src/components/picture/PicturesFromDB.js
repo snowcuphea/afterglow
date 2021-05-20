@@ -13,8 +13,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import CameraRoll from "@react-native-community/cameraroll";
-
 import { connect } from 'react-redux';
 import ActionCreator from '../../store/actions';
 

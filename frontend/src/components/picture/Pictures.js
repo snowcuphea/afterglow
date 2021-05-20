@@ -111,7 +111,7 @@ class Pictures extends React.Component {
     .then(res => {
       this.props.sendCount(res.edges.length)
       for (let picture of res.edges) {
-        console.log(JSON.stringify(picture.node, null, 2))
+        // console.log(JSON.stringify(picture.node, null, 2))
         if ( picture.node.image.height > picture.node.image.width ) {
           var height = picture.node.image.height
           var width = picture.node.image.width
