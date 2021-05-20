@@ -86,7 +86,7 @@ const screenWidth = Dimensions.get('screen').width
 
 const styles= StyleSheet.create({
   container: {
-    backgroundColor: '#f3ffff',
+    backgroundColor: 'white',
     width : screenWidth/1.3,
     height : screenHeight/1.8,
     paddingVertical: screenWidth/30,
@@ -120,7 +120,7 @@ const styles= StyleSheet.create({
   btnEndDay: {
     width: screenWidth/2.5,
     marginTop: screenHeight/40,
-    backgroundColor: "mediumturquoise",
+    backgroundColor: "#49C4D7",
     padding: 15,
     borderRadius: 15,
     elevation: 3,
@@ -128,7 +128,7 @@ const styles= StyleSheet.create({
   btnEndTravel: {
     width: screenWidth/2.5,
     marginTop: screenHeight/40,
-    backgroundColor: "mediumturquoise",
+    backgroundColor: "#FFBE58",
     padding: 15,
     borderRadius: 15,
     elevation: 3,

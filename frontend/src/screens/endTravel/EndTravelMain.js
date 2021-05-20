@@ -110,12 +110,16 @@ class EndTravelMain extends React.Component {
 
     for (var markerDay of this.props.travelingList) {
       for (var markerRoute of markerDay.routeRecs) {
-        var markerForm = {
-          latitude: markerRoute.rr_latitude,
-          longitude: markerRoute.rr_longitude
+        if ( markerRoute.rr_name !== null) {
+          var markerForm = {
+            title : markerRoute.rr_name,
+            coord: {
+              latitude: markerRoute.rr_latitude,
+              longitude: markerRoute.rr_longitude
+            }
+          }
+          markerArr.push(markerForm)
         }
-        markerArr.push(markerForm)
-
       }
     }
     return markerArr
@@ -160,8 +164,8 @@ class EndTravelMain extends React.Component {
 
   // componentDidMount () {
   //   // console.log('테스트', this.props.travelStatus)
-  //   this.props.getCurrentInfo(this.props.todayTravel.dr_id)
-  //   console.log("엔드트래블 커렌트", JSON.stringify(this.props.todayTravel, null, 2))
+  //   // this.props.getCurrentInfo(this.props.todayTravel.dr_id)
+  //   console.log("엔드트래블 커렌트", JSON.stringify(this.props.todayTravel.routeRecs, null, 2))
   // }
 
   render() {
@@ -223,9 +227,9 @@ class EndTravelMain extends React.Component {
               style={{ flex:1, margin: 10, }}
               region = {{
                   latitude: this.props.todayTravel.routeRecs.length === 0 || this.props.todayTravel.routeRecs[0].rr_latitude === undefined ? 37.57982954633664 : this.props.todayTravel.routeRecs[0].rr_latitude,
-                  longitude: this.props.todayTravel.routeRecs.length === 0 || this.props.todayTravel.routeRecs[0].rr_longitude === undefined ? 126.9770088111815 : this.props.todayTravel.routeRecs[0].rr_latitude,
-                  latitudeDelta: 0.1,
-                  longitudeDelta: 0.05
+                  longitude: this.props.todayTravel.routeRecs.length === 0 || this.props.todayTravel.routeRecs[0].rr_longitude === undefined ? 126.9770088111815 : this.props.todayTravel.routeRecs[0].rr_longitude,
+                  latitudeDelta: 0.03,
+                  longitudeDelta: 0.03
 
               }}
           >
@@ -233,7 +237,7 @@ class EndTravelMain extends React.Component {
             <Polyline
               coordinates={this.getPolyLine()}
               strokeColor='red'
-              strokeWidth={1}
+              strokeWidth={3}
             >
 
             </Polyline>
@@ -241,8 +245,9 @@ class EndTravelMain extends React.Component {
               this.getMarker().map((marker, markerIndex) => {
                 return (
                   <MapView.Marker
-                    coordinate={marker}
+                    coordinate={marker.coord}
                     key={markerIndex}
+                    title={marker.title}
                     // title={this.props.travelingList.routeRecs[markerIndex].rr_name}
                   />
                 )
@@ -323,7 +328,7 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     height: screenHeight/15,
-    // backgroundColor: '#270F36',
+    backgroundColor: '#0b3c60',
     alignItems: 'center',
     justifyContent: 'space-between',
     // zIndex:100,
@@ -367,7 +372,7 @@ const styles = StyleSheet.create({
   },
   btnDayStartOrEnd : {
     marginRight:10,
-    backgroundColor: "#FFC19F",
+    backgroundColor: "#FFBE58",
     padding: 10,
     borderRadius: 15,
     elevation: 3,

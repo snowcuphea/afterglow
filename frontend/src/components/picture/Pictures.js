@@ -103,7 +103,7 @@ class Pictures extends React.Component {
       first: 10000,
       assetType: 'Photos',
       include: [
-        'location', 'imageSize', 'filename'
+        'location', 'imageSize', 'filename', 'fileSize'
       ],
       fromTime: changeTime(this.props.dayRecs.dr_start_time)+(-1*nowTime.getTimezoneOffset()*60000),
       toTime: changeTime(endTime)
@@ -111,6 +111,7 @@ class Pictures extends React.Component {
     .then(res => {
       this.props.sendCount(res.edges.length)
       for (let picture of res.edges) {
+        console.log(JSON.stringify(picture.node, null, 2))
         if ( picture.node.image.height > picture.node.image.width ) {
           var height = picture.node.image.height
           var width = picture.node.image.width
@@ -230,9 +231,9 @@ class Pictures extends React.Component {
           renderSectionHeader={({section}) => (
             <View style={{ height: 40, justifyContent: 'center', marginLeft: 10}}>
               { section.data[0].list.length > 0 ? 
-              ( section.title !== "중간중간" ? <Text> { section.title }에서 찍은 사진 </Text> : <Text> { section.title } 찍은 사진  </Text> ) :
-              ( section.title !== "중간중간" ? <Text> { section.title }에서 찍은 사진은 없습니다. </Text> : <Text> { section.title } 찍은 사진은 없습니다. </Text> )
-            }
+                ( section.title !== "중간중간" ? <Text> { section.title }에서 찍은 사진 </Text> : <Text> { section.title } 찍은 사진  </Text> ) :
+                ( section.title !== "중간중간" ? <Text> { section.title }에서 찍은 사진은 없습니다. </Text> : <Text> { section.title } 찍은 사진은 없습니다. </Text> )
+              }
             </View>
           )}
         />

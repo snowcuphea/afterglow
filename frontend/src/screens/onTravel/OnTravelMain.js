@@ -83,21 +83,6 @@ class OnTravelMain extends React.Component {
     }
   }
 
-  timeSpent() {
-    const nowTime = new Date()
-    const start = this.props.todayTravel.dr_start_time
-    const end = nowTime.getTime()
-    const tempTime = start.split(' ')
-    const toDate = tempTime[0].split('-')
-    const toTime = tempTime[1].split(':')
-    const startTimeStemp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)
-    const timePass = end - startTimeStemp
-    const hours = Math.floor(timePass/3600000)
-    const mins = Math.floor(timePass%3600000/60000)
-    const result =  this.timeForm(`${hours}:${mins}`)
-    return result
-  }
-
   timeForm(time) {
     if ( time === null || time === undefined ) {
       return '첫 걸음'
@@ -201,7 +186,7 @@ class OnTravelMain extends React.Component {
       <ScrollView style={styles.container}>
         <View style={{marginVertical:5, flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
           <Text style={{marginLeft:10}} key={new Date().getMinutes()}>
-            {this.changeToTimezone(this.props.todayTravel.dr_start_time)}, {this.timeSpent()}
+            {this.changeToTimezone(this.props.todayTravel.dr_start_time)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
           </Text>
           <ModalDayFinish navigation={this.props.navigation}
            /> 
