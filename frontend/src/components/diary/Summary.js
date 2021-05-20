@@ -216,7 +216,7 @@ class Summary extends React.Component {
         <Card containerStyle={[{marginHorizontal:0}]} wrapperStyle={ styles.summaryContainer}>
             <Text style={styles.textStyle}><Text style={{backgroundColor:'paleturquoise'}}>"{title}"</Text> 여행을</Text>
             {/* <Text style={styles.textStyle}>{this.props.user_nickname}님과 함께</Text> */}
-            <Text style={styles.textStyle}><Text style={{ color: 'mediumslateblue'}}>제주도</Text>에서 시작해</Text>
+            {/* <Text style={styles.textStyle}><Text style={{ color: 'mediumslateblue'}}>제주도</Text>에서 시작해</Text> */}
             <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.totalTime()}</Text> 동안</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'royalblue'}}>{this.totalPlaces()}</Text>개의 관광지를 들르고</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'salmon' }}>{this.getTotalPictures()}</Text>장의 사진을 찍고</Text>

@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
 				color: 'black'
     },
 		btnContainer:{
+      paddingTop:10,
 			flexDirection:'row',
 			justifyContent:'flex-end'
 		}

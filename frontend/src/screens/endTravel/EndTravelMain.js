@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     height: screenHeight/15,
-    // backgroundColor: '#270F36',
+    backgroundColor: '#0b3c60',
     alignItems: 'center',
     justifyContent: 'space-between',
     // zIndex:100,
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   },
   btnDayStartOrEnd : {
     marginRight:10,
-    backgroundColor: "#FFC19F",
+    backgroundColor: "#FFBE58",
     padding: 10,
     borderRadius: 15,
     elevation: 3,
