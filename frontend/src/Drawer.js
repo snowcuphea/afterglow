@@ -132,7 +132,6 @@ const CustomDrawerContent = (props) => {
             )
           })
         }
-        <Text onPress={() => {Linking.openURL(`mailto:test@mail.com`)}}>하이</Text>
       </DrawerContentScrollView>
       {/* <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }} onPress={() => signOutWithKakao()}>
         <Ionicons name={'log-out-sharp'} style={{ paddingRight: 20 }} size={18} color={"#555555"}></Ionicons>

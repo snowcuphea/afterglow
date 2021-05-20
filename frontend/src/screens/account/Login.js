@@ -57,11 +57,12 @@ class LoginScreen extends React.Component {
     return (
     
 
-      <View style={{flex:1}} >
+      // <View style={{flex:1, backgroundColor:'#0b3c60'}} >
+      <View style={{flex:1, backgroundColor:'#49C4D7'}} >
 
         <View style={styles.titleContainer}>
-        <Text style={styles.textStyle}>안녕하세요, </Text>
-        <Text style={styles.textStyle}>여행의 여운을 선사할 "여운"입니다.</Text>
+        {/* <Text style={styles.textStyle}>안녕하세요, </Text> */}
+        <Text style={styles.textStyle}>여행에 여운을</Text>
           
         </View>
       
@@ -70,8 +71,9 @@ class LoginScreen extends React.Component {
       
         <Image
           style={{width: 200, height: 200}}
-          source={require('../../assets/pics/ag_logo.png')}/>
-          <Text style={{fontSize:50, color:'#49C4D7', fontFamily:'RIDIBatang', fontWeight:'500'}}>여 운</Text>
+          source={require('../../assets/pics/ag_logo_borderlow.png')}
+          />
+          <Text style={{fontSize:50, color:'white', fontFamily:'RIDIBatang', fontWeight:'500'}}>여 운</Text>
 
         
       </View>
@@ -95,39 +97,47 @@ class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   titleContainer:{
     // marginLeft:20,
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    // backgroundColor:'beige',
+    flex:3,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    
   },
   container:{
-    flex:5,
+    // backgroundColor:'pink',
+    flex:6,
     justifyContent: 'center',
     alignItems: 'center'
   },
   btncontainer:{
-    flex:5,
+    flex:3,
     // justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    // justifyContent:'center'
   },
   buttonStyle: {
 
     backgroundColor: '#FEE500',
     padding: 10,
-    height: 90,
+    height: 70,
     width:300,
     margin:20,
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center',
     borderRadius:15,
+    elevation:3,
     
 
   },
   textStyle:{
-    fontSize:20,
+    fontSize:25,
+    margin: 30,
+    zIndex: 3,
+    color:'white'
   },
   logintextStyle: {
-    fontSize:30,
+    fontSize:25,
     color: 'black',
     fontFamily:'arial',
     // fontWeight:'bold'

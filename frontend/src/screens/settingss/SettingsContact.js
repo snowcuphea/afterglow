@@ -49,7 +49,11 @@ export default class SettingsContact extends Component {
                         
                     </Text>
                 </View>
-                <Text>{this.state.mail}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <Ionicons name='mail' size={20} />
+                    <Text style={{ color: 'green', fontSize: 20, paddingLeft: 10 }} onPress={() => {Linking.openURL(`mailto:a105study1@gmail.com`)}}>{this.state.mail}</Text>
+                    
+                </View>
                 <Text>{this.state.contact}</Text>
                 <MapView
                     initialRegion={{
