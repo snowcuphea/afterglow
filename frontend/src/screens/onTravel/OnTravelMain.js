@@ -108,6 +108,13 @@ class OnTravelMain extends React.Component {
           lon : position.coords.longitude
         })
 
+        // =====================이거는 추천관광지=================
+      this.props.getRecoPlace({
+        "limit_radius": 3,
+        "cur_latitude": position.coords.latitude,
+        "cur_longitude": position.coords.longitude,
+      });
+
 
         // 확인 완료
         // console.log('현재위치 확인용', this.state)
@@ -135,12 +142,7 @@ class OnTravelMain extends React.Component {
     );
 
 
-    //=====================이거는 추천관광지=================
-    // this.props.getRecoPlace({
-    //   "limit_radius": 1,
-    //   "cur_latitude": this.state.lat,
-    //   "cur_longitude": this.state.lon,
-    // });
+    
 
   }
 
@@ -243,7 +245,8 @@ class OnTravelMain extends React.Component {
         { this.state.clickPin
         ? <PinClickPage 
           selectPinFunc={this.selectPinFunc}
-          navigation={this.props.navigation}/>
+          navigation={this.props.navigation}
+          />
         : 
           <View>
 
@@ -252,7 +255,7 @@ class OnTravelMain extends React.Component {
               <View style={[styles.iconAndText, {justifyContent:'center'}]}> 
                 {/* <FontAwesome name="plane" size={25} color={"#333333"}/> */}
                 <Text style={{marginVertical:20, fontSize:20, textAlign:'center' }}>
-                  {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 {this.props.travelingList.length}일 째</Text>
+                  "{this.props.travelingName}" 여행, {this.props.travelingList.length}일 째</Text>
               </View>
             {/* </View> */}
             {/* ================ 여행 안내 끝 ================================= */}
@@ -283,13 +286,15 @@ class OnTravelMain extends React.Component {
               <AddMoneyItem />
             </View>
             {/* ================ 가계부 끝================================= */}  
-          {/* <View style={styles.subContainer}>
+          <View style={styles.subContainer}>
             <View style={styles.iconAndText}> 
               <Ionicons name="flag-sharp" size={25} color={"#333333"}/>
               <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
             </View>
-            <RecPlaceList />
-            </View> */}
+            <View key={this.props.recoPlace}>
+              <RecPlaceList  />
+            </View>
+            </View>
           </View>
       }
       </ScrollView>
@@ -330,6 +335,7 @@ function mapStateToProps(state) {
     // todayTravelRoute: state.accountRd.todayTravel.routRecs,
     rdPin : state.accountRd.selectedPin,
     travelingList : state.accountRd.travelingList,
+    recoPlace : state.accountRd.recoPlace,
   }
 }
 
