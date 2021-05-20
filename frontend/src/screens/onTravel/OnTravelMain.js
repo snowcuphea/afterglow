@@ -83,21 +83,6 @@ class OnTravelMain extends React.Component {
     }
   }
 
-  timeSpent() {
-    const nowTime = new Date()
-    const start = this.props.todayTravel.dr_start_time
-    const end = nowTime.getTime()
-    const tempTime = start.split(' ')
-    const toDate = tempTime[0].split('-')
-    const toTime = tempTime[1].split(':')
-    const startTimeStemp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)
-    const timePass = end - startTimeStemp
-    const hours = Math.floor(timePass/3600000)
-    const mins = Math.floor(timePass%3600000/60000)
-    const result =  this.timeForm(`${hours}:${mins}`)
-    return result
-  }
-
   timeForm(time) {
     if ( time === null || time === undefined ) {
       return '첫 걸음'
@@ -122,6 +107,13 @@ class OnTravelMain extends React.Component {
           lat : position.coords.latitude,
           lon : position.coords.longitude
         })
+
+        // =====================이거는 추천관광지=================
+      this.props.getRecoPlace({
+        "limit_radius": 3,
+        "cur_latitude": position.coords.latitude,
+        "cur_longitude": position.coords.longitude,
+      });
 
 
         // 확인 완료
@@ -150,12 +142,7 @@ class OnTravelMain extends React.Component {
     );
 
 
-    //=====================이거는 추천관광지=================
-    // this.props.getRecoPlace({
-    //   "limit_radius": 1,
-    //   "cur_latitude": this.state.lat,
-    //   "cur_longitude": this.state.lon,
-    // });
+    
 
   }
 
@@ -199,7 +186,7 @@ class OnTravelMain extends React.Component {
       <ScrollView style={styles.container}>
         <View style={{marginVertical:5, flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
           <Text style={{marginLeft:10}} key={new Date().getMinutes()}>
-            {this.changeToTimezone(this.props.todayTravel.dr_start_time)}, {this.timeSpent()}
+            {this.changeToTimezone(this.props.todayTravel.dr_start_time)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
           </Text>
           <ModalDayFinish navigation={this.props.navigation}
            /> 
@@ -258,7 +245,8 @@ class OnTravelMain extends React.Component {
         { this.state.clickPin
         ? <PinClickPage 
           selectPinFunc={this.selectPinFunc}
-          navigation={this.props.navigation}/>
+          navigation={this.props.navigation}
+          />
         : 
           <View>
 
@@ -267,7 +255,7 @@ class OnTravelMain extends React.Component {
               <View style={[styles.iconAndText, {justifyContent:'center'}]}> 
                 {/* <FontAwesome name="plane" size={25} color={"#333333"}/> */}
                 <Text style={{marginVertical:20, fontSize:20, textAlign:'center' }}>
-                  {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 {this.props.travelingList.length}일 째</Text>
+                  "{this.props.travelingName}" 여행, {this.props.travelingList.length}일 째</Text>
               </View>
             {/* </View> */}
             {/* ================ 여행 안내 끝 ================================= */}
@@ -303,7 +291,9 @@ class OnTravelMain extends React.Component {
               <Ionicons name="flag-sharp" size={25} color={"#333333"}/>
               <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
             </View>
-            <RecPlaceList />
+            <View key={this.props.recoPlace}>
+              <RecPlaceList  />
+            </View>
             </View>
           </View>
       }
@@ -345,6 +335,7 @@ function mapStateToProps(state) {
     // todayTravelRoute: state.accountRd.todayTravel.routRecs,
     rdPin : state.accountRd.selectedPin,
     travelingList : state.accountRd.travelingList,
+    recoPlace : state.accountRd.recoPlace,
   }
 }
 

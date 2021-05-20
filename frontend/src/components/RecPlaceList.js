@@ -6,13 +6,6 @@ import { connect } from 'react-redux'
 import ActionCreator from '../store/actions';
 
 
-// const places = [
-//   { id: 1, name: "산방산", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-//   { id: 2, name: "카멜리아 힐", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-//   { id: 3, name: "사려니 숲", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-//   { id: 4, name: "산방산", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-//   { id: 5, name: "레이지박스", time: "12", location: { lat: 13, lon: 13}, memo: "asd" },
-// ]
 
 class RecPlaceList extends React.Component {
 
@@ -59,7 +52,7 @@ const styles= StyleSheet.create({
   container: {
   },
   itemContainer: {
-    backgroundColor: '#BB88CC',
+    backgroundColor: '#FFBE58',
     justifyContent: 'center',
     marginHorizontal: 15,
     marginVertical: 15,

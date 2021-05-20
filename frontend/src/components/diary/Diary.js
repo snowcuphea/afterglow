@@ -9,6 +9,9 @@ import randomColor from 'randomcolor'
 
 import { getRoutePicture } from '../../api/picture'
 
+import { Card, ListItem,  Icon, Divider } from 'react-native-elements'
+
+
 
 class Diary extends React.Component {
 
@@ -131,24 +134,24 @@ class Diary extends React.Component {
             alignItems: "center",
           }}
         >
+          { item.uri === "no" ?
+          <Image 
+          style={{ width: pageWidth-40, height: screenHeight/2.2, }} 
+          source={require('../../assets/pics/ag_logo.png') }/>          
+          :
+          <Image 
+          style={{ width: pageWidth-40, height: screenHeight/2.2, marginTop: 20, borderRadius: 15 }} 
+          source={{ uri: item.uri }}/>
+          }
           { item.time === "없어요" ?
             null :
             <Text style={{height: screenHeight/17, textAlignVertical:"center"}}> {this.changeToTimezone(item.time)} </Text>
           }
           <Text style={{height: screenHeight/17, textAlignVertical:"center"}}> {item.name} </Text>
-          { item.uri === "no" ?
-          <Image 
-            style={{ width: pageWidth-40, height: screenHeight/2.2, }} 
-            source={require('../../assets/pics/ag_logo.png') }/>          
-          :
-          <Image 
-            style={{ width: pageWidth-40, height: screenHeight/2.2, backgroundColor: "pink", }} 
-            source={{ uri: item.uri }}/>
-          }
           { item.memo === null ? 
             <Text style={{height: screenHeight/10, marginHorizontal: 5 ,textAlignVertical:"center"}}>
               {item.name}에 여운을 남기고 왔다. 
-            </Text> :
+            </Text> : 
             <Text style={{height: screenHeight/10, marginHorizontal: 5, textAlignVertical:"center"}}> {item.memo} </Text>
           }
         </View>

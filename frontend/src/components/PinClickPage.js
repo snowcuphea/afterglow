@@ -84,7 +84,7 @@ class PinClickPage extends React.Component {
     // const rr_memo = this.props.rdPin.rr_memo
     
     return (
-      <View>
+      <View style={{borderWidth:10, borderColor:'black'}}>
           <TouchableOpacity 
           style={{ margin : 10}}
           onPress={() => this.props.selectPinFunc(false)}>
@@ -98,14 +98,31 @@ class PinClickPage extends React.Component {
 
 
             <View style={styles.container}>
-              {this.state.modifyStatus
-              ? <Text style={{
-                fontSize:15,
-                color: 'grey',
-                textAlign:'right'
-              }}>메모 수정 후 완료 버튼을 눌러주세요!</Text>
-              : <Text style={{ fontSize:15,color: 'grey',textAlign:'right'}}> </Text>
-              }
+                {this.state.modifyStatus
+                ? <Text style={{
+                  fontSize:15,
+                  color: 'grey',
+                  textAlign:'right'
+                }}>메모 수정 후 완료 버튼을 눌러주세요!</Text>
+                : <Text style={{ fontSize:15,color: 'grey',textAlign:'right'}}> </Text>
+                }
+              <View style={{ alignItems: 'flex-end', marginBottom:5 }}>
+                {
+                  !(this.state.modifyStatus)
+                  ? <TouchableOpacity style={styles.btnModify} onPress={ () => this.switchStatus(true) } >
+                      <Ionicons name="create-outline" size={25} color={"#333333"}/>
+                    </TouchableOpacity>
+                  : <View style={styles.btnContainer}>
+                      <TouchableOpacity style={styles.btnModify} onPress={this.modifyCancel } >
+                      <Ionicons name="close" size={25} color={"#333333"}/>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.btnModify} onPress={this.modifyComplete } >
+                      <Ionicons name="checkmark" size={25} color={"green"}/>
+                      </TouchableOpacity>
+                    </View>
+                }
+
+              </View>
               
               <TextInput
                 editable={this.state.modifyStatus}
@@ -116,15 +133,10 @@ class PinClickPage extends React.Component {
 								onChangeText={(t) => this.setText(t)}
             	/>
 							<View style={styles.btnContainer}>
+
+              
+      
 							
-							{
-								!(this.state.modifyStatus)
-								? <Button title={"메모수정"} onPress={()=>this.switchStatus(true)}/>
-								: <View style={styles.btnContainer}>
-									<Button title={"취소"} onPress={this.modifyCancel}/>
-									<Button title={"완료"} onPress={this.modifyComplete}/>
-									</View>
-							}
 							
 							</View>
 
@@ -158,9 +170,13 @@ const styles = StyleSheet.create({
 				color: 'black'
     },
 		btnContainer:{
+      paddingTop:10,
 			flexDirection:'row',
 			justifyContent:'flex-end'
-		}
+		},
+    btnModify: {
+      marginHorizontal:3,
+    }
   
   
 })

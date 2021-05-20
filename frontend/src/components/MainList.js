@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity, FlatList, Dimensions, StyleSheet }
 import { connect } from 'react-redux'
 import ActionCreator from '../store/actions';
 
-import { getRoutePicture } from '../api/picture'
+import { getRecordPicture } from '../api/picture'
 
 
 
@@ -12,6 +12,9 @@ class MainList extends React.Component{
 
   constructor(props) {
     super(props)
+    this.state={
+      pics : []
+    }
   }
 
   dateForm(date) {
@@ -40,6 +43,48 @@ class MainList extends React.Component{
     this.props.navigation.navigate("SingleTravelHistory")
   }
 
+  componentDidMount() {
+
+    for ( var record of this.props.traveledList ) {
+      getRecordPicture(
+        record.rec_id,
+        (res) => {
+          // console.log(res.data)
+          const tempDate = []
+          const tempArr = []
+          for ( var day of record.dayRecs) {
+            if (tempDate.includes(day.dr_date)) {
+              continue
+            } else {
+              tempDate.push(day.dr_date)
+            }
+            for ( var pictures of res.data[day.dr_date]) {
+              var base64Image = `data:image/jpeg;base64,${pictures.ir_image}`
+              tempArr.push(base64Image)
+            }
+          }
+          if (tempArr.length === 0) {
+            this.setState({
+              ...this.state,
+              pics : [ ...this.state.pics, 'no']
+            })
+          } else {
+            var result = tempArr[Math.floor(Math.random() * tempArr.length)]
+            this.setState({
+              ...this.state,
+              pics : [ ...this.state.pics, result ]
+            })
+          }
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
+    }
+
+
+  }
+
   render() {
 
     let screenWidth = Dimensions.get('window').width;
@@ -57,13 +102,17 @@ class MainList extends React.Component{
         const travelEndDay = item.dayRecs[len-1].dr_start_time
         // console.log("item에 대한 로그",JSON.stringify(item.dayRecs[0],null,2))
 
-
         return (
           <View>
             <TouchableOpacity style={{ margin: 10}} onPress={() => this.toSingleHistory(index)}>
-              <Image 
-                style={{ width: (screenWidth-80)/2, height: (screenWidth+30)/2, backgroundColor: 'pink'}} 
-                source={{ uri: "../assets/pics/1.png" }}/>
+              { this.state.pics[index] === 'no' ?
+                <Image 
+                  style={{ width:  (screenWidth-80)/2, height: (screenHeight)/3.5, backgroundColor: "#FFBE58"}} 
+                  source={require('../assets/pics/ag_logo.png') }/>   :
+                <Image 
+                  style={{ width: (screenWidth-80)/2, height: (screenHeight)/3.5, }} 
+                  source={{ uri: this.state.pics[index] }}/>
+              } 
                 <View style={styles.imageTitleContainer}>
                   <Text>{travelName}</Text>
                 </View>

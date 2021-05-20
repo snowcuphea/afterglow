@@ -168,8 +168,9 @@ export function* deleteMoneyAsync(action) {
 
 export function* getRecoPlaceAsync(action) {
   try{
+    console.log("payload", action.payload)
     const { status, data } = yield call( getRecoPlace, action.payload ) 
-    console.log("추천여행지 받아오기 성공 saga에서찍음",  status,  data.length )
+    console.log("추천여행지 받아오기 성공 saga에서찍음",  status,  JSON.stringify(data, null, 2) )
     yield put(ActionCreator.getRecoPlace(data))
   } catch (error) {
     console.log("추천여행지 받아오기 실패", error)
