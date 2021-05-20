@@ -108,7 +108,7 @@ class AddMoneyItem extends React.Component {
           ? this.addItem
           : ()=> {console.log("가계부추가실패")}}
           >
-          <View>
+          <View style={{ flexDirection:'row' }}>
             <Ionicons name="add-circle-outline" size={20}/>
             <Text>추가</Text>
           </View>
