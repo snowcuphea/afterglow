@@ -132,7 +132,6 @@ const CustomDrawerContent = (props) => {
             )
           })
         }
-        <Text onPress={() => {Linking.openURL(`mailto:test@mail.com`)}}>하이</Text>
       </DrawerContentScrollView>
       {/* <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }} onPress={() => signOutWithKakao()}>
         <Ionicons name={'log-out-sharp'} style={{ paddingRight: 20 }} size={18} color={"#555555"}></Ionicons>
@@ -176,7 +175,7 @@ const DrawerComponent = () => {
     }
 
     const hasPermission = await PermissionsAndroid.check(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
     );
 
     if (hasPermission) {
@@ -185,7 +184,7 @@ const DrawerComponent = () => {
 
     // permission 요청하기
     const status = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
     );
 
     // 허락되었을 때
