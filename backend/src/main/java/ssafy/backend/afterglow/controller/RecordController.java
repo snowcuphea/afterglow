@@ -280,15 +280,15 @@ public class RecordController {
                             // 장소에서 3km 벗어남
                             if (recordService.getDist(latestRr.get().getRrLatitude(), latestRr.get().getRrLongitude(), rrLat, rrLong) > 3) {
                                 result.replace("rr", routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong)));
+                            } else if (recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 0.25) {
+                                result.replace("rr", routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong)));
+                                // 장소도 아니고 이동수단도 이용하지 않는 중
                             } else {
                                 // 최근 위치로 저장
                                 latestRr.get().setLatest_latitude(rrLat);
                                 latestRr.get().setLatest_longitude(rrLong);
                             }
                             // 1분에 400미터 이상 움직임 -> 이동수단으로 이동중
-                        } else if (recordService.getDist(latestRr.get().getLatest_latitude(), latestRr.get().getLatest_longitude(), rrLat, rrLong) > 0.4) {
-                            result.replace("rr", routeRepository.save(recordService.customBuilder(dr, rrLat, rrLong)));
-                            // 장소도 아니고 이동수단도 이용하지 않는 중
                         } else {
                             // 1분에 100미터 이상 움직이지 않음 : 도보로 걷는중
                             if ((Boolean) result.get("isUserMoving") == false) {
