@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
 
 import { CommonActions } from '@react-navigation/native';
 
@@ -7,6 +7,7 @@ import ActionCreator from '../../store/actions'
 import { connect } from 'react-redux'
 
 import { login as kakaoLogin } from '@react-native-seoul/kakao-login'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { login } from '../.././api/account'
 
@@ -54,29 +55,82 @@ class LoginScreen extends React.Component {
     console.log("Login.js", this.props.isLogin)
 
     return (
+    
+
+      <View style={{flex:1}} >
+
+        <View style={styles.titleContainer}>
+        <Text style={styles.textStyle}>안녕하세요, </Text>
+        <Text style={styles.textStyle}>여행의 여운을 선사할 "여운"입니다.</Text>
+          
+        </View>
+      
       <View style={styles.container}>
-        <Text>로그인 화면</Text>
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => this.signInWithKakao()}>
-          <Text style={styles.textStyle}>KAKAO 로그인</Text>
-        </TouchableOpacity>
+
+      
+        <Image
+          style={{width: 200, height: 200}}
+          source={require('../../assets/pics/ag_logo.png')}/>
+          <Text style={{fontSize:50, color:'#49C4D7', fontFamily:'RIDIBatang', fontWeight:'500'}}>여 운</Text>
+
+        
       </View>
+
+      <View style={styles.btncontainer}>
+
+        <TouchableOpacity style={styles.buttonStyle} onPress={() => this.signInWithKakao()}>
+          <MaterialCommunityIcons name="chat" size={35} style={{marginRight:20}}/>
+          <Text style={styles.logintextStyle}>카카오 로그인</Text>
+        </TouchableOpacity>
+        </View>
+
+
+      </View>
+
     )
   }
 
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex: 1,
+  titleContainer:{
+    // marginLeft:20,
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  buttonStyle: {
-    backgroundColor: 'yellow',
-    padding: 10
+  container:{
+    flex:5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  textStyle: {
-    color: 'brown',
+  btncontainer:{
+    flex:5,
+    // justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonStyle: {
+
+    backgroundColor: '#FEE500',
+    padding: 10,
+    height: 90,
+    width:300,
+    margin:20,
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:15,
+    
+
+  },
+  textStyle:{
+    fontSize:20,
+  },
+  logintextStyle: {
+    fontSize:30,
+    color: 'black',
+    fontFamily:'arial',
+    // fontWeight:'bold'
   }
 
   
