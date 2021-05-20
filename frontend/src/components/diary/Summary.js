@@ -154,16 +154,21 @@ class Summary extends React.Component {
 
     var markerArr = [];
 
-    for (var markerDay of this.props.record.dayRecs) {
-      for (var markerRoute of markerDay.routeRecs) {
-        var markerForm = {
-          latitude: markerRoute.rr_latitude,
-          longitude: markerRoute.rr_longitude
+    for (var day of this.props.record.dayRecs) {
+      for (var route of day.routeRecs) {
+        if ( route.rr_name !== null ) {
+          var markerForm = {
+            rr_name: route.rr_name,
+            coord: {
+              latitude: route.rr_latitude,
+              longitude: route.rr_longitude
+            }
+          }
+          markerArr.push(markerForm)
         }
-        markerArr.push(markerForm)
-
       }
     }
+    return markerArr
   }
 
   render() {
@@ -189,27 +194,28 @@ class Summary extends React.Component {
               initialRegion={{
                 latitude: this.props.record.dayRecs[0].routeRecs.length === 0 || this.props.record.dayRecs[0].routeRecs[0].rr_latitude === undefined ? 126.3128 :this.props.record.dayRecs[0].routeRecs[0].rr_latitude,
                 longitude: this.props.record.dayRecs[0].routeRecs.length === 0 || this.props.record.dayRecs[0].routeRecs[0].rr_latitude === undefined ? 33.2364 : this.props.record.dayRecs[0].routeRecs[0].rr_longitude,
-                latitudeDelta: 0.1,
-                longitudeDelta: 0.1
+                latitudeDelta: 0.03,
+                longitudeDelta: 0.03
               }}
               style={{ flex:1, margin: 10 }}
             >
-              {/* <Polyline
+              <Polyline
                 coordinates={this.getPolyLine()}
                 strokeColor='red'
-                strokeWidth={1}
+                strokeWidth={2}
               >
               </Polyline>
               {
                 this.getMarker().map((marker, markerIndex) => {
                   return (
                     <MapView.Marker
-                      coordinate={marker}
+                      coordinate={marker.coord}
                       key={markerIndex}
+                      title={marker.title}
                     />
                   )
                 })
-              } */}
+              }
 
 
 
