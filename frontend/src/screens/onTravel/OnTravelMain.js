@@ -212,7 +212,7 @@ class OnTravelMain extends React.Component {
             <Polyline
               coordinates={this.getPolyLine()}
               strokeColor='red'
-              strokeWidth={1}
+              strokeWidth={2}
             ></Polyline>
 
             {

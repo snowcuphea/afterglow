@@ -58,15 +58,17 @@ class EndTravelMain extends React.Component {
     this.props.changeStatus('rest')
     await this.props.getRecordListReq()
     await this.props.selectIndex(this.props.index)
-    await this.props.navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [
-          { name: 'Home' },
-          { name: 'SingleTravelHistory'},
-        ]
-      })
-    )
+    setTimeout(() => {
+      this.props.navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'Home' },
+            { name: 'SingleTravelHistory'},
+          ]
+        })
+      )
+    }, 1000)
   }
 
 
