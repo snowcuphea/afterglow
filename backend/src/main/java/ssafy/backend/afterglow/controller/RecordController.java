@@ -298,7 +298,7 @@ public class RecordController {
 
                                 // 체류시간이 10분 지속 : 가장 가까운 관광지 탐색, 없으면 이름은 없지만 장소로 인식
                                 if (latestRr.get().getRrName() == null && latestRr.get().getRrStaying_minute() >= 10) {
-                                    final double[] nearestDist = {3};
+                                    final double[] nearestDist = {0.35};
                                     tourDestinationRepository.findAll()
                                             .stream()
                                             .forEach(td -> {
