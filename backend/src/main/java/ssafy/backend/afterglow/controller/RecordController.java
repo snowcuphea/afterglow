@@ -71,18 +71,17 @@ public class RecordController {
     @SneakyThrows
     @PostMapping(value = "/save/image")
     public ResponseEntity<Integer> saveImg(MultipartHttpServletRequest request,
-                                           @RequestBody MultipartFile image,
-                                           @RequestParam("rr_id") Long rr_id) {
-        System.out.println(request.getFile("file"));
+                                           @RequestParam("rr_id") Long rr_id,
+                                           @RequestParam("height") Integer height,
+                                           @RequestParam("width") Integer width) {
         try {
-            System.out.println(image.getName());
-            System.out.println(image.getBytes());
-            System.out.println(image.getInputStream());
         } catch (Exception e) {
         }
         ImageRecord ir = new ImageRecord();
         try {
-            ir.setIrImage(image.getBytes());
+            ir.setIrImage(request.getFile("file").getBytes());
+            ir.setHeight(height);
+            ir.setWidth(width);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -198,7 +197,7 @@ public class RecordController {
                 .findById(conId)
                 .ifPresent(cr -> {
                     DailyRecord dr = cr.getDr();
-                    conRepository.deleteByCrId(conId);
+                    conRepository.deleteInBatch(Arrays.asList(new ConsumptionRecord[]{cr}));
                     ref.result = conRepository.findAllByDr(dr).get();
                 });
         return ResponseEntity.ok(ref.result);
@@ -342,6 +341,7 @@ public class RecordController {
         routeRepository.findById(RrId)
                 .ifPresent(rr -> {
                     rr.setRrName(routeName);
+                    routeRepository.save(rr);
                     ref.result = rr;
                 });
         return ResponseEntity.ok(ref.result);
@@ -371,7 +371,7 @@ public class RecordController {
                                                           HttpServletResponse response,
                                                           @RequestParam("drId") Long drId) throws IOException {
         var ref = new Object() {
-            List<ImageRecord> result = null;
+            List<ImageRecord> result = new ArrayList<>();
         };
         userService
                 .findUserByToken(request, response)
@@ -395,7 +395,7 @@ public class RecordController {
     // 전체 사진
     @GetMapping("/trip/picture")
     public ResponseEntity<Map<LocalDate, List<ImageRecord>>> tripPicture(@RequestParam("rec_id") Long recId) {
-        Map<LocalDate, List<ImageRecord>> result = null;
+        Map<LocalDate, List<ImageRecord>> result = new HashMap<>();
         recordRepository
                 .findById(recId)
                 .ifPresent(rec -> {
@@ -416,6 +416,19 @@ public class RecordController {
                                         })
                                 ;
                             });
+                });
+        return ResponseEntity.ok(result);
+    }
+
+    // 단일 사진
+    @GetMapping("/picture")
+    public ResponseEntity<List<ImageRecord>> picture(@RequestParam("rr_id") Long rrId) {
+        List<ImageRecord> result = new ArrayList<>();
+        routeRepository
+                .findById(rrId)
+                .ifPresent(rr -> {
+                    result.addAll(imageRepository.findAllByRr(rr)
+                            .orElse(new ArrayList<>()));
                 });
         return ResponseEntity.ok(result);
     }
@@ -459,7 +472,7 @@ public class RecordController {
     @GetMapping("/tours")
     public ResponseEntity<List<TourDestination>> getCloseTours(@RequestParam("limit_radius") Double radius,
                                                                @RequestParam("cur_latitude") Double latitude,
-                                                               @RequestParam("cur_longitude") Double longitude){
+                                                               @RequestParam("cur_longitude") Double longitude) {
         var ref = new Object() {
             List<TourDestination> result;
         };
