@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  Dimensions
+  Dimensions, Image
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -85,15 +85,15 @@ class HomeScreen extends React.Component {
         <View style={{position: 'absolute', flexDirection: "row", top: 0, backgroundColor: 'grey'}}>
           <TouchableOpacity
             disabled={this.state.mode=== "map" ? true: false}
-            style={[styles.segmentBtn, { marginLeft : 3},this.state.mode === "map" ? {backgroundColor: 'skyblue'} : null]}
+            style={[styles.segmentBtn, { marginLeft : 3},this.state.mode === "map" ? {backgroundColor: '#49C4D7'} : null]}
             onPress={() => this.setState({mode: "map"})}>
-            <Text style={styles.segmentBtnText}>지도</Text>
+            <Text style={styles.segmentBtnText}>여행지도</Text>
           </TouchableOpacity>
           <TouchableOpacity 
           disabled={this.state.mode=== "list" ? true: false}
-            style={[styles.segmentBtn, { marginRight : 3},this.state.mode === "list" ? {backgroundColor: 'skyblue'} : null]} 
+            style={[styles.segmentBtn, { marginRight : 3},this.state.mode === "list" ? {backgroundColor: '#49C4D7'} : null]} 
             onPress={() => this.setState({mode: "list"})}>
-            <Text style={styles.segmentBtnText}>리스트</Text>
+            <Text style={styles.segmentBtnText}>기록저장소</Text>
           </TouchableOpacity>
           
         </View>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   startBtn: {
-    backgroundColor: "#49C4D7",
+    backgroundColor: "#FFBE58",
     borderColor: "#0b3c60",
     borderWidth: 1.5,
     padding:20,

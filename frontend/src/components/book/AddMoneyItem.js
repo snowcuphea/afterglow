@@ -4,6 +4,9 @@ import ActionCreator from '../../store/actions'
 
 import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+
 import { Card, Input  } from 'react-native-elements'
 
 
@@ -88,21 +91,30 @@ class AddMoneyItem extends React.Component {
             onChangeText={(t) => this.setMoney(t)}
             keyboardType = 'numeric' />
         </View>
+
+        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+
+        
         {
         ( this.state.whatValid
-          ? (this.state.muchValid ? <Text>OK</Text> : <Text>가격을 적어주세요.</Text> )
-          : <Text>사용처를 적어주세요.</Text> ) 
+          ? (this.state.muchValid ? null : <Text style={{marginLeft:1, color:'orange'}}>가격을 적어주세요.</Text> )
+          : <Text style={{marginLeft:10, color:'orange'}}>사용처를 적어주세요.</Text> ) 
         
         }
 
         <TouchableOpacity
-          style={{backgroundColor:'beige', alignItems: 'center'}}
+          style={{alignItems: 'center', marginRight:20}}
           onPress={ (this.state.whatValid && this.state.muchValid)
           ? this.addItem
           : ()=> {console.log("가계부추가실패")}}
           >
-          <Text>추가</Text>
+          <View>
+            <Ionicons name="add-circle-outline" size={20}/>
+            <Text>추가</Text>
+          </View>
         </TouchableOpacity>
+
+        </View>
       </Card>
       // </Card>
 
@@ -115,8 +127,8 @@ const styles = StyleSheet.create({
 
   inputWrap:{
     flex: 1,
-    borderColor: "#cccccc",
-    borderBottomWidth: 1,
+    // borderColor: "#cccccc",
+    // borderBottomWidth: 1,
     marginBottom: 10
   },
  
