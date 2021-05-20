@@ -55,6 +55,7 @@ const list2 = [
 
 
 class SettingsMain extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -64,21 +65,6 @@ class SettingsMain extends React.Component {
       navi3 : 'SettingsLicense'
     };
   }
-
-  signOutWithKakao = async () => {
-    await logout()
-    .then(res => {
-      console.log(res)
-      this.props.logout()
-      this.props.initialPicture()
-      AsyncStorage.clear()
-      CookieManager.clearAll().then((success) => { console.log("cookie clear ", success)})
-      this.props.navigation.navigate("Login")
-    }) .catch(err => 
-      console.log(err)
-    )
-
-  };
 
   render() {
     return (
@@ -125,12 +111,6 @@ class SettingsMain extends React.Component {
             </ListItem>
           ))}
         </ListItem.Accordion>
-              
-      
-
-        <TouchableOpacity style={{ margin: 10, backgroundColor: 'blue'}} onPress={() => this.signOutWithKakao()}>
-            <Text>LOGOUT</Text>
-        </TouchableOpacity>
 
       </View>
     )

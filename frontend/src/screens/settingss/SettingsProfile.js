@@ -9,19 +9,52 @@ import {
 } from 'react-native';
 import { Card, ListItem,  Icon } from 'react-native-elements'
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default class SettingsProfile extends Component {
+
+import { connect } from 'react-redux'
+import ActionCreator from '../.././store/actions'
+
+import { logout, unlink } from '@react-native-seoul/kakao-login'
+
+import CookieManager from '@react-native-cookies/cookies'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+
+class SettingsProfile extends Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    signOutWithKakao = async () => {
+        await logout()
+        .then(res => {
+          console.log(res)
+          this.props.logout()
+          this.props.initialPicture()
+          AsyncStorage.clear()
+          CookieManager.clearAll().then((success) => { console.log("cookie clear ", success)})
+          this.props.navigation.navigate("Login")
+        }) .catch(err => 
+          console.log(err)
+        )
+    
+      };
+
 
     render () {
 
         return (
 
             <View>
-                <Text
-                    style={{ fontWeight: 'bold', fontSize: 30 }}
-                >여기는 프로필 및 계정관리 페이지 입니다</Text>
-                <Card.Divider/>
-                <Text>글을 적어봅시다</Text>
+                <Card containerStyle={{marginHorizontal:0}}>
+                    <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, paddingBottom: 20, flexDirection: 'row' }} onPress={() => this.signOutWithKakao()}>
+                        <Ionicons name={'log-out-sharp'} style={{ paddingRight: 20 }} size={18} color={"#555555"}></Ionicons>
+                        <Text style={{ fontSize: 15 }}>로그아웃</Text>
+                    </TouchableOpacity>
+                </Card>
             </View>
 
         )
@@ -29,3 +62,25 @@ export default class SettingsProfile extends Component {
 
 
 }
+
+
+
+function mapStateToProps(state) {
+return {
+    isLogin: state.accountRd.isLogin,
+    user_nickname: state.accountRd.user.usr_nickname,
+}
+}
+
+function mapDispatchToProps(dispatch) {
+return {
+    logout: () => {
+    dispatch(ActionCreator.logout())
+    },
+    initialPicture: () => {
+    dispatch(ActionCreator.initialPicture())
+    }
+};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsProfile)
