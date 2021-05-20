@@ -37,6 +37,27 @@ class Summary extends React.Component {
     }
   }
 
+  dateForm(date) {
+    try {
+      const tempDate = date.split('-')
+      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+    } catch (error) {
+      return null
+    }
+  }
+
+  changeToTimezone(time) {
+    const nowTime = new Date()
+    const tempTime = time.split(' ')
+    const toDate = tempTime[0].split('-')
+    const toTime = tempTime[1].split(':')
+    const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
+    const changedTimezone = new Date(tempTimeStamp)
+    const changedDate = changedTimezone.toISOString().split('T')
+    return this.dateForm(changedDate[0])
+  }
+
+
   totalTime() {
     try {
       var totalTime = 0
@@ -145,8 +166,8 @@ class Summary extends React.Component {
 
     const history = this.props.record
     const len = history.dayRecs.length
-    const startDate = history.dayRecs[0].dr_date
-    const endDate = history.dayRecs[len-1].dr_date
+    const startDate = history.dayRecs[0].dr_start_time
+    const endDate = history.dayRecs[len-1].dr_end_time
     const title = history.rec_name
 
     return(
@@ -154,7 +175,7 @@ class Summary extends React.Component {
         showsVerticalScrollIndicator={false}>
         <Card containerStyle={[{marginHorizontal:0}, styles.dateContainer]}>
 
-          <Text style={styles.dateStyle}> {this.dateForm(startDate)} ~ {this.dateForm(endDate)}</Text>
+          <Text style={styles.dateStyle}> {this.changeToTimezone(startDate)} ~ {this.changeToTimezone(endDate)}</Text>
 
         </Card>
 

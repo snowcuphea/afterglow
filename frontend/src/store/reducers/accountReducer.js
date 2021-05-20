@@ -85,6 +85,7 @@ export default (state = initialState, action) => {
         travelingId: action.payload.rec_id,
         todayTravel: today,
         selectedPin : {},
+        travelingList: [ today ]
       }
   
     case types.START_DAY:

@@ -353,6 +353,7 @@ const DrawerComponent = () => {
   }
 
   if ((travelStatus === 'dayEnd' || travelStatus === 'travelEnd')&&(foregroundService === true && observing === true)) {
+
     removeLocationUpdates()
 
     setForegroundService(false)
