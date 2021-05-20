@@ -40,21 +40,25 @@ class Summary extends React.Component {
   dateForm(date) {
     try {
       const tempDate = date.split('-')
-      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일 '
+      return tempDate[0] + '년 ' +tempDate[1] + '월 ' + tempDate[2] + '일'
     } catch (error) {
       return null
     }
   }
 
   changeToTimezone(time) {
-    const nowTime = new Date()
-    const tempTime = time.split(' ')
-    const toDate = tempTime[0].split('-')
-    const toTime = tempTime[1].split(':')
-    const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
-    const changedTimezone = new Date(tempTimeStamp)
-    const changedDate = changedTimezone.toISOString().split('T')
-    return this.dateForm(changedDate[0])
+    try {
+      const nowTime = new Date()
+      const tempTime = time.split(' ')
+      const toDate = tempTime[0].split('-')
+      const toTime = tempTime[1].split(':')
+      const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
+      const changedTimezone = new Date(tempTimeStamp)
+      const changedDate = changedTimezone.toISOString().split('T')
+      return this.dateForm(changedDate[0])
+    } catch (error) {
+      return null
+    }
   }
 
 

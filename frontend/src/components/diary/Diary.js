@@ -140,7 +140,7 @@ class Diary extends React.Component {
           source={require('../../assets/pics/ag_logo.png') }/>          
           :
           <Image 
-          style={{ width: pageWidth-40, height: screenHeight/2.2, backgroundColor: "pink", }} 
+          style={{ width: pageWidth-40, height: screenHeight/2.2, marginTop: 20, borderRadius: 15 }} 
           source={{ uri: item.uri }}/>
           }
           { item.time === "없어요" ?
