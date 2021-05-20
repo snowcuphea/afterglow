@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { LogBox } from 'react-native';
 import appConfig from './app.json';
 
 import { connect, Provider } from 'react-redux'
@@ -13,6 +13,10 @@ import DrawerComponent from './src/Drawer'
 import store from './src/store/index'
 
 import { setCustomText } from 'react-native-global-props'
+
+LogBox.ignoreLogs(['Warning: ...']); 
+LogBox.ignoreAllLogs();
+
 
 const persistor = persistStore(store)
 
