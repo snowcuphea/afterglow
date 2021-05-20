@@ -154,7 +154,7 @@ class RoutePicturesHorz extends React.Component {
   render(){
 
     const renderdata = ({ item ,index }) => (
-      <View style={{ flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row', marginTop:15}}>
         <Image 
           style={{ width: (screenWidth)/8, height: (screenWidth)/8, marginVertical:14, marginHorizontal:4}} 
           source={{ uri: item.uri }} />

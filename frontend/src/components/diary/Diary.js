@@ -9,6 +9,9 @@ import randomColor from 'randomcolor'
 
 import { getRoutePicture } from '../../api/picture'
 
+import { Card, ListItem,  Icon, Divider } from 'react-native-elements'
+
+
 
 class Diary extends React.Component {
 
@@ -148,7 +151,7 @@ class Diary extends React.Component {
           { item.memo === null ? 
             <Text style={{height: screenHeight/10, marginHorizontal: 5 ,textAlignVertical:"center"}}>
               {item.name}에 여운을 남기고 왔다. 
-            </Text> :
+            </Text> : 
             <Text style={{height: screenHeight/10, marginHorizontal: 5, textAlignVertical:"center"}}> {item.memo} </Text>
           }
         </View>
