@@ -62,7 +62,7 @@ class RoutePictures extends React.Component {
                     name="checkmark-circle" 
                     size={screenWidth/12}
                     style={styles.selectIcon1}
-                    color={'pink'}/>
+                    color={'#FFBE58'}/>
                 </TouchableOpacity> :
                 <TouchableOpacity style={styles.selectArea} onPress={() => this.selectPicture(item)}>
                   <Ionicons
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   selectedBorder: {
     borderWidth: 6,
-    borderColor: 'black'
+    borderColor: '#FFBE58'
   }
 });
 

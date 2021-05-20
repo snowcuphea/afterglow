@@ -39,7 +39,7 @@ class Diary extends React.Component {
               if ( res.data.length !== 0) {
                 for ( var data of res.data) {
                   // console.log(data)
-                  var tempImage = `data:image/png;base64,${data.ir_image}`
+                  var tempImage = `data:image/jpeg;base64,${data.ir_image}`
                   imageArr.push(tempImage)
                 }
                 base64Image = imageArr[Math.floor(Math.random() * imageArr.length)]
