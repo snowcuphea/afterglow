@@ -15,9 +15,9 @@
 
 * 수행 기간:  2021.04.11 ~ (2021.05.21 종료 예정)
 
+- UCC : https://youtu.be/eXq92L7ck0s
 
-
-
+- 시연 영상 : https://youtu.be/dsKoFuJl8U0
 
 ## 목차
 
