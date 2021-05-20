@@ -245,7 +245,8 @@ class OnTravelMain extends React.Component {
         { this.state.clickPin
         ? <PinClickPage 
           selectPinFunc={this.selectPinFunc}
-          navigation={this.props.navigation}/>
+          navigation={this.props.navigation}
+          />
         : 
           <View>
 
