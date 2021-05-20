@@ -30,17 +30,19 @@ class MoneyBook extends React.Component {
   countWholeMoney(){
     let conArr = []
     let conTotal = 0
-
-    if (this.props.travelStatus === 'rest'){
-      for (var value of this.props.record.dayRecs){
-        for (var item of value.conRecs) {
-          conArr.push(item)
-          conTotal += item.cr_money
+    try {
+      if (this.props.travelStatus === 'rest'){
+        for (var value of this.props.record.dayRecs){
+          for (var item of value.conRecs) {
+            conArr.push(item)
+            conTotal += item.cr_money
+          }
         }
       }
+      return {conArr, conTotal}
+    } catch (error) {
+      return {conArr, conTotal}
     }
-
-    return {conArr, conTotal}
   }
 
   

@@ -60,14 +60,18 @@ class OnTravelMain extends React.Component {
   }
 
   changeToTimezone(time) {
-    const nowTime = new Date()
-    const tempTime = time.split(' ')
-    const toDate = tempTime[0].split('-')
-    const toTime = tempTime[1].split(':')
-    const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
-    const changedTimezone = new Date(tempTimeStamp)
-    const changedDate = changedTimezone.toISOString().split('T')
-    return this.dateForm(changedDate[0])
+    try{
+      const nowTime = new Date()
+      const tempTime = time.split(' ')
+      const toDate = tempTime[0].split('-')
+      const toTime = tempTime[1].split(':')
+      const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
+      const changedTimezone = new Date(tempTimeStamp)
+      const changedDate = changedTimezone.toISOString().split('T')
+      return this.dateForm(changedDate[0])
+    } catch {
+      return null
+    }
   }
 
   dateForm(date) {
@@ -77,6 +81,21 @@ class OnTravelMain extends React.Component {
     } catch (error) {
       return null
     }
+  }
+
+  timeSpent() {
+    const nowTime = new Date()
+    const start = this.props.todayTravel.dr_start_time
+    const end = nowTime.getTime()
+    const tempTime = start.split(' ')
+    const toDate = tempTime[0].split('-')
+    const toTime = tempTime[1].split(':')
+    const startTimeStemp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)
+    const timePass = end - startTimeStemp
+    const hours = Math.floor(timePass/3600000)
+    const mins = Math.floor(timePass%3600000/60000)
+    const result =  this.timeForm(`${hours}:${mins}`)
+    return result
   }
 
   timeForm(time) {
@@ -92,7 +111,7 @@ class OnTravelMain extends React.Component {
   }
 
   componentDidMount () {
-    console.log(this.changeToTimezone(this.props.todayTravel.dr_start_time))
+    // console.log(this.changeToTimezone(this.props.todayTravel.dr_start_time))
     Geolocation.getCurrentPosition(
       (position) => {
         // 확인 완료
@@ -179,8 +198,8 @@ class OnTravelMain extends React.Component {
     return (
       <ScrollView style={styles.container}>
         <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
-          <Text style={{marginLeft:10}}>
-            {this.changeToTimezone(this.props.todayTravel.dr_start_time)}, {this.timeForm(this.props.todayTravel.dr_time_spent)}
+          <Text style={{marginLeft:10}} key={new Date().getMinutes()}>
+            {this.changeToTimezone(this.props.todayTravel.dr_start_time)}, {this.timeSpent()}
           </Text>
           <ModalDayFinish navigation={this.props.navigation}
            /> 
@@ -197,8 +216,8 @@ class OnTravelMain extends React.Component {
             region = {{
               latitude: this.state.lat,
               longitude: this.state.lon,
-              latitudeDelta: 0.1,
-              longitudeDelta: 0.05
+              latitudeDelta: 0.007,
+              longitudeDelta: 0.007
             }}
             style={{height:200}}
             showsUserLocation = {true}
