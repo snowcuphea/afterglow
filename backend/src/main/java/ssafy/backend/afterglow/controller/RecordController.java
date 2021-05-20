@@ -341,6 +341,7 @@ public class RecordController {
         routeRepository.findById(RrId)
                 .ifPresent(rr -> {
                     rr.setRrName(routeName);
+                    routeRepository.save(rr);
                     ref.result = rr;
                 });
         return ResponseEntity.ok(ref.result);
