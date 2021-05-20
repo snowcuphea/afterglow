@@ -47,7 +47,7 @@ class ModalDayFinish extends React.Component {
       <TouchableOpacity style={styles.btnDayEndModal}
         onPress={ () => this.setModalVisible(!this.state.modalVisible) } >
         <Ionicons name="moon" size={25} color={"#333333"}/>
-        <Text style={{margin:2}}>하루 끝</Text>
+        <Text style={{margin:2,}}>하루 끝</Text>
       </TouchableOpacity>
 
       <Overlay 
@@ -144,8 +144,9 @@ const styles= StyleSheet.create({
   btnDayEndModal: {
     // width: screenWidth/2.5,
     // marginTop: 20,
+    // flex:0.8,
     marginRight:10,
-    backgroundColor: "mediumturquoise",
+    backgroundColor: "#49C4D7",
     padding: 10,
     borderRadius: 15,
     elevation: 3,

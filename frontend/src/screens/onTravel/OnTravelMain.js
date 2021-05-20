@@ -197,7 +197,7 @@ class OnTravelMain extends React.Component {
 
     return (
       <ScrollView style={styles.container}>
-        <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+        <View style={{marginVertical:5, flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
           <Text style={{marginLeft:10}} key={new Date().getMinutes()}>
             {this.changeToTimezone(this.props.todayTravel.dr_start_time)}, {this.timeSpent()}
           </Text>
