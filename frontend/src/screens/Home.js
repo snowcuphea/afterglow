@@ -81,7 +81,7 @@ class HomeScreen extends React.Component {
           null  
         }
 
-        <View style={{position: 'absolute', flexDirection: "row", top: 0, backgroundColor: 'grey'}}>
+        <View style={{position: 'absolute', flexDirection: "row", top: 0, backgroundColor: 'lightgrey'}}>
           <TouchableOpacity
             disabled={this.state.mode=== "map" ? true: false}
             style={[styles.segmentBtn, { marginLeft : 3},this.state.mode === "map" ? {backgroundColor: '#49C4D7'} : null]}

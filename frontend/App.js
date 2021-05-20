@@ -34,7 +34,9 @@ setCustomText(customTextProps);
 export default class App extends React.Component {
 
   componentDidMount() {
-    SplashScreen.hide()
+    setTimeout(()=> {
+      SplashScreen.hide()
+    }, 1000)
   }
 
   render() {

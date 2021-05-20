@@ -86,31 +86,7 @@ class SettingsMain extends React.Component {
           </ListItem>
             ))
         }
-        <ListItem.Accordion
-          content={
-            <>
-            <Ionicons name="hammer" size={25} style={{marginRight:15}} />
-            <ListItem.Content>
-              <ListItem.Title>서비스 기능 설정</ListItem.Title>
-            </ListItem.Content>
-            </>
-          }
-          isExpanded={this.state.expanded}
-          onPress={() => {
-          this.setState({ ...this.state, expanded: !this.state.expanded });
-          // expanded = !expanded
-          }}
-        >
-          {list2.map((l, i) => (
-            <ListItem key={i} bottomDivider>
-              <ListItem.Content>
-                
-                <ListItem.Subtitle>{l.title}</ListItem.Subtitle>
-              </ListItem.Content>
-              {/* <ListItem.Chevron /> */}
-            </ListItem>
-          ))}
-        </ListItem.Accordion>
+
 
       </View>
     )
