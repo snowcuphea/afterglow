@@ -88,7 +88,7 @@ const styles= StyleSheet.create({
   container: {
     backgroundColor: '#f3ffff',
     width : screenWidth/1.3,
-    height : screenHeight/2,
+    height : screenHeight/1.8,
     paddingVertical: screenWidth/30,
     paddingHorizontal: screenWidth/30,
   },
@@ -111,7 +111,7 @@ const styles= StyleSheet.create({
   },
   btnCancel: {
     width: screenWidth/2.5,
-    marginTop: 20,
+    marginTop: screenHeight/40,
     backgroundColor: "lightslategrey",
     padding: 15,
     borderRadius: 15,
@@ -119,7 +119,7 @@ const styles= StyleSheet.create({
   },
   btnEndDay: {
     width: screenWidth/2.5,
-    marginTop: 20,
+    marginTop: screenHeight/40,
     backgroundColor: "mediumturquoise",
     padding: 15,
     borderRadius: 15,
@@ -127,7 +127,7 @@ const styles= StyleSheet.create({
   },
   btnEndTravel: {
     width: screenWidth/2.5,
-    marginTop: 20,
+    marginTop: screenHeight/40,
     backgroundColor: "mediumturquoise",
     padding: 15,
     borderRadius: 15,

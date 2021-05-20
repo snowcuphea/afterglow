@@ -39,7 +39,7 @@ class SinglePicture extends React.Component {
             <Ionicons 
               name="checkmark-circle" 
               size={screenWidth/8}
-              color={'pink'}
+              color={'#FFBE58'}
               onPress={() => this.props.unselect(picture.id)}/> :
             <Ionicons
               name="ellipse-outline"  

@@ -45,30 +45,19 @@ const CustomDrawerContent = (props) => {
       url: "SettingsContact"
     },
     {
-      title: "튜토리얼",
-      icon: "help-circle",
-      url: "SettingsTutorial"
-    },
-    {
       title: '설정',
       icon: 'settings-sharp',
       url: 'SettingsMain'
     }
   ]
 
+
+
   const myInfo = [
     {
       title: '총 여행',
       url: userDetail.traveledList.length
     },
-    {
-      title: '지금까지 찍은 사진',
-      url: userDetail.traveledList.length
-    },
-    {
-      title: '지금까지 여행한 시간',
-      url: userDetail.traveledList.length
-    }
   ]
 
   // const signOutWithKakao = async () => {

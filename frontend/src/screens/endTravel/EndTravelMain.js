@@ -176,7 +176,14 @@ class EndTravelMain extends React.Component {
       // 먼저 적는게 위로 감
       <LinearGradient 
       // colors={[ '#355C7D','#355C7D','#6C5B7B','#C06C84','#F67280','#F8B195',]}>
-      colors={[ '#270F36','#642B6B','#C86B98','#F09F9C','#C06C84','#221122']}>
+      // colors={[ '#270F36','#642B6B','#C86B98','#F09F9C','#C06C84',]}>
+      // colors={[ '#221122','#0b3c60']}>
+      // colors={[ '#272f37','#0b3c60']}>
+      colors={[ '#0b3c60','#ffffff']}>
+      {/* colors={[ '#85d7e4','#ffffff']}>  */}
+      {/* colors={[ '#F09C8A','#ffffff']}> */}
+      {/* colors={[ 'black','black']}> */}
+      {/* // colors={[ '#49C4D7', '#ffffff']}> */}
       <ScrollView
         stickyHeaderIndices={[0]}
         showsVerticalScrollIndicator={false}
@@ -316,10 +323,10 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     height: screenHeight/15,
-    backgroundColor: '#270F36',
+    // backgroundColor: '#270F36',
     alignItems: 'center',
     justifyContent: 'space-between',
-    zIndex:100,
+    // zIndex:100,
     elevation: 5, 
   },
   mapBorder:{
