@@ -3,20 +3,14 @@
     <h2>여행의 여운을 남기다.</h2>
     <img alt="Vue logo" src="./assets/ag_logo.png" width="300" height="300">
     <h1>여 운</h1>
-    <a herf="#">APK Download for Android</a>
+    <a herf="https://drive.google.com/drive/folders/1JTCLCmO1HKf2BdCB_JUJJBj9oPEIyJ3j?usp=sharing">APK Download for Android</a>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-
-
 
 export default {
   name: 'App',
-  // components: {
-    //   HelloWorld
-  // }
 }
 </script>
 
