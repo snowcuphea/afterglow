@@ -99,7 +99,7 @@ class OnTravelMain extends React.Component {
   }
 
   timeForm(time) {
-    if ( time === null || time === unde4d ) {
+    if ( time === null || time === undefined ) {
       return '첫 걸음'
     } else {
       const tempTime = time.split(':')
@@ -122,6 +122,13 @@ class OnTravelMain extends React.Component {
           lat : position.coords.latitude,
           lon : position.coords.longitude
         })
+
+        // =====================이거는 추천관광지=================
+      this.props.getRecoPlace({
+        "limit_radius": 3,
+        "cur_latitude": position.coords.latitude,
+        "cur_longitude": position.coords.longitude,
+      });
 
 
         // 확인 완료
@@ -150,12 +157,7 @@ class OnTravelMain extends React.Component {
     );
 
 
-    //=====================이거는 추천관광지=================
-    // this.props.getRecoPlace({
-    //   "limit_radius": 1,
-    //   "cur_latitude": this.state.lat,
-    //   "cur_longitude": this.state.lon,
-    // });
+    
 
   }
 
@@ -267,7 +269,7 @@ class OnTravelMain extends React.Component {
               <View style={[styles.iconAndText, {justifyContent:'center'}]}> 
                 {/* <FontAwesome name="plane" size={25} color={"#333333"}/> */}
                 <Text style={{marginVertical:20, fontSize:20, textAlign:'center' }}>
-                  {this.props.user_nickname}님은, "{this.props.travelingName}" 여행 {this.props.travelingList.length}일 째</Text>
+                  "{this.props.travelingName}" 여행, {this.props.travelingList.length}일 째</Text>
               </View>
             {/* </View> */}
             {/* ================ 여행 안내 끝 ================================= */}
@@ -303,7 +305,9 @@ class OnTravelMain extends React.Component {
               <Ionicons name="flag-sharp" size={25} color={"#333333"}/>
               <Text style={styles.titleStyle}>주변에 이런 곳이 있어요!</Text>
             </View>
-            <RecPlaceList />
+            <View key={this.props.recoPlace}>
+              <RecPlaceList  />
+            </View>
             </View>
           </View>
       }
@@ -345,6 +349,7 @@ function mapStateToProps(state) {
     // todayTravelRoute: state.accountRd.todayTravel.routRecs,
     rdPin : state.accountRd.selectedPin,
     travelingList : state.accountRd.travelingList,
+    recoPlace : state.accountRd.recoPlace,
   }
 }
 
