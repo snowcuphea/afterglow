@@ -187,7 +187,7 @@ const DrawerComponent = () => {
     }
 
     const hasPermission = await PermissionsAndroid.check(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
     );
 
     if (hasPermission) {
@@ -196,7 +196,7 @@ const DrawerComponent = () => {
 
     // permission 요청하기
     const status = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
     );
 
     // 허락되었을 때

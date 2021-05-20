@@ -57,7 +57,7 @@ class LoginScreen extends React.Component {
     return (
     
 
-      <View style={{flex:1}} >
+      <View style={{flex:1, paddingTop: 15}} >
 
         <View style={styles.titleContainer}>
         <Text style={styles.textStyle}>안녕하세요, </Text>
