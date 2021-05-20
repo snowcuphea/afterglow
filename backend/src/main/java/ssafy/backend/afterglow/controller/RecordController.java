@@ -309,12 +309,6 @@ public class RecordController {
                                                     ref.tdName = td.getTdName();
                                                 }
                                             });
-                                    if (ref.nearestTd != null) {
-                                        latestRr.get().setRrLatitude(ref.nearestTd.getTdLatitude());
-                                        latestRr.get().setRrLongitude(ref.nearestTd.getTdLongitude());
-                                        latestRr.get().setLatest_latitude(ref.nearestTd.getTdLatitude());
-                                        latestRr.get().setLatest_longitude(ref.nearestTd.getTdLongitude());
-                                    }
                                     latestRr.get().setRrName(ref.tdName);
                                     result.put("place", ref.tdName);
                                 }
