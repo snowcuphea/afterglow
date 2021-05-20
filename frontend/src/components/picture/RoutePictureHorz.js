@@ -154,17 +154,17 @@ class RoutePicturesHorz extends React.Component {
   render(){
 
     const renderdata = ({ item ,index }) => (
-      <View style={{ flexDirection: 'row', marginTop:15}}>
+      <View style={{ flexDirection: 'row'}}>
         <Image 
           style={{ width: (screenWidth)/8, height: (screenWidth)/8, marginVertical:14, marginHorizontal:4}} 
           source={{ uri: item.uri }} />
-        { index === this.state.data.length - 1 ?
+        {/* { index === this.state.data.length - 1 ?
           <TouchableOpacity
             onPress={() => this.toFullPage()}
             style={{ width: (screenWidth)/8, height: (screenWidth)/8, marginVertical:14, marginHorizontal:4, justifyContent: 'center', alignItems: 'center'}}>
             <Ionicons name="ellipsis-horizontal-outline" size={screenWidth/8}/>
           </TouchableOpacity> : null
-        }
+        } */}
       </View>
     )
 
@@ -172,6 +172,13 @@ class RoutePicturesHorz extends React.Component {
 
     return(
       <View>
+        <TouchableOpacity
+            onPress={() => this.toFullPage()}
+            // style={{ width: (screenWidth)/8, height: (screenWidth)/8, marginVertical:14, marginHorizontal:4, justifyContent: 'center', alignItems: 'center'}}>
+            style={{ marginTop:15 ,justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+            {/* <Ionicons name="ellipsis-horizontal-outline" size={screenWidth/8}/> */}
+            <Text style={{ fontSize:13, color:'grey' }}>전체보기</Text>
+        </TouchableOpacity> 
         <FlatList
           data={this.state.data}
           renderItem={renderdata}
