@@ -127,7 +127,7 @@ const StackComponent = (props) => {
         // gestureEnabled: true,
         // gestureDirection: "horizontal",
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        cardStyle: {backgroundColor: 'ghostwhite'},
+        // cardStyle: {backgroundColor: '#85d7e4'},
         
       }}
       headerMode="float"
@@ -153,7 +153,7 @@ const StackComponent = (props) => {
         name="OnTravelMain"
         component={OnTravelMain}
         options={{
-          title: <Text style={styles.screenText}>"여운 남기는 중"</Text>
+          title: <Text style={styles.screenText}>여운 남기는 중</Text>
         }}
       />
       <Stack.Screen
@@ -168,7 +168,9 @@ const StackComponent = (props) => {
         name="EndTravelMain"
         component={EndTravelMain}
         options={{
-          title: <Text style={styles.screenText}>여운 남기기</Text>
+          title: <Text style={styles.screenText}>여운 남기기</Text>,
+          headerStyle:{ backgroundColor:'transparent'}
+          
         }}
       />
       <Stack.Screen

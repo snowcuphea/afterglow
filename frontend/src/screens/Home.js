@@ -70,7 +70,10 @@ class HomeScreen extends React.Component {
             <TouchableOpacity 
               onPress={this.continueTravel}
               style={styles.startBtn}>
-              <Ionicons name="airplane" size={60} color={"skyblue"}/>
+              {/* <Ionicons name="airplane" size={60} color={"skyblue"}/> */}
+              <Image 
+              style={{width: 60, height: 60}}
+              source={require('../assets/pics/airplane.png')}/>
             </TouchableOpacity>
   
             }
@@ -116,11 +119,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   startBtn: {
-    backgroundColor: "blue",
-    borderColor: "black",
-    borderWidth: 3,
+    backgroundColor: "#49C4D7",
+    borderColor: "#0b3c60",
+    borderWidth: 1.5,
     padding:20,
-    borderRadius: 180
+    borderRadius: 180,
+    elevation:3,
   }, 
 
 })
