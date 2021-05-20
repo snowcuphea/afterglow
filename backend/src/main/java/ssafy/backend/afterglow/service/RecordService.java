@@ -120,7 +120,7 @@ public class RecordService {
 
 
     public List<TourDestination> getToursInRange(Double radius, Double latitude, Double longitude){
-        List<TourDestination> result = tourRepo.findAll();
+        List<TourDestination> result = new ArrayList<>();
         tourRepo.findAll()
                 .stream()
                 .forEach(td -> {
