@@ -34,11 +34,15 @@ class HomeScreen extends React.Component {
         this.props.travelStatus === "travelEndd" ) {
       await this.props.getRecordListReq()
       await this.props.getCurrentInfo(this.props.dr_id)
-      await this.props.navigation.navigate('OnTravelMain')
+      setTimeout(() => {
+        this.props.navigation.navigate('OnTravelMain')
+      }, 500)
     } else if ( this.props.travelStatus === "dayEnd" || this.props.travelStatus === "travelEnd" ) {
       await this.props.getRecordListReq()
       await this.props.getCurrentInfo(this.props.dr_id)
-      await this.props.navigation.navigate('EndTravelMain')
+      setTimeout(()=>{
+        this.props.navigation.navigate('EndTravelMain')
+      }, 500)
     } else {
       console.warn(this.props.travelStatus)
     }
@@ -81,7 +85,7 @@ class HomeScreen extends React.Component {
           null  
         }
 
-        <View style={{position: 'absolute', flexDirection: "row", top: 0, backgroundColor: 'grey'}}>
+        <View style={{position: 'absolute', flexDirection: "row", top: 0, backgroundColor: 'lightgrey'}}>
           <TouchableOpacity
             disabled={this.state.mode=== "map" ? true: false}
             style={[styles.segmentBtn, { marginLeft : 3},this.state.mode === "map" ? {backgroundColor: '#49C4D7'} : null]}

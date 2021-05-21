@@ -33,7 +33,9 @@ class ModalStartTravel extends React.Component {
   startTravel = async () => {
     await this.props.setTravelName(this.state.travelName)
     await this.props.changeStatus('onTravel')
-    await this.props.navigation.navigate('OnTravelMain')
+    setTimeout(() => {
+      this.props.navigation.navigate('OnTravelMain')
+    }, 500)
     this.setState({ modalVisible: false });
   }
 

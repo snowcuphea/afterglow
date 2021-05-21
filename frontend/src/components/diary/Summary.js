@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, Dimensions, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 
 import { connect } from 'react-redux'
 
@@ -12,6 +12,7 @@ import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-nativ
 import MoneyBook from '../../components/book/MoneyBook'
 
 import { getRecordPicture } from '../../api/picture'
+
 
 class Summary extends React.Component {
 
@@ -154,17 +155,61 @@ class Summary extends React.Component {
 
     var markerArr = [];
 
-    for (var markerDay of this.props.record.dayRecs) {
-      for (var markerRoute of markerDay.routeRecs) {
-        var markerForm = {
-          latitude: markerRoute.rr_latitude,
-          longitude: markerRoute.rr_longitude
+    for (var day of this.props.record.dayRecs) {
+      for (var route of day.routeRecs) {
+        if ( route.rr_name !== null ) {
+          var markerForm = {
+            rr_name: route.rr_name,
+            coord: {
+              latitude: route.rr_latitude,
+              longitude: route.rr_longitude
+            }
+          }
+          markerArr.push(markerForm)
         }
-        markerArr.push(markerForm)
-
       }
     }
+    return markerArr
   }
+
+  async toVideo() {
+
+    var pictureArr = []
+    await getRecordPicture(
+      this.props.record.rec_id,
+      (res) => {
+        const tempDate = []
+        for ( var day of this.props.record.dayRecs) {
+          if (tempDate.includes(day.dr_date)) {
+            continue
+          } else {
+            tempDate.push(day.dr_date)
+          }
+          for ( var data of res.data[day.dr_date] ){
+            var base64Image = `data:image/jpeg;base64,${data.ir_image}`
+            const pictureForm = {
+              id: data.img_id,
+              uri: base64Image,
+              imageSize: {
+                width: data.width,
+                height: data.height
+              }
+            }
+            pictureArr.unshift(pictureForm)
+          }
+        }
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+
+    this.props.navigation.navigate('SlideShow', { pictures: pictureArr })
+
+
+  }
+
+
 
   render() {
 
@@ -189,27 +234,28 @@ class Summary extends React.Component {
               initialRegion={{
                 latitude: this.props.record.dayRecs[0].routeRecs.length === 0 || this.props.record.dayRecs[0].routeRecs[0].rr_latitude === undefined ? 126.3128 :this.props.record.dayRecs[0].routeRecs[0].rr_latitude,
                 longitude: this.props.record.dayRecs[0].routeRecs.length === 0 || this.props.record.dayRecs[0].routeRecs[0].rr_latitude === undefined ? 33.2364 : this.props.record.dayRecs[0].routeRecs[0].rr_longitude,
-                latitudeDelta: 0.1,
-                longitudeDelta: 0.1
+                latitudeDelta: 0.03,
+                longitudeDelta: 0.03
               }}
               style={{ flex:1, margin: 10 }}
             >
-              {/* <Polyline
+              <Polyline
                 coordinates={this.getPolyLine()}
                 strokeColor='red'
-                strokeWidth={1}
+                strokeWidth={2}
               >
               </Polyline>
               {
                 this.getMarker().map((marker, markerIndex) => {
                   return (
                     <MapView.Marker
-                      coordinate={marker}
+                      coordinate={marker.coord}
                       key={markerIndex}
+                      title={marker.title}
                     />
                   )
                 })
-              } */}
+              }
 
 
 
@@ -225,6 +271,13 @@ class Summary extends React.Component {
             <Text style={styles.textStyle}><Text style={{ color: 'royalblue'}}>{this.totalPlaces()}</Text>개의 관광지를 들르고</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'salmon' }}>{this.getTotalPictures()}</Text>장의 사진을 찍고</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.state.savedPicture}</Text>장의 사진으로 <Text style={{backgroundColor:'cornsilk'}}>여운</Text>을 남겼어요.</Text>
+
+            <View style={{ borderRadius: 15,alignItems:'center',alignSelf: 'center',justifyContent: 'center', height: 50, width: 100, backgroundColor: '#49C4D7'}}>
+              <TouchableOpacity onPress={() => this.toVideo()}>
+                  <Text>회상하기</Text>
+              </TouchableOpacity>
+            </View>
+
         </Card>
 
         <Card containerStyle={[{marginHorizontal:0}, styles.bookContainer]}>

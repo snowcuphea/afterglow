@@ -14,6 +14,8 @@ import store from './src/store/index'
 
 import { setCustomText } from 'react-native-global-props'
 
+import SplashScreen from 'react-native-splash-screen'
+
 LogBox.ignoreLogs(['Warning: ...']); 
 LogBox.ignoreAllLogs();
 
@@ -31,7 +33,11 @@ setCustomText(customTextProps);
 
 export default class App extends React.Component {
 
-  
+  componentDidMount() {
+    setTimeout(()=> {
+      SplashScreen.hide()
+    }, 1000)
+  }
 
   render() {
     

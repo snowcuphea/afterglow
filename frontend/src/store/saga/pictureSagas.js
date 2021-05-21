@@ -9,10 +9,10 @@ export function* savePictureAsync(action) {
   try {
 
     for ( var picture of action.payload) {
-
       var newuri = ''
       yield ImageResizer.createResizedImage(picture.uri, picture.imageSize.width/2, picture.imageSize.height/2, 'JPEG', 80, 0, undefined )
         .then((res) => {
+          console.log(res)
           newuri = res.uri
         })
         .catch( (err) => {

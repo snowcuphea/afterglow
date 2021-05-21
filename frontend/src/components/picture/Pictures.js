@@ -120,7 +120,7 @@ class Pictures extends React.Component {
           var height = picture.node.image.width
         }
         const pictureForm = {
-          id: picture.node.timestamp,
+          id: '_' + Math.random().toString(36).substr(2, 9),
           rr_id: 0,
           timestamp : picture.node.timestamp * 1000, // s 단위로 오는거 ms 단위로 바꿔줘야한다
           location : picture.node.location,
