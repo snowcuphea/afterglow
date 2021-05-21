@@ -339,7 +339,7 @@ const DrawerComponent = () => {
     }, 5000)
   }
 
-  if ((travelStatus === 'dayEnd' || travelStatus === 'travelEnd')&&(foregroundService === true && observing === true)) {
+  if ((travelStatus === 'dayEnd' || travelStatus === 'travelEnd' || travelStatus === "rest")&&(foregroundService === true && observing === true)) {
 
     removeLocationUpdates()
 

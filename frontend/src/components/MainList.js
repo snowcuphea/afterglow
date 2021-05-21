@@ -69,6 +69,7 @@ class MainList extends React.Component{
               pics : [ ...this.state.pics, 'no']
             })
           } else {
+            // console.log(tempArr)
             var result = tempArr[Math.floor(Math.random() * tempArr.length)]
             this.setState({
               ...this.state,

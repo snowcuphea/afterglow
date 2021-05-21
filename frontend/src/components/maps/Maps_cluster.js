@@ -18,7 +18,6 @@ class Maps_cluster extends React.Component {
     super(props)
   }
 
-
   toSingleHistory = (index) => {
     this.props.selectIndex(index)
     this.props.navigation.navigate("SingleTravelHistory")
@@ -31,7 +30,7 @@ class Maps_cluster extends React.Component {
         style={{ flex:1 }}
         zoomControlEnabled
       > 
-        {
+        { this.props.traveledList.length > 0 ?
           this.props.traveledList.map((travelItem, index) => {
             // console.log("도대체왜", JSON.stringify(travelItem,null,2))
             if ( travelItem.dayRecs[0].routeRecs.length === 0 || travelItem.dayRecs[0].routeRecs[0].rr_latitude === undefined) {
@@ -51,7 +50,7 @@ class Maps_cluster extends React.Component {
 
               )
             }
-          })
+          }) : null
         }
 
       </MapView>

@@ -97,7 +97,7 @@ class OnTravelMain extends React.Component {
 
   componentDidMount () {
 
-    console.log(JSON.stringify(this.props.recoPlace,null,2))
+    // console.log(JSON.stringify(this.props.recoPlace,null,2))
 
     Geolocation.getCurrentPosition(
       (position) => {
