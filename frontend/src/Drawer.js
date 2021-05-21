@@ -60,19 +60,6 @@ const CustomDrawerContent = (props) => {
     },
   ]
 
-  // const signOutWithKakao = async () => {
-  //   await logout()
-  //   .then(res => {
-  //     console.log(res)
-  //     this.props.logout()
-  //     this.props.initialPicture()
-  //     CookieManager.clearAll().then((success) => { console.log("cookie clear ", success)})
-  //     this.props.navigation.navigate("Login")
-  //   }) .catch(err => 
-  //     console.log(err)
-  //   )
-
-  // };
 
   return (
     <SafeAreaView style={{flex:1}}>
@@ -426,6 +413,7 @@ const styles = StyleSheet.create({
   image: {
     height: 60,
     width: 60,
+    borderRadius: 90,
   },
   infoItem: {
     flexDirection: 'row'

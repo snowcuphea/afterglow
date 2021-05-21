@@ -147,7 +147,7 @@ class Diary extends React.Component {
             null :
             <Text style={{height: screenHeight/17, textAlignVertical:"center"}}> {this.changeToTimezone(item.time)} </Text>
           }
-          <Text style={{height: screenHeight/17, textAlignVertical:"center"}}> {item.name} </Text>
+          <Text style={{height: screenHeight/17, textAlignVertical:"center"}}> "{item.name}" </Text>
           { item.memo === null ? 
             <Text style={{height: screenHeight/10, marginHorizontal: 5 ,textAlignVertical:"center"}}>
               {item.name}에 여운을 남기고 왔다. 

@@ -96,7 +96,9 @@ class OnTravelMain extends React.Component {
   }
 
   componentDidMount () {
-    // console.log(this.changeToTimezone(this.props.todayTravel.dr_start_time))
+
+    console.log(JSON.stringify(this.props.recoPlace,null,2))
+
     Geolocation.getCurrentPosition(
       (position) => {
         // 확인 완료
@@ -206,7 +208,7 @@ class OnTravelMain extends React.Component {
               latitudeDelta: 0.007,
               longitudeDelta: 0.007
             }}
-            style={{height:200}}
+            style={{height:250}}
             showsUserLocation = {true}
           >
             <Polyline
@@ -224,6 +226,7 @@ class OnTravelMain extends React.Component {
                         coordinate={{latitude: marker.rr_latitude, longitude: marker.rr_longitude}}
                         key={index}
                         title={marker.rr_name}
+                        pinColor={'red'}
                         onPress={()=> {}}
                       />
 
@@ -232,11 +235,23 @@ class OnTravelMain extends React.Component {
                 }
               )
             }
-
-            {/* 추천 여행지 관련 마커
             {
-              this.props
-            } */}
+              this.props.recoPlace.map((marker, index) => 
+                {
+                  return (
+                    <Marker
+                      coordinate={{latitude: marker.td_latitude, longitude: marker.td_longitude}}
+                      key={index}
+                      title={marker.td_name}
+                      pinColor={'orange'}
+                    />
+
+                  )
+                }
+              )
+            }
+
+            
 
 
           </MapView>

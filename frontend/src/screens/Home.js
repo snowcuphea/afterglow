@@ -34,11 +34,15 @@ class HomeScreen extends React.Component {
         this.props.travelStatus === "travelEndd" ) {
       await this.props.getRecordListReq()
       await this.props.getCurrentInfo(this.props.dr_id)
-      await this.props.navigation.navigate('OnTravelMain')
+      setTimeout(() => {
+        this.props.navigation.navigate('OnTravelMain')
+      }, 500)
     } else if ( this.props.travelStatus === "dayEnd" || this.props.travelStatus === "travelEnd" ) {
       await this.props.getRecordListReq()
       await this.props.getCurrentInfo(this.props.dr_id)
-      await this.props.navigation.navigate('EndTravelMain')
+      setTimeout(()=>{
+        this.props.navigation.navigate('EndTravelMain')
+      }, 500)
     } else {
       console.warn(this.props.travelStatus)
     }

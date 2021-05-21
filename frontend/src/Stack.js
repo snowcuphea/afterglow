@@ -14,7 +14,9 @@ import SingleTravelHistory from './screens/travelHistory/SingleTravelHistory';
 import SavePictures from './screens/common/SavePictures';
 import SinglePicture from './screens/common/SinglePicture';
 import ShowPictures from './screens/common/ShowPictures';
+import SlideShow from './screens/common/SlideShow';
 import EndTravelMain from './screens/endTravel/EndTravelMain';
+
 
 import ActionCreator from './store/actions'
 import SettingsNotice from './screens/settingss/SettingsNotice';
@@ -23,8 +25,6 @@ import SettingsLicense from './screens/settingss/SettingsLicense';
 import SettingsTou from './screens/settingss/SettingsTou';
 import SettingsTutorial from './screens/settingss/SettingsTutorial';
 import SettingsProfile from './screens/settingss/SettingsProfile';
-
-import { upload } from './api/picture'
 
 const Stack = createStackNavigator();
 
@@ -204,46 +204,70 @@ const StackComponent = (props) => {
           headerRight: () => <SavePicture {...props} />,
         }}
       />
+      <Stack.Screen 
+        name="SlideShow"
+        component={SlideShow}
+        options={{
+          headerRight: false,
+          headerStyle: {
+            backgroundColor: 'black',
+          },
+          title: false,
+          headerLeft: () => {
+            return (
+              <TouchableOpacity style={{marginLeft: 20}} onPress={() => {props.navigation.goBack()}}>
+                <Ionicons name={"close-outline"} size={30} color={'white'}></Ionicons>
+              </TouchableOpacity>
+            )
+          }
+        }}
+      />
       <Stack.Screen
         name="SettingsNotice"
         component={SettingsNotice}
         options={{
-          title: '공지사항'
+          title: '공지사항',
+          headerRight: false,
         }}
       />
       <Stack.Screen
         name="SettingsContact"
         component={SettingsContact}
         options={{
-          title: '고객센터'
+          title: '고객센터',
+          headerRight: false,
         }}
       />
       <Stack.Screen
         name="SettingsLicense"
         component={SettingsLicense}
         options={{
-          title: '라이센스'
+          title: '라이센스',
+          headerRight: false,
         }}
       />
       <Stack.Screen
         name="SettingsTou"
         component={SettingsTou}
         options={{
-          title: '이용약관'
+          title: '이용약관',
+          headerRight: false,
         }}
       />
       <Stack.Screen
         name="SettingsTutorial"
         component={SettingsTutorial}
         options={{
-          title: '튜토리얼'
+          title: '튜토리얼',
+          headerRight: false,
         }}
       />
       <Stack.Screen
         name="SettingsProfile"
         component={SettingsProfile}
         options={{
-          title: '프로필 및 계정관리'
+          title: '프로필 및 계정관리',
+          headerRight: false,
         }}
       />
     </Stack.Navigator>

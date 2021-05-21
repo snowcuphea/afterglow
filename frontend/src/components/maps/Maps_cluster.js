@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import MapView from "react-native-map-clustering";
 import { Marker } from "react-native-maps";
-
+import {View} from 'react-native'
 import { connect } from 'react-redux'
 import ActionCreator from '../../store/actions'
 
@@ -30,7 +30,7 @@ class Maps_cluster extends React.Component {
         initialRegion={INITIAL_REGION}
         style={{ flex:1 }}
         zoomControlEnabled
-      >
+      > 
         {
           this.props.traveledList.map((travelItem, index) => {
             // console.log("도대체왜", JSON.stringify(travelItem,null,2))
@@ -48,6 +48,7 @@ class Maps_cluster extends React.Component {
                 >
   
                 </Marker>
+
               )
             }
           })

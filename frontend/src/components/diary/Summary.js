@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, Dimensions, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 
 import { connect } from 'react-redux'
 
@@ -12,6 +12,7 @@ import MapView, { Marker, Callout, Polyline, Polygon, Circle } from "react-nativ
 import MoneyBook from '../../components/book/MoneyBook'
 
 import { getRecordPicture } from '../../api/picture'
+
 
 class Summary extends React.Component {
 
@@ -171,6 +172,45 @@ class Summary extends React.Component {
     return markerArr
   }
 
+  async toVideo() {
+
+    var pictureArr = []
+    await getRecordPicture(
+      this.props.record.rec_id,
+      (res) => {
+        const tempDate = []
+        for ( var day of this.props.record.dayRecs) {
+          if (tempDate.includes(day.dr_date)) {
+            continue
+          } else {
+            tempDate.push(day.dr_date)
+          }
+          for ( var data of res.data[day.dr_date] ){
+            var base64Image = `data:image/jpeg;base64,${data.ir_image}`
+            const pictureForm = {
+              id: data.img_id,
+              uri: base64Image,
+              imageSize: {
+                width: data.width,
+                height: data.height
+              }
+            }
+            pictureArr.unshift(pictureForm)
+          }
+        }
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+
+    this.props.navigation.navigate('SlideShow', { pictures: pictureArr })
+
+
+  }
+
+
+
   render() {
 
     const history = this.props.record
@@ -231,6 +271,13 @@ class Summary extends React.Component {
             <Text style={styles.textStyle}><Text style={{ color: 'royalblue'}}>{this.totalPlaces()}</Text>개의 관광지를 들르고</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'salmon' }}>{this.getTotalPictures()}</Text>장의 사진을 찍고</Text>
             <Text style={styles.textStyle}><Text style={{ color: 'cornflowerblue'}}>{this.state.savedPicture}</Text>장의 사진으로 <Text style={{backgroundColor:'cornsilk'}}>여운</Text>을 남겼어요.</Text>
+
+            <View style={{ borderRadius: 15,alignItems:'center',alignSelf: 'center',justifyContent: 'center', height: 50, width: 100, backgroundColor: '#49C4D7'}}>
+              <TouchableOpacity onPress={() => this.toVideo()}>
+                  <Text>회상하기</Text>
+              </TouchableOpacity>
+            </View>
+
         </Card>
 
         <Card containerStyle={[{marginHorizontal:0}, styles.bookContainer]}>

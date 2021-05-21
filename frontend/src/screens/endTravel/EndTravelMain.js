@@ -23,6 +23,7 @@ import AddMoneyItem from '../../components/book/AddMoneyItem'
 import { connect } from 'react-redux'
 import ActionCreator from '../.././store/actions'
 
+import { getDayPicture } from '../../api/picture'
 
 import { CommonActions } from '@react-navigation/native'
 import { round } from 'react-native-reanimated';
@@ -128,14 +129,18 @@ class EndTravelMain extends React.Component {
   }
 
   changeToTimezone(time) {
-    const nowTime = new Date()
-    const tempTime = time.split(' ')
-    const toDate = tempTime[0].split('-')
-    const toTime = tempTime[1].split(':')
-    const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
-    const changedTimezone = new Date(tempTimeStamp)
-    const changedDate = changedTimezone.toISOString().split('T')
-    return this.dateForm(changedDate[0])
+    try {
+      const nowTime = new Date()
+      const tempTime = time.split(' ')
+      const toDate = tempTime[0].split('-')
+      const toTime = tempTime[1].split(':')
+      const tempTimeStamp = new Date(toDate[0],toDate[1]-1,toDate[2],toTime[0].slice(1),toTime[1],toTime[2]).getTime()+(-1*nowTime.getTimezoneOffset()*60000)*2
+      const changedTimezone = new Date(tempTimeStamp)
+      const changedDate = changedTimezone.toISOString().split('T')
+      return this.dateForm(changedDate[0])
+    } catch (error) {
+      return null
+    }
   }
 
   dateForm(date) {
@@ -214,6 +219,8 @@ class EndTravelMain extends React.Component {
             }
           </View>
         </View>
+      
+
 
       <View style={{alignItems:'center', justifyContent:'center', marginTop:20}}>
         <Text style={styles.titleStyle}>행복했던 {this.changeToTimezone(this.props.todayTravel.dr_start_time)}의 기록</Text>
@@ -230,8 +237,8 @@ class EndTravelMain extends React.Component {
               region = {{
                   latitude: this.props.todayTravel.routeRecs.length === 0 || this.props.todayTravel.routeRecs[0].rr_latitude === undefined ? 37.57982954633664 : this.props.todayTravel.routeRecs[0].rr_latitude,
                   longitude: this.props.todayTravel.routeRecs.length === 0 || this.props.todayTravel.routeRecs[0].rr_longitude === undefined ? 126.9770088111815 : this.props.todayTravel.routeRecs[0].rr_longitude,
-                  latitudeDelta: 0.03,
-                  longitudeDelta: 0.03
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01
 
               }}
           >
