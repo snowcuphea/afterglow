@@ -43,10 +43,10 @@ class MainList extends React.Component{
     this.props.navigation.navigate("SingleTravelHistory")
   }
 
-  componentDidMount() {
+  async componentDidMount() {
 
     for ( var record of this.props.traveledList ) {
-      getRecordPicture(
+      await getRecordPicture(
         record.rec_id,
         (res) => {
           // console.log(res.data)
