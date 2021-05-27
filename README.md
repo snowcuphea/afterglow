@@ -63,15 +63,29 @@
 
 ### Frontend 구성 요소
 
-| Vue 라이브러리 | Version | Comment                        |
-| :------------: | :-----: | :----------------------------- |
-|     axios      | 0.21.1  | 서버로 요청을 보내기 위해 사용 |
-|  React-Native  |         |                                |
-|      Vue       |         | 랜딩 페이지(설치 경로 연결)    |
+|   Frontend   | Version | Comment                       |
+| :----------: | :-----: | :---------------------------- |
+|     Vue      | 2.6.11  | 랜딩 페이지 (설치 경로 연결 ) |
+| React-Native | 0.64.0  | 앱 제작                       |
 
 
 
-
+|                   React 라이브러리                    | Version | Comment                                                  |
+| :---------------------------------------------------: | :-----: | :------------------------------------------------------- |
+|                         axios                         | 0.21.1  | REST API 요청                                            |
+|              react-native-async-storage               | 1.15.4  | 로컬저장소 사용                                          |
+|           react-native-community/cameraroll           |  4.0.4  | 갤러리에서 사진 불러오기                                 |
+|          react-native-community/geolocation           |  2.0.2  | 현재 내 위치 정보                                        |
+|             react-native-cookies/cookies              |  6.0.7  | 토큰을 쿠키게 저장하기 위해 사용                         |
+|            react-native-seoul/kakao-login             |  3.3.2  | 카카오 로그인 구형                                       |
+|                   react-navigation                    | 5.12.5  | stack, drawer 등 화면이동을 위해 사용                    |
+| @voximplant/react-native-foreground-service": "^2.0.0 |  2.0.0  | 앱이 실행중이 아닐 때 위치 추적을 위해 사용              |
+|           react-native-geolocation-service            |  5.3.0  | 앱이 살행중일 때 위치 추적                               |
+|              react-native-image-resizer               |  1.4.4  | 1mb가 넘어가는 사진의 해상도를 낮추어 저장하기 위해 사용 |
+|                   react-native-maps                   | 0.28.0  | google map을 표시하기 위해 사용                          |
+|                         redux                         |  4.1.0  | data를 중앙 관리 하기 위해 사용                          |
+|                     redux-persist                     |  6.0.0  | 중앙 관리 하는 data를 유지시키기 위해 사용               |
+|                      redux-saga                       |  1.1.3  | 비동기로 data를 중앙 관리 하기 위해 사용                 |
 
 ## 구동방법
 
@@ -119,6 +133,22 @@ spring:
 
 
 ### Client
+
+```bash
+# /frontend (react)
+
+$ yarn install
+
+$ react-native run-android
+
+# /frontendweb (vue)
+
+$ yarn install
+
+$ yarn serve
+```
+
+
 
 > https://drive.google.com/drive/folders/1JTCLCmO1HKf2BdCB_JUJJBj9oPEIyJ3j
 >
