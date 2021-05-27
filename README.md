@@ -87,7 +87,7 @@
 |             react-native-cookies/cookies              |  6.0.7  | 토큰을 쿠키게 저장하기 위해 사용                         |
 |            react-native-seoul/kakao-login             |  3.3.2  | 카카오 로그인 구형                                       |
 |                   react-navigation                    | 5.12.5  | stack, drawer 등 화면이동을 위해 사용                    |
-| @voximplant/react-native-foreground-service": "^2.0.0 |  2.0.0  | 앱이 실행중이 아닐 때 위치 추적을 위해 사용              |
+| @voximplant/react-native-foreground-service |  2.0.0  | 앱이 실행중이 아닐 때 위치 추적을 위해 사용              |
 |           react-native-geolocation-service            |  5.3.0  | 앱이 살행중일 때 위치 추적                               |
 |              react-native-image-resizer               |  1.4.4  | 1mb가 넘어가는 사진의 해상도를 낮추어 저장하기 위해 사용 |
 |                   react-native-maps                   | 0.28.0  | google map을 표시하기 위해 사용                          |
