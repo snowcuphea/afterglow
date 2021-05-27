@@ -1,4 +1,4 @@
-# Afterglow(여운)
+# 여운(AfterGlow)
 
 <div align=center>
     <img src="https://img.shields.io/badge/platform-web-green">
@@ -11,13 +11,21 @@
 </div>
 
 
- 여행 경로, 찍은 사진, 메모, 가계부 등 자동으로 여행 정보를 기록하는 모바일 어플리케이션. (현재 진행 중으로 개발 완료 시 문서 보충 예정)
+여운은  사용자가 여행을 하는 동안 사용자의 위치를 받아와 방문지를 자동으로 저장하고, 방문지에 따라 사진을 분류해 여행 기록을 저장해주는 모바일 앱 서비스입니다.
 
-* 수행 기간:  2021.04.11 ~ (2021.05.21 종료 예정)
+여행 경로, 찍은 사진, 메모, 가계부 등 자동으로 여행 정보를 기록합니다.
+
+
+
+
+
+* 수행 기간:  2021.04.11 ~ 2021.05.21
 
 - UCC : https://youtu.be/eXq92L7ck0s
 
 - 시연 영상 : https://youtu.be/dsKoFuJl8U0
+
+
 
 ## 목차
 
@@ -166,11 +174,19 @@ $ yarn serve
 - 핀에는 빅데이터에서 가져온 350m내 관광지 or 직접 작성한 이름과 메모를 포함합니다.
 - 핀 주변에서 찍은 사진은 핀에 종속되며 장소별 사진 분류에 이용 됩니다.
 
+<img src="images/Screenshot_20210521-143959.jpg" alt="Screenshot_20210521-143959" style="zoom:25%;" />
+
+
+
 
 
 ### 2. 가계부 기록
 
 > 사용자가 직접 소비 내역, 출처를 기록합니다.
+
+<img src="images/Screenshot_20210521-150749.jpg" alt="Screenshot_20210521-150749" style="zoom:25%;" />
+
+
 
 
 
@@ -178,14 +194,28 @@ $ yarn serve
 
 > 하루가 끝난 시점에 사진들을 장소로 분류하여 보고 선택한 사진만 데이터베이스에 저장합니다. 
 
+<img src="images/Screenshot_20210521-144012.jpg" alt="Screenshot_20210521-144012" style="zoom:25%;" />
+
+
+
 
 
 ### 4. 여행지 추천
 
 > 가까운 위치의 여행지를 추천해줍니다. 
 
+<img src="images/Screenshot_20210521-150749-1622114124556.jpg" alt="Screenshot_20210521-150749" style="zoom:25%;" />
+
+
+
+
+
 
 
 ### 5. 슬라이드쇼 생성
 
 > DB에서 사진을 가져와 자동으로 슬라이드쇼를 생성합니다.
+
+
+
+<img src="images/Screenshot_20210521-150501.jpg" alt="Screenshot_20210521-150501" style="zoom:20%;" />      <img src="images/Screenshot_20210521-142951-1622114270612.jpg" alt="Screenshot_20210521-142951" style="zoom:20%;" />
