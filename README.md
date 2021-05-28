@@ -103,11 +103,13 @@
 
 ```bash
 # /backend
+# 위 폴더에서 아래 프롬프트 명령 실행
 gradle build
 java -jar build/libs/backend-0.0.1-SNAPSHOT.war
 ```
 
 ```bash
+# 아래 폴더에 yml파일 생성, kakao developer에서 어플리케이션을 생성하여 rest api key와 secret key 발급, mariaDB에 dump csv 파일 넣은 후 실행.
 # /backend/src/main/resources/application.yml
 kakao_rest_api_key: <kakao_rest_api_key>
 kakao_secret: <kakao_secret_key>(optional)
