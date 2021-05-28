@@ -150,8 +150,6 @@ spring:
 >
 > 위 모든 과정은 /frontend 폴더 내에서 `react-native doctor` 명령어를 통해 프로젝트 세팅에 부족한 점을 자동으로 진단 후, 나오는 안내에 따라 명령어를 입력하면 자동으로 세팅을 해준다
 
-> 프로젝트에 사용되는 구글맵과 카카오톡 로그인은 특별한 세팅 없이 바로 사용 가능하다.
-
 ```bash
 # 기본 구동 코드
 
@@ -186,7 +184,58 @@ $ yarn serve
 
 
 
+### 카카오톡 로그인
 
+```bash
+# /frontend/android/app/src/main/res/values/strings.xml
+
+<resources>
+    <string name="app_name"> <앱 이름> </string>
+    <string name="kakao_app_key"> <kakao_app_key> </string>
+</resources>
+
+# /frontend/android/app/src/main/AndroidManifest.xml
+      <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity">
+        <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+
+          <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
+          <data android:host="oauth"
+                android:scheme="kakao<kakao_app_key>" />
+        </intent-filter>
+      </activity>
+```
+
+![image-20210528154740788](images/image-20210528154740788.png)
+
+> kakao developers, 내 애플리케이션에서 앱을 등록하면 해당 앱키를 발급 받을 수 있다.
+>
+> 발급받은 키 중 1번 네이티브 앱 키를 사용하면 된다.
+
+![image-20210528154858960](images/image-20210528154858960.png)
+
+> 위에서 생성한 앱의 플랫폼 관리에서 Android 플랫폼을 등록해야 한다. 패키지명은 `com.frontend`, 마켓 URL은 자동 생성, 키 해시는 `Xo8WBi6jzSxKDVR4drqm84yr9iU=` 입력을 해준다.
+
+![image-20210528155044065](images/image-20210528155044065.png)
+
+> 웹 플랫폼도 다음과 같이 등록한다.
+
+![image-20210528155153784](images/image-20210528155153784.png)
+
+> 마지막으로 제품 설정의 카카오 로그인에 들어가서 활성화를 해줘야 한다.
+
+```bash
+# 위 복잡한 과정은 이미 등록한 앱에서 받은 key를 사용해서 생략할 수 있다.
+
+# /backend/src/main/resources/application.yml
+<kakao_rest_api_key> = dd258d21f2e0c4537cea24e83ff201cc
+
+# /frontend/android/app/src/main/res/values/strings.xml
+<앱_이름> = 여운
+<kakao_app_key> = 4adf24474bea143abc062377b42e9c28
+```
 
 
 
