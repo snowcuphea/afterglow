@@ -97,7 +97,7 @@
 
 ## 구동방법
 
-
+> 필요한 데이터베이스 덤프 파일은 exec 폴더에서 확인 가능합니다.
 
 ### Server
 
@@ -142,19 +142,51 @@ spring:
 
 ### Client
 
+> frontend 폴더의 react-native 프로젝트 가동 전 `https://reactnative.dev/docs/environment-setup` 참고
+>
+> 1. Node와 JDK( 8,11 ) 설치 및 환경설정 확인
+> 2. Android Studio ( Android SDK, Android SDK Platform, Android Virtual Device ) 설치 및 환경설정 확인
+> 3. Android Studio 내에서 에뮬레이터 설미 확인
+>
+> 위 모든 과정은 /frontend 폴더 내에서 `react-native doctor` 명령어를 통해 프로젝트 세팅에 부족한 점을 자동으로 진단 후, 나오는 안내에 따라 명령어를 입력하면 자동으로 세팅을 해준다
+
+> 프로젝트에 사용되는 구글맵과 카카오톡 로그인은 특별한 세팅 없이 바로 사용 가능하다.
+
 ```bash
-# /frontend (react)
+# 기본 구동 코드
+
+# /frontend (react) - 실제 안드로이드 apk 파일을 만들기 위한 폴더 
 
 $ yarn install
 
 $ react-native run-android
 
-# /frontendweb (vue)
+# 사용하는 모듈의 호환성이 좋지 못해 한번에 빌드가 되지 않는 경우가 발생할 수도 있습니다. 만약 빌드 에러가 뜨게 되면 다음과 같이 하십시오.
+$ cd ./android
+
+$ ./gradlew clean
+# 실패시 보통 2~3번 시도하면 성공
+
+$ ./gradlew assembledebug
+# 위와 동일하게 2~3번 시도하면 성공
+
+# 다시 기존 frontend 폴더로 돌아온다
+$ cd ..
+
+$ react-native run-android
+
+
+
+# /frontendweb (vue) - 랜딩 페이지
 
 $ yarn install
 
 $ yarn serve
 ```
+
+
+
+
 
 
 
