@@ -190,8 +190,8 @@ $ yarn serve
 # /frontend/android/app/src/main/res/values/strings.xml
 
 <resources>
-    <string name="app_name"> <앱 이름> </string>
-    <string name="kakao_app_key"> <kakao_app_key> </string>
+    <string name="app_name"> <app_name> </string>
+    <string name="kakao_app_key"> <kakao_native_app_key> </string>
 </resources>
 
 # /frontend/android/app/src/main/AndroidManifest.xml
@@ -203,7 +203,7 @@ $ yarn serve
 
           <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
           <data android:host="oauth"
-                android:scheme="kakao<kakao_app_key>" />
+                android:scheme="kakao<kakao_native_app_key>" />
         </intent-filter>
       </activity>
 ```
@@ -232,10 +232,29 @@ $ yarn serve
 # /backend/src/main/resources/application.yml
 <kakao_rest_api_key> = dd258d21f2e0c4537cea24e83ff201cc
 
-# /frontend/android/app/src/main/res/values/strings.xml
-<앱_이름> = 여운
-<kakao_app_key> = 4adf24474bea143abc062377b42e9c28
+# /frontend/android/app/src/main/res/values/strings.xml & /frontend/android/app/src/main/AndroidManifest.xml
+<app_name> = 여운
+<kakao_native_app_key> = 4adf24474bea143abc062377b42e9c28
 ```
+
+
+
+### 구글 맵
+
+```bash
+# /frontend/android/app/src/main/AndroidManifest.xml
+
+      <meta-data 
+        android:name="com.google.android.geo.API_KEY"
+        android:value="<google_api_key>"/>
+        
+        
+        
+        
+<google_api_key> = 구글 클라우드에서 발급 가능
+```
+
+
 
 
 
