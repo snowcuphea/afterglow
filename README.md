@@ -228,17 +228,6 @@ $ yarn serve
 
 > 마지막으로 제품 설정의 카카오 로그인에 들어가서 활성화를 해줘야 한다.
 
-```bash
-# 위 복잡한 과정은 이미 등록한 앱에서 받은 key를 사용해서 생략할 수 있다.
-
-# /backend/src/main/resources/application.yml
-<kakao_rest_api_key> = dd258d21f2e0c4537cea24e83ff201cc
-
-# /frontend/android/app/src/main/res/values/strings.xml & /frontend/android/app/src/main/AndroidManifest.xml
-<app_name> = 여운
-<kakao_native_app_key> = 4adf24474bea143abc062377b42e9c28
-```
-
 
 
 ### 구글 맵
