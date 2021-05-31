@@ -23,7 +23,7 @@
 
       <meta-data 
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCGLwsIiM-z2L8XLBFSZg_G3OCfh4acg7I"/>
+        android:value="<google_api_key>"/>
       <!-- You will also only need to add this uses-libray tag -->
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
@@ -59,7 +59,7 @@
 
           <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
           <data android:host="oauth"
-                android:scheme="kakao4adf24474bea143abc062377b42e9c28" />
+                android:scheme="kakao<kakao_native_app_key>" />
         </intent-filter>
       </activity>
     </application>
