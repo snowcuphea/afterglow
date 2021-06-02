@@ -309,4 +309,4 @@ $ yarn serve
 
 
 
-<img src="images/Screenshot_20210521-150501.jpg" alt="Screenshot_20210521-150501" style="zoom:20%;" />      <img src="images/Screenshot_20210521-142951-1622114270612.jpg" alt="Screenshot_20210521-142951" style="zoom:20%;" />
+<img src="images/Screenshot_20210521-150501.jpg" alt="Screenshot_20210521-150501" style="zoom:5%;" />      <img src="images/Screenshot_20210521-142951-1622114270612.jpg" alt="Screenshot_20210521-142951" style="zoom:5%;" />
